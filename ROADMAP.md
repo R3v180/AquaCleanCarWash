@@ -1,3 +1,4 @@
+<!-- File: /ROADMAP.md - v1.0 -->
 # Roadmap del Proyecto AquaClean Car Wash
 
 Este documento describe el plan de desarrollo por fases para la plataforma. El objetivo es lanzar un Producto Mínimo Viable (MVP) funcional y luego iterar sobre él añadiendo capas de valor en versiones posteriores.
@@ -81,3 +82,4 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 - **Precios Dinámicos:** Configuración de tarifas especiales para horas de alta/baja demanda.
 - **Tienda Online:** Venta de productos de detailing directamente desde la web.
 - **Integración con Software de Contabilidad:** Exportación de datos para herramientas como Factusol, Holded, etc.
+

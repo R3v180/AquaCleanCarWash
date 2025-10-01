@@ -1,3 +1,4 @@
+<!-- File: /docs/features/01-authentication.md - v1.0 -->
 ````markdown
 # 1. Sistema de Autenticación
 
@@ -116,3 +117,4 @@ model VerificationToken {
 ```
 
 ```
+

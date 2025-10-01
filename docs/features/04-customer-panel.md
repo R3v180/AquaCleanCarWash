@@ -1,3 +1,4 @@
+<!-- File: /docs/features/04-customer-panel.md - v1.0 -->
 # 4. Panel de Cliente
 
 ## 4.1. Objetivo
@@ -93,3 +94,4 @@ El panel de cliente estará disponible en la ruta `/dashboard` y sub-rutas, y se
 
 - `PUT /api/me/profile`
 - `POST /api/me/change-password`
+

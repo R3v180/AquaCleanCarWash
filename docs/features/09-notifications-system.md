@@ -1,3 +1,4 @@
+<!-- File: /docs/features/09-notifications-system.md - v1.0 -->
 # 9. Sistema de Notificaciones
 
 ## 9.1. Objetivo
@@ -43,3 +44,4 @@ Estas notificaciones se envían al personal para mantenerlos al tanto de la acti
   2.  Rellenar la plantilla con los datos dinámicos (nombre del cliente, fecha de la cita, etc.).
   3.  Invocar al proveedor correspondiente (`Nodemailer` o `Twilio`) para realizar el envío.
 - Se implementará un sistema de colas (opcional pero recomendado para escalar) para procesar los envíos de notificaciones de forma asíncrona, evitando que la aplicación se ralentice mientras espera la respuesta de las APIs externas.
+

@@ -1,3 +1,4 @@
+<!-- File: /docs/features/10-external-integrations.md - v1.0 -->
 ````markdown
 # 10. Integraciones Externas
 
@@ -113,3 +114,4 @@ model AccountSettings {
   // ... otras configuraciones del negocio
 }
 ```
+

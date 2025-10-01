@@ -1,3 +1,4 @@
+<!-- File: /docs/features/02-public-site.md - v1.0 -->
 # 2. Sitio Público y Presentación
 
 ## 2.1. Objetivo
@@ -114,3 +115,4 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 - `GET /api/services?giftable=true`
 - `POST /api/gift-cards`
+

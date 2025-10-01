@@ -1,3 +1,4 @@
+<!-- File: /docs/features/03-booking-flow.md - v1.0 -->
 # 3. Flujo de Reserva del Cliente
 
 ## 3.1. Objetivo
@@ -102,3 +103,4 @@ El flujo se presentará como un asistente multi-paso, preferiblemente dentro de 
   - Esta página muestra un mensaje de agradecimiento, resume los detalles de la cita y le indica al usuario que ha recibido un email de confirmación.
 - **Notificaciones Automáticas:**
   - El backend dispara las notificaciones correspondientes: email de confirmación al cliente y notificación a la empresa.
+

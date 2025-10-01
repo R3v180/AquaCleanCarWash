@@ -1,3 +1,4 @@
+<!-- File: /docs/features/08-marketing-monetization.md - v1.0 -->
 ````markdown
 # 8. Módulos de Marketing y Monetización
 
@@ -145,3 +146,4 @@ model GiftCard {
 ```
 
 ```
+

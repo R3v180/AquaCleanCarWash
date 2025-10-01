@@ -1,3 +1,4 @@
+<!-- File: /docs/PROJECT_SPECIFICATION.md - v1.0 -->
 # Propuesta y Especificación del Proyecto: AquaClean Car Wash
 
 ## 1. Visión del Proyecto
@@ -70,3 +71,4 @@ Esta sección actúa como un índice hacia los documentos de especificación det
 - **Integraciones Externas**
   - Especificaciones de la sincronización con Google Calendar y la pasarela de pago Stripe.
   - **[Ver especificaciones detalladas en `10-external-integrations.md`](./features/10-external-integrations.md)**
+

@@ -1,3 +1,4 @@
+<!-- File: /README.md - v1.0 -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -104,3 +105,4 @@ Para ver el plan de desarrollo detallado por fases, consulta nuestro archivo [**
 ## 📄 Especificaciones Completas
 
 Toda la funcionalidad del proyecto está documentada en detalle en nuestra [**Especificación de Proyecto**](./docs/PROJECT_SPECIFICATION.md).
+

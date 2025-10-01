@@ -1,3 +1,4 @@
+<!-- File: /docs/features/06-admin-panel-operations.md - v1.0 -->
 # 6. Panel de Administración: Operaciones Diarias
 
 ## 6.1. Objetivo
@@ -78,3 +79,4 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 - `GET /api/admin/appointments` (con todos los parámetros de búsqueda y filtrado).
 - `PUT /api/admin/appointments/[id]/status`
+

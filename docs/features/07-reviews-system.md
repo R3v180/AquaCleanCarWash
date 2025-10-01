@@ -1,3 +1,4 @@
+<!-- File: /docs/features/07-reviews-system.md - v1.0 -->
 ````markdown
 # 7. Sistema de Valoraciones y Reseñas
 
@@ -91,3 +92,4 @@ enum ReviewStatus {
 ```
 
 ```
+

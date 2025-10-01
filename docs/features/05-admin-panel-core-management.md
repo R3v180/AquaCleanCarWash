@@ -1,3 +1,4 @@
+<!-- File: /docs/features/05-admin-panel-core-management.md - v1.0 -->
 # 5. Panel de Administración: Gestión de la Configuración Base
 
 ## 5.1. Objetivo
@@ -90,3 +91,4 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 - `GET /api/admin/clients` (con soporte para búsqueda, paginación y ordenación).
 - `GET /api/admin/clients/[id]`
 - `POST /api/admin/clients/[id]/notes`
+

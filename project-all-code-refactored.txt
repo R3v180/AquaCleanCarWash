@@ -1,43 +1,139 @@
 # ÍNDICE DE ARCHIVOS (ESTRUCTURA REFACTORIZADA)
 
-1. README.md
-2. ROADMAP.md
-3. apps/client/index.html
-4. apps/client/package.json
-5. apps/client/src/App.tsx
-6. apps/client/src/main.tsx
-7. apps/client/tsconfig.json
-8. apps/client/tsconfig.node.json
-9. apps/server/package.json
-10. apps/server/src/server.ts
-11. apps/server/tsconfig.json
-12. docs/PROJECT_SPECIFICATION.md
-13. docs/features/01-authentication.md
-14. docs/features/02-public-site.md
-15. docs/features/03-booking-flow.md
-16. docs/features/04-customer-panel.md
-17. docs/features/05-admin-panel-core-management.md
-18. docs/features/06-admin-panel-operations.md
-19. docs/features/07-reviews-system.md
-20. docs/features/08-marketing-monetization.md
-21. docs/features/09-notifications-system.md
-22. docs/features/10-external-integrations.md
-23. package.json
-24. packages/config/eslint-preset.js
-25. packages/config/package.json
-26. packages/types/package.json
-27. packages/types/src/index.ts
-28. packages/types/tsconfig.json
-29. tsconfig.base.json
-30. tsconfig.json
-31. turbo.json
+1. .schemas/turbo-schema-v1.json
+2. README.md
+3. ROADMAP.md
+4. apps/client/index.html
+5. apps/client/package.json
+6. apps/client/src/App.tsx
+7. apps/client/src/layouts/AdminLayout.tsx
+8. apps/client/src/lib/apiClient.ts
+9. apps/client/src/main.tsx
+10. apps/client/src/pages/admin/AdminDashboardPage.tsx
+11. apps/client/src/pages/admin/ServicesManagementPage.tsx
+12. apps/client/src/pages/public/HomePage.tsx
+13. apps/client/tsconfig.json
+14. apps/client/tsconfig.node.json
+15. apps/server/package.json
+16. apps/server/src/api/employees.routes.ts
+17. apps/server/src/api/services.routes.ts
+18. apps/server/src/lib/prisma.ts
+19. apps/server/src/server.ts
+20. apps/server/tsconfig.json
+21. docs/PROJECT_SPECIFICATION.md
+22. docs/features/01-authentication.md
+23. docs/features/02-public-site.md
+24. docs/features/03-booking-flow.md
+25. docs/features/04-customer-panel.md
+26. docs/features/05-admin-panel-core-management.md
+27. docs/features/06-admin-panel-operations.md
+28. docs/features/07-reviews-system.md
+29. docs/features/08-marketing-monetization.md
+30. docs/features/09-notifications-system.md
+31. docs/features/10-external-integrations.md
+32. package.json
+33. packages/config/eslint-preset.js
+34. packages/config/package.json
+35. packages/types/package.json
+36. packages/types/src/employee.schema.ts
+37. packages/types/src/index.ts
+38. packages/types/src/service.schema.ts
+39. packages/types/src/service.ts
+40. packages/types/tsconfig.json
+41. tsconfig.base.json
+42. tsconfig.json
+43. turbo.json
 
 
 # CONTENIDO DE ARCHIVOS
 
 
-// ====== [1] README.md ======
-<!-- File: /README.md - v1.0 -->
+// ====== [1] .schemas/turbo-schema-v1.json ======
+{
+  "$id": "https://json.schemastore.org/turbo",
+  "title": "Turborepo configuration file",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "extends": {
+      "description": "A list of packages to extend the configuration from. Can be a path to a local file or a package name.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "globalDependencies": {
+      "description": "A list of file glob patterns that Turborepo will use to determine if a task should be executed.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "globalEnv": {
+      "description": "A list of environment variables that are used by all tasks. These variables are passed to the tasks as environment variables.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pipeline": {
+      "description": "The pipeline configuration for the Turborepo.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "cache": {
+            "description": "Whether or not to cache the task.",
+            "type": "boolean"
+          },
+          "dependsOn": {
+            "description": "A list of tasks that this task depends on.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputs": {
+            "description": "A list of file glob patterns that are the outputs of the task.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "env": {
+            "description": "A list of environment variables that are used by the task.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputMode": {
+            "description": "The output mode of the task.",
+            "type": "string",
+            "enum": [
+              "full",
+              "hash-only",
+              "new-only",
+              "none"
+            ]
+          },
+          "persistent": {
+            "description": "Whether or not the task is a persistent task.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
+
+
+// ====== [2] README.md ======
+<!-- File: /README.md - v1.1 -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -77,12 +173,13 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## 🛠️ Stack Tecnológico
 
-| Área              | Tecnologías                                     |
-| :---------------- | :---------------------------------------------- |
-| **Frontend**      | React 18, TypeScript, Vite, Mantine UI, Zustand |
-| **Backend**       | Node.js, Express.js, TypeScript, Prisma         |
-| **Base de Datos** | PostgreSQL                                      |
-| **Herramientas**  | pnpm (Monorepo), Git, GitHub, ESLint, Prettier  |
+| Área                                     | Tecnologías                                                        |
+| :--------------------------------------- | :----------------------------------------------------------------- |
+| **Frontend**                             | React 18, TypeScript, Vite, Mantine UI, Zustand                    |
+| **Backend**                              | Node.js, Express.js, TypeScript, Prisma, Zod                       |
+| **Base de Datos**                        | PostgreSQL                                                         |
+| **Testing**                              | Vitest, React Testing Library                                      |
+| **Herramientas de Desarrollo y Calidad** | pnpm (Monorepo), Git, GitHub, ESLint, Prettier, Husky, lint-staged |
 
 ---
 
@@ -113,8 +210,9 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
     pnpm install
     ```
 
-3.  **Configurar variables de entorno:**
+    _Nota: Este comando también instalará y configurará **Husky**. A partir de ahora, se ejecutarán comprobaciones de calidad de código (ESLint, Prettier) automáticamente antes de cada `git commit`._
 
+3.  **Configurar variables de entorno:**
     - Habrá un archivo `.env.example` en la carpeta del servidor (`apps/server`).
     - Cópialo a un nuevo archivo llamado `.env` en la misma carpeta.
     - Rellena las variables (credenciales de la base de datos, claves de API, etc.).
@@ -147,8 +245,7 @@ Toda la funcionalidad del proyecto está documentada en detalle en nuestra [**Es
 
 
 
-
-// ====== [2] ROADMAP.md ======
+// ====== [3] ROADMAP.md ======
 <!-- File: /ROADMAP.md - v1.0 -->
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -237,7 +334,7 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 
 
-// ====== [3] apps/client/index.html ======
+// ====== [4] apps/client/index.html ======
 <!-- File: /apps/client/index.html - v1.0 -->
 <!doctype html>
 <html lang="es">
@@ -254,7 +351,7 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 </html>
 
 
-// ====== [4] apps/client/package.json ======
+// ====== [5] apps/client/package.json ======
 {
   "name": "client",
   "version": "1.0.0",
@@ -295,26 +392,226 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 }
 
 
-// ====== [5] apps/client/src/App.tsx ======
-// File: /apps/client/src/App.tsx - v1.0
+// ====== [6] apps/client/src/App.tsx ======
+// File: /apps/client/src/App.tsx (ACTUALIZADO)
+
+import { Route, Routes } from 'react-router-dom';
+import { HomePage } from './pages/public/HomePage';
+import { AdminLayout } from './layouts/AdminLayout';
+import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { ServicesManagementPage } from './pages/admin/ServicesManagementPage'; // <-- IMPORTAR
+
 function App() {
   return (
-    <div>
-      <h1>AquaClean Car Wash - Frontend is Running!</h1>
-    </div>
+    <Routes>
+      {/* Rutas Públicas */}
+      <Route path="/" element={<HomePage />} />
+
+      {/* Rutas de Administración */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminDashboardPage />} />
+        <Route path="services" element={<ServicesManagementPage />} /> {/* <-- RUTA AÑADIDA */}
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
 
 
-// ====== [6] apps/client/src/main.tsx ======
-// File: /apps/client/src/main.tsx - v1.0
+// ====== [7] apps/client/src/layouts/AdminLayout.tsx ======
+// File: /apps/client/src/layouts/AdminLayout.tsx
+import { Outlet } from 'react-router-dom';
+
+export function AdminLayout() {
+  return (
+    <div>
+      <header style={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
+        <h2>Panel de Administración de AquaClean</h2>
+        {/* Aquí iría la navegación del panel (sidebar, etc.) */}
+      </header>
+      <main style={{ padding: '1rem' }}>
+        <Outlet /> {/* Aquí se renderizará el contenido de cada página de admin */}
+      </main>
+    </div>
+  );
+}
 
 
+// ====== [8] apps/client/src/lib/apiClient.ts ======
+// File: /apps/client/src/lib/apiClient.ts
+
+import axios from 'axios';
+
+// Creamos una instancia de Axios con una configuración base.
+// Todas las llamadas que hagamos usando 'apiClient' partirán de esta URL.
+const apiClient = axios.create({
+  // La URL base de nuestra API de backend.
+  // Para un proyecto en producción, esto vendría de una variable de entorno,
+  // pero para el desarrollo local, esta configuración es perfecta.
+  baseURL: 'http://localhost:3001/api',
+
+  // Opcional: un tiempo de espera de 10 segundos para las peticiones.
+  timeout: 10000,
+
+  // Opcional: encabezados por defecto que se enviarán con cada petición.
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export default apiClient;
 
 
-// ====== [7] apps/client/tsconfig.json ======
+// ====== [9] apps/client/src/main.tsx ======
+// File: /apps/client/src/main.tsx (ACTUALIZADO)
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { MantineProvider } from '@mantine/core';
+import App from './App';
+import '@mantine/core/styles.css'; // Importa los estilos de Mantine
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <MantineProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </MantineProvider>
+  </React.StrictMode>
+);
+
+
+// ====== [10] apps/client/src/pages/admin/AdminDashboardPage.tsx ======
+// File: /apps/client/src/pages/admin/AdminDashboardPage.tsx
+export function AdminDashboardPage() {
+  return <h3>Dashboard Principal</h3>;
+}
+
+
+// ====== [11] apps/client/src/pages/admin/ServicesManagementPage.tsx ======
+// File: /apps/client/src/pages/admin/ServicesManagementPage.tsx (CORREGIDO)
+
+import { useEffect, useState } from 'react';
+import { Table, Title, Button, Modal, TextInput, Textarea, NumberInput, Group } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useForm, zodResolver } from '@mantine/form';
+import apiClient from '../../lib/apiClient';
+import type { Service } from '@aquaclean/types';
+// CORRECCIÓN: Importamos el esquema a través del paquete de tipos compartidos
+import { createServiceSchema } from '@aquaclean/types';
+
+export function ServicesManagementPage() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const form = useForm({
+    validate: zodResolver(createServiceSchema),
+    initialValues: {
+      name: '',
+      description: '',
+      duration: 0,
+      prices: { standard: 0 },
+      category: '',
+    },
+  });
+
+  const fetchServices = async () => {
+    try {
+      setLoading(true);
+      const response = await apiClient.get<Service[]>('/services');
+      setServices(response.data);
+      setError(null);
+    } catch (err) {
+      setError('No se pudieron cargar los servicios.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      const response = await apiClient.post<Service>('/services', values);
+      setServices((currentServices) => [...currentServices, response.data]);
+      close();
+      form.reset();
+    } catch (err) {
+      console.error('Error al crear el servicio:', err);
+    }
+  };
+
+  if (loading) return <p>Cargando servicios...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
+  return (
+    <div>
+      <Modal opened={opened} onClose={close} title="Crear Nuevo Servicio" centered>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput label="Nombre del Servicio" placeholder="Ej: Lavado Premium" {...form.getInputProps('name')} withAsterisk />
+          <Textarea label="Descripción" placeholder="Descripción detallada del servicio" {...form.getInputProps('description')} withAsterisk mt="md" />
+          <NumberInput label="Duración (minutos)" placeholder="Ej: 60" {...form.getInputProps('duration')} withAsterisk mt="md" />
+          <TextInput label="Categoría" placeholder="Ej: Detallado Interior" {...form.getInputProps('category')} withAsterisk mt="md" />
+          <NumberInput label="Precio Estándar" placeholder="Ej: 50" {...form.getInputProps('prices.standard')} withAsterisk mt="md" />
+          <Group justify="flex-end" mt="xl">
+            <Button variant="default" onClick={close}>Cancelar</Button>
+            <Button type="submit">Crear Servicio</Button>
+          </Group>
+        </form>
+      </Modal>
+
+      <Group justify="space-between">
+        <Title order={2}>Gestión de Servicios</Title>
+        <Button onClick={open}>Crear Nuevo Servicio</Button>
+      </Group>
+
+      <Table mt="md" striped highlightOnHover withTableBorder>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Nombre</Table.Th>
+            <Table.Th>Categoría</Table.Th>
+            <Table.Th>Duración (min)</Table.Th>
+            <Table.Th>Acciones</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {services.length > 0 ? (
+            services.map((service) => (
+              <Table.Tr key={service.id}>
+                <Table.Td>{service.name}</Table.Td>
+                <Table.Td>{service.category}</Table.Td>
+                <Table.Td>{service.duration}</Table.Td>
+                <Table.Td>{/* Botones de Editar/Eliminar irán aquí */}</Table.Td>
+              </Table.Tr>
+            ))
+          ) : (
+            <Table.Tr>
+              <Table.Td colSpan={4}>No hay servicios creados.</Table.Td>
+            </Table.Tr>
+          )}
+        </Table.Tbody>
+      </Table>
+    </div>
+  );
+}
+
+
+// ====== [12] apps/client/src/pages/public/HomePage.tsx ======
+// File: /apps/client/src/pages/public/HomePage.tsx
+export function HomePage() {
+  return <h1>Página de Inicio Pública</h1>;
+}
+
+
+// ====== [13] apps/client/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -327,7 +624,7 @@ export default App;
 
 
 
-// ====== [8] apps/client/tsconfig.node.json ======
+// ====== [14] apps/client/tsconfig.node.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -340,7 +637,7 @@ export default App;
 }
 
 
-// ====== [9] apps/server/package.json ======
+// ====== [15] apps/server/package.json ======
 {
   "name": "server",
   "version": "1.0.0",
@@ -363,7 +660,8 @@ export default App;
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^6.9.13"
+    "nodemailer": "^6.9.13",
+    "zod": ">=3.0.0"
   },
   "devDependencies": {
     "@aquaclean/config": "workspace:*",
@@ -382,12 +680,266 @@ export default App;
 }
 
 
-// ====== [10] apps/server/src/server.ts ======
-// File: /apps/server/src/server.ts - v1.0
+// ====== [16] apps/server/src/api/employees.routes.ts ======
+// File: /apps/server/src/api/employees.routes.ts (CORREGIDO)
+
+import { Router } from 'express';
+import prisma from '../lib/prisma';
+import { createEmployeeSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
+import { ZodError } from 'zod';
+import { Prisma } from '@prisma/client';
+
+const router = Router();
+
+// --- OBTENER TODOS LOS EMPLEADOS ---
+router.get('/', async (req, res) => {
+  try {
+    const employees = await prisma.employee.findMany();
+    res.status(200).json(employees);
+  } catch (error) {
+    console.error('Error al obtener los empleados:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- OBTENER UN EMPLEADO POR SU ID ---
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const employee = await prisma.employee.findUnique({
+      where: { id },
+    });
+
+    if (!employee) {
+      return res.status(404).json({ message: 'Empleado no encontrado.' });
+    }
+
+    res.status(200).json(employee);
+  } catch (error) {
+    console.error('Error al obtener el empleado:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- CREAR UN NUEVO EMPLEADO ---
+router.post('/', async (req, res) => {
+  try {
+    const validatedData = createEmployeeSchema.parse(req.body);
+
+    const newEmployee = await prisma.employee.create({
+      data: {
+        ...validatedData,
+        workSchedule: validatedData.workSchedule as Prisma.JsonObject,
+      },
+    });
+
+    res.status(201).json(newEmployee);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return res.status(409).json({
+          message: 'Conflicto: ya existe un empleado con ese email.',
+          field: (error.meta?.target as string[])?.[0],
+        });
+      }
+    }
+    console.error('Error al crear el empleado:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- ACTUALIZAR UN EMPLEADO EXISTENTE ---
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateSchema = createEmployeeSchema.partial();
+    const validatedData = updateSchema.parse(req.body);
+    const { workSchedule, ...restOfData } = validatedData;
+
+    const updatedEmployee = await prisma.employee.update({
+      where: { id },
+      data: {
+        ...restOfData,
+        ...(workSchedule && {
+          workSchedule: workSchedule as Prisma.JsonObject,
+        }),
+      },
+    });
+
+    res.status(200).json(updatedEmployee);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return res.status(409).json({ message: 'Conflicto: ya existe un empleado con ese email.', field: 'email' });
+      }
+      if (error.code === 'P2025') {
+        return res.status(404).json({ message: 'Empleado no encontrado.' });
+      }
+    }
+    console.error('Error al actualizar el empleado:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- ELIMINAR UN EMPLEADO ---
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.employee.delete({
+      where: { id },
+    });
+    res.status(204).send();
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2025') {
+        return res.status(404).json({ message: 'Empleado no encontrado.' });
+      }
+    }
+    console.error('Error al eliminar el empleado:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+export default router;
+
+
+// ====== [17] apps/server/src/api/services.routes.ts ======
+// File: /apps/server/src/api/services.routes.ts (CORREGIDO)
+
+import { Router } from 'express';
+import prisma from '../lib/prisma';
+import { createServiceSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
+import { ZodError } from 'zod';
+import { Prisma } from '@prisma/client';
+
+const router = Router();
+
+// --- OBTENER TODOS LOS SERVICIOS ---
+router.get('/', async (req, res) => {
+  try {
+    const services = await prisma.service.findMany();
+    res.status(200).json(services);
+  } catch (error) {
+    console.error('Error al obtener los servicios:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- OBTENER UN SERVICIO POR SU ID ---
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const service = await prisma.service.findUnique({
+      where: { id },
+    });
+
+    if (!service) {
+      return res.status(404).json({ message: 'Servicio no encontrado.' });
+    }
+
+    res.status(200).json(service);
+  } catch (error) {
+    console.error('Error al obtener el servicio:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- CREAR UN NUEVO SERVICIO ---
+router.post('/', async (req, res) => {
+  try {
+    const validatedData = createServiceSchema.parse(req.body);
+    const newService = await prisma.service.create({
+      data: validatedData,
+    });
+    res.status(201).json(newService);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    console.error('Error al crear el servicio:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- ACTUALIZAR UN SERVICIO EXISTENTE ---
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateSchema = createServiceSchema.partial();
+    const validatedData = updateSchema.parse(req.body);
+
+    const updatedService = await prisma.service.update({
+      where: { id },
+      data: validatedData,
+    });
+
+    res.status(200).json(updatedService);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2025') {
+        return res.status(404).json({ message: 'Servicio no encontrado.' });
+      }
+    }
+    console.error('Error al actualizar el servicio:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- ELIMINAR UN SERVICIO ---
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.service.delete({
+      where: { id },
+    });
+    res.status(204).send();
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2025') {
+        return res.status(404).json({ message: 'Servicio no encontrado.' });
+      }
+    }
+    console.error('Error al eliminar el servicio:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+export default router;
+
+
+// ====== [18] apps/server/src/lib/prisma.ts ======
+// File: /apps/server/src/lib/prisma.ts
+
+import { PrismaClient } from '@prisma/client';
+
+// Se recomienda instanciar PrismaClient una sola vez en tu aplicación.
+// Esto evita agotar el número de conexiones a la base de datos.
+// https://www.prisma.io/docs/guides/performance-and-optimization/connection-management#prismaclient-in-long-running-applications
+
+const prisma = new PrismaClient();
+
+export default prisma;
+
+
+// ====== [19] apps/server/src/server.ts ======
+// File: /apps/server/src/server.ts (ACTUALIZADO)
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
+// Importamos nuestros enrutadores
+import servicesRouter from './api/services.routes';
+import employeesRouter from './api/employees.routes'; // <-- LÍNEA AÑADIDA
 
 // Cargar variables de entorno
 dotenv.config();
@@ -398,6 +950,10 @@ const PORT = process.env.PORT || 3001;
 // Middlewares básicos
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
+
+// --- RUTAS DE LA API ---
+app.use('/api/services', servicesRouter);
+app.use('/api/employees', employeesRouter); // <-- LÍNEA AÑADIDA
 
 // Ruta de prueba para verificar que el servidor funciona
 app.get('/api', (req: Request, res: Response) => {
@@ -410,7 +966,7 @@ app.listen(PORT, () => {
 });
 
 
-// ====== [11] apps/server/tsconfig.json ======
+// ====== [20] apps/server/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -424,8 +980,9 @@ app.listen(PORT, () => {
 }
 
 
-// ====== [12] docs/PROJECT_SPECIFICATION.md ======
-<!-- File: /docs/PROJECT_SPECIFICATION.md - v1.0 -->
+// ====== [21] docs/PROJECT_SPECIFICATION.md ======
+<!-- File: /docs/PROJECT_SPECIFICATION.md - v1.1 -->
+
 # Propuesta y Especificación del Proyecto: AquaClean Car Wash
 
 ## 1. Visión del Proyecto
@@ -436,62 +993,53 @@ Construir una aplicación web a medida de alto rendimiento que actúe como el mo
 
 El proyecto se construirá sobre un stack tecnológico moderno, robusto y escalable, garantizando un desarrollo eficiente y un producto final de máxima calidad.
 
-| Componente            | Tecnología               |
-| :-------------------- | :----------------------- |
-| **Lenguaje**          | **TypeScript**           |
-| **Frontend**          | **React 18 + Vite**      |
-| **Librería UI/UX**    | **Mantine UI**           |
-| **Backend**           | **Node.js + Express.js** |
-| **Base de Datos**     | **PostgreSQL + Prisma**  |
-| **Gestión de Estado** | **Zustand**              |
-| **Desarrollo**        | **pnpm Monorepo**        |
+| Área                                     | Tecnologías                                                    |
+| :--------------------------------------- | :------------------------------------------------------------- |
+| **Lenguaje Principal**                   | **TypeScript**                                                 |
+| **Frontend**                             | React 18, Vite, Mantine UI                                     |
+| **Gestión de Estado (Frontend)**         | Zustand                                                        |
+| **Backend**                              | Node.js, Express.js, Zod                                       |
+| **ORM y Base de Datos**                  | Prisma, PostgreSQL                                             |
+| **Testing**                              | Vitest, React Testing Library                                  |
+| **Herramientas de Desarrollo y Calidad** | pnpm Monorepo, Turborepo, ESLint, Prettier, Husky, lint-staged |
 
 ## 3. Desglose Detallado de Funcionalidades
 
 Esta sección actúa como un índice hacia los documentos de especificación detallada para cada módulo del sistema.
 
 - **Sistema de Autenticación**
-
   - Flujos de registro, login (email/Google), verificación y recuperación de contraseña.
   - **[Ver especificaciones detalladas en `01-authentication.md`](./features/01-authentication.md)**
 
 - **Sitio Público y Presentación**
-
   - Detalle de las secciones públicas (Inicio, Servicios, Equipo, Valoraciones, Tarjetas Regalo).
   - **[Ver especificaciones detalladas en `02-public-site.md`](./features/02-public-site.md)**
 
 - **Flujo de Reserva del Cliente**
-
   - El paso a paso detallado del proceso de reserva online.
   - **[Ver especificaciones detalladas en `03-booking-flow.md`](./features/03-booking-flow.md)**
 
 - **Panel de Cliente**
-
   - Funcionalidades del área de cliente (Mis Citas, Mis Vehículos, Bonos, Perfil).
   - **[Ver especificaciones detalladas en `04-customer-panel.md`](./features/04-customer-panel.md)**
 
 - **Panel de Administración: Gestión Base**
-
   - Configuración de Servicios, Empleados, Horarios y Clientes.
   - **[Ver especificaciones detalladas en `05-admin-panel-core-management.md`](./features/05-admin-panel-core-management.md)**
 
 - **Panel de Administración: Operaciones Diarias**
-
   - Herramientas del día a día (Dashboard, Planning Visual, Gestión de Citas).
   - **[Ver especificaciones detalladas en `06-admin-panel-operations.md`](./features/06-admin-panel-operations.md)**
 
 - **Sistema de Valoraciones**
-
   - Flujo de solicitud de valoraciones y panel de moderación de reseñas.
   - **[Ver especificaciones detalladas en `07-reviews-system.md`](./features/07-reviews-system.md)**
 
 - **Módulos de Marketing y Monetización**
-
   - Gestión de bonos, programas de fidelización y suscripciones.
   - **[Ver especificaciones detalladas en `08-marketing-monetization.md`](./features/08-marketing-monetization.md)**
 
 - **Sistema de Notificaciones**
-
   - Detalle de todos los emails y mensajes de WhatsApp automáticos.
   - **[Ver especificaciones detalladas en `09-notifications-system.md`](./features/09-notifications-system.md)**
 
@@ -501,8 +1049,7 @@ Esta sección actúa como un índice hacia los documentos de especificación det
 
 
 
-
-// ====== [13] docs/features/01-authentication.md ======
+// ====== [22] docs/features/01-authentication.md ======
 <!-- File: /docs/features/01-authentication.md - v1.0 -->
 ````markdown
 # 1. Sistema de Autenticación
@@ -626,7 +1173,7 @@ model VerificationToken {
 
 
 
-// ====== [14] docs/features/02-public-site.md ======
+// ====== [23] docs/features/02-public-site.md ======
 <!-- File: /docs/features/02-public-site.md - v1.0 -->
 # 2. Sitio Público y Presentación
 
@@ -748,7 +1295,7 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 
 
-// ====== [15] docs/features/03-booking-flow.md ======
+// ====== [24] docs/features/03-booking-flow.md ======
 <!-- File: /docs/features/03-booking-flow.md - v1.0 -->
 # 3. Flujo de Reserva del Cliente
 
@@ -858,7 +1405,7 @@ El flujo se presentará como un asistente multi-paso, preferiblemente dentro de 
 
 
 
-// ====== [16] docs/features/04-customer-panel.md ======
+// ====== [25] docs/features/04-customer-panel.md ======
 <!-- File: /docs/features/04-customer-panel.md - v1.0 -->
 # 4. Panel de Cliente
 
@@ -959,7 +1506,7 @@ El panel de cliente estará disponible en la ruta `/dashboard` y sub-rutas, y se
 
 
 
-// ====== [17] docs/features/05-admin-panel-core-management.md ======
+// ====== [26] docs/features/05-admin-panel-core-management.md ======
 <!-- File: /docs/features/05-admin-panel-core-management.md - v1.0 -->
 # 5. Panel de Administración: Gestión de la Configuración Base
 
@@ -1057,7 +1604,7 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 
 
-// ====== [18] docs/features/06-admin-panel-operations.md ======
+// ====== [27] docs/features/06-admin-panel-operations.md ======
 <!-- File: /docs/features/06-admin-panel-operations.md - v1.0 -->
 # 6. Panel de Administración: Operaciones Diarias
 
@@ -1143,7 +1690,7 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 
 
-// ====== [19] docs/features/07-reviews-system.md ======
+// ====== [28] docs/features/07-reviews-system.md ======
 <!-- File: /docs/features/07-reviews-system.md - v1.0 -->
 ````markdown
 # 7. Sistema de Valoraciones y Reseñas
@@ -1242,7 +1789,7 @@ enum ReviewStatus {
 
 
 
-// ====== [20] docs/features/08-marketing-monetization.md ======
+// ====== [29] docs/features/08-marketing-monetization.md ======
 <!-- File: /docs/features/08-marketing-monetization.md - v1.0 -->
 ````markdown
 # 8. Módulos de Marketing y Monetización
@@ -1395,7 +1942,7 @@ model GiftCard {
 
 
 
-// ====== [21] docs/features/09-notifications-system.md ======
+// ====== [30] docs/features/09-notifications-system.md ======
 <!-- File: /docs/features/09-notifications-system.md - v1.0 -->
 # 9. Sistema de Notificaciones
 
@@ -1446,7 +1993,7 @@ Estas notificaciones se envían al personal para mantenerlos al tanto de la acti
 
 
 
-// ====== [22] docs/features/10-external-integrations.md ======
+// ====== [31] docs/features/10-external-integrations.md ======
 <!-- File: /docs/features/10-external-integrations.md - v1.0 -->
 ````markdown
 # 10. Integraciones Externas
@@ -1567,7 +2114,7 @@ model AccountSettings {
 
 
 
-// ====== [23] package.json ======
+// ====== [32] package.json ======
 {
   "name": "aquaclean-car-wash-monorepo",
   "version": "1.0.0",
@@ -1590,13 +2137,14 @@ model AccountSettings {
     "eslint-plugin-react-hooks": "^4.6.2",
     "prettier": "^3.2.5",
     "turbo": "^1.13.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "zod": "^3.23.8"
   },
   "packageManager": "pnpm@9.1.1"
 }
 
 
-// ====== [24] packages/config/eslint-preset.js ======
+// ====== [33] packages/config/eslint-preset.js ======
 // File: /packages/config/eslint-preset.js - v1.0
 
 module.exports = {
@@ -1645,7 +2193,7 @@ module.exports = {
 };
 
 
-// ====== [25] packages/config/package.json ======
+// ====== [34] packages/config/package.json ======
 {
   "name": "@aquaclean/config",
   "version": "1.0.0",
@@ -1666,7 +2214,7 @@ module.exports = {
 }
 
 
-// ====== [26] packages/types/package.json ======
+// ====== [35] packages/types/package.json ======
 {
   "name": "@aquaclean/types",
   "version": "1.0.0",
@@ -1684,14 +2232,45 @@ module.exports = {
     "dev": "tsc --watch",
     "lint": "eslint . --ext .ts"
   },
+  "peerDependencies": {
+    "zod": ">=3.0.0"
+  },
   "devDependencies": {
     "typescript": "^5.4.5"
   }
 }
 
 
-// ====== [27] packages/types/src/index.ts ======
-// File: /packages/types/src/index.ts - v1.0
+// ====== [36] packages/types/src/employee.schema.ts ======
+// File: /packages/types/src/employee.schema.ts
+
+import { z } from 'zod';
+
+// Esquema para la creación de un nuevo empleado
+export const createEmployeeSchema = z.object({
+  name: z.string().min(1, { message: 'El nombre es requerido.' }).min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
+
+  email: z.string().min(1, { message: 'El email es requerido.' }).email({ message: 'El formato del email no es válido.' }),
+
+  role: z.enum(['ADMIN', 'EMPLOYEE']),
+
+  bio: z.string().optional(),
+
+  imageUrl: z.string().url({ message: 'La URL de la imagen no es válida.' }).optional(),
+  
+  workSchedule: z.record(z.string(), z.unknown()).optional(),
+});
+
+
+// ====== [37] packages/types/src/index.ts ======
+// File: /packages/types/src/index.ts (ACTUALIZADO)
+
+// Exportamos los esquemas desde su nueva ubicación local
+export * from './service.schema';
+export * from './employee.schema'; // <-- LÍNEA AÑADIDA
+
+// Exportamos las interfaces de tipos
+export * from './service';
 
 export interface User {
   id: string;
@@ -1703,7 +2282,53 @@ export interface User {
 }
 
 
-// ====== [28] packages/types/tsconfig.json ======
+// ====== [38] packages/types/src/service.schema.ts ======
+// File: /apps/server/src/schemas/service.schema.ts (SOLUCIÓN FINAL Y CORRECTA)
+
+import { z } from 'zod';
+
+// Definimos el esquema de validación para la creación de un servicio.
+export const createServiceSchema = z.object({
+  name: z.string().min(1, { message: 'El nombre es requerido.' }).min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
+
+  description: z.string().min(1, { message: 'La descripción es requerida.' }).min(10, { message: 'La descripción debe tener al menos 10 caracteres.' }),
+
+  // z.coerce.number() intenta convertir el valor a número.
+  // Si falla, Zod generará un error de tipo por defecto.
+  // Las validaciones .int() y .positive() se aplican después.
+  duration: z.coerce.number()
+    .int({ message: 'La duración debe ser un número entero.' })
+    .positive({ message: 'La duración debe ser un número positivo.' }),
+
+  prices: z.record(z.string(), z.number()).refine(obj => Object.keys(obj).length > 0, {
+    message: 'Se requiere al menos un precio.',
+  }),
+  
+  category: z.string().min(1, { message: 'La categoría es requerida.' }),
+
+  isAddon: z.boolean().optional(),
+  isGiftable: z.boolean().optional(),
+  isFeatured: z.boolean().optional(),
+});
+
+
+// ====== [39] packages/types/src/service.ts ======
+// File: /packages/types/src/service.ts
+
+export interface Service {
+  id: string;
+  name: string;
+  description: string;
+  duration: number; // en minutos
+  prices: Record<string, number>;
+  category: string;
+  isAddon: boolean;
+  isGiftable: boolean;
+  isFeatured: boolean;
+}
+
+
+// ====== [40] packages/types/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -1716,7 +2341,7 @@ export interface User {
 }
 
 
-// ====== [29] tsconfig.base.json ======
+// ====== [41] tsconfig.base.json ======
 // File: /tsconfig.base.json - v1.0
 {
   "compilerOptions": {
@@ -1749,7 +2374,7 @@ export interface User {
 }
 
 
-// ====== [30] tsconfig.json ======
+// ====== [42] tsconfig.json ======
 // File: /tsconfig.json - v1.0
 {
   "files": [],
@@ -1762,9 +2387,9 @@ export interface User {
 }
 
 
-// ====== [31] turbo.json ======
+// ====== [43] turbo.json ======
 {
-  "$schema": "https://json.schemastore.org/turbo-1.7.0.json",
+  "$schema": "./.schemas/turbo-schema-v1.json",
   "globalDependencies": ["tsconfig.base.json"],
   "pipeline": {
     "dev": {

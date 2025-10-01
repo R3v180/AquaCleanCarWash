@@ -1,4 +1,4 @@
-// File: /apps/server/src/schemas/employee.schema.ts (VERSIÓN SIMPLE Y CORRECTA)
+// File: /packages/types/src/employee.schema.ts
 
 import { z } from 'zod';
 
@@ -8,9 +8,6 @@ export const createEmployeeSchema = z.object({
 
   email: z.string().min(1, { message: 'El email es requerido.' }).email({ message: 'El formato del email no es válido.' }),
 
-  // z.enum valida que el valor sea uno de los proporcionados.
-  // Al no ser opcional, Zod ya lo considera un campo requerido por defecto.
-  // No necesita parámetros adicionales para este comportamiento básico.
   role: z.enum(['ADMIN', 'EMPLOYEE']),
 
   bio: z.string().optional(),

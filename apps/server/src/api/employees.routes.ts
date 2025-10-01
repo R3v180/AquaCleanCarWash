@@ -2,7 +2,7 @@
 
 import { Router } from 'express';
 import prisma from '../lib/prisma';
-import { createEmployeeSchema } from '../schemas/employee.schema';
+import { createEmployeeSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
 import { ZodError } from 'zod';
 import { Prisma } from '@prisma/client';
 
@@ -74,15 +74,12 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const updateSchema = createEmployeeSchema.partial();
     const validatedData = updateSchema.parse(req.body);
-
-    // Separamos workSchedule para tratarlo de forma especial
     const { workSchedule, ...restOfData } = validatedData;
 
     const updatedEmployee = await prisma.employee.update({
       where: { id },
       data: {
         ...restOfData,
-        // Hacemos el casting solo si el workSchedule viene en los datos a actualizar
         ...(workSchedule && {
           workSchedule: workSchedule as Prisma.JsonObject,
         }),

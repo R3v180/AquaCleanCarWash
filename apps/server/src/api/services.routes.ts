@@ -1,10 +1,9 @@
-// File: /apps/server/src/api/services.routes.ts (VERSIÓN FINAL CORREGIDA)
+// File: /apps/server/src/api/services.routes.ts (CORREGIDO)
 
 import { Router } from 'express';
 import prisma from '../lib/prisma';
-import { createServiceSchema } from '../schemas/service.schema';
+import { createServiceSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
 import { ZodError } from 'zod';
-// IMPORTAMOS EL TIPO DE ERROR ESPECÍFICO DE PRISMA
 import { Prisma } from '@prisma/client';
 
 const router = Router();
@@ -73,9 +72,7 @@ router.put('/:id', async (req, res) => {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
     }
-    // COMPROBAMOS SI EL ERROR ES DE UN TIPO CONOCIDO POR PRISMA
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Si el código de error es P2025, significa que el registro no se encontró.
       if (error.code === 'P2025') {
         return res.status(404).json({ message: 'Servicio no encontrado.' });
       }
@@ -94,7 +91,6 @@ router.delete('/:id', async (req, res) => {
     });
     res.status(204).send();
   } catch (error) {
-    // HACEMOS LA MISMA COMPROBACIÓN AQUÍ
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2025') {
         return res.status(404).json({ message: 'Servicio no encontrado.' });

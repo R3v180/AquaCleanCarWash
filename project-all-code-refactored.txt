@@ -7,28 +7,30 @@
 5. apps/client/src/App.tsx
 6. apps/client/src/main.tsx
 7. apps/client/tsconfig.json
-8. apps/server/package.json
-9. apps/server/src/server.ts
-10. apps/server/tsconfig.json
-11. docs/PROJECT_SPECIFICATION.md
-12. docs/features/01-authentication.md
-13. docs/features/02-public-site.md
-14. docs/features/03-booking-flow.md
-15. docs/features/04-customer-panel.md
-16. docs/features/05-admin-panel-core-management.md
-17. docs/features/06-admin-panel-operations.md
-18. docs/features/07-reviews-system.md
-19. docs/features/08-marketing-monetization.md
-20. docs/features/09-notifications-system.md
-21. docs/features/10-external-integrations.md
-22. package.json
-23. packages/config/eslint-preset.js
-24. packages/config/package.json
-25. packages/types/package.json
-26. packages/types/src/index.ts
-27. packages/types/tsconfig.json
-28. tsconfig.base.json
-29. tsconfig.json
+8. apps/client/tsconfig.node.json
+9. apps/server/package.json
+10. apps/server/src/server.ts
+11. apps/server/tsconfig.json
+12. docs/PROJECT_SPECIFICATION.md
+13. docs/features/01-authentication.md
+14. docs/features/02-public-site.md
+15. docs/features/03-booking-flow.md
+16. docs/features/04-customer-panel.md
+17. docs/features/05-admin-panel-core-management.md
+18. docs/features/06-admin-panel-operations.md
+19. docs/features/07-reviews-system.md
+20. docs/features/08-marketing-monetization.md
+21. docs/features/09-notifications-system.md
+22. docs/features/10-external-integrations.md
+23. package.json
+24. packages/config/eslint-preset.js
+25. packages/config/package.json
+26. packages/types/package.json
+27. packages/types/src/index.ts
+28. packages/types/tsconfig.json
+29. tsconfig.base.json
+30. tsconfig.json
+31. turbo.json
 
 
 # CONTENIDO DE ARCHIVOS
@@ -237,22 +239,73 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 // ====== [3] apps/client/index.html ======
 <!-- File: /apps/client/index.html - v1.0 -->
-
-
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AquaClean Car Wash</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
 
 
 // ====== [4] apps/client/package.json ======
 {
   "name": "client",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mantine/core": "^7.10.2",
+    "@mantine/dates": "^7.10.2",
+    "@mantine/form": "^7.10.2",
+    "@mantine/hooks": "^7.10.2",
+    "@mantine/notifications": "^7.10.2",
+    "axios": "^1.7.2",
+    "dayjs": "^1.11.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.1",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@aquaclean/config": "workspace:*",
+    "@aquaclean/types": "workspace:*",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "postcss": "^8.4.38",
+    "postcss-preset-mantine": "^1.15.0",
+    "postcss-simple-vars": "^7.0.1",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.0"
+  }
 }
 
 
 // ====== [5] apps/client/src/App.tsx ======
 // File: /apps/client/src/App.tsx - v1.0
+function App() {
+  return (
+    <div>
+      <h1>AquaClean Car Wash - Frontend is Running!</h1>
+    </div>
+  );
+}
 
-
+export default App;
 
 
 // ====== [6] apps/client/src/main.tsx ======
@@ -262,10 +315,32 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 
 // ====== [7] apps/client/tsconfig.json ======
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
 
 
 
-// ====== [8] apps/server/package.json ======
+// ====== [8] apps/client/tsconfig.node.json ======
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": false
+  },
+  "include": ["vite.config.ts"]
+}
+
+
+// ====== [9] apps/server/package.json ======
 {
   "name": "server",
   "version": "1.0.0",
@@ -307,7 +382,7 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 }
 
 
-// ====== [9] apps/server/src/server.ts ======
+// ====== [10] apps/server/src/server.ts ======
 // File: /apps/server/src/server.ts - v1.0
 
 import express, { Request, Response } from 'express';
@@ -335,7 +410,7 @@ app.listen(PORT, () => {
 });
 
 
-// ====== [10] apps/server/tsconfig.json ======
+// ====== [11] apps/server/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -349,7 +424,7 @@ app.listen(PORT, () => {
 }
 
 
-// ====== [11] docs/PROJECT_SPECIFICATION.md ======
+// ====== [12] docs/PROJECT_SPECIFICATION.md ======
 <!-- File: /docs/PROJECT_SPECIFICATION.md - v1.0 -->
 # Propuesta y Especificación del Proyecto: AquaClean Car Wash
 
@@ -427,7 +502,7 @@ Esta sección actúa como un índice hacia los documentos de especificación det
 
 
 
-// ====== [12] docs/features/01-authentication.md ======
+// ====== [13] docs/features/01-authentication.md ======
 <!-- File: /docs/features/01-authentication.md - v1.0 -->
 ````markdown
 # 1. Sistema de Autenticación
@@ -551,7 +626,7 @@ model VerificationToken {
 
 
 
-// ====== [13] docs/features/02-public-site.md ======
+// ====== [14] docs/features/02-public-site.md ======
 <!-- File: /docs/features/02-public-site.md - v1.0 -->
 # 2. Sitio Público y Presentación
 
@@ -673,7 +748,7 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 
 
-// ====== [14] docs/features/03-booking-flow.md ======
+// ====== [15] docs/features/03-booking-flow.md ======
 <!-- File: /docs/features/03-booking-flow.md - v1.0 -->
 # 3. Flujo de Reserva del Cliente
 
@@ -783,7 +858,7 @@ El flujo se presentará como un asistente multi-paso, preferiblemente dentro de 
 
 
 
-// ====== [15] docs/features/04-customer-panel.md ======
+// ====== [16] docs/features/04-customer-panel.md ======
 <!-- File: /docs/features/04-customer-panel.md - v1.0 -->
 # 4. Panel de Cliente
 
@@ -884,7 +959,7 @@ El panel de cliente estará disponible en la ruta `/dashboard` y sub-rutas, y se
 
 
 
-// ====== [16] docs/features/05-admin-panel-core-management.md ======
+// ====== [17] docs/features/05-admin-panel-core-management.md ======
 <!-- File: /docs/features/05-admin-panel-core-management.md - v1.0 -->
 # 5. Panel de Administración: Gestión de la Configuración Base
 
@@ -982,7 +1057,7 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 
 
-// ====== [17] docs/features/06-admin-panel-operations.md ======
+// ====== [18] docs/features/06-admin-panel-operations.md ======
 <!-- File: /docs/features/06-admin-panel-operations.md - v1.0 -->
 # 6. Panel de Administración: Operaciones Diarias
 
@@ -1068,7 +1143,7 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 
 
-// ====== [18] docs/features/07-reviews-system.md ======
+// ====== [19] docs/features/07-reviews-system.md ======
 <!-- File: /docs/features/07-reviews-system.md - v1.0 -->
 ````markdown
 # 7. Sistema de Valoraciones y Reseñas
@@ -1167,7 +1242,7 @@ enum ReviewStatus {
 
 
 
-// ====== [19] docs/features/08-marketing-monetization.md ======
+// ====== [20] docs/features/08-marketing-monetization.md ======
 <!-- File: /docs/features/08-marketing-monetization.md - v1.0 -->
 ````markdown
 # 8. Módulos de Marketing y Monetización
@@ -1320,7 +1395,7 @@ model GiftCard {
 
 
 
-// ====== [20] docs/features/09-notifications-system.md ======
+// ====== [21] docs/features/09-notifications-system.md ======
 <!-- File: /docs/features/09-notifications-system.md - v1.0 -->
 # 9. Sistema de Notificaciones
 
@@ -1371,7 +1446,7 @@ Estas notificaciones se envían al personal para mantenerlos al tanto de la acti
 
 
 
-// ====== [21] docs/features/10-external-integrations.md ======
+// ====== [22] docs/features/10-external-integrations.md ======
 <!-- File: /docs/features/10-external-integrations.md - v1.0 -->
 ````markdown
 # 10. Integraciones Externas
@@ -1492,7 +1567,7 @@ model AccountSettings {
 
 
 
-// ====== [22] package.json ======
+// ====== [23] package.json ======
 {
   "name": "aquaclean-car-wash-monorepo",
   "version": "1.0.0",
@@ -1521,7 +1596,7 @@ model AccountSettings {
 }
 
 
-// ====== [23] packages/config/eslint-preset.js ======
+// ====== [24] packages/config/eslint-preset.js ======
 // File: /packages/config/eslint-preset.js - v1.0
 
 module.exports = {
@@ -1570,7 +1645,7 @@ module.exports = {
 };
 
 
-// ====== [24] packages/config/package.json ======
+// ====== [25] packages/config/package.json ======
 {
   "name": "@aquaclean/config",
   "version": "1.0.0",
@@ -1591,7 +1666,7 @@ module.exports = {
 }
 
 
-// ====== [25] packages/types/package.json ======
+// ====== [26] packages/types/package.json ======
 {
   "name": "@aquaclean/types",
   "version": "1.0.0",
@@ -1615,7 +1690,7 @@ module.exports = {
 }
 
 
-// ====== [26] packages/types/src/index.ts ======
+// ====== [27] packages/types/src/index.ts ======
 // File: /packages/types/src/index.ts - v1.0
 
 export interface User {
@@ -1628,7 +1703,7 @@ export interface User {
 }
 
 
-// ====== [27] packages/types/tsconfig.json ======
+// ====== [28] packages/types/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -1641,7 +1716,7 @@ export interface User {
 }
 
 
-// ====== [28] tsconfig.base.json ======
+// ====== [29] tsconfig.base.json ======
 // File: /tsconfig.base.json - v1.0
 {
   "compilerOptions": {
@@ -1674,7 +1749,7 @@ export interface User {
 }
 
 
-// ====== [29] tsconfig.json ======
+// ====== [30] tsconfig.json ======
 // File: /tsconfig.json - v1.0
 {
   "files": [],
@@ -1684,5 +1759,28 @@ export interface User {
     { "path": "packages/types" },
     { "path": "packages/config" }
   ]
+}
+
+
+// ====== [31] turbo.json ======
+{
+  "$schema": "https://json.schemastore.org/turbo-1.7.0.json",
+  "globalDependencies": ["tsconfig.base.json"],
+  "pipeline": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "format": {
+      "outputs": []
+    }
+  }
 }
 

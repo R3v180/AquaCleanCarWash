@@ -1,0 +1,81 @@
+{
+  "$id": "https://json.schemastore.org/turbo",
+  "title": "Turborepo configuration file",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "extends": {
+      "description": "A list of packages to extend the configuration from. Can be a path to a local file or a package name.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "globalDependencies": {
+      "description": "A list of file glob patterns that Turborepo will use to determine if a task should be executed.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "globalEnv": {
+      "description": "A list of environment variables that are used by all tasks. These variables are passed to the tasks as environment variables.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pipeline": {
+      "description": "The pipeline configuration for the Turborepo.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "cache": {
+            "description": "Whether or not to cache the task.",
+            "type": "boolean"
+          },
+          "dependsOn": {
+            "description": "A list of tasks that this task depends on.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputs": {
+            "description": "A list of file glob patterns that are the outputs of the task.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "env": {
+            "description": "A list of environment variables that are used by the task.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputMode": {
+            "description": "The output mode of the task.",
+            "type": "string",
+            "enum": [
+              "full",
+              "hash-only",
+              "new-only",
+              "none"
+            ]
+          },
+          "persistent": {
+            "description": "Whether or not the task is a persistent task.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

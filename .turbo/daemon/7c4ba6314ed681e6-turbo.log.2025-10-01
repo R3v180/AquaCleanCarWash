@@ -2168,3 +2168,71 @@
 2025-10-01T17:54:58.183772Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
 2025-10-01T17:56:29.986263Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("docs\\PROJECT_SPECIFICATION.md")}
 2025-10-01T17:56:29.986282Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T17:58:02.371969Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\7c4ba6314ed681e6-turbo.log.2025-10-01")}
+2025-10-01T17:58:02.371986Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T18:07:03.877012Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T18:07:03.877031Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:07:29.379274Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\migration_lock.toml"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001180729_init\\migration.sql"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001180729_init")}
+2025-10-01T18:07:29.379289Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:07:29.475082Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001180729_init")}
+2025-10-01T18:07:29.475108Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:07:29.475133Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T18:11:48.779283Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations")}
+2025-10-01T18:11:48.779305Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:11:48.914738Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma")}
+2025-10-01T18:11:48.914749Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:11:48.914762Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T18:14:47.979478Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T18:14:47.979500Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:16:15.184199Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T18:16:15.184215Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:16:24.972639Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001181624_initial_schema\\migration.sql"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001181624_initial_schema"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\migration_lock.toml"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations")}
+2025-10-01T18:16:24.972664Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:16:25.086432Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001181624_initial_schema"), AnchoredSystemPathBuf("apps\\server\\prisma")}
+2025-10-01T18:16:25.086443Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:16:25.086457Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T18:17:15.575172Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T18:17:15.575191Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:17:24.276875Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001181724_add_employee_model"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\migration_lock.toml"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001181724_add_employee_model\\migration.sql")}
+2025-10-01T18:17:24.276895Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:17:24.383898Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001181724_add_employee_model")}
+2025-10-01T18:17:24.383915Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T18:17:24.383938Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T19:00:14.877621Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T19:00:14.877645Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:02:15.087038Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations")}
+2025-10-01T19:02:15.087055Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:02:15.180347Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma")}
+2025-10-01T19:02:15.180363Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:02:15.180387Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T19:03:54.582800Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T19:03:54.582820Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:04:04.979012Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190404_initial_schema\\migration.sql"), AnchoredSystemPathBuf("apps\\server\\prisma"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190404_initial_schema"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\migration_lock.toml")}
+2025-10-01T19:04:04.979041Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:04:05.097469Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190404_initial_schema")}
+2025-10-01T19:04:05.097482Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:04:05.097514Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T19:04:51.373254Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T19:04:51.373267Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:05:07.276508Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190507_add_employee_enum_value"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\migration_lock.toml"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190507_add_employee_enum_value\\migration.sql"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations")}
+2025-10-01T19:05:07.276528Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:05:07.401526Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190507_add_employee_enum_value")}
+2025-10-01T19:05:07.401537Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:05:07.401551Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T19:05:58.683381Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-01T19:05:58.683404Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:06:08.780889Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190608_add_employee_model_and_relations\\migration.sql"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190608_add_employee_model_and_relations"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\migration_lock.toml"), AnchoredSystemPathBuf("apps\\server\\prisma\\migrations")}
+2025-10-01T19:06:08.780909Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:06:08.877011Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\migrations\\20251001190608_add_employee_model_and_relations")}
+2025-10-01T19:06:08.877024Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-01T19:06:08.877037Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T19:07:43.472943Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\7c4ba6314ed681e6-turbo.log.2025-10-01")}
+2025-10-01T19:07:43.472960Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:16:26.872807Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo")}
+2025-10-01T19:16:26.872843Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:16:26.980106Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\cookies"), AnchoredSystemPathBuf(".turbo\\cookies\\1.cookie")}
+2025-10-01T19:16:26.980139Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:17:42.573859Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\cookies")}
+2025-10-01T19:17:42.573883Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:17:49.774571Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\src\\api\\services.routes.ts")}
+2025-10-01T19:17:49.774587Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/turbo-1.7.0.json",
+  "globalDependencies": ["tsconfig.base.json"],
+  "pipeline": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "format": {
+      "outputs": []
+    }
+  }
+}

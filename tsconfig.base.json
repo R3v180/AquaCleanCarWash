@@ -1,0 +1,30 @@
+// File: /tsconfig.base.json - v1.0
+{
+  "compilerOptions": {
+    /* Base Options */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+
+    /* Transpilation */
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "noEmit": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@aquaclean/types": ["packages/types/src"],
+      "@aquaclean/config/*": ["packages/config/*"]
+    }
+  }
+}

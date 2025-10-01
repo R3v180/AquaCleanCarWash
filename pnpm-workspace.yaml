@@ -1,4 +1,4 @@
+# File: /pnpm-workspace.yaml - v1.0
 packages:
-  - 'apps/*'
-  - 'packages/*
-  
+  - "apps/*"
+  - "packages/*"

@@ -1,0 +1,30 @@
+// File: /apps/server/prisma/schema.prisma - v1.0
+
+// 1. Configuración del Cliente de Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 2. Configuración de la Conexión a la Base de Datos
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 3. Definición de los Modelos de Datos
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  image         String?
+  role          UserRole  @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+}

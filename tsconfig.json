@@ -1,2 +1,10 @@
-
-
+// File: /tsconfig.json - v1.0
+{
+  "files": [],
+  "references": [
+    { "path": "apps/client" },
+    { "path": "apps/server" },
+    { "path": "packages/types" },
+    { "path": "packages/config" }
+  ]
+}

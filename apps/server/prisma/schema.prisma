@@ -1,30 +1,214 @@
-// File: /apps/server/prisma/schema.prisma - v1.0
+// File: /apps/server/prisma/schema.prisma (VERSIÓN FINAL Y COMPLETA)
 
-// 1. Configuración del Cliente de Prisma
 generator client {
   provider = "prisma-client-js"
 }
 
-// 2. Configuración de la Conexión a la Base de Datos
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// 3. Definición de los Modelos de Datos
+// 2. Modelos de Autenticación y Usuarios
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  passwordHash  String?
-  image         String?
-  role          UserRole  @default(CUSTOMER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id              String          @id @default(cuid())
+  name            String?
+  email           String          @unique
+  emailVerified   DateTime?
+  passwordHash    String?
+  image           String?
+  role            UserRole        @default(CUSTOMER)
+  stripeCustomerId String?        @unique
+
+  accounts        Account[]
+  sessions        Session[]
+  appointments    Appointment[]
+  reviews         Review[]
+  vehicles        Vehicle[]
+  purchasedBonuses PurchasedBonus[]
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+// 3. Modelos del Core del Negocio
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  duration    Int
+  prices      Json
+  category    String
+  isAddon     Boolean  @default(false)
+  isGiftable  Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+
+  appointments    AppointmentService[]
+  bonusOfferings  BonusOffering[]
+  giftCards       GiftCard[]
+}
+
+model Employee {
+  id           String @id @default(cuid())
+  name         String
+  email        String @unique
+  role         UserRole @default(EMPLOYEE)
+  bio          String? @db.Text
+  imageUrl     String?
+  
+  workSchedule Json?
+  absences     Absence[]
+
+  appointments Appointment[]
+  reviews      Review[]
+}
+
+model Absence {
+  id         String   @id @default(cuid())
+  startDate  DateTime
+  endDate    DateTime
+  reason     String?
+  
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String
+}
+
+// 4. Modelos Operacionales
+model Appointment {
+  id            String   @id @default(cuid())
+  startTime     DateTime
+  endTime       DateTime
+  notes         String?
+  status        AppointmentStatus @default(CONFIRMED)
+  paymentIntentId String?  @unique
+  googleEventId   String?  @unique
+
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  
+  employee      Employee @relation(fields: [employeeId], references: [id])
+  employeeId    String
+
+  services      AppointmentService[]
+  review        Review?
+}
+
+model AppointmentService {
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  appointmentId String
+  service       Service     @relation(fields: [serviceId], references: [id])
+  serviceId     String
+  @@id([appointmentId, serviceId])
+}
+
+model Review {
+  id            String      @id @default(cuid())
+  rating        Int
+  comment       String?     @db.Text
+  status        ReviewStatus @default(PENDING)
+  isFeatured    Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  appointmentId String      @unique
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String
+
+  employee      Employee    @relation(fields: [employeeId], references: [id])
+  employeeId    String
+}
+
+// 5. Modelos de Cliente y Marketing
+model Vehicle {
+  id          String @id @default(cuid())
+  alias       String
+  brand       String
+  model       String
+  plate       String?
+  size        String
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model BonusOffering {
+  id          String   @id @default(cuid())
+  name        String
+  price       Float
+  uses        Int
+  validityDays Int?
+  isActive    Boolean  @default(true)
+  service     Service  @relation(fields: [serviceId], references: [id])
+  serviceId   String
+  purchases   PurchasedBonus[]
+}
+
+model PurchasedBonus {
+  id              String   @id @default(cuid())
+  usesRemaining   Int
+  expiresAt       DateTime?
+  user            User     @relation(fields: [userId], references: [id])
+  userId          String
+  bonusOffering   BonusOffering @relation(fields: [bonusOfferingId], references: [id])
+  bonusOfferingId String
+}
+
+model GiftCard {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  isRedeemed    Boolean   @default(false)
+  redeemedAt    DateTime?
+  recipientEmail String?
+  message       String?   @db.Text
+  service       Service   @relation(fields: [serviceId], references: [id])
+  serviceId     String
+}
+
+// 6. Enums
 enum UserRole {
   ADMIN
+  EMPLOYEE
   CUSTOMER
+}
+
+enum AppointmentStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  PENDING_PAYMENT
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
 }

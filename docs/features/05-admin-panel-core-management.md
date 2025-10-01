@@ -1,4 +1,5 @@
 <!-- File: /docs/features/05-admin-panel-core-management.md - v1.0 -->
+
 # 5. Panel de Administración: Gestión de la Configuración Base
 
 ## 5.1. Objetivo
@@ -10,6 +11,8 @@ Proporcionar al administrador del negocio un control total sobre las entidades f
 Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administrador".
 
 ### Sección: Gestión de Servicios (`/admin/services`)
+
+**Estado: Implementado (Backend y Frontend).** La API RESTful para el CRUD de servicios y la interfaz de usuario en el panel de administración ya están funcionales.
 
 **Propósito:** Un CRUD (Crear, Leer, Actualizar, Eliminar) completo para el catálogo de servicios.
 
@@ -34,12 +37,14 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 **API Calls:**
 
-- `GET /api/admin/services`
-- `POST /api/admin/services`
-- `PUT /api/admin/services/[id]`
-- `DELETE /api/admin/services/[id]`
+- ✅ `GET /api/services`
+- ✅ `POST /api/services`
+- ✅ `PUT /api/services/[id]`
+- ✅ `DELETE /api/services/[id]`
 
 ### Sección: Gestión de Empleados y Horarios (`/admin/employees`)
+
+**Estado: Parcialmente Implementado (Solo Backend).** La API RESTful para el CRUD de empleados ya está funcional. La interfaz de usuario en el panel de administración está pendiente de desarrollo.
 
 **Propósito:** Gestionar los perfiles del personal y, fundamentalmente, sus horarios de trabajo, que son la base del sistema de disponibilidad.
 
@@ -66,9 +71,9 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 **API Calls:**
 
-- `GET /api/admin/employees`
-- `POST /api/admin/employees`
-- `PUT /api/admin/employees/[id]`
+- ✅ `GET /api/employees`
+- ✅ `POST /api/employees`
+- ✅ `PUT /api/employees/[id]`
 
 ### Sección: Gestión de Clientes (`/admin/clients`)
 
@@ -91,4 +96,3 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 - `GET /api/admin/clients` (con soporte para búsqueda, paginación y ordenación).
 - `GET /api/admin/clients/[id]`
 - `POST /api/admin/clients/[id]/notes`
-

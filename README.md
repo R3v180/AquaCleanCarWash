@@ -24,15 +24,15 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Descripción                                                                                                                      |
-| :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| 📅 **Sistema de Reservas 24/7**         | Permite a los clientes reservar citas online en cualquier momento, seleccionando servicios y empleado de preferencia.            |
-| 📊 **Panel de Administración Completo** | Un centro de control para gestionar citas, servicios, horarios, clientes y valoraciones. Incluye un planning visual interactivo. |
-| 📱 **Diseño 100% Adaptativo**           | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                            |
-| 🔔 **Notificaciones Automáticas**       | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                    |
-| ⭐ **Sistema de Valoraciones**          | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                              |
-| 💳 **Múltiples Vías de Ingreso**        | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.            |
-| 🔗 **Integraciones Clave**              | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                          |
+| Característica                          | Estado         | Descripción                                                                                                                      |
+| :-------------------------------------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | ⏳ Pendiente   | Permite a los clientes reservar citas online en cualquier momento, seleccionando servicios y empleado de preferencia.            |
+| 📊 **Panel de Administración Completo** | 🟢 En Progreso | Un centro de control para gestionar citas, servicios, horarios, clientes y valoraciones. Incluye un planning visual interactivo. |
+| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente   | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                            |
+| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente   | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                    |
+| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente   | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                              |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente   | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.            |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente   | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                          |
 
 ---
 

@@ -15,34 +15,35 @@
 13. apps/client/tsconfig.json
 14. apps/client/tsconfig.node.json
 15. apps/server/package.json
-16. apps/server/src/api/employees.routes.ts
-17. apps/server/src/api/services.routes.ts
-18. apps/server/src/lib/prisma.ts
-19. apps/server/src/server.ts
-20. apps/server/tsconfig.json
-21. docs/PROJECT_SPECIFICATION.md
-22. docs/features/01-authentication.md
-23. docs/features/02-public-site.md
-24. docs/features/03-booking-flow.md
-25. docs/features/04-customer-panel.md
-26. docs/features/05-admin-panel-core-management.md
-27. docs/features/06-admin-panel-operations.md
-28. docs/features/07-reviews-system.md
-29. docs/features/08-marketing-monetization.md
-30. docs/features/09-notifications-system.md
-31. docs/features/10-external-integrations.md
-32. package.json
-33. packages/config/eslint-preset.js
-34. packages/config/package.json
-35. packages/types/package.json
-36. packages/types/src/employee.schema.ts
-37. packages/types/src/index.ts
-38. packages/types/src/service.schema.ts
-39. packages/types/src/service.ts
-40. packages/types/tsconfig.json
-41. tsconfig.base.json
-42. tsconfig.json
-43. turbo.json
+16. apps/server/prisma/seed.ts
+17. apps/server/src/api/employees.routes.ts
+18. apps/server/src/api/services.routes.ts
+19. apps/server/src/lib/prisma.ts
+20. apps/server/src/server.ts
+21. apps/server/tsconfig.json
+22. docs/PROJECT_SPECIFICATION.md
+23. docs/features/01-authentication.md
+24. docs/features/02-public-site.md
+25. docs/features/03-booking-flow.md
+26. docs/features/04-customer-panel.md
+27. docs/features/05-admin-panel-core-management.md
+28. docs/features/06-admin-panel-operations.md
+29. docs/features/07-reviews-system.md
+30. docs/features/08-marketing-monetization.md
+31. docs/features/09-notifications-system.md
+32. docs/features/10-external-integrations.md
+33. package.json
+34. packages/config/eslint-preset.js
+35. packages/config/package.json
+36. packages/types/package.json
+37. packages/types/src/employee.schema.ts
+38. packages/types/src/index.ts
+39. packages/types/src/service.schema.ts
+40. packages/types/src/service.ts
+41. packages/types/tsconfig.json
+42. tsconfig.base.json
+43. tsconfig.json
+44. turbo.json
 
 
 # CONTENIDO DE ARCHIVOS
@@ -159,15 +160,15 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Descripción                                                                                                                      |
-| :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| 📅 **Sistema de Reservas 24/7**         | Permite a los clientes reservar citas online en cualquier momento, seleccionando servicios y empleado de preferencia.            |
-| 📊 **Panel de Administración Completo** | Un centro de control para gestionar citas, servicios, horarios, clientes y valoraciones. Incluye un planning visual interactivo. |
-| 📱 **Diseño 100% Adaptativo**           | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                            |
-| 🔔 **Notificaciones Automáticas**       | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                    |
-| ⭐ **Sistema de Valoraciones**          | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                              |
-| 💳 **Múltiples Vías de Ingreso**        | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.            |
-| 🔗 **Integraciones Clave**              | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                          |
+| Característica                          | Estado         | Descripción                                                                                                                      |
+| :-------------------------------------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | ⏳ Pendiente   | Permite a los clientes reservar citas online en cualquier momento, seleccionando servicios y empleado de preferencia.            |
+| 📊 **Panel de Administración Completo** | 🟢 En Progreso | Un centro de control para gestionar citas, servicios, horarios, clientes y valoraciones. Incluye un planning visual interactivo. |
+| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente   | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                            |
+| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente   | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                    |
+| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente   | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                              |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente   | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.            |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente   | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                          |
 
 ---
 
@@ -247,6 +248,7 @@ Toda la funcionalidad del proyecto está documentada en detalle en nuestra [**Es
 
 // ====== [3] ROADMAP.md ======
 <!-- File: /ROADMAP.md - v1.0 -->
+
 # Roadmap del Proyecto AquaClean Car Wash
 
 Este documento describe el plan de desarrollo por fases para la plataforma. El objetivo es lanzar un Producto Mínimo Viable (MVP) funcional y luego iterar sobre él añadiendo capas de valor en versiones posteriores.
@@ -257,28 +259,25 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Poner en marcha la funcionalidad esencial para que el negocio pueda recibir y gestionar reservas online.
 
-- **✅ Sitio Público Básico:**
+- **[ ] Sitio Público Básico:**
+  - [ ] Página de Inicio (Homepage).
+  - [ ] Página de Servicios detallada.
+  - [ ] Perfiles públicos del equipo.
 
-  - Página de Inicio (Homepage).
-  - Página de Servicios detallada.
-  - Perfiles públicos del equipo.
-
-- **✅ Flujo de Reserva Completo:**
-
-  - Selección de servicios y empleado.
-  - Calendario con disponibilidad en tiempo real.
-  - Formulario de datos de cliente y vehículo.
-  - Integración básica con Stripe para pagos.
+- **[ ] Flujo de Reserva Completo:**
+  - [ ] Selección de servicios y empleado.
+  - [ ] Calendario con disponibilidad en tiempo real.
+  - [ ] Formulario de datos de cliente y vehículo.
+  - [ ] Integración básica con Stripe para pagos.
 
 - **✅ Panel de Administración Esencial:**
+  - **✅ Gestión Core:** CRUD para Servicios (con duración y precio), Empleados y sus Horarios.
+  - [ ] **Operaciones:** Planning visual de citas (FullCalendar) con creación manual.
+  - [ ] **Autenticación:** Login seguro para el administrador.
 
-  - **Gestión Core:** CRUD para Servicios (con duración y precio), Empleados y sus Horarios.
-  - **Operaciones:** Planning visual de citas (FullCalendar) con creación manual.
-  - **Autenticación:** Login seguro para el administrador.
-
-- **✅ Notificaciones Críticas (Email):**
-  - Email de confirmación de cita para el cliente.
-  - Email de notificación de nueva cita para la empresa.
+- **[ ] Notificaciones Críticas (Email):**
+  - [ ] Email de confirmación de cita para el cliente.
+  - [ ] Email de notificación de nueva cita para la empresa.
 
 ---
 
@@ -286,21 +285,19 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Mejorar la retención de clientes y automatizar el marketing de reputación.
 
-- **✅ Panel de Cliente Completo:**
+- **[ ] Panel de Cliente Completo:**
+  - [ ] Registro de usuarios (Email/Google) con verificación.
+  - [ ] Login y gestión de perfil.
+  - [ ] Historial de citas y opción "Reservar de Nuevo".
+  - [ ] Gestión de múltiples vehículos.
 
-  - Registro de usuarios (Email/Google) con verificación.
-  - Login y gestión de perfil.
-  - Historial de citas y opción "Reservar de Nuevo".
-  - Gestión de múltiples vehículos.
+- **[ ] Sistema de Valoraciones y Reseñas:**
+  - [ ] Email/WhatsApp automático post-servicio para solicitar valoración.
+  - [ ] Panel de moderación de reseñas en el área de administración.
+  - [ ] Visualización de reseñas aprobadas en el sitio público.
 
-- **✅ Sistema de Valoraciones y Reseñas:**
-
-  - Email/WhatsApp automático post-servicio para solicitar valoración.
-  - Panel de moderación de reseñas en el área de administración.
-  - Visualización de reseñas aprobadas en el sitio público.
-
-- **✅ Integración con Google Calendar:**
-  - Sincronización bidireccional para citas y bloqueos.
+- **[ ] Integración con Google Calendar:**
+  - [ ] Sincronización bidireccional para citas y bloqueos.
 
 ---
 
@@ -308,29 +305,31 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Introducir nuevas vías de ingresos y proporcionar herramientas de inteligencia de negocio.
 
-- **✅ Módulos de Marketing y Monetización:**
+- **[ ] Módulos de Marketing y Monetización:**
+  - [ ] Creación y gestión de Bonos de lavados.
+  - [ ] Venta de Tarjetas Regalo digitales.
+  - [ ] Sistema de suscripciones mensuales (Club de Lavado).
 
-  - Creación y gestión de Bonos de lavados.
-  - Venta de Tarjetas Regalo digitales.
-  - Sistema de suscripciones mensuales (Club de Lavado).
+- **[ ] Dashboard de Analíticas:**
+  - [ ] Gráficos con métricas clave (ingresos, ocupación, servicios populares, etc.).
 
-- **✅ Dashboard de Analíticas:**
-
-  - Gráficos con métricas clave (ingresos, ocupación, servicios populares, etc.).
-
-- **✅ Notificaciones Avanzadas (WhatsApp):**
-  - Recordatorios de citas automáticos por WhatsApp.
-  - Notificaciones de nuevas citas por WhatsApp para la empresa.
+- **[ ] Notificaciones Avanzadas (WhatsApp):**
+  - [ ] Recordatorios de citas automáticos por WhatsApp.
+  - [ ] Notificaciones de nuevas citas por WhatsApp para la empresa.
 
 ---
 
 ## 💡 Futuro (Ideas a Considerar)
 
-- **PWA para Empleados:** Una aplicación "instalable" para que los empleados gestionen su agenda diaria, con posibles funcionalidades offline.
-- **Precios Dinámicos:** Configuración de tarifas especiales para horas de alta/baja demanda.
-- **Tienda Online:** Venta de productos de detailing directamente desde la web.
-- **Integración con Software de Contabilidad:** Exportación de datos para herramientas como Factusol, Holded, etc.
+- PWA para Empleados: Una aplicación "instalable" para que los empleados gestionen su agenda diaria, con posibles funcionalidades offline.
+- Precios Dinámicos: Configuración de tarifas especiales para horas de alta/baja demanda.
+- Tienda Online: Venta de productos de detailing directamente desde la web.
+- Integración con Software de Contabilidad: Exportación de datos para herramientas como Factusol, Holded, etc.
 
+```---
+### **FIN DEL ARCHIVO: `ROADMAP.md`**
+---
+```
 
 
 
@@ -670,7 +669,7 @@ export function HomePage() {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.19.19",
     "@types/nodemailer": "^6.4.15",
     "eslint": "^8.57.0",
     "prisma": "^5.14.0",
@@ -680,7 +679,11 @@ export function HomePage() {
 }
 
 
-// ====== [16] apps/server/src/api/employees.routes.ts ======
+// ====== [16] apps/server/prisma/seed.ts ======
+
+
+
+// ====== [17] apps/server/src/api/employees.routes.ts ======
 // File: /apps/server/src/api/employees.routes.ts (CORREGIDO)
 
 import { Router } from 'express';
@@ -809,7 +812,7 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [17] apps/server/src/api/services.routes.ts ======
+// ====== [18] apps/server/src/api/services.routes.ts ======
 // File: /apps/server/src/api/services.routes.ts (CORREGIDO)
 
 import { Router } from 'express';
@@ -916,7 +919,7 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [18] apps/server/src/lib/prisma.ts ======
+// ====== [19] apps/server/src/lib/prisma.ts ======
 // File: /apps/server/src/lib/prisma.ts
 
 import { PrismaClient } from '@prisma/client';
@@ -930,7 +933,7 @@ const prisma = new PrismaClient();
 export default prisma;
 
 
-// ====== [19] apps/server/src/server.ts ======
+// ====== [20] apps/server/src/server.ts ======
 // File: /apps/server/src/server.ts (ACTUALIZADO)
 
 import express, { Request, Response } from 'express';
@@ -966,7 +969,7 @@ app.listen(PORT, () => {
 });
 
 
-// ====== [20] apps/server/tsconfig.json ======
+// ====== [21] apps/server/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -980,7 +983,7 @@ app.listen(PORT, () => {
 }
 
 
-// ====== [21] docs/PROJECT_SPECIFICATION.md ======
+// ====== [22] docs/PROJECT_SPECIFICATION.md ======
 <!-- File: /docs/PROJECT_SPECIFICATION.md - v1.1 -->
 
 # Propuesta y Especificación del Proyecto: AquaClean Car Wash
@@ -1049,7 +1052,7 @@ Esta sección actúa como un índice hacia los documentos de especificación det
 
 
 
-// ====== [22] docs/features/01-authentication.md ======
+// ====== [23] docs/features/01-authentication.md ======
 <!-- File: /docs/features/01-authentication.md - v1.0 -->
 ````markdown
 # 1. Sistema de Autenticación
@@ -1173,7 +1176,7 @@ model VerificationToken {
 
 
 
-// ====== [23] docs/features/02-public-site.md ======
+// ====== [24] docs/features/02-public-site.md ======
 <!-- File: /docs/features/02-public-site.md - v1.0 -->
 # 2. Sitio Público y Presentación
 
@@ -1295,7 +1298,7 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 
 
-// ====== [24] docs/features/03-booking-flow.md ======
+// ====== [25] docs/features/03-booking-flow.md ======
 <!-- File: /docs/features/03-booking-flow.md - v1.0 -->
 # 3. Flujo de Reserva del Cliente
 
@@ -1405,7 +1408,7 @@ El flujo se presentará como un asistente multi-paso, preferiblemente dentro de 
 
 
 
-// ====== [25] docs/features/04-customer-panel.md ======
+// ====== [26] docs/features/04-customer-panel.md ======
 <!-- File: /docs/features/04-customer-panel.md - v1.0 -->
 # 4. Panel de Cliente
 
@@ -1506,8 +1509,9 @@ El panel de cliente estará disponible en la ruta `/dashboard` y sub-rutas, y se
 
 
 
-// ====== [26] docs/features/05-admin-panel-core-management.md ======
+// ====== [27] docs/features/05-admin-panel-core-management.md ======
 <!-- File: /docs/features/05-admin-panel-core-management.md - v1.0 -->
+
 # 5. Panel de Administración: Gestión de la Configuración Base
 
 ## 5.1. Objetivo
@@ -1519,6 +1523,8 @@ Proporcionar al administrador del negocio un control total sobre las entidades f
 Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administrador".
 
 ### Sección: Gestión de Servicios (`/admin/services`)
+
+**Estado: Implementado (Backend y Frontend).** La API RESTful para el CRUD de servicios y la interfaz de usuario en el panel de administración ya están funcionales.
 
 **Propósito:** Un CRUD (Crear, Leer, Actualizar, Eliminar) completo para el catálogo de servicios.
 
@@ -1543,12 +1549,14 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 **API Calls:**
 
-- `GET /api/admin/services`
-- `POST /api/admin/services`
-- `PUT /api/admin/services/[id]`
-- `DELETE /api/admin/services/[id]`
+- ✅ `GET /api/services`
+- ✅ `POST /api/services`
+- ✅ `PUT /api/services/[id]`
+- ✅ `DELETE /api/services/[id]`
 
 ### Sección: Gestión de Empleados y Horarios (`/admin/employees`)
+
+**Estado: Parcialmente Implementado (Solo Backend).** La API RESTful para el CRUD de empleados ya está funcional. La interfaz de usuario en el panel de administración está pendiente de desarrollo.
 
 **Propósito:** Gestionar los perfiles del personal y, fundamentalmente, sus horarios de trabajo, que son la base del sistema de disponibilidad.
 
@@ -1575,9 +1583,9 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 **API Calls:**
 
-- `GET /api/admin/employees`
-- `POST /api/admin/employees`
-- `PUT /api/admin/employees/[id]`
+- ✅ `GET /api/employees`
+- ✅ `POST /api/employees`
+- ✅ `PUT /api/employees/[id]`
 
 ### Sección: Gestión de Clientes (`/admin/clients`)
 
@@ -1603,8 +1611,7 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 
 
-
-// ====== [27] docs/features/06-admin-panel-operations.md ======
+// ====== [28] docs/features/06-admin-panel-operations.md ======
 <!-- File: /docs/features/06-admin-panel-operations.md - v1.0 -->
 # 6. Panel de Administración: Operaciones Diarias
 
@@ -1690,7 +1697,7 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 
 
-// ====== [28] docs/features/07-reviews-system.md ======
+// ====== [29] docs/features/07-reviews-system.md ======
 <!-- File: /docs/features/07-reviews-system.md - v1.0 -->
 ````markdown
 # 7. Sistema de Valoraciones y Reseñas
@@ -1789,7 +1796,7 @@ enum ReviewStatus {
 
 
 
-// ====== [29] docs/features/08-marketing-monetization.md ======
+// ====== [30] docs/features/08-marketing-monetization.md ======
 <!-- File: /docs/features/08-marketing-monetization.md - v1.0 -->
 ````markdown
 # 8. Módulos de Marketing y Monetización
@@ -1942,7 +1949,7 @@ model GiftCard {
 
 
 
-// ====== [30] docs/features/09-notifications-system.md ======
+// ====== [31] docs/features/09-notifications-system.md ======
 <!-- File: /docs/features/09-notifications-system.md - v1.0 -->
 # 9. Sistema de Notificaciones
 
@@ -1993,7 +2000,7 @@ Estas notificaciones se envían al personal para mantenerlos al tanto de la acti
 
 
 
-// ====== [31] docs/features/10-external-integrations.md ======
+// ====== [32] docs/features/10-external-integrations.md ======
 <!-- File: /docs/features/10-external-integrations.md - v1.0 -->
 ````markdown
 # 10. Integraciones Externas
@@ -2114,7 +2121,7 @@ model AccountSettings {
 
 
 
-// ====== [32] package.json ======
+// ====== [33] package.json ======
 {
   "name": "aquaclean-car-wash-monorepo",
   "version": "1.0.0",
@@ -2144,7 +2151,7 @@ model AccountSettings {
 }
 
 
-// ====== [33] packages/config/eslint-preset.js ======
+// ====== [34] packages/config/eslint-preset.js ======
 // File: /packages/config/eslint-preset.js - v1.0
 
 module.exports = {
@@ -2193,7 +2200,7 @@ module.exports = {
 };
 
 
-// ====== [34] packages/config/package.json ======
+// ====== [35] packages/config/package.json ======
 {
   "name": "@aquaclean/config",
   "version": "1.0.0",
@@ -2214,7 +2221,7 @@ module.exports = {
 }
 
 
-// ====== [35] packages/types/package.json ======
+// ====== [36] packages/types/package.json ======
 {
   "name": "@aquaclean/types",
   "version": "1.0.0",
@@ -2224,6 +2231,7 @@ module.exports = {
   "exports": {
     ".": {
       "import": "./dist/index.js",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -2241,7 +2249,7 @@ module.exports = {
 }
 
 
-// ====== [36] packages/types/src/employee.schema.ts ======
+// ====== [37] packages/types/src/employee.schema.ts ======
 // File: /packages/types/src/employee.schema.ts
 
 import { z } from 'zod';
@@ -2262,7 +2270,7 @@ export const createEmployeeSchema = z.object({
 });
 
 
-// ====== [37] packages/types/src/index.ts ======
+// ====== [38] packages/types/src/index.ts ======
 // File: /packages/types/src/index.ts (ACTUALIZADO)
 
 // Exportamos los esquemas desde su nueva ubicación local
@@ -2282,7 +2290,7 @@ export interface User {
 }
 
 
-// ====== [38] packages/types/src/service.schema.ts ======
+// ====== [39] packages/types/src/service.schema.ts ======
 // File: /apps/server/src/schemas/service.schema.ts (SOLUCIÓN FINAL Y CORRECTA)
 
 import { z } from 'zod';
@@ -2312,7 +2320,7 @@ export const createServiceSchema = z.object({
 });
 
 
-// ====== [39] packages/types/src/service.ts ======
+// ====== [40] packages/types/src/service.ts ======
 // File: /packages/types/src/service.ts
 
 export interface Service {
@@ -2328,7 +2336,7 @@ export interface Service {
 }
 
 
-// ====== [40] packages/types/tsconfig.json ======
+// ====== [41] packages/types/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -2341,7 +2349,7 @@ export interface Service {
 }
 
 
-// ====== [41] tsconfig.base.json ======
+// ====== [42] tsconfig.base.json ======
 // File: /tsconfig.base.json - v1.0
 {
   "compilerOptions": {
@@ -2374,7 +2382,7 @@ export interface Service {
 }
 
 
-// ====== [42] tsconfig.json ======
+// ====== [43] tsconfig.json ======
 // File: /tsconfig.json - v1.0
 {
   "files": [],
@@ -2387,7 +2395,7 @@ export interface Service {
 }
 
 
-// ====== [43] turbo.json ======
+// ====== [44] turbo.json ======
 {
   "$schema": "./.schemas/turbo-schema-v1.json",
   "globalDependencies": ["tsconfig.base.json"],

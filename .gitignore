@@ -1,0 +1,22 @@
+# Ignorar dependencias
+node_modules/
+
+# Ignorar archivos de build y distribución
+dist/
+build/
+
+# Ignorar variables de entorno
+.env
+.env.*
+!.env.example
+
+# Archivos de sistema operativo
+.DS_Store
+
+# Logs y archivos de debug
+*.log
+.pnpm-debug.log*
+
+# Ignorar caché de herramientas
+.eslintcache
+.vite-cache

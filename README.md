@@ -1,4 +1,4 @@
-<!-- File: /README.md - v1.0 -->
+<!-- File: /README.md - v1.1 -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -38,12 +38,13 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## 🛠️ Stack Tecnológico
 
-| Área              | Tecnologías                                     |
-| :---------------- | :---------------------------------------------- |
-| **Frontend**      | React 18, TypeScript, Vite, Mantine UI, Zustand |
-| **Backend**       | Node.js, Express.js, TypeScript, Prisma         |
-| **Base de Datos** | PostgreSQL                                      |
-| **Herramientas**  | pnpm (Monorepo), Git, GitHub, ESLint, Prettier  |
+| Área                                     | Tecnologías                                                        |
+| :--------------------------------------- | :----------------------------------------------------------------- |
+| **Frontend**                             | React 18, TypeScript, Vite, Mantine UI, Zustand                    |
+| **Backend**                              | Node.js, Express.js, TypeScript, Prisma, Zod                       |
+| **Base de Datos**                        | PostgreSQL                                                         |
+| **Testing**                              | Vitest, React Testing Library                                      |
+| **Herramientas de Desarrollo y Calidad** | pnpm (Monorepo), Git, GitHub, ESLint, Prettier, Husky, lint-staged |
 
 ---
 
@@ -74,8 +75,9 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
     pnpm install
     ```
 
-3.  **Configurar variables de entorno:**
+    _Nota: Este comando también instalará y configurará **Husky**. A partir de ahora, se ejecutarán comprobaciones de calidad de código (ESLint, Prettier) automáticamente antes de cada `git commit`._
 
+3.  **Configurar variables de entorno:**
     - Habrá un archivo `.env.example` en la carpeta del servidor (`apps/server`).
     - Cópialo a un nuevo archivo llamado `.env` en la misma carpeta.
     - Rellena las variables (credenciales de la base de datos, claves de API, etc.).
@@ -105,4 +107,3 @@ Para ver el plan de desarrollo detallado por fases, consulta nuestro archivo [**
 ## 📄 Especificaciones Completas
 
 Toda la funcionalidad del proyecto está documentada en detalle en nuestra [**Especificación de Proyecto**](./docs/PROJECT_SPECIFICATION.md).
-

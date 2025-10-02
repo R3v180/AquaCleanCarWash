@@ -5,14 +5,16 @@ import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { ServicesManagementPage } from './pages/admin/ServicesManagementPage';
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { EmployeesManagementPage } from './pages/admin/EmployeesManagementPage';
-import { ServicesPage } from './pages/public/ServicesPage'; // <-- LÍNEA AÑADIDA
+import { ServicesPage } from './pages/public/ServicesPage';
+import { BookingPage } from './pages/public/BookingPage'; // <-- LÍNEA AÑADIDA
 
 function App() {
   return (
     <Routes>
       {/* Rutas Públicas */}
       <Route path="/" element={<HomePage />} />
-      <Route path="/services" element={<ServicesPage />} /> {/* <-- LÍNEA AÑADIDA */}
+      <Route path="/services" element={<ServicesPage />} />
+      <Route path="/booking" element={<BookingPage />} /> {/* <-- LÍNEA AÑADIDA */}
 
       {/* Ruta de Login para Admin */}
       <Route path="/admin/login" element={<AdminLoginPage />} />

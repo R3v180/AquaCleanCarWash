@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import servicesRouter from './api/services.routes';
 import employeesRouter from './api/employees.routes';
 import authRouter from './api/auth.routes';
-import availabilityRouter from './api/availability.routes'; // <-- LÍNEA AÑADIDA
+import availabilityRouter from './api/availability.routes'; // <-- IMPORTANTE
 
 // Cargar variables de entorno
 dotenv.config();
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/services', servicesRouter);
 app.use('/api/employees', employeesRouter);
-app.use('/api/availability', availabilityRouter); // <-- LÍNEA AÑADIDA
+app.use('/api/availability', availabilityRouter); // <-- IMPORTANTE
 
 // Ruta de prueba para verificar que el servidor funciona
 app.get('/api', (req: Request, res: Response) => {

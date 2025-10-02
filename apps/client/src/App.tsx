@@ -1,10 +1,9 @@
-// File: /apps/client/src/App.tsx (ACTUALIZADO)
-
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
 import { AdminLayout } from './layouts/AdminLayout';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
-import { ServicesManagementPage } from './pages/admin/ServicesManagementPage'; // <-- IMPORTAR
+import { ServicesManagementPage } from './pages/admin/ServicesManagementPage';
+import { AdminLoginPage } from './pages/admin/AdminLoginPage'; // <-- LÍNEA AÑADIDA
 
 function App() {
   return (
@@ -12,10 +11,13 @@ function App() {
       {/* Rutas Públicas */}
       <Route path="/" element={<HomePage />} />
 
-      {/* Rutas de Administración */}
+      {/* Ruta de Login para Admin */}
+      <Route path="/admin/login" element={<AdminLoginPage />} /> {/* <-- LÍNEA AÑADIDA */}
+
+      {/* Rutas de Administración Protegidas */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboardPage />} />
-        <Route path="services" element={<ServicesManagementPage />} /> {/* <-- RUTA AÑADIDA */}
+        <Route path="services" element={<ServicesManagementPage />} />
       </Route>
     </Routes>
   );

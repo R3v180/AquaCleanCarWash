@@ -1,10 +1,11 @@
+// File: /apps/client/src/components/booking/BookingDateTimePicker.tsx (ACTUALIZADO)
+
 import { useState, useEffect } from 'react';
 import { DatePicker } from '@mantine/dates';
 import { SimpleGrid, Button, Text, Loader, Center, Stack, Title } from '@mantine/core';
 import dayjs from 'dayjs';
 import apiClient from '../../lib/apiClient';
 
-// Definimos las propiedades que este componente necesitará
 interface BookingDateTimePickerProps {
   serviceDuration: number;
   onDateTimeChange: (dateTime: Date | null) => void;
@@ -17,7 +18,6 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Este efecto se dispara cada vez que el usuario elige una nueva fecha en el calendario
   useEffect(() => {
     if (!selectedDate) {
       setAvailableSlots([]);
@@ -27,7 +27,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
     const fetchAvailability = async () => {
       setLoading(true);
       setError(null);
-      setSelectedSlot(null); // Reseteamos la hora seleccionada al cambiar de día
+      setSelectedSlot(null);
 
       try {
         const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
@@ -49,17 +49,14 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
     fetchAvailability();
   }, [selectedDate, serviceDuration]);
 
-  // Esta función se llama cuando el usuario hace clic en un botón de hora
   const handleSlotSelect = (slot: string) => {
     setSelectedSlot(slot);
     if (selectedDate) {
-      // Usamos parseInt con una base de 10 para asegurar que la conversión es correcta y siempre devuelve un número.
-      // Añadimos un valor por defecto de 0 por si acaso, lo que satisface a TypeScript.
       const hours = parseInt(slot.split(':')[0] ?? '0', 10);
       const minutes = parseInt(slot.split(':')[1] ?? '0', 10);
 
       const finalDateTime = dayjs(selectedDate).hour(hours).minute(minutes).toDate();
-      onDateTimeChange(finalDateTime); // Informamos al componente padre de la fecha y hora completas
+      onDateTimeChange(finalDateTime);
     }
   };
 
@@ -68,7 +65,12 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
       <DatePicker
         value={selectedDate}
         onChange={setSelectedDate}
-        minDate={new Date()} // No se pueden elegir días pasados
+        minDate={new Date()}
+        // --- LÍNEA AÑADIDA ---
+        // dayjs() considera el Domingo como el día 0 y Sábado como el 6.
+        // Al especificar [0], le decimos a Mantine que solo el Domingo es fin de semana.
+        weekendDays={[0]} 
+        // --- FIN DE LA LÍNEA AÑADIDA ---
       />
 
       <Stack mt="lg">

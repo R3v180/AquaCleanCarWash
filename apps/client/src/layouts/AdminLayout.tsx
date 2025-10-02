@@ -1,26 +1,79 @@
-import { Outlet, Navigate } from 'react-router-dom';
+// File: /apps/client/src/layouts/AdminLayout.tsx (ACTUALIZADO)
+
+import { Outlet, Navigate, NavLink } from 'react-router-dom';
+import { AppShell, Burger, Group, Title } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 export function AdminLayout() {
-  // Leemos el token de autenticación desde localStorage.
-  // Esta es la forma más simple de persistir la sesión en el navegador.
+  const [opened, { toggle }] = useDisclosure();
+
   const authToken = localStorage.getItem('authToken');
 
-  // Si no hay token, no permitimos el acceso y redirigimos al login.
-  // 'replace' evita que el usuario pueda volver atrás en el historial del navegador.
   if (!authToken) {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Si hay un token, mostramos el contenido protegido del panel de administración.
+  // Estilos para los NavLink de react-router-dom
+  const linkStyles = {
+    display: 'block',
+    padding: '8px 16px',
+    borderRadius: '4px',
+    textDecoration: 'none',
+    color: 'black',
+  };
+
+  const activeLinkStyles = {
+    backgroundColor: '#e9ecef',
+    fontWeight: 500,
+  };
+
   return (
-    <div>
-      <header style={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
-        <h2>Panel de Administración de AquaClean</h2>
-        {/* Más adelante aquí podríamos añadir un botón de "Cerrar Sesión" */}
-      </header>
-      <main style={{ padding: '1rem' }}>
-        <Outlet /> {/* Aquí se renderiza el contenido (Dashboard, Servicios, etc.) */}
-      </main>
-    </div>
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened, desktop: true } }}
+      padding="md"
+    >
+      <AppShell.Header>
+        <Group h="100%" px="md">
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          <Title order={4}>Panel de Administración de AquaClean</Title>
+        </Group>
+      </AppShell.Header>
+
+      {/* Navegación para móvil */}
+      <AppShell.Navbar p="md">
+         <NavLink 
+            to="/admin" 
+            end // 'end' asegura que solo esté activo en la ruta exacta
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Dashboard
+         </NavLink>
+         <NavLink 
+            to="/admin/planning" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Planning
+         </NavLink>
+         <NavLink 
+            to="/admin/services" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Servicios
+         </NavLink>
+         <NavLink 
+            to="/admin/employees" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Empleados
+         </NavLink>
+         {/* Aquí podríamos añadir un botón de "Cerrar Sesión" */}
+      </AppShell.Navbar>
+      
+      {/* Contenedor principal para el contenido de la página */}
+      <AppShell.Main>
+        <Outlet /> 
+      </AppShell.Main>
+    </AppShell>
   );
 }

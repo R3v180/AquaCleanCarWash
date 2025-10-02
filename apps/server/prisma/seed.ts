@@ -1,3 +1,5 @@
+// File: /apps/server/prisma/seed.ts (CORREGIDO)
+
 import { PrismaClient, UserRole } from '@prisma/client';
 import { hash } from 'bcryptjs';
 
@@ -42,7 +44,7 @@ async function main() {
   if (!businessSettings) {
     await prisma.businessSettings.create({
       data: {
-        singleton: 'SINGLETON', // <-- CAMPO AÑADIDO Y CORREGIDO
+        singleton: 'SINGLETON',
         weeklySchedule: defaultWeeklySchedule,
       },
     });
@@ -85,6 +87,40 @@ async function main() {
     console.log('✅ Test employee updated with default work schedule.');
   }
 
+  // --- 4. SEED DE SERVICIOS (LA PARTE QUE FALTABA) ---
+  console.log('Seeding services...');
+  // Para asegurar un estado limpio, borramos los servicios existentes antes de crearlos
+  await prisma.service.deleteMany({});
+  
+  const servicesToCreate = [
+    {
+      name: 'Lavado Básico Exterior',
+      description: 'Un lavado exterior rápido y eficiente para dejar tu coche reluciente. Incluye prelavado, lavado a mano con champú pH neutro y secado con microfibra.',
+      duration: 30,
+      prices: { standard: 20 },
+      category: 'Lavado Exterior',
+    },
+    {
+      name: 'Lavado Premium Completo',
+      description: 'El tratamiento completo. Incluye lavado exterior, aspirado interior, limpieza de cristales y salpicadero.',
+      duration: 60,
+      prices: { standard: 45, suv: 55 },
+      category: 'Completo',
+    },
+    {
+      name: 'Limpieza Interior Profunda',
+      description: 'Dejamos el interior de tu coche como nuevo. Aspirado profundo, limpieza de tapicería (tela o cuero), paneles de puerta y consola central.',
+      duration: 90,
+      prices: { standard: 70 },
+      category: 'Detallado Interior',
+    },
+  ];
+
+  await prisma.service.createMany({
+    data: servicesToCreate,
+  });
+  console.log(`✅ Seeded ${servicesToCreate.length} services.`);
+  // --- FIN DE LA SECCIÓN AÑADIDA ---
 
   console.log('Database seed finished.');
 }

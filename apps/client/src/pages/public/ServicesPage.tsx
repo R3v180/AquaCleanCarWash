@@ -1,9 +1,11 @@
+// File: /apps/client/src/pages/public/ServicesPage.tsx (ACTUALIZADO)
+
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- LÍNEA AÑADIDA
 import {
   Container,
   Title,
   Text,
-  Grid,
   Card,
   Button,
   SimpleGrid,
@@ -17,6 +19,7 @@ export function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // <-- LÍNEA AÑADIDA
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -34,6 +37,14 @@ export function ServicesPage() {
 
     fetchServices();
   }, []);
+
+  // --- FUNCIÓN AÑADIDA ---
+  // Esta función se ejecutará cuando el cliente haga clic en "Reservar Ahora".
+  // Navegará a la página de booking, pasando los datos del servicio en la URL.
+  const handleReserveClick = (service: Service) => {
+    navigate(`/booking?serviceId=${service.id}&duration=${service.duration}`);
+  };
+  // --- FIN DE LA FUNCIÓN AÑADIDA ---
 
   if (loading) {
     return <Container><Text>Cargando servicios...</Text></Container>;
@@ -68,9 +79,17 @@ export function ServicesPage() {
               Duración estimada: {service.duration} min.
             </Text>
 
-            <Button color="blue" fullWidth mt="md" radius="md">
+            {/* --- LÍNEA MODIFICADA --- */}
+            <Button
+              color="blue"
+              fullWidth
+              mt="md"
+              radius="md"
+              onClick={() => handleReserveClick(service)} // <-- Se añade el evento onClick
+            >
               Reservar Ahora
             </Button>
+            {/* --- FIN DE LA MODIFICACIÓN --- */}
           </Card>
         ))}
       </SimpleGrid>

@@ -1,0 +1,1 @@
+git log --pretty=fuller > historial_commits.txt

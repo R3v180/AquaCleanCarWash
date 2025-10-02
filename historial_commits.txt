@@ -1,0 +1,359 @@
+commit ff206f8f3d018da0304a28fa508e1577a8727fdb
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 18:31:34 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 18:31:34 2025 +0200
+
+    docs(project-status): Actualizar documentación para reflejar el estado actual
+    
+    - Actualiza el ROADMAP.md para marcar el progreso en el planning visual del admin y establecer la Homepage como el próximo objetivo.
+    - Mejora el README.md con descripciones más precisas de las funcionalidades implementadas.
+    - Detalla en las especificaciones (06-admin-panel-operations.md) que el drag & drop es funcional y documenta los próximos pasos para la creación y edición de citas.
+
+commit b4dcea903e04547f5bf203d3090857f1d96bd843
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 18:23:01 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 18:23:01 2025 +0200
+
+    feat(admin): Implementar planning visual de citas con drag & drop
+    
+    - Crea la página de planning en el panel de admin utilizando FullCalendar.
+    - Añade un nuevo endpoint en la API (/api/admin/appointments) para obtener todas las citas en formato de evento.
+    - Implementa la funcionalidad de arrastrar y soltar (drag & drop) para reagendar citas.
+    - Añade un endpoint PUT (/api/admin/appointments/:id) para guardar los cambios de fecha y hora en la base de datos.
+    - Mejora el AdminLayout con componentes de AppShell de Mantine y enlaces de navegación.
+
+commit 31ca3856ec8d22279c94421f84bf23152abbe304
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 18:22:28 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 18:22:28 2025 +0200
+
+    feat(admin): Implementar planning visual de citas con drag & drop
+    
+    - Crea la página de planning en el panel de admin utilizando FullCalendar.
+    - Añade un nuevo endpoint en la API (/api/admin/appointments) para obtener todas las citas en formato de evento.
+    - Implementa la funcionalidad de arrastrar y soltar (drag & drop) para reagendar citas.
+    - Añade un endpoint PUT (/api/admin/appointments/:id) para guardar los cambios de fecha y hora en la base de datos.
+    - Mejora el AdminLayout con componentes de AppShell de Mantine y enlaces de navegación.
+
+commit 52ff5008ee2039c5f8ce413648ebe194bdd16bb0
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 16:48:53 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 16:48:53 2025 +0200
+
+    docs: Sincronizar documentación con el progreso actual del desarrollo
+    
+    Se actualizan todos los documentos de planificación y especificaciones para alinearlos con las funcionalidades implementadas hasta la fecha, reflejando el estado real del proyecto.
+    
+    - ROADMAP.md: Se actualiza el estado del MVP, marcando como completadas la autenticación de admin, la gestión core (servicios/empleados), la página pública de servicios y la lógica de disponibilidad.
+    
+    - docs/features/05-admin-panel-core-management.md: Se actualiza el estado de la gestión de empleados a 'Implementado'. Se añade una nueva sección para la 'Configuración del Negocio', detallando la funcionalidad de horarios de apertura (backend implementado, frontend pendiente).
+    
+    - docs/features/03-booking-flow.md: Se actualiza la sección del flujo de reserva para indicar que la API de disponibilidad (GET /api/availability) ya está implementada y funciona con horarios dinámicos.
+    
+    - docs/features/02-public-site.md: Se marca la página pública de servicios (/services) como implementada.
+
+commit 9c0b198dedcc1645cb0cc9036c2321f6472562a0
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 16:38:44 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 16:38:44 2025 +0200
+
+    feat(api): Implementar sistema de disponibilidad dinámica
+    
+    Se añade la funcionalidad completa para el cálculo de la disponibilidad de citas, basada en reglas de negocio configurables.
+    
+    - Se crea el endpoint GET /api/availability que calcula los huecos de tiempo disponibles.
+    - La lógica del endpoint ahora se basa en un nuevo modelo de BusinessSettings en la base de datos, permitiendo un horario de apertura completamente configurable.
+    - Se actualiza el script de seed de Prisma para poblar la base de datos con una configuración de negocio y un empleado de prueba con horarios coherentes, asegurando un entorno de desarrollo funcional desde el reseteo.
+    - Se ha refactorizado y depurado la lógica para que considere correctamente la intersección entre el horario del negocio y los turnos de los empleados, incluyendo días cerrados y jornadas parciales (sábados).
+    - La funcionalidad ha sido probada para asegurar que los huecos disponibles se calculan correctamente, respetando todas las reglas del negocio.
+
+commit 15ab12e6a0e4460b74fb5ff5b740759ff4ddf68f
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 15:46:46 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 15:46:46 2025 +0200
+
+    feat(api): Implementar endpoint de cálculo de disponibilidad
+    
+    Se crea el endpoint GET /api/availability que se encarga de calcular los huecos de tiempo disponibles para un servicio en una fecha determinada.
+    
+    - Se añade dayjs al servidor para el manejo avanzado de fechas y horas.
+    - La lógica del endpoint tiene en cuenta múltiples factores:
+      - La duración del servicio solicitado.
+      - El horario laboral de los empleados (incluyendo pausas y turnos partidos), obtenido de la base de datos.
+      - Las citas ya existentes para evitar solapamientos.
+    - Se añade validación con Zod para asegurar que los parámetros de la petición (fecha y duración) son correctos.
+
+commit 7a441e7643c31f6748e68207e1314a50256fd81a
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 15:38:52 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 15:38:52 2025 +0200
+
+    feat(client): Crear página pública de servicios
+    
+    Se desarrolla la primera página pública de la aplicación, destinada a mostrar el catálogo de servicios a los clientes.
+    
+    - Se crea el nuevo componente ServicesPage.tsx, que obtiene la lista de servicios desde el endpoint /api/services.
+    - Se implementa una interfaz de usuario limpia y atractiva utilizando componentes de Mantine UI (Container, Title, SimpleGrid, Card) para mostrar cada servicio.
+    - Se añade la nueva ruta pública /services al enrutador principal en App.tsx.
+
+commit 12a50b2ba1acfc934865c6b8aeec11b28d391653
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 15:34:59 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 15:34:59 2025 +0200
+
+    feat(admin): Implementar CRUD de empleados en el panel de admin
+    
+    Se desarrolla la interfaz de usuario completa para la gestión de empleados (Crear, Leer, Actualizar, Eliminar) dentro del panel de administración.
+    
+    - Se añade la ruta protegida /admin/employees al enrutador del cliente.
+    - Se crea la página EmployeesManagementPage, que muestra una tabla con la lista de empleados obtenidos de la API.
+    - Se implementa un modal con un formulario de Mantine y validación de Zod para la creación de nuevos empleados.
+    
+    fix(validation): Corregir la validación de URL en el esquema de empleado
+    
+    - Se ajusta el createEmployeeSchema para permitir explícitamente que el campo opcional imageUrl sea una cadena de texto vacía, además de una URL válida. Esto soluciona un bug que impedía crear empleados sin una URL de foto.
+
+commit 20064c4db9ef1f94a1a53dbee767aa0ed69888b3
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 15:23:40 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 15:23:40 2025 +0200
+
+    feat(auth): Implementar autenticación de administrador
+    
+    Se implementa el flujo completo de autenticación para el panel de administración, asegurando las rutas protegidas.
+    
+    Backend:
+    - Se añade el endpoint POST /api/auth/login que valida las credenciales del usuario contra la base de datos.
+    - Utiliza bcryptjs para comparar contraseñas de forma segura.
+    - Genera y firma un JSON Web Token (JWT) en un login exitoso, usando una clave secreta desde las variables de entorno.
+    
+    Frontend:
+    - Se crea la página de login AdminLoginPage con un formulario para introducir credenciales.
+    - Se añade la ruta /admin/login al enrutador principal.
+    - Se implementa la lógica de protección en AdminLayout, que ahora redirige a los usuarios no autenticados a la página de login, basándose en la presencia de un token en localStorage.
+
+commit 7397150bdb38c72830ca8390b3b9a85ca94eb683
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 01:11:02 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 01:11:02 2025 +0200
+
+    feat(db): Añadir script de seed para crear usuario administrador
+    
+    Se implementa un script de seed de Prisma para poblar la base de datos con datos iniciales.
+    
+    - Se crea el archivo prisma/seed.ts que se encarga de crear un usuario con rol ADMIN si no existe, hasheando su contraseña con bcryptjs.
+    - Se añade el script prisma:seed al package.json del servidor.
+    - Se actualiza el       sconfig.json del servidor para que TypeScript reconozca y analice los archivos en la carpeta prisma, solucionando errores de tipado.
+
+commit cdfc51fdc440f24dfbce70353ad768d09444767a
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 22:45:34 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 22:45:34 2025 +0200
+
+    docs: Sincronizar la documentación con el estado actual del desarrollo
+    
+    Se actualizan varios archivos de documentación para reflejar el progreso reciente en la implementación del backend y la base del frontend del panel de administración.
+    
+    - ROADMAP.md: Se marcan como completadas las tareas del MVP relacionadas con la gestión de Servicios y Empleados.
+    
+    - docs/features/05-admin-panel-core-management.md: Se añaden indicadores de estado para reflejar la implementación de la API de Empleados y la API/UI de Servicios, y se marcan los endpoints correspondientes como funcionales.
+    
+    - README.md: Se añade una columna de 'Estado' a la tabla de características para ofrecer una visión general rápida del avance del proyecto.
+
+commit 92e130afd2201a0e9e002e686d40bfdc730ec5ec
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 22:41:07 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 22:41:07 2025 +0200
+
+    feat(client): Implementar UI para la gestión de servicios en el panel de admin
+    
+    Se desarrolla la interfaz de usuario completa para el CRUD de servicios dentro del panel de administración.
+    
+    - Se añade la ruta /admin/services y se protege bajo un nuevo AdminLayout.
+    - Se crea la página ServicesManagementPage que lista los servicios existentes en una tabla.
+    - La página se conecta a la API para obtener y mostrar los datos.
+    - Se implementa un modal con un formulario (@mantine/form) y validación (zod) para crear nuevos servicios.
+    - Se configura un cliente xios (piClient) centralizado para las peticiones al backend.
+    - Se instalan y configuran las dependencias de Mantine UI en la aplicación cliente.
+
+commit a67d9bb8b86f157373151212389f6be23d646d11
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 21:53:42 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 21:53:42 2025 +0200
+
+    feat(api): Implementar CRUD completo para Empleados
+    
+    Se añaden los endpoints GET, POST, PUT y DELETE para la gestión de empleados. Se incluye validación de datos con Zod para las operaciones de creación y actualización. Se manejan errores de email duplicado (P2002) y registros no encontrados (P2025).
+
+commit 9755330946cc54f2c50679bbf3f41ea48afe8c91
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 21:38:10 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 21:38:10 2025 +0200
+
+    feat(api): Implementar CRUD completo para Servicios
+    
+    Se añaden los endpoints GET, POST, PUT y DELETE para la gestión de servicios. Se incluye validación de datos con Zod para las operaciones de creación y actualización, asegurando la integridad de los datos.
+
+commit b118c908be20e5f759e4062d8b2c9a1a181c4dec
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 21:07:47 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 21:07:47 2025 +0200
+
+    feat(db): Establecer la estructura inicial de la base de datos
+    
+    Se crea el schema.prisma final con todos los modelos y relaciones. La estructura se aplica en tres migraciones separadas para resolver la incompatibilidad de PostgreSQL con la creación y uso de nuevos valores ENUM en la misma transacción.
+
+commit 894ef18004a7b8f60393705b91a58250a089cc60
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 19:58:05 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 19:58:05 2025 +0200
+
+    docs(stack): Actualizar stack tecnológico con herramientas de calidad y testing
+    
+    Se añaden Vitest, Zod, Husky y lint-staged a la documentación oficial del proyecto (README y PROJECT_SPECIFICATION) para reflejar las decisiones de arquitectura recientes.
+
+commit 9863c54743dadbbc3182edd281567221264c3821
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 19:52:43 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 19:52:43 2025 +0200
+
+    fix(config): Cargar schema de Turborepo localmente
+    
+    Se soluciona error de VS Code al no poder descargar el schema desde la URL remota. Almacenando el schema v1 en el proyecto se asegura la validación y el autocompletado del editor de forma robusta e independiente de la conexión de red.
+
+commit 8d8ada7612c83eb2501d8cba62e3e0904f107277
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 19:37:38 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 19:37:38 2025 +0200
+
+    creados archivos de configuracion y base de archivos y directorios base de la app
+
+commit eecb434f955d3c2c261e92ad049b1e0722373fc1
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:39:52 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:39:52 2025 +0200
+
+    chore: add file path and version headers to all project files
+
+commit a5e5cb3bdb4a2d8bddc529e0762a2863fcd32896
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:28:54 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:28:54 2025 +0200
+
+    docs: add detailed specification for external integrations module
+
+commit 2f9695d9d954a68f79c2577979f22129e16be87d
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:27:46 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:27:46 2025 +0200
+
+    docs: add detailed specification for notifications system
+
+commit 55ad8987b5da0ecbd683648f8a631c25fb119dbd
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:26:37 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:26:37 2025 +0200
+
+    docs: add detailed specification for marketing and monetization module
+
+commit d5342c48f8190dd7a925bf866cda562b815b4fc9
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:25:53 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:25:53 2025 +0200
+
+    docs: add specs for admin operations and reviews system
+
+commit 955901605c5aff295e00b3a6bae842051725c09d
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:22:31 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:22:31 2025 +0200
+
+    docs: add spec for admin core management (services, employees, clients)
+
+commit 4f92eae04bf087859fcc33edd6ef02641e459743
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:21:25 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:21:25 2025 +0200
+
+    docs: add detailed specification for customer panel module
+
+commit d34f2c5ec19d87a619b5347c93ecdc5e49ab65e3
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:19:18 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:19:18 2025 +0200
+
+    docs: add detailed specification for the customer booking flow
+
+commit f7fbad3be343a519edb5a2ff768383b50637cc0f
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:17:31 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:17:31 2025 +0200
+
+    docs: add detailed specification for public site module
+
+commit 91a6372e2611f8008c8ab26fae545843b985b964
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:15:29 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:15:29 2025 +0200
+
+    docs: add detailed specification for authentication module
+
+commit 8d38b3c7c8c6c6b8dce8a527a7816481b392b661
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:10:01 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:10:01 2025 +0200
+
+    docs: create main README.md file
+
+commit e59de221132a22b244c5b286ea7380f079d9b742
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:08:48 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:08:48 2025 +0200
+
+    docs: create project roadmap
+
+commit 08af9ef07e7ad18273c2388c594d87fbe2318531
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 18:07:35 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 18:07:35 2025 +0200
+
+    docs: create project documentation structure and main specification file
+
+commit 5dce3d6ec9044518da8aa1e0e605801c610e5ff1
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Wed Oct 1 17:46:45 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Wed Oct 1 17:46:45 2025 +0200
+
+    feat: initial project setup with gitignore and pnpm workspace

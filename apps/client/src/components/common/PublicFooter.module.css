@@ -1,0 +1,23 @@
+/* File: /apps/client/src/components/common/PublicFooter.module.css (CORREGIDO) */
+
+.footer {
+  margin-top: calc(var(--mantine-spacing-xl) * 2);
+  border-top: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  padding-top: var(--mantine-spacing-lg);
+  padding-bottom: var(--mantine-spacing-lg);
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Usamos una media query estándar de CSS */
+@media (max-width: 576px) {
+  .inner {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--mantine-spacing-md);
+  }
+}

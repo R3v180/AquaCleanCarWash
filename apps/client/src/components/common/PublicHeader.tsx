@@ -1,7 +1,7 @@
 // File: /apps/client/src/components/common/PublicHeader.tsx (ACTUALIZADO)
 
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Container, Group, Button, Image } from '@mantine/core'; // <-- 1. Image AÑADIDO
+import { Container, Group, Button, Image } from '@mantine/core';
 import classes from './PublicHeader.module.css';
 
 export function PublicHeader() {
@@ -10,11 +10,11 @@ export function PublicHeader() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        {/* 2. Logo como Imagen */}
+        {/* Logo como Imagen */}
         <Image
-          src="/logo.png" // <-- Vite sirve automáticamente desde la carpeta 'public'
+          src="/logo.png"
           alt="Logo de AquaClean Car Wash"
-          h={40} // Altura de la imagen
+          h={40}
           fit="contain"
           style={{ cursor: 'pointer' }}
           onClick={() => navigate('/')}
@@ -27,6 +27,10 @@ export function PublicHeader() {
           </NavLink>
           <NavLink to="/services" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>
             Servicios
+          </NavLink>
+          {/* --- LÍNEA AÑADIDA --- */}
+          <NavLink to="/team" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>
+            Nuestro Equipo
           </NavLink>
         </Group>
 

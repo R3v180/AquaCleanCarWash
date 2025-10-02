@@ -10,21 +10,22 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Poner en marcha la funcionalidad esencial para que el negocio pueda recibir y gestionar reservas online.
 
-- **[ ] Sitio Público Básico:**
+- **Sitio Público Básico:**
   - [ ] Página de Inicio (Homepage).
-  - [ ] Página de Servicios detallada.
+  - [✅] Página de Servicios detallada.
   - [ ] Perfiles públicos del equipo.
 
-- **[ ] Flujo de Reserva Completo:**
-  - [ ] Selección de servicios y empleado.
-  - [ ] Calendario con disponibilidad en tiempo real.
+- **Flujo de Reserva Completo:**
+  - [✅] Lógica de Disponibilidad (API y Componente de Frontend).
+  - [ ] Conexión del flujo (Selección de servicio -> Calendario).
   - [ ] Formulario de datos de cliente y vehículo.
+  - [ ] Creación final de la cita en la base de datos.
   - [ ] Integración básica con Stripe para pagos.
 
 - **✅ Panel de Administración Esencial:**
-  - **✅ Gestión Core:** CRUD para Servicios (con duración y precio), Empleados y sus Horarios.
+  - **✅ Gestión Core:** CRUD para Servicios y Empleados (Backend y Frontend).
   - [ ] **Operaciones:** Planning visual de citas (FullCalendar) con creación manual.
-  - [ ] **Autenticación:** Login seguro para el administrador.
+  - [✅] **Autenticación:** Login seguro para el administrador.
 
 - **[ ] Notificaciones Críticas (Email):**
   - [ ] Email de confirmación de cita para el cliente.
@@ -76,8 +77,3 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 - Precios Dinámicos: Configuración de tarifas especiales para horas de alta/baja demanda.
 - Tienda Online: Venta de productos de detailing directamente desde la web.
 - Integración con Software de Contabilidad: Exportación de datos para herramientas como Factusol, Holded, etc.
-
-```---
-### **FIN DEL ARCHIVO: `ROADMAP.md`**
----
-```

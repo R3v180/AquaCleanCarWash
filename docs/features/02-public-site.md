@@ -1,4 +1,5 @@
 <!-- File: /docs/features/02-public-site.md - v1.0 -->
+
 # 2. Sitio Público y Presentación
 
 ## 2.1. Objetivo
@@ -37,6 +38,8 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 ### Página de Servicios (`/services`)
 
+**Estado: Implementado.** La página pública que lista todos los servicios disponibles desde la API ya está funcional.
+
 **Propósito:** Actuar como un catálogo digital detallado que informa y persuade al cliente sobre la oferta del lavadero.
 
 **Componentes Clave:**
@@ -54,7 +57,7 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 **Datos Requeridos (API):**
 
-- `GET /api/services`
+- ✅ `GET /api/services`
 - `GET /api/services/[id]`
 
 ### Página "Nuestro Equipo" (`/team`)
@@ -115,4 +118,3 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 - `GET /api/services?giftable=true`
 - `POST /api/gift-cards`
-

@@ -44,7 +44,7 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 ### Sección: Gestión de Empleados y Horarios (`/admin/employees`)
 
-**Estado: Parcialmente Implementado (Solo Backend).** La API RESTful para el CRUD de empleados ya está funcional. La interfaz de usuario en el panel de administración está pendiente de desarrollo.
+**Estado: Implementado (Backend y Frontend).** La API RESTful para el CRUD de empleados y la interfaz de usuario en el panel de administración ya están funcionales. La gestión detallada de horarios por empleado se hará en una fase posterior.
 
 **Propósito:** Gestionar los perfiles del personal y, fundamentalmente, sus horarios de trabajo, que son la base del sistema de disponibilidad.
 
@@ -74,6 +74,28 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 - ✅ `GET /api/employees`
 - ✅ `POST /api/employees`
 - ✅ `PUT /api/employees/[id]`
+- ✅ `DELETE /api/employees/[id]`
+
+### Sección: Configuración del Negocio (`/admin/settings`)
+
+**Estado: Parcialmente Implementado (Backend y Base de Datos).** La estructura de la base de datos para almacenar el horario semanal del negocio ya está creada (`BusinessSettings`). La API de disponibilidad (`/api/availability`) ya lee y utiliza esta configuración. La interfaz de usuario para que el administrador modifique estos horarios está pendiente de desarrollo.
+
+**Propósito:** Un panel centralizado para gestionar las configuraciones globales del negocio, empezando por la más crítica: el horario de apertura.
+
+**Componentes Clave (Futuro):**
+
+- **Formulario de Horario Semanal:**
+  - Una interfaz visual con una fila para cada día de la semana (Lunes a Domingo).
+  - Para cada día, el administrador podrá:
+    - Activar/Desactivar el día con un checkbox ("Cerrado").
+    - Seleccionar la hora de apertura (ej: `09:00`).
+    - Seleccionar la hora de cierre (ej: `19:00`).
+  - Un botón de "Guardar Cambios" que actualizará la configuración en la base de datos.
+
+**API Calls (Futuro):**
+
+- `GET /api/admin/settings`: Para obtener la configuración actual y poblar el formulario.
+- `PUT /api/admin/settings`: Para guardar los cambios realizados en el horario.
 
 ### Sección: Gestión de Clientes (`/admin/clients`)
 

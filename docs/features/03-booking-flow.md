@@ -1,4 +1,5 @@
 <!-- File: /docs/features/03-booking-flow.md - v1.0 -->
+
 # 3. Flujo de Reserva del Cliente
 
 ## 3.1. Objetivo
@@ -55,11 +56,11 @@ El flujo se presentará como un asistente multi-paso, preferiblemente dentro de 
 
 **Lógica de Negocio:**
 
-- La API de disponibilidad debe calcular los huecos basándose en el horario del empleado, las citas ya existentes y la `totalDuration` del servicio solicitado.
+- **Estado: Implementado.** La API de disponibilidad es el cerebro del sistema. Calcula los huecos basándose en una doble comprobación: el horario general del negocio (configurable) y el horario específico de los empleados disponibles, restando además las citas ya existentes. La `totalDuration` del servicio solicitado es un parámetro clave en este cálculo.
 
 **API Calls:**
 
-- `GET /api/availability?date=[YYYY-MM-DD]&duration=[MINUTES]&employeeId=[ID_OPCIONAL]`
+- ✅ `GET /api/availability?date=[YYYY-MM-DD]&duration=[MINUTES]&employeeId=[ID_OPCIONAL]`
 
 ### Paso 3: Información Personal y del Vehículo
 
@@ -103,4 +104,3 @@ El flujo se presentará como un asistente multi-paso, preferiblemente dentro de 
   - Esta página muestra un mensaje de agradecimiento, resume los detalles de la cita y le indica al usuario que ha recibido un email de confirmación.
 - **Notificaciones Automáticas:**
   - El backend dispara las notificaciones correspondientes: email de confirmación al cliente y notificación a la empresa.
-

@@ -1,4 +1,4 @@
-<!-- File: /ROADMAP.md - v1.1 -->
+<!-- File: /ROADMAP.md - v1.2 -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -11,9 +11,9 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 **Objetivo:** Poner en marcha la funcionalidad esencial para que el negocio pueda recibir y gestionar reservas online.
 
 - **Sitio Público Básico:**
-  - [🎯 PRÓXIMO OBJETIVO] Página de Inicio (Homepage) y Navegación principal.
+  - [✅] Página de Inicio (Homepage) y Navegación principal.
   - [✅] Página de Servicios detallada.
-  - [ ] Perfiles públicos del equipo.
+  - [🎯 PRÓXIMO OBJETIVO] Perfiles públicos del equipo (`/team`).
 
 - **Flujo de Reserva Completo:**
   - [✅] Lógica de Disponibilidad (API y Componente de Frontend).

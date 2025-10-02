@@ -1,4 +1,5 @@
-<!-- File: /docs/features/06-admin-panel-operations.md - v1.0 -->
+<!-- File: /docs/features/06-admin-panel-operations.md - v1.1 -->
+
 # 6. Panel de Administración: Operaciones Diarias
 
 ## 6.1. Objetivo
@@ -33,27 +34,26 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 ### Sección: Planning Visual (Calendario) (`/admin/planning`)
 
-**Propósito:** La herramienta más importante para la gestión de la agenda. Debe permitir una visualización clara de la carga de trabajo y una manipulación rápida de las citas.
+**Propósito:** La herramienta más importante para la gestión de la agenda. Permite una visualización clara de la carga de trabajo y una manipulación rápida de las citas.
 
 **Componentes Clave:**
 
 - **Integración de `FullCalendar`:**
-  - **Vista Semanal por Empleado (Resource Timeline):** La vista por defecto. Muestra los días de la semana en el eje X y los empleados como "recursos" en el eje Y. Las citas aparecen como bloques en la fila del empleado correspondiente.
-  - **Otras Vistas:** Botones para cambiar a vista de Día o Mes.
+  - **Estado: Implementado.** Se ha integrado la librería `FullCalendar` con los plugins `resourceTimeline`, `dayGrid`, `timeGrid` e `interaction`.
+  - **Vista Semanal por Empleado (Resource Timeline):** Es la vista por defecto. Muestra los días de la semana en el eje X y los empleados como "recursos" en el eje Y. Las citas aparecen como bloques en la fila del empleado correspondiente.
+  - **Otras Vistas:** Botones para cambiar a vista de Día (`resourceTimelineDay`) o Mes (`dayGridMonth`).
   - **Navegación:** Flechas para avanzar y retroceder por semanas/días.
 - **Interactividad:**
-  - **Crear Cita Manualmente:** Al hacer clic en un hueco vacío del calendario, se abrirá un modal para crear una nueva cita (ideal para reservas telefónicas).
-  - **Ver/Editar Cita:** Al hacer clic en una cita existente, se abrirá un panel lateral (Drawer) o modal con todos los detalles, permitiendo su edición.
-  - **Arrastrar y Soltar (Drag & Drop):**
-    - **Reagendar:** Arrastrar una cita a otra hora o día para cambiar su fecha.
-    - **Reasignar:** Arrastrar una cita de la fila de un empleado a la de otro para cambiar la asignación.
-- **Código de Colores:** Las citas pueden tener colores diferentes según su estado (ej: Azul para confirmadas, Verde para completadas, Gris para canceladas).
+  - **[✅] Reagendar y Reasignar (Drag & Drop):** El administrador puede arrastrar una cita a otra hora/día para reagendarla, o a la fila de otro empleado para reasignarla. Los cambios se guardan automáticamente en la base de datos.
+  - **[⏳ Pendiente] Crear Cita Manualmente:** Al hacer clic en un hueco vacío del calendario, se abrirá un modal para crear una nueva cita (ideal para reservas telefónicas).
+  - **[⏳ Pendiente] Ver/Editar Cita:** Al hacer clic en una cita existente, se abrirá un panel lateral (Drawer) o modal con todos los detalles, permitiendo su edición (cambiar servicio, datos del cliente, etc.) y la modificación de su estado (ej: marcar como "Completada").
+- **Código de Colores:** (Futuro) Las citas pueden tener colores diferentes según su estado (ej: Azul para confirmadas, Verde para completadas, Gris para canceladas).
 
 **API Calls:**
 
-- `GET /api/admin/appointments?start=[DATE]&end=[DATE]` (FullCalendar llama a esta API para obtener los eventos).
-- `POST /api/admin/appointments` (para crear citas manualmente).
-- `PUT /api/admin/appointments/[id]` (se llama a esta API al soltar una cita después de arrastrarla).
+- ✅ `GET /api/admin/appointments?start=[DATE]&end=[DATE]` (FullCalendar llama a esta API para obtener los eventos).
+- ✅ `PUT /api/admin/appointments/[id]` (Se llama a esta API al soltar una cita después de arrastrarla para guardar el cambio).
+- [ ] `POST /api/admin/appointments` (Para crear citas manualmente).
 
 ### Sección: Gestión de Citas (`/admin/appointments`)
 
@@ -79,4 +79,3 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 - `GET /api/admin/appointments` (con todos los parámetros de búsqueda y filtrado).
 - `PUT /api/admin/appointments/[id]/status`
-

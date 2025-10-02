@@ -1,4 +1,4 @@
-<!-- File: /README.md - v1.1 -->
+<!-- File: /README.md - v1.2 -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -24,15 +24,15 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Estado         | Descripción                                                                                                                      |
-| :-------------------------------------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| 📅 **Sistema de Reservas 24/7**         | ⏳ Pendiente   | Permite a los clientes reservar citas online en cualquier momento, seleccionando servicios y empleado de preferencia.            |
-| 📊 **Panel de Administración Completo** | 🟢 En Progreso | Un centro de control para gestionar citas, servicios, horarios, clientes y valoraciones. Incluye un planning visual interactivo. |
-| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente   | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                            |
-| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente   | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                    |
-| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente   | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                              |
-| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente   | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.            |
-| 🔗 **Integraciones Clave**              | ⏳ Pendiente   | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                          |
+| Característica                          | Estado                       | Descripción                                                                                                                                 |
+| :-------------------------------------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un servicio y reservar una cita en un horario disponible. Flujo de reserva funcional.                    |
+| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo con función de arrastrar y soltar. |
+| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                       |
+| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                               |
+| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                         |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                       |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                     |
 
 ---
 
@@ -90,7 +90,14 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
     pnpm --filter server run migrate:dev
     ```
 
-5.  **Iniciar los servidores de desarrollo:**
+5.  **Poblar la base de datos con datos de prueba:**
+
+    ```bash
+    # Este comando es esencial para tener servicios, empleados y un admin de prueba
+    pnpm --filter server run prisma:seed
+    ```
+
+6.  **Iniciar los servidores de desarrollo:**
     ```bash
     # Este comando iniciará el frontend y el backend simultáneamente
     pnpm dev

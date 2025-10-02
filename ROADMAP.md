@@ -1,4 +1,4 @@
-<!-- File: /ROADMAP.md - v1.0 -->
+<!-- File: /ROADMAP.md - v1.1 -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -11,20 +11,22 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 **Objetivo:** Poner en marcha la funcionalidad esencial para que el negocio pueda recibir y gestionar reservas online.
 
 - **Sitio Público Básico:**
-  - [ ] Página de Inicio (Homepage).
+  - [🎯 PRÓXIMO OBJETIVO] Página de Inicio (Homepage) y Navegación principal.
   - [✅] Página de Servicios detallada.
   - [ ] Perfiles públicos del equipo.
 
 - **Flujo de Reserva Completo:**
   - [✅] Lógica de Disponibilidad (API y Componente de Frontend).
-  - [ ] Conexión del flujo (Selección de servicio -> Calendario).
-  - [ ] Formulario de datos de cliente y vehículo.
-  - [ ] Creación final de la cita en la base de datos.
+  - [✅] Conexión del flujo (Selección de servicio -> Calendario).
+  - [✅] Formulario de datos de cliente y vehículo.
+  - [✅] Creación final de la cita en la base de datos.
   - [ ] Integración básica con Stripe para pagos.
 
 - **✅ Panel de Administración Esencial:**
   - **✅ Gestión Core:** CRUD para Servicios y Empleados (Backend y Frontend).
-  - [ ] **Operaciones:** Planning visual de citas (FullCalendar) con creación manual.
+  - [🟢 En Progreso] **Operaciones:** Planning visual de citas (FullCalendar).
+    - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
+    - [ ] Añadir creación manual y edición de citas (modales).
   - [✅] **Autenticación:** Login seguro para el administrador.
 
 - **[ ] Notificaciones Críticas (Email):**

@@ -1,4 +1,4 @@
-<!-- File: /ROADMAP.md - v1.3 -->
+<!-- File: /ROADMAP.md - v1.4 -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -15,18 +15,17 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Página de Servicios detallada.
   - [✅] Perfiles públicos del equipo (`/team`).
 
-- **Flujo de Reserva Completo:**
+- **✅ Flujo de Reserva (Sin Pago):**
   - [✅] Lógica de Disponibilidad (API y Componente de Frontend).
   - [✅] Conexión del flujo (Selección de servicio -> Calendario).
   - [✅] Formulario de datos de cliente y vehículo.
   - [✅] Creación final de la cita en la base de datos.
-  - [🎯 PRÓXIMO OBJETIVO] Integración básica con Stripe para pagos.
 
 - **✅ Panel de Administración Esencial:**
   - **✅ Gestión Core:** CRUD para Servicios y Empleados (Backend y Frontend).
-  - [🟢 En Progreso] **Operaciones:** Planning visual de citas (FullCalendar).
+  - **✅ Operaciones:** Planning visual de citas (FullCalendar).
     - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
-    - [ ] Añadir creación manual y edición de citas (modales).
+    - [🎯 PRÓXIMO OBJETIVO] Añadir creación manual y edición de citas (modales).
   - [✅] **Autenticación:** Login seguro para el administrador.
 
 - **[ ] Notificaciones Críticas (Email):**
@@ -49,6 +48,9 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [ ] Email/WhatsApp automático post-servicio para solicitar valoración.
   - [ ] Panel de moderación de reseñas en el área de administración.
   - [ ] Visualización de reseñas aprobadas en el sitio público.
+
+- **[ ] Integración con Pasarela de Pagos (Stripe):**
+  - [ ] Integración básica para pagos en el flujo de reserva.
 
 - **[ ] Integración con Google Calendar:**
   - [ ] Sincronización bidireccional para citas y bloqueos.
@@ -75,7 +77,8 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 ## 💡 Futuro (Ideas a Considerar)
 
-- PWA para Empleados: Una aplicación "instalable" para que los empleados gestionen su agenda diaria, con posibles funcionalidades offline.
+- **Pagos Configurables:** Permitir al administrador elegir si las reservas requieren pago (completo/parcial) o no.
+- PWA para Empleados: Una aplicación "instalable" para que los empleados gestionen su agenda diaria.
 - Precios Dinámicos: Configuración de tarifas especiales para horas de alta/baja demanda.
 - Tienda Online: Venta de productos de detailing directamente desde la web.
-- Integración con Software de Contabilidad: Exportación de datos para herramientas como Factusol, Holded, etc.
+- Integración con Software de Contabilidad.

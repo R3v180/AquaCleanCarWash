@@ -1,5 +1,3 @@
-// File: /packages/types/src/employee.schema.ts
-
 import { z } from 'zod';
 
 // Esquema para la creación de un nuevo empleado
@@ -12,7 +10,14 @@ export const createEmployeeSchema = z.object({
 
   bio: z.string().optional(),
 
-  imageUrl: z.string().url({ message: 'La URL de la imagen no es válida.' }).optional(),
+  // --- LÍNEA CORREGIDA ---
+  // Ahora permitimos una URL válida O una cadena de texto vacía.
+  // El .optional() final se asegura de que si el campo no se envía, también sea válido.
+  imageUrl: z
+    .string()
+    .url({ message: 'La URL de la imagen no es válida.' })
+    .or(z.literal(''))
+    .optional(),
   
   workSchedule: z.record(z.string(), z.unknown()).optional(),
 });

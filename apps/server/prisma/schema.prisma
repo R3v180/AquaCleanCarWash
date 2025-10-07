@@ -72,7 +72,6 @@ model Service {
   isAddon     Boolean  @default(false)
   isGiftable  Boolean  @default(false)
   isFeatured  Boolean  @default(false)
-  // --- LÍNEA AÑADIDA ---
   isActive    Boolean  @default(true)
 
   appointments    AppointmentService[]
@@ -89,6 +88,8 @@ model Employee {
   role         UserRole @default(EMPLOYEE)
   bio          String? @db.Text
   imageUrl     String?
+  // --- LÍNEA AÑADIDA ---
+  status       EmployeeStatus @default(ACTIVE)
   
   workSchedule Json?
   absences     Absence[]
@@ -225,4 +226,10 @@ enum ReviewStatus {
   PENDING
   APPROVED
   HIDDEN
+}
+
+// --- ENUM AÑADIDO ---
+enum EmployeeStatus {
+  ACTIVE
+  ARCHIVED
 }

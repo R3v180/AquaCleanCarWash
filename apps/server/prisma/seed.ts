@@ -1,6 +1,6 @@
 // File: /apps/server/prisma/seed.ts (ACTUALIZADO)
 
-import { PrismaClient, UserRole } from '@prisma/client';
+import { PrismaClient, UserRole, EmployeeStatus } from '@prisma/client'; // EmployeeStatus importado
 import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -14,6 +14,8 @@ async function main() {
     data: { defaultServiceId: null },
   });
   await prisma.appointmentService.deleteMany({});
+  // Borramos las ausencias antes que los empleados
+  await prisma.absence.deleteMany({}); 
   await prisma.appointment.deleteMany({});
   console.log('Cleanup complete.');
   
@@ -57,19 +59,25 @@ async function main() {
         name: 'Juan Empleado',
         role: UserRole.EMPLOYEE,
         workSchedule: employeeWorkSchedule,
+        status: EmployeeStatus.ACTIVE, // <-- LÍNEA AÑADIDA
       },
     });
     console.log(`✅ Test employee created successfully: ${employeeEmail}`);
   } else {
     await prisma.employee.update({
         where: { email: employeeEmail },
-        data: { workSchedule: employeeWorkSchedule }
+        data: { 
+          workSchedule: employeeWorkSchedule,
+          status: EmployeeStatus.ACTIVE, // <-- LÍNEA AÑADIDA
+        }
     });
     console.log('✅ Test employee updated with default work schedule.');
   }
 
   // --- 3. Seed del Servicio por Defecto ---
   console.log('Seeding default service...');
+  // Borramos las citas antes que los servicios para evitar conflictos
+  await prisma.appointment.deleteMany({});
   await prisma.service.deleteMany({});
   
   const defaultService = await prisma.service.create({
@@ -79,32 +87,37 @@ async function main() {
       duration: 75,
       prices: { standard: 60, suv: 75 },
       category: 'Completo',
-      isActive: true, // <-- LÍNEA AÑADIDA (para ser explícitos)
+      isActive: true,
     },
   });
   console.log(`✅ Seeded 1 default service: "${defaultService.name}"`);
 
   // --- 4. Seed de la Configuración del Negocio ---
-  const businessSettings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
-  const defaultWeeklySchedule = {
-    monday: { open: '09:00', close: '19:00' },
-    tuesday: { open: '09:00', close: '19:00' },
-    wednesday: { open: '09:00', close: '19:00' },
-    thursday: { open: '09:00', close: '19:00' },
-    friday: { open: '09:00', close: '19:00' },
-    saturday: { open: '10:00', close: '14:00' },
-    sunday: null,
-  };
-
   await prisma.businessSettings.upsert({
     where: { singleton: 'SINGLETON' },
     update: { 
-      weeklySchedule: defaultWeeklySchedule,
+      weeklySchedule: {
+        monday: { open: '09:00', close: '19:00' },
+        tuesday: { open: '09:00', close: '19:00' },
+        wednesday: { open: '09:00', close: '19:00' },
+        thursday: { open: '09:00', close: '19:00' },
+        friday: { open: '09:00', close: '19:00' },
+        saturday: { open: '10:00', close: '14:00' },
+        sunday: null,
+      },
       defaultServiceId: defaultService.id,
     },
     create: {
       singleton: 'SINGLETON',
-      weeklySchedule: defaultWeeklySchedule,
+      weeklySchedule: {
+        monday: { open: '09:00', close: '19:00' },
+        tuesday: { open: '09:00', close: '19:00' },
+        wednesday: { open: '09:00', close: '19:00' },
+        thursday: { open: '09:00', close: '19:00' },
+        friday: { open: '09:00', close: '19:00' },
+        saturday: { open: '10:00', close: '14:00' },
+        sunday: null,
+      },
       defaultServiceId: defaultService.id,
     },
   });

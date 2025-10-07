@@ -1,79 +1,70 @@
-// File: /apps/server/src/api/employees.routes.ts (CORREGIDO)
+// File: /apps/server/src/api/employees.routes.ts (VERSIÓN CORREGIDA FINAL)
 
 import { Router } from 'express';
+import { z, ZodError } from 'zod';
+import { Prisma, EmployeeStatus } from '@prisma/client';
 import prisma from '../lib/prisma';
-import { createEmployeeSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
-import { ZodError } from 'zod';
-import { Prisma } from '@prisma/client';
+import { createEmployeeSchema } from '@aquaclean/types';
 
 const router = Router();
 
-// --- OBTENER TODOS LOS EMPLEADOS ---
+// --- GESTIÓN DEL PERFIL DEL EMPLEADO ---
+
 router.get('/', async (req, res) => {
   try {
-    const employees = await prisma.employee.findMany();
+    const { status } = req.query;
+    let whereClause = {};
+    if (status === 'ACTIVE' || status === 'ARCHIVED') {
+      whereClause = { status: status as EmployeeStatus };
+    }
+    const employees = await prisma.employee.findMany({ where: whereClause, orderBy: { name: 'asc' } });
     res.status(200).json(employees);
   } catch (error) {
-    console.error('Error al obtener los empleados:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- OBTENER UN EMPLEADO POR SU ID ---
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const employee = await prisma.employee.findUnique({
-      where: { id },
-    });
-
-    if (!employee) {
-      return res.status(404).json({ message: 'Empleado no encontrado.' });
-    }
-
+    const employee = await prisma.employee.findUnique({ where: { id } });
+    if (!employee) return res.status(404).json({ message: 'Empleado no encontrado.' });
     res.status(200).json(employee);
   } catch (error) {
-    console.error('Error al obtener el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- CREAR UN NUEVO EMPLEADO ---
 router.post('/', async (req, res) => {
   try {
     const validatedData = createEmployeeSchema.parse(req.body);
+    // --- CORRECCIÓN ---
+    // Separamos workSchedule del resto de los datos para manejar los tipos correctamente
+    const { workSchedule, ...restOfData } = validatedData;
 
     const newEmployee = await prisma.employee.create({
       data: {
-        ...validatedData,
-        workSchedule: validatedData.workSchedule as Prisma.JsonObject,
+        ...restOfData,
+        workSchedule: (workSchedule as Prisma.JsonObject) ?? Prisma.JsonNull,
       },
     });
-
     res.status(201).json(newEmployee);
   } catch (error) {
-    if (error instanceof ZodError) {
-      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return res.status(409).json({ message: 'Ya existe un empleado con ese email.' });
     }
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return res.status(409).json({
-          message: 'Conflicto: ya existe un empleado con ese email.',
-          field: (error.meta?.target as string[])?.[0],
-        });
-      }
-    }
-    console.error('Error al crear el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- ACTUALIZAR UN EMPLEADO EXISTENTE ---
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updateSchema = createEmployeeSchema.partial();
     const validatedData = updateSchema.parse(req.body);
+    // --- CORRECCIÓN ---
+    // Aplicamos la misma estrategia para la actualización
     const { workSchedule, ...restOfData } = validatedData;
 
     const updatedEmployee = await prisma.employee.update({
@@ -85,42 +76,62 @@ router.put('/:id', async (req, res) => {
         }),
       },
     });
-
     res.status(200).json(updatedEmployee);
   } catch (error) {
-    if (error instanceof ZodError) {
-      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
-    }
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return res.status(409).json({ message: 'Conflicto: ya existe un empleado con ese email.', field: 'email' });
-      }
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Empleado no encontrado.' });
-      }
+      if (error.code === 'P2025') return res.status(404).json({ message: 'Empleado no encontrado.' });
+      if (error.code === 'P2002') return res.status(409).json({ message: 'Ya existe otro empleado con ese email.' });
     }
-    console.error('Error al actualizar el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- ELIMINAR UN EMPLEADO ---
-router.delete('/:id', async (req, res) => {
+
+// --- GESTIÓN DE AUSENCIAS (VACACIONES, ETC.) ---
+
+const absenceSchema = z.object({
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+  reason: z.string().optional(),
+});
+
+router.get('/:employeeId/absences', async (req, res) => {
   try {
-    const { id } = req.params;
-    await prisma.employee.delete({
-      where: { id },
-    });
-    res.status(204).send();
+    const { employeeId } = req.params;
+    const absences = await prisma.absence.findMany({ where: { employeeId } });
+    res.status(200).json(absences);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Empleado no encontrado.' });
-      }
-    }
-    console.error('Error al eliminar el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
+
+router.post('/:employeeId/absences', async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const validatedData = absenceSchema.parse(req.body);
+    const newAbsence = await prisma.absence.create({
+      data: { ...validatedData, employeeId },
+    });
+    res.status(201).json(newAbsence);
+  } catch (error) {
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+router.delete('/:employeeId/absences/:absenceId', async (req, res) => {
+  try {
+    const { absenceId } = req.params;
+    await prisma.absence.delete({ where: { id: absenceId } });
+    res.status(204).send();
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'Ausencia no encontrada.' });
+    }
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
 
 export default router;

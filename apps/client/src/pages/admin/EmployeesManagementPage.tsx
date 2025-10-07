@@ -1,58 +1,43 @@
+// File: /apps/client/src/pages/admin/EmployeesManagementPage.tsx (ACTUALIZADO CON REACTIVAR)
+
 import { useEffect, useState } from 'react';
-import {
-  Table,
-  Title,
-  Button,
-  Modal,
-  TextInput,
-  Textarea,
-  Select,
-  Group,
-  Avatar,
-  Text,
-  Flex,
-} from '@mantine/core';
+import { Table, Title, Button, Modal, TextInput, Select, Group, Avatar, Text, Flex, Badge, SegmentedControl } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm, zodResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconArchive, IconUserPlus, IconUserCheck } from '@tabler/icons-react'; // IconUserCheck añadido
 import apiClient from '../../lib/apiClient';
 import { createEmployeeSchema } from '@aquaclean/types';
 
-// Definimos un tipo para los datos de los empleados que recibimos de la API
-interface Employee {
+export interface Employee {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: 'ADMIN' | 'EMPLOYEE';
+  status: 'ACTIVE' | 'ARCHIVED';
   imageUrl?: string;
 }
 
 export function EmployeesManagementPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | undefined>(undefined);
+  const [statusFilter, setStatusFilter] = useState('ACTIVE');
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
 
   const form = useForm({
     validate: zodResolver(createEmployeeSchema),
-    initialValues: {
-      name: '',
-      email: '',
-      role: 'EMPLOYEE',
-      bio: '',
-      imageUrl: '',
-    },
+    initialValues: { name: '', email: '', role: 'EMPLOYEE', bio: '', imageUrl: '' },
   });
 
   const fetchEmployees = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get<Employee[]>('/employees');
+      const response = await apiClient.get<Employee[]>(`/employees?status=${statusFilter}`);
       setEmployees(response.data);
-      setError(null);
     } catch (err) {
-      setError('No se pudieron cargar los empleados.');
-      console.error(err);
+      notifications.show({ title: 'Error', message: 'No se pudieron cargar los empleados.', color: 'red' });
     } finally {
       setLoading(false);
     }
@@ -60,84 +45,134 @@ export function EmployeesManagementPage() {
 
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [statusFilter]);
 
-  const handleSubmit = async (values: typeof form.values) => {
+  const handleCreate = () => {
+    form.reset();
+    setSelectedEmployee(undefined);
+    openModal();
+  };
+
+  const handleEdit = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    form.setValues(employee);
+    openModal();
+  };
+
+  const handleArchive = async (employee: Employee) => {
     try {
-      // Omitimos workSchedule ya que no lo estamos manejando en este formulario
-      const dataToSend = { ...values, workSchedule: {} };
-      const response = await apiClient.post<Employee>('/employees', dataToSend);
-      setEmployees((current) => [...current, response.data]);
-      close();
-      form.reset();
+      await apiClient.put(`/employees/${employee.id}`, { status: 'ARCHIVED' });
+      notifications.show({ title: 'Empleado Archivado', message: `${employee.name} ha sido archivado correctamente.`, color: 'orange' });
+      fetchEmployees();
     } catch (err) {
-      console.error('Error al crear el empleado:', err);
-      // Aquí podrías añadir un feedback de error al usuario
+      notifications.show({ title: 'Error', message: 'No se pudo archivar al empleado.', color: 'red' });
     }
   };
 
-  if (loading) return <p>Cargando empleados...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  // --- FUNCIÓN AÑADIDA ---
+  const handleReactivate = async (employee: Employee) => {
+    try {
+      await apiClient.put(`/employees/${employee.id}`, { status: 'ACTIVE' });
+      notifications.show({ title: 'Empleado Reactivado', message: `${employee.name} está activo de nuevo.`, color: 'teal' });
+      fetchEmployees();
+    } catch (err) {
+      notifications.show({ title: 'Error', message: 'No se pudo reactivar al empleado.', color: 'red' });
+    }
+  };
+  // --- FIN DE LA FUNCIÓN ---
 
+
+  const handleFormSubmit = async (values: typeof form.values) => {
+    try {
+      if (selectedEmployee) {
+        await apiClient.put(`/employees/${selectedEmployee.id}`, values);
+        notifications.show({ title: '¡Guardado!', message: 'Los datos del empleado han sido actualizados.', color: 'green' });
+      } else {
+        await apiClient.post('/employees', values);
+        notifications.show({ title: '¡Creado!', message: 'El nuevo empleado ha sido añadido.', color: 'green' });
+      }
+      fetchEmployees();
+      closeModal();
+    } catch (err) {
+      notifications.show({ title: 'Error', message: 'No se pudo guardar el empleado.', color: 'red' });
+    }
+  };
+  
   return (
     <div>
-      <Modal opened={opened} onClose={close} title="Añadir Nuevo Empleado" centered>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput label="Nombre Completo" placeholder="Ej: Juan Pérez" {...form.getInputProps('name')} withAsterisk />
-          <TextInput label="Email" type="email" placeholder="ej: juan.perez@email.com" {...form.getInputProps('email')} withAsterisk mt="md" />
+      <Modal opened={modalOpened} onClose={closeModal} title={selectedEmployee ? 'Editar Empleado' : 'Añadir Nuevo Empleado'} centered>
+        <form onSubmit={form.onSubmit(handleFormSubmit)}>
+          <TextInput label="Nombre Completo" {...form.getInputProps('name')} withAsterisk />
+          <TextInput label="Email" type="email" {...form.getInputProps('email')} withAsterisk mt="md" />
           <Select
             label="Rol en el sistema"
-            data={[
-              { value: 'EMPLOYEE', label: 'Empleado' },
-              { value: 'ADMIN', label: 'Administrador' },
-            ]}
+            data={[{ value: 'EMPLOYEE', label: 'Empleado' }, { value: 'ADMIN', label: 'Administrador' }]}
             {...form.getInputProps('role')}
-            withAsterisk
-            mt="md"
+            withAsterisk mt="md"
           />
-          <Textarea label="Biografía (opcional)" placeholder="Breve descripción para la página pública" {...form.getInputProps('bio')} mt="md" />
-          <TextInput label="URL de la Foto (opcional)" placeholder="https://ejemplo.com/foto.jpg" {...form.getInputProps('imageUrl')} mt="md" />
           <Group justify="flex-end" mt="xl">
-            <Button variant="default" onClick={close}>Cancelar</Button>
-            <Button type="submit">Añadir Empleado</Button>
+            <Button variant="default" onClick={closeModal}>Cancelar</Button>
+            <Button type="submit">Guardar</Button>
           </Group>
         </form>
       </Modal>
 
-      <Group justify="space-between">
+      <Group justify="space-between" mb="xl">
         <Title order={2}>Gestión de Empleados</Title>
-        <Button onClick={open}>Añadir Nuevo Empleado</Button>
+        <Button onClick={handleCreate} leftSection={<IconUserPlus size={14} />}>Añadir Empleado</Button>
       </Group>
 
-      <Table mt="md" striped highlightOnHover withTableBorder>
+      <SegmentedControl
+        value={statusFilter}
+        onChange={setStatusFilter}
+        data={[
+          { label: 'Activos', value: 'ACTIVE' },
+          { label: 'Archivados', value: 'ARCHIVED' },
+        ]}
+        mb="md"
+      />
+
+      <Table striped highlightOnHover withTableBorder>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Nombre</Table.Th>
-            <Table.Th>Email</Table.Th>
             <Table.Th>Rol</Table.Th>
+            <Table.Th>Estado</Table.Th>
             <Table.Th>Acciones</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {employees.length > 0 ? (
-            employees.map((employee) => (
-              <Table.Tr key={employee.id}>
-                <Table.Td>
-                  <Flex align="center" gap="sm">
-                    <Avatar src={employee.imageUrl} name={employee.name} radius="xl" />
+          {employees.map((employee) => (
+            <Table.Tr key={employee.id}>
+              <Table.Td>
+                <Flex align="center" gap="sm">
+                  <Avatar src={employee.imageUrl} name={employee.name} radius="xl" />
+                  <div>
                     <Text>{employee.name}</Text>
-                  </Flex>
-                </Table.Td>
-                <Table.Td>{employee.email}</Table.Td>
-                <Table.Td>{employee.role}</Table.Td>
-                <Table.Td>{/* Botones de Editar/Eliminar irán aquí */}</Table.Td>
-              </Table.Tr>
-            ))
-          ) : (
-            <Table.Tr>
-              <Table.Td colSpan={4}>No hay empleados creados.</Table.Td>
+                    <Text size="xs" c="dimmed">{employee.email}</Text>
+                  </div>
+                </Flex>
+              </Table.Td>
+              <Table.Td>{employee.role === 'ADMIN' ? 'Administrador' : 'Empleado'}</Table.Td>
+              <Table.Td>
+                <Badge color={employee.status === 'ACTIVE' ? 'green' : 'gray'}>
+                  {employee.status === 'ACTIVE' ? 'Activo' : 'Archivado'}
+                </Badge>
+              </Table.Td>
+              <Table.Td>
+                <Group gap="xs">
+                  <Button variant="light" size="xs" onClick={() => handleEdit(employee)}>Editar Perfil</Button>
+                  {/* --- LÓGICA MODIFICADA --- */}
+                  {employee.status === 'ACTIVE' ? (
+                     <Button variant="light" color="orange" size="xs" onClick={() => handleArchive(employee)} leftSection={<IconArchive size={14} />}>Archivar</Button>
+                  ) : (
+                     <Button variant="light" color="teal" size="xs" onClick={() => handleReactivate(employee)} leftSection={<IconUserCheck size={14} />}>Reactivar</Button>
+                  )}
+                  {/* --- FIN DE LA MODIFICACIÓN --- */}
+                </Group>
+              </Table.Td>
             </Table.Tr>
-          )}
+          ))}
         </Table.Tbody>
       </Table>
     </div>

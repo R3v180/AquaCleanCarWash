@@ -9,15 +9,18 @@ import apiClient from '../../lib/apiClient';
 interface BookingDateTimePickerProps {
   serviceDuration: number;
   onDateTimeChange: (dateTime: Date | null) => void;
+  // --- LÍNEA AÑADIDA ---
+  employeeId?: string | null; 
 }
 
-export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: BookingDateTimePickerProps) {
+export function BookingDateTimePicker({ serviceDuration, onDateTimeChange, employeeId }: BookingDateTimePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // --- LÓGICA MODIFICADA ---
   useEffect(() => {
     if (!selectedDate) {
       setAvailableSlots([]);
@@ -28,33 +31,37 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
       setLoading(true);
       setError(null);
       setSelectedSlot(null);
+      onDateTimeChange(null); // Reseteamos la fecha seleccionada al cambiar de día/empleado
 
       try {
         const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
         const response = await apiClient.get<string[]>('/availability', {
           params: {
             date: formattedDate,
-            duration: serviceDuration,
+            // Si hay un employeeId y no es 'any', lo enviamos. Si no, no lo incluimos.
+            ...(employeeId && employeeId !== 'any' && { employeeId }),
           },
         });
         setAvailableSlots(response.data);
       } catch (err) {
         console.error('Error fetching availability:', err);
-        setError('No se pudo cargar la disponibilidad para este día.');
+        setError('No se pudo cargar la disponibilidad.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchAvailability();
-  }, [selectedDate, serviceDuration]);
+  // El useEffect ahora también depende de employeeId
+  }, [selectedDate, employeeId, onDateTimeChange]);
+  // --- FIN DE LA MODIFICACIÓN ---
+
 
   const handleSlotSelect = (slot: string) => {
     setSelectedSlot(slot);
     if (selectedDate) {
       const hours = parseInt(slot.split(':')[0] ?? '0', 10);
       const minutes = parseInt(slot.split(':')[1] ?? '0', 10);
-
       const finalDateTime = dayjs(selectedDate).hour(hours).minute(minutes).toDate();
       onDateTimeChange(finalDateTime);
     }
@@ -66,11 +73,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
         value={selectedDate}
         onChange={setSelectedDate}
         minDate={new Date()}
-        // --- LÍNEA AÑADIDA ---
-        // dayjs() considera el Domingo como el día 0 y Sábado como el 6.
-        // Al especificar [0], le decimos a Mantine que solo el Domingo es fin de semana.
-        weekendDays={[0]} 
-        // --- FIN DE LA LÍNEA AÑADIDA ---
+        weekendDays={[0]}
       />
 
       <Stack mt="lg">
@@ -79,7 +82,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
         {error && <Text c="red">{error}</Text>}
         
         {!loading && !error && availableSlots.length === 0 && (
-          <Text c="dimmed">No hay huecos disponibles para este día.</Text>
+          <Text c="dimmed">No hay huecos disponibles para esta selección.</Text>
         )}
 
         {!loading && !error && availableSlots.length > 0 && (

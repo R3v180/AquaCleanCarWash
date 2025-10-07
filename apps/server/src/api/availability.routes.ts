@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/availability.routes.ts (RECONSTRUIDO)
+// File: /apps/server/src/api/availability.routes.ts (CORREGIDO CON LÓGICA SECUENCIAL)
 
 import { Router } from 'express';
 import { z } from 'zod';
@@ -13,13 +13,11 @@ dayjs.extend(isBetween);
 
 const router = Router();
 
-// El esquema ahora acepta un employeeId opcional
 const availabilityQuerySchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'El formato de fecha debe ser YYYY-MM-DD'),
   employeeId: z.string().cuid().optional(),
 });
 
-// --- FUNCIÓN HELPER PARA VERIFICAR SI UN EMPLEADO ESTÁ DISPONIBLE EN UN TRAMO HORARIO ---
 const isEmployeeAvailable = (
   employee: Employee & { absences: Absence[] },
   slot: dayjs.Dayjs,
@@ -28,11 +26,8 @@ const isEmployeeAvailable = (
   const dayOfWeek = slot.format('dddd').toLowerCase();
   const workSchedule = employee.workSchedule as any;
   const daySchedule = workSchedule?.[dayOfWeek] as { start: string; end: string }[] | undefined;
-
-  // 1. ¿Tiene horario de trabajo definido para este día?
   if (!daySchedule) return false;
 
-  // 2. ¿Su horario de trabajo cubre el tramo completo de la cita?
   const worksDuringSlot = daySchedule.some(shift => {
     const shiftStart = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.start}`);
     const shiftEnd = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.end}`);
@@ -40,88 +35,81 @@ const isEmployeeAvailable = (
   });
   if (!worksDuringSlot) return false;
   
-  // 3. ¿Tiene alguna ausencia registrada para este día?
   const hasAbsence = employee.absences.some(absence => {
     return slot.isBetween(dayjs.utc(absence.startDate), dayjs.utc(absence.endDate), 'day', '[]');
   });
   if (hasAbsence) return false;
 
-  // Si pasa todas las comprobaciones, está disponible
   return true;
 };
 
-
 router.get('/', async (req, res) => {
   try {
-    // 1. Validar la entrada
     const validation = availabilityQuerySchema.safeParse(req.query);
-    if (!validation.success) {
-      return res.status(400).json({ errors: validation.error.issues });
-    }
+    if (!validation.success) return res.status(400).json({ errors: validation.error.issues });
+    
     const { date, employeeId } = validation.data;
     const selectedDate = dayjs.utc(date);
 
-    // 2. Obtener configuración esencial del negocio
     const settings = await prisma.businessSettings.findUnique({
       where: { singleton: 'SINGLETON' },
       include: { defaultService: true },
     });
-    if (!settings?.defaultService) {
-      return res.status(503).json({ message: 'El servicio por defecto no está configurado.' });
-    }
+    if (!settings?.defaultService) return res.status(503).json({ message: 'El servicio por defecto no está configurado.' });
+
     const { defaultService, weeklySchedule } = settings;
     const serviceDuration = defaultService.duration;
     const dayOfWeek = selectedDate.format('dddd').toLowerCase();
     const businessDayHours = (weeklySchedule as any)[dayOfWeek];
+    if (!businessDayHours) return res.json([]);
 
-    if (!businessDayHours) {
-      return res.json([]); // Negocio cerrado
-    }
-    
-    // 3. Obtener todas las citas del día
     const appointments = await prisma.appointment.findMany({
       where: { startTime: { gte: selectedDate.startOf('day').toDate(), lte: selectedDate.endOf('day').toDate() } },
     });
-
-    // 4. Generar todos los tramos horarios posibles del día
-    const availableSlots = new Set<string>();
+    const bookedSlots = new Set(appointments.map(apt => dayjs.utc(apt.startTime).format('HH:mm')));
+    
+    const availableSlots: string[] = [];
     const openingTime = dayjs.utc(`${date}T${businessDayHours.open}`);
     const closingTime = dayjs.utc(`${date}T${businessDayHours.close}`);
     let currentTime = openingTime;
 
+    const activeEmployees = await prisma.employee.findMany({
+      where: { status: 'ACTIVE' },
+      include: { absences: true },
+    });
+
     while (currentTime.add(serviceDuration, 'minutes').isBefore(closingTime.add(1, 'minute'))) {
-      
-      // LÓGICA PARA EL CASO "UN EMPLEADO ESPECÍFICO"
-      if (employeeId) {
-        const employee = await prisma.employee.findFirst({ 
-          where: { id: employeeId, status: 'ACTIVE' },
-          include: { absences: true }
-        });
+      const slotTime = currentTime.format('HH:mm');
 
-        if (employee && isEmployeeAvailable(employee, currentTime, serviceDuration)) {
-          const isBooked = appointments.some(apt => apt.employeeId === employeeId && dayjs.utc(apt.startTime).isSame(currentTime));
-          if (!isBooked) {
-            availableSlots.add(currentTime.format('HH:mm'));
-          }
-        }
-      // LÓGICA PARA EL CASO "CUALQUIER EMPLEADO"
-      } else {
-        const activeEmployees = await prisma.employee.findMany({
-          where: { status: 'ACTIVE' },
-          include: { absences: true },
-        });
-
-        const potentialCapacity = activeEmployees.filter(emp => isEmployeeAvailable(emp, currentTime, serviceDuration)).length;
-        const bookedCapacity = appointments.filter(apt => dayjs.utc(apt.startTime).isSame(currentTime)).length;
-
-        if (potentialCapacity > bookedCapacity) {
-          availableSlots.add(currentTime.format('HH:mm'));
-        }
+      // 1. El hueco ya está ocupado, pasamos al siguiente
+      if (bookedSlots.has(slotTime)) {
+        currentTime = currentTime.add(serviceDuration, 'minutes');
+        continue;
       }
-      currentTime = currentTime.add(15, 'minutes'); // Verificamos la disponibilidad cada 15 mins
+      
+      let isSomeEmployeeAvailable = false;
+      // 2. Si se pide un empleado específico, comprobamos si ESE está disponible
+      if (employeeId && employeeId !== 'any') {
+        const specificEmployee = activeEmployees.find(emp => emp.id === employeeId);
+        if (specificEmployee) {
+          isSomeEmployeeAvailable = isEmployeeAvailable(specificEmployee, currentTime, serviceDuration);
+        }
+      // 3. Si es "Cualquier empleado", comprobamos si AL MENOS UNO está disponible
+      } else {
+        isSomeEmployeeAvailable = activeEmployees.some(emp => isEmployeeAvailable(emp, currentTime, serviceDuration));
+      }
+
+      // 4. Si el hueco está libre Y alguien puede trabajar, lo añadimos
+      if (isSomeEmployeeAvailable) {
+        availableSlots.push(slotTime);
+      }
+
+      // --- CORRECCIÓN CLAVE ---
+      // Avanzamos al siguiente hueco consecutivo
+      currentTime = currentTime.add(serviceDuration, 'minutes');
     }
 
-    res.status(200).json(Array.from(availableSlots).sort());
+    res.status(200).json(availableSlots);
 
   } catch (error) {
     console.error('Error al calcular la disponibilidad:', error);

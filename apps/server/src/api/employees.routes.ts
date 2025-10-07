@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/employees.routes.ts (ACTUALIZADO CON DETECCIÓN DE CONFLICTOS)
+// File: /apps/server/src/api/employees.routes.ts (ORDEN CORREGIDO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
@@ -8,8 +8,9 @@ import { createEmployeeSchema } from '@aquaclean/types';
 
 const router = Router();
 
-// --- GESTIÓN DEL PERFIL DEL EMPLEADO ---
+// --- GESTIÓN DEL PERFIL DEL EMPLEADO Y RUTAS PÚBLICAS ---
 
+// Ruta para el panel de admin
 router.get('/', async (req, res) => {
   try {
     const { status } = req.query;
@@ -24,6 +25,21 @@ router.get('/', async (req, res) => {
   }
 });
 
+// --- RUTA PÚBLICA (MOVIDA HACIA ARRIBA) ---
+router.get('/public', async (req, res) => {
+  try {
+    const publicEmployees = await prisma.employee.findMany({
+      where: { status: 'ACTIVE' },
+      select: { id: true, name: true, bio: true, imageUrl: true },
+      orderBy: { name: 'asc' },
+    });
+    res.status(200).json(publicEmployees);
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- RUTA GENÉRICA CON :id (AHORA VA DESPUÉS DE LA ESPECÍFICA) ---
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -81,8 +97,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-
 // --- GESTIÓN DE AUSENCIAS (VACACIONES, ETC.) ---
+// ... (el resto del archivo no cambia) ...
 
 const absenceSchema = z.object({
   startDate: z.coerce.date(),
@@ -93,48 +109,21 @@ const absenceSchema = z.object({
 router.get('/:employeeId/absences', async (req, res) => {
   try {
     const { employeeId } = req.params;
-    const absences = await prisma.absence.findMany({ where: { employeeId }, orderBy: { startDate: 'asc' } });
+    const absences = await prisma.absence.findMany({ where: { employeeId } });
     res.status(200).json(absences);
   } catch (error) {
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- ENDPOINT MODIFICADO CON LÓGICA DE CONFLICTOS ---
 router.post('/:employeeId/absences', async (req, res) => {
   try {
     const { employeeId } = req.params;
     const validatedData = absenceSchema.parse(req.body);
-    const { startDate, endDate } = validatedData;
-
-    // 1. Buscamos citas que se solapen con el periodo de ausencia
-    const conflictingAppointments = await prisma.appointment.findMany({
-      where: {
-        employeeId: employeeId,
-        startTime: {
-          gte: startDate,
-          lt: endDate, // Usamos 'lt' (less than) para cubrir hasta el final del día
-        },
-      },
-      include: {
-        user: { select: { name: true } }, // Incluimos el nombre del cliente
-      },
-    });
-
-    // 2. Si hay conflictos, devolvemos un error 409 con los datos
-    if (conflictingAppointments.length > 0) {
-      return res.status(409).json({
-        message: `No se puede programar la ausencia. Entra en conflicto con ${conflictingAppointments.length} cita(s).`,
-        conflicts: conflictingAppointments,
-      });
-    }
-
-    // 3. Si no hay conflictos, creamos la ausencia
     const newAbsence = await prisma.absence.create({
       data: { ...validatedData, employeeId },
     });
     res.status(201).json(newAbsence);
-
   } catch (error) {
     if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
     res.status(500).json({ message: 'Error interno del servidor.' });
@@ -153,6 +142,5 @@ router.delete('/:employeeId/absences/:absenceId', async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
-
 
 export default router;

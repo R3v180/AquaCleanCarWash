@@ -1,13 +1,12 @@
-// File: /apps/client/src/pages/admin/BusinessSettingsPage.tsx (CORRECCIÓN FINAL)
+// File: /apps/client/src/pages/admin/BusinessSettingsPage.tsx (CORRECCIÓN FINAL DE ZONA HORARIA)
 
 import { useState, useEffect } from 'react';
 import { Title, Text, Paper, LoadingOverlay, Alert, Select, Button, Group, Stack, Divider, SimpleGrid, TextInput, ActionIcon, List, ThemeIcon } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { notifications } from '@mantine/notifications';
-import { IconAlertCircle, IconCalendar, IconTrash } from '@tabler/icons-react';
-// --- LÍNEA MODIFICADA ---
-import { DatePicker } from '@mantine/dates'; // Cambiamos Calendar por DatePicker
+import { IconAlertCircle, IconCalendar, IconClock, IconTrash } from '@tabler/icons-react';
+import { DatePicker, TimeInput } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { useDisclosure } from '@mantine/hooks';
 import apiClient from '../../lib/apiClient';
@@ -22,7 +21,7 @@ const settingsSchema = z.object({
 });
 interface Service { id: string; name: string; duration: number; }
 interface SettingsData { settings: { defaultServiceId: string | null; weeklySchedule: WeeklySchedule; defaultService: Service | null; }; allServices: Service[];}
-interface BusinessClosure { id: string; date: string; reason?: string | null; }
+interface DateOverride { id: string; date: string; reason?: string | null; openTime?: string | null; closeTime?: string | null; }
 interface Conflict { id: string; startTime: string; user: { name: string | null; }; }
 
 
@@ -30,9 +29,13 @@ export function BusinessSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [allServices, setAllServices] = useState<{ value: string; label: string }[]>([]);
-  const [closures, setClosures] = useState<BusinessClosure[]>([]);
+  
+  const [overrides, setOverrides] = useState<DateOverride[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [closureReason, setClosureReason] = useState('');
+  const [overrideReason, setOverrideReason] = useState('');
+  const [overrideOpenTime, setOverrideOpenTime] = useState('');
+  const [overrideCloseTime, setOverrideCloseTime] = useState('');
+
   const [conflictingAppointments, setConflictingAppointments] = useState<Conflict[]>([]);
   const [conflictModalOpened, { open: openConflictModal, close: closeConflictModal }] = useDisclosure(false);
 
@@ -44,9 +47,9 @@ export function BusinessSettingsPage() {
   const fetchAllSettings = async () => {
     try {
       setLoading(true);
-      const [settingsResponse, closuresResponse] = await Promise.all([
+      const [settingsResponse, overridesResponse] = await Promise.all([
         apiClient.get<SettingsData>('/admin/settings'),
-        apiClient.get<BusinessClosure[]>('/admin/closures'),
+        apiClient.get<DateOverride[]>('/admin/overrides'),
       ]);
       const { settings, allServices } = settingsResponse.data;
       form.setValues({
@@ -54,7 +57,7 @@ export function BusinessSettingsPage() {
         weeklySchedule: settings.weeklySchedule || {},
       });
       setAllServices(allServices.map(s => ({ value: s.id, label: `${s.name} (${s.duration} min)` })));
-      setClosures(closuresResponse.data);
+      setOverrides(overridesResponse.data);
     } catch (err) {
       setError('No se pudo cargar la configuración del negocio.');
     } finally {
@@ -70,50 +73,58 @@ export function BusinessSettingsPage() {
       await apiClient.put('/admin/settings', values);
       notifications.show({
         title: '¡Guardado!',
-        message: 'La configuración del negocio se ha actualizado correctamente.',
+        message: 'La configuración general del negocio se ha actualizado correctamente.',
         color: 'green',
       });
     } catch (err) {
       notifications.show({
         title: 'Error',
-        message: 'No se pudo guardar la configuración. Inténtalo de nuevo.',
+        message: 'No se pudo guardar la configuración general. Inténtalo de nuevo.',
         color: 'red',
       });
     }
   };
-
-  const handleAddClosure = async () => {
+  
+  const handleAddOverride = async () => {
     if (!selectedDate) return;
     try {
-      await apiClient.post('/admin/closures', {
-        date: selectedDate,
-        reason: closureReason,
+      // --- LÍNEA CORREGIDA ---
+      // Enviamos la fecha como un string 'YYYY-MM-DD' para evitar problemas de zona horaria.
+      await apiClient.post('/admin/overrides', {
+        date: dayjs(selectedDate).format('YYYY-MM-DD'),
+        reason: overrideReason,
+        openTime: overrideOpenTime || null,
+        closeTime: overrideCloseTime || null,
       });
-      notifications.show({ title: 'Día de Cierre Añadido', message: 'El día se ha bloqueado correctamente.', color: 'green' });
+      notifications.show({ title: 'Configuración de Fecha Guardada', message: 'El horario especial o cierre ha sido guardado.', color: 'green' });
+      // Resetear formulario
       setSelectedDate(null);
-      setClosureReason('');
-      fetchAllSettings(); 
+      setOverrideReason('');
+      setOverrideOpenTime('');
+      setOverrideCloseTime('');
+      fetchAllSettings(); // Recargar todo
     } catch (err: any) {
       if (err.response && err.response.status === 409) {
         setConflictingAppointments(err.response.data.conflicts || []);
         openConflictModal();
       } else {
-        notifications.show({ title: 'Error', message: 'No se pudo añadir el día de cierre.', color: 'red' });
+        const errorMsg = err.response?.data?.message || 'No se pudo guardar la configuración de la fecha.';
+        notifications.show({ title: 'Error', message: errorMsg, color: 'red' });
       }
     }
   };
 
-  const handleDeleteClosure = async (closureId: string) => {
+  const handleDeleteOverride = async (overrideId: string) => {
     try {
-      await apiClient.delete(`/admin/closures/${closureId}`);
-      notifications.show({ title: 'Día de Cierre Eliminado', message: 'El día vuelve a estar disponible.', color: 'orange' });
-      fetchAllSettings();
+      await apiClient.delete(`/admin/overrides/${overrideId}`);
+      notifications.show({ title: 'Configuración Eliminada', message: 'La fecha vuelve a su horario normal.', color: 'orange' });
+      fetchAllSettings(); // Recargar
     } catch (error) {
-      notifications.show({ title: 'Error', message: 'No se pudo eliminar el día de cierre.', color: 'red' });
+      notifications.show({ title: 'Error', message: 'No se pudo eliminar la configuración.', color: 'red' });
     }
   };
 
-  const closureDates = closures.map(c => dayjs(c.date).format('YYYY-MM-DD'));
+  const overrideDates = overrides.map(o => dayjs(o.date).format('YYYY-MM-DD'));
 
   return (
     <>
@@ -131,52 +142,68 @@ export function BusinessSettingsPage() {
           <Select label="Servicio por Defecto para las Reservas" description="Este es el único servicio que se ofrecerá a los clientes al reservar." data={allServices} disabled={loading} withAsterisk {...form.getInputProps('defaultServiceId')} />
           
           <Divider my="xl" label="Horario de Apertura del Negocio" />
-          <Title order={4}>Horario Semanal</Title>
+          <Title order={4}>Horario Semanal Estándar</Title>
           <Text c="dimmed" size="sm" mb="md">Define las horas de apertura y cierre para cada día. Esto establecerá el marco general en el que los empleados pueden trabajar.</Text>
           <ScheduleEditor value={form.values.weeklySchedule} onChange={(schedule) => form.setFieldValue('weeklySchedule', schedule)} />
           
-          <Divider my="xl" label="Días de Cierre y Festivos" />
-          <Title order={4}>Calendario de Cierres</Title>
-          <Text c="dimmed" size="sm" mb="md">Selecciona los días específicos en los que el negocio permanecerá cerrado. Los clientes no podrán reservar en estas fechas.</Text>
+          <Divider my="xl" label="Horarios Especiales y Días de Cierre" />
+          <Title order={4}>Anulaciones por Fecha</Title>
+          <Text c="dimmed" size="sm" mb="md">
+            Selecciona un día para definir un horario especial o marcarlo como cerrado. Esta configuración anulará el horario semanal estándar solo para esa fecha.
+          </Text>
           
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
             <Stack>
-              {/* --- COMPONENTE CORREGIDO --- */}
               <DatePicker
                 value={selectedDate}
                 onChange={setSelectedDate}
                 minDate={new Date()}
                 renderDay={(date) => {
                   const day = date.getDate();
-                  const isClosed = closureDates.includes(dayjs(date).format('YYYY-MM-DD'));
+                  const isOverridden = overrideDates.includes(dayjs(date).format('YYYY-MM-DD'));
                   return (
                     <div style={{ position: 'relative' }}>
                       {day}
-                      {isClosed && <div style={{ position: 'absolute', top: -2, right: 0, width: 6, height: 6, borderRadius: '50%', backgroundColor: 'var(--mantine-color-red-5)' }} />}
+                      {isOverridden && <div style={{ position: 'absolute', top: -2, right: 0, width: 6, height: 6, borderRadius: '50%', backgroundColor: 'var(--mantine-color-red-5)' }} />}
                     </div>
                   );
                 }}
               />
               {selectedDate && (
                 <Paper withBorder p="sm" mt="md">
-                  <Text size="sm" fw={500}>Añadir cierre para: {dayjs(selectedDate).format('DD/MM/YYYY')}</Text>
-                  <TextInput label="Razón (opcional)" placeholder="Ej: Festivo Nacional" value={closureReason} onChange={(e) => setClosureReason(e.currentTarget.value)} mt="xs" />
-                  <Button onClick={handleAddClosure} fullWidth mt="md">Confirmar Cierre</Button>
+                  <Text size="sm" fw={500}>Configuración para: {dayjs(selectedDate).format('DD/MM/YYYY')}</Text>
+                  <TextInput label="Razón (opcional)" placeholder="Ej: Festivo, Evento" value={overrideReason} onChange={(e) => setOverrideReason(e.currentTarget.value)} mt="xs" />
+                  <Text size="xs" c="dimmed" mt="md">Deja las horas en blanco para un cierre de día completo.</Text>
+                  <Group grow>
+                    <TimeInput label="Nueva Apertura" value={overrideOpenTime} onChange={(e) => setOverrideOpenTime(e.currentTarget.value)} />
+                    <TimeInput label="Nuevo Cierre" value={overrideCloseTime} onChange={(e) => setOverrideCloseTime(e.currentTarget.value)} />
+                  </Group>
+                  <Button onClick={handleAddOverride} fullWidth mt="md">Guardar Configuración de Fecha</Button>
                 </Paper>
               )}
             </Stack>
             <Stack>
-              <Title order={5}>Días Cerrados Programados</Title>
-              {closures.length > 0 ? (
+              <Title order={5}>Fechas con Configuración Especial</Title>
+              {overrides.length > 0 ? (
                 <List spacing="sm" size="sm">
-                  {closures.map(closure => (
+                  {overrides.map(override => (
                     <List.Item
-                      key={closure.id}
-                      icon={<ThemeIcon color="red" size={24} radius="xl"><IconCalendar size="1rem" /></ThemeIcon>}
+                      key={override.id}
+                      icon={
+                        <ThemeIcon color={override.openTime ? 'blue' : 'red'} size={24} radius="xl">
+                          {override.openTime ? <IconClock size="1rem" /> : <IconCalendar size="1rem" />}
+                        </ThemeIcon>
+                      }
                     >
                       <Group justify="space-between">
-                        <Text>{dayjs(closure.date).format('DD/MM/YYYY')} - <Text span c="dimmed">{closure.reason || 'Cerrado'}</Text></Text>
-                        <ActionIcon variant="light" color="red" size="sm" onClick={() => handleDeleteClosure(closure.id)}>
+                        <div>
+                          <Text>{dayjs(override.date).format('DD/MM/YYYY')}</Text>
+                          <Text size="xs" c="dimmed">
+                            {override.openTime ? `Horario: ${override.openTime} - ${override.closeTime}` : 'Cerrado todo el día'}
+                            {override.reason && ` (${override.reason})`}
+                          </Text>
+                        </div>
+                        <ActionIcon variant="light" color="red" size="sm" onClick={() => handleDeleteOverride(override.id)}>
                           <IconTrash size={14} />
                         </ActionIcon>
                       </Group>
@@ -184,13 +211,13 @@ export function BusinessSettingsPage() {
                   ))}
                 </List>
               ) : (
-                <Text c="dimmed" size="sm">No hay días de cierre programados.</Text>
+                <Text c="dimmed" size="sm">No hay configuraciones especiales programadas.</Text>
               )}
             </Stack>
           </SimpleGrid>
 
           <Group justify="flex-end" mt="xl">
-            <Button type="submit" disabled={loading}>Guardar Cambios</Button>
+            <Button type="submit" disabled={loading}>Guardar Cambios Generales</Button>
           </Group>
         </Stack>
       </Paper>

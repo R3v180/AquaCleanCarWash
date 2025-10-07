@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/availability.routes.ts (ACTUALIZADO CON CIERRES)
+// File: /apps/server/src/api/availability.routes.ts (VERSIÓN FINAL Y LIMPIA)
 
 import { Router } from 'express';
 import { z } from 'zod';
@@ -51,33 +51,41 @@ router.get('/', async (req, res) => {
     const { date, employeeId } = validation.data;
     const selectedDate = dayjs.utc(date);
 
-    // --- PASO 1: COMPROBAR CIERRES DEL NEGOCIO ---
-    const isBusinessClosed = await prisma.businessClosure.findFirst({
-        where: {
-            date: {
-                gte: selectedDate.startOf('day').toDate(),
-                lte: selectedDate.endOf('day').toDate(),
-            }
-        }
-    });
-
-    // Si el negocio está cerrado ese día, devolver inmediatamente sin más cálculos.
-    if (isBusinessClosed) {
-        return res.json([]);
-    }
-    // --- FIN DE LA COMPROBACIÓN ---
-
     const settings = await prisma.businessSettings.findUnique({
       where: { singleton: 'SINGLETON' },
       include: { defaultService: true },
     });
     if (!settings?.defaultService) return res.status(503).json({ message: 'El servicio por defecto no está configurado.' });
 
-    const { defaultService, weeklySchedule } = settings;
+    let businessDayHours: { open: string; close: string } | null = null;
+
+    const override = await prisma.dateOverride.findFirst({
+        where: { 
+            date: { 
+                gte: selectedDate.startOf('day').toDate(), 
+                lte: selectedDate.endOf('day').toDate() 
+            } 
+        }
+    });
+
+    if (override) {
+        if (override.openTime && override.closeTime) {
+            businessDayHours = { open: override.openTime, close: override.closeTime };
+        } else {
+            return res.json([]);
+        }
+    } else {
+        const dayOfWeek = selectedDate.format('dddd').toLowerCase();
+        const weeklySchedule = settings.weeklySchedule as any;
+        businessDayHours = weeklySchedule?.[dayOfWeek] || null;
+    }
+    
+    if (!businessDayHours) {
+        return res.json([]);
+    }
+    
+    const { defaultService } = settings;
     const serviceDuration = defaultService.duration;
-    const dayOfWeek = selectedDate.format('dddd').toLowerCase();
-    const businessDayHours = (weeklySchedule as any)[dayOfWeek];
-    if (!businessDayHours) return res.json([]);
 
     const appointments = await prisma.appointment.findMany({
       where: { startTime: { gte: selectedDate.startOf('day').toDate(), lte: selectedDate.endOf('day').toDate() } },
@@ -96,12 +104,10 @@ router.get('/', async (req, res) => {
 
     while (currentTime.add(serviceDuration, 'minutes').isBefore(closingTime.add(1, 'minute'))) {
       const slotTime = currentTime.format('HH:mm');
-
       if (bookedSlots.has(slotTime)) {
         currentTime = currentTime.add(serviceDuration, 'minutes');
         continue;
       }
-      
       let isSomeEmployeeAvailable = false;
       if (employeeId && employeeId !== 'any') {
         const specificEmployee = activeEmployees.find(emp => emp.id === employeeId);
@@ -111,14 +117,11 @@ router.get('/', async (req, res) => {
       } else {
         isSomeEmployeeAvailable = activeEmployees.some(emp => isEmployeeAvailable(emp, currentTime, serviceDuration));
       }
-
       if (isSomeEmployeeAvailable) {
         availableSlots.push(slotTime);
       }
-      
       currentTime = currentTime.add(serviceDuration, 'minutes');
     }
-
     res.status(200).json(availableSlots);
 
   } catch (error) {

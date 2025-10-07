@@ -1,4 +1,4 @@
-// File: /apps/server/prisma/schema.prisma (ACTUALIZADO CON BusinessClosure)
+// File: /apps/server/prisma/schema.prisma (CORREGIDO)
 
 generator client {
   provider = "prisma-client-js"
@@ -88,7 +88,6 @@ model Employee {
   role         UserRole @default(EMPLOYEE)
   bio          String? @db.Text
   imageUrl     String?
-  // --- LÍNEA AÑADIDA ---
   status       EmployeeStatus @default(ACTIVE)
   
   workSchedule Json?
@@ -208,11 +207,16 @@ model BusinessSettings {
   defaultServiceId String?  @unique
 }
 
-// --- NUEVO MODELO AÑADIDO ---
-model BusinessClosure {
+// --- MODELO REFACTORIZADO (Antiguo BusinessClosure) ---
+model DateOverride {
   id        String   @id @default(cuid())
-  date      DateTime @unique
+  date      DateTime // <-- @unique ha sido eliminado
   reason    String?
+
+  // Si estos son nulos, es un cierre completo.
+  // Si tienen valor, es un horario especial para este día.
+  openTime  String? // formato "HH:mm"
+  closeTime String? // formato "HH:mm"
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -238,7 +242,6 @@ enum ReviewStatus {
   HIDDEN
 }
 
-// --- ENUM AÑADIDO ---
 enum EmployeeStatus {
   ACTIVE
   ARCHIVED

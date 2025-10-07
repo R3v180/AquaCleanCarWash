@@ -1,4 +1,4 @@
-<!-- File: /README.md - v1.2 -->
+<!-- File: /README.md - v1.3 (ACTUALIZADO) -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -24,15 +24,15 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Estado                       | Descripción                                                                                                                                 |
-| :-------------------------------------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un servicio y reservar una cita en un horario disponible. Flujo de reserva funcional.                    |
-| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo con función de arrastrar y soltar. |
-| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                       |
-| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                               |
-| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                         |
-| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                       |
-| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                     |
+| Característica                          | Estado                       | Descripción                                                                                                                                                                               |
+| :-------------------------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un profesional, ver su disponibilidad en tiempo real y reservar una cita.                                                                              |
+| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo, **gestión de turnos semanales, y un calendario de ausencias para el personal.** |
+| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                                                                     |
+| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                                                                             |
+| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                                                                       |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                                     |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                                   |
 
 ---
 

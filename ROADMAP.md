@@ -1,4 +1,4 @@
-<!-- File: /ROADMAP.md - v1.6 (FINAL) -->
+<!-- File: /ROADMAP.md - v1.7 (ACTUALIZADO) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -22,11 +22,15 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Creación final de la cita en la base de datos.
 
 - **✅ Panel de Administración Esencial:**
-  - **✅ Gestión Core:** CRUD para Servicios y Empleados (Backend y Frontend).
+  - **✅ Gestión Core:** CRUD completo para Servicios (con estado activo/inactivo) y Empleados (con estado activo/archivado).
   - **✅ Operaciones:** Planning visual de citas (FullCalendar).
     - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
-    - ✅ Añadir creación manual y edición de citas (modales).
-  - [🎯 PRÓXIMO OBJETIVO] **Gestión de Horarios (Negocio y Empleados).**
+    - ✅ Creación manual, edición y anulación de citas (modales).
+  - **✅ Gestión Avanzada de Horarios (Empleados):**
+    - ✅ Editor de turnos semanales por empleado.
+    - ✅ Calendario visual para gestionar vacaciones y ausencias.
+    - ✅ Sistema de detección de conflictos con citas existentes.
+  - [🎯 PRÓXIMO OBJETIVO] **Interfaz para Horario General del Negocio.**
   - [✅] **Autenticación:** Login seguro para el administrador.
 
 - **[ ] Notificaciones Críticas (Email):**

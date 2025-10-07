@@ -1,3 +1,5 @@
+// ====== [52] docs/features/03-booking-flow.md ======
+
 <!-- File: /docs/features/03-booking-flow.md - v1.1 (ACTUALIZADO) -->
 
 # 3. Flujo de Reserva del Cliente
@@ -66,11 +68,11 @@ El flujo se presenta como un asistente multi-paso en la página `/booking`.
 **Lógica de Negocio:**
 
 - Al hacer clic en "Confirmar", se envía toda la información a la API de creación de reservas.
-- **Estado: Parcialmente Implementado.** La API es capaz de asignar la reserva a un empleado específico. La lógica para asignar automáticamente un empleado cuando se elige "Cualquier Profesional" está pendiente.
+- **Estado: Implementado.** La API es capaz de asignar la reserva a un empleado específico. Si el cliente elige "Cualquier Profesional", el backend es capaz de encontrar un empleado disponible y asignárselo automáticamente a la cita.
 
 **API Calls:**
 
-- [⏳ Pendiente de Lógica Final] `POST /api/bookings`
+- ✅ `POST /api/bookings`
 
 ## 3.4. Flujo Post-Reserva
 

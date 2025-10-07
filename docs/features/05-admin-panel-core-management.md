@@ -1,3 +1,5 @@
+// ====== [54] docs/features/05-admin-panel-core-management.md ======
+
 <!-- File: /docs/features/05-admin-panel-core-management.md - v1.1 (ACTUALIZADO) -->
 
 # 5. Panel de Administración: Gestión de la Configuración Base
@@ -64,7 +66,7 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 ### Sección: Configuración del Negocio (`/admin/settings`)
 
-**Estado: Parcialmente Implementado.** Se ha implementado la lógica para seleccionar el servicio por defecto. La gestión del horario general está pendiente.
+**Estado: Implementado.**
 
 **Propósito:** Un panel centralizado para gestionar las configuraciones globales del negocio.
 
@@ -72,8 +74,8 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 - **Selección del Servicio por Defecto:**
   - ✅ Un `Select` que permite elegir cuál de los servicios **activos** se ofrecerá a los clientes.
-- **[⏳ Pendiente] Formulario de Horario Semanal del Negocio:**
-  - Una interfaz visual para definir las horas de apertura y cierre de la empresa para cada día de la semana.
+- **Formulario de Horario Semanal del Negocio:**
+  - ✅ Una interfaz visual (`ScheduleEditor`) para definir las horas de apertura y cierre de la empresa para cada día de la semana.
 
 **API Calls:**
 

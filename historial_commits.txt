@@ -1,3 +1,79 @@
+commit 3b954dedbd1304c29035ff45cbb17d3d11e7cae9
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 3 00:14:34 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 3 00:14:34 2025 +0200
+
+    docs(roadmap): Marcar CRUD de citas como completado y definir nuevo objetivo
+
+commit 98c1f69d02b09b96dc7eb1b2aca5a77fe7815a8b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 3 00:13:08 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 3 00:13:08 2025 +0200
+
+    feat(admin-planning): Implementar CRUD completo de citas en el modal
+    
+    - Se añade un formulario en un modal para crear y editar citas directamente desde el calendario.
+    - El formulario se rellena automáticamente con los datos de la cita al editar.
+    - Se implementa la lógica de anulación con un modal de confirmación para evitar errores.
+    - Se crean los endpoints POST, PUT y DELETE en el backend (/api/admin/appointments) para gestionar estas operaciones.
+    - Se añaden notificaciones de éxito y error para todas las acciones (crear, editar, anular).
+
+commit 22f5d05d35f83d80bd93eca1b4fbbd9699a7e5d6
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 23:13:44 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 23:13:44 2025 +0200
+
+    docs(roadmap): Repriorizar tareas y posponer integración de pagos
+    
+    - Se adapta el roadmap a la necesidad de permitir reservas sin pago previo.
+    - La integración con Stripe se mueve a la versión 1.1.
+    - El nuevo objetivo inmediato del MVP es implementar la creación y edición manual de citas en el planning del administrador.
+
+commit e571e3c539fc2d9a354721504c3811649add2a36
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 23:06:30 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 23:06:30 2025 +0200
+
+    docs(roadmap): Marcar la página del equipo como completada
+
+commit 896c5abc2b7d1462860e78ec7017a3663e4f351f
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 23:05:46 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 23:05:46 2025 +0200
+
+    feat(public-site): Crear la página pública del equipo
+    
+    - Se añade la página /team que muestra los perfiles de los empleados obtenidos desde la API.
+    - Se gestionan los estados de carga y error durante la obtención de datos.
+    - Se añade la ruta /team al enrutador principal y el enlace 'Nuestro Equipo' a la cabecera pública.
+
+commit 142260ed756a3894cd21173c5ec007d47e8a9a6d
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 23:01:28 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 23:01:28 2025 +0200
+
+    docs(roadmap): Actualizar el estado del sitio público
+
+commit a6efb76f86e8da8f2eb600e864e0a0a7db75b9b3
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Thu Oct 2 20:34:02 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Thu Oct 2 20:34:02 2025 +0200
+
+    feat(public-site): Construir layout público inicial y homepage profesional
+    
+    - Se crea un PublicLayout reutilizable con AppShell para las páginas públicas.
+    - Se implementan los componentes PublicHeader con logo y navegación, y PublicFooter.
+    - Se rediseña por completo la HomePage con una sección Hero, características del negocio y llamadas a la acción.
+    - Se añade la carpeta 'public' con assets (logo, imagen de fondo) y se configura el CSS para usarlos.
+    - Se soluciona el problema de tipos de los CSS Modules con un archivo de declaración custom.d.ts.
+
 commit ff206f8f3d018da0304a28fa508e1577a8727fdb
 Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
 AuthorDate: Thu Oct 2 18:31:34 2025 +0200

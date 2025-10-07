@@ -15,7 +15,9 @@ async function main() {
   });
   await prisma.appointmentService.deleteMany({});
   // Borramos las ausencias antes que los empleados
-  await prisma.absence.deleteMany({}); 
+  await prisma.absence.deleteMany({});
+  // --- LÍNEA AÑADIDA ---
+  await prisma.businessClosure.deleteMany({}); // <-- AÑADIDO PARA LIMPIAR LA NUEVA TABLA
   await prisma.appointment.deleteMany({});
   console.log('Cleanup complete.');
   

@@ -11,8 +11,9 @@ import authRouter from './api/auth.routes';
 import availabilityRouter from './api/availability.routes';
 import bookingsRouter from './api/bookings.routes';
 import adminAppointmentsRouter from './api/adminAppointments.routes';
+import adminSettingsRouter from './api/adminSettings.routes';
 // --- LÍNEA AÑADIDA ---
-import adminSettingsRouter from './api/adminSettings.routes'; // <-- IMPORTAMOS EL FUTURO ENRUTADOR
+import adminClosuresRouter from './api/adminClosures.routes'; // <-- IMPORTAMOS EL NUEVO ENRUTADOR
 
 // Cargar variables de entorno
 dotenv.config();
@@ -35,8 +36,9 @@ app.use('/api/bookings', bookingsRouter);
 
 // Rutas Específicas del Panel de Administración
 app.use('/api/admin/appointments', adminAppointmentsRouter);
+app.use('/api/admin/settings', adminSettingsRouter);
 // --- LÍNEA AÑADIDA ---
-app.use('/api/admin/settings', adminSettingsRouter); // <-- LÍNEA AÑADIDA
+app.use('/api/admin/closures', adminClosuresRouter); // <-- REGISTRAMOS EL NUEVO ENRUTADOR
 
 
 // Ruta de prueba para verificar que el servidor funciona

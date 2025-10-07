@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/availability.routes.ts (CORREGIDO CON LÓGICA SECUENCIAL)
+// File: /apps/server/src/api/availability.routes.ts (ACTUALIZADO CON CIERRES)
 
 import { Router } from 'express';
 import { z } from 'zod';
@@ -51,6 +51,22 @@ router.get('/', async (req, res) => {
     const { date, employeeId } = validation.data;
     const selectedDate = dayjs.utc(date);
 
+    // --- PASO 1: COMPROBAR CIERRES DEL NEGOCIO ---
+    const isBusinessClosed = await prisma.businessClosure.findFirst({
+        where: {
+            date: {
+                gte: selectedDate.startOf('day').toDate(),
+                lte: selectedDate.endOf('day').toDate(),
+            }
+        }
+    });
+
+    // Si el negocio está cerrado ese día, devolver inmediatamente sin más cálculos.
+    if (isBusinessClosed) {
+        return res.json([]);
+    }
+    // --- FIN DE LA COMPROBACIÓN ---
+
     const settings = await prisma.businessSettings.findUnique({
       where: { singleton: 'SINGLETON' },
       include: { defaultService: true },
@@ -81,31 +97,25 @@ router.get('/', async (req, res) => {
     while (currentTime.add(serviceDuration, 'minutes').isBefore(closingTime.add(1, 'minute'))) {
       const slotTime = currentTime.format('HH:mm');
 
-      // 1. El hueco ya está ocupado, pasamos al siguiente
       if (bookedSlots.has(slotTime)) {
         currentTime = currentTime.add(serviceDuration, 'minutes');
         continue;
       }
       
       let isSomeEmployeeAvailable = false;
-      // 2. Si se pide un empleado específico, comprobamos si ESE está disponible
       if (employeeId && employeeId !== 'any') {
         const specificEmployee = activeEmployees.find(emp => emp.id === employeeId);
         if (specificEmployee) {
           isSomeEmployeeAvailable = isEmployeeAvailable(specificEmployee, currentTime, serviceDuration);
         }
-      // 3. Si es "Cualquier empleado", comprobamos si AL MENOS UNO está disponible
       } else {
         isSomeEmployeeAvailable = activeEmployees.some(emp => isEmployeeAvailable(emp, currentTime, serviceDuration));
       }
 
-      // 4. Si el hueco está libre Y alguien puede trabajar, lo añadimos
       if (isSomeEmployeeAvailable) {
         availableSlots.push(slotTime);
       }
-
-      // --- CORRECCIÓN CLAVE ---
-      // Avanzamos al siguiente hueco consecutivo
+      
       currentTime = currentTime.add(serviceDuration, 'minutes');
     }
 

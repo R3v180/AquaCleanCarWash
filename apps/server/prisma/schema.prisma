@@ -1,4 +1,4 @@
-// File: /apps/server/prisma/schema.prisma (ACTUALIZADO)
+// File: /apps/server/prisma/schema.prisma (ACTUALIZADO CON BusinessClosure)
 
 generator client {
   provider = "prisma-client-js"
@@ -206,6 +206,16 @@ model BusinessSettings {
 
   defaultService   Service? @relation(fields: [defaultServiceId], references: [id])
   defaultServiceId String?  @unique
+}
+
+// --- NUEVO MODELO AÑADIDO ---
+model BusinessClosure {
+  id        String   @id @default(cuid())
+  date      DateTime @unique
+  reason    String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // 7. Enums

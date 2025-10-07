@@ -1,69 +1,76 @@
 # ÍNDICE DE ARCHIVOS (ESTRUCTURA REFACTORIZADA)
 
 1. .schemas/turbo-schema-v1.json
-2. README.md
-3. ROADMAP.md
-4. WORKFLOW.md
-5. apps/client/index.html
-6. apps/client/package.json
-7. apps/client/src/App.tsx
-8. apps/client/src/components/admin/AppointmentForm.tsx
-9. apps/client/src/components/booking/BookingDateTimePicker.tsx
-10. apps/client/src/components/common/PublicFooter.module.css
-11. apps/client/src/components/common/PublicFooter.tsx
-12. apps/client/src/components/common/PublicHeader.module.css
-13. apps/client/src/components/common/PublicHeader.tsx
-14. apps/client/src/custom.d.ts
-15. apps/client/src/layouts/AdminLayout.tsx
-16. apps/client/src/layouts/PublicLayout.tsx
-17. apps/client/src/lib/apiClient.ts
-18. apps/client/src/main.tsx
-19. apps/client/src/pages/admin/AdminDashboardPage.tsx
-20. apps/client/src/pages/admin/AdminLoginPage.tsx
-21. apps/client/src/pages/admin/AdminPlanningPage.tsx
-22. apps/client/src/pages/admin/EmployeesManagementPage.tsx
-23. apps/client/src/pages/admin/ServicesManagementPage.tsx
-24. apps/client/src/pages/public/BookingPage.tsx
-25. apps/client/src/pages/public/HomePage.module.css
-26. apps/client/src/pages/public/HomePage.tsx
-27. apps/client/src/pages/public/ServicesPage.tsx
-28. apps/client/src/pages/public/TeamPage.tsx
-29. apps/client/tsconfig.json
-30. apps/client/tsconfig.node.json
-31. apps/server/package.json
-32. apps/server/prisma/seed.ts
-33. apps/server/src/api/adminAppointments.routes.ts
-34. apps/server/src/api/auth.routes.ts
-35. apps/server/src/api/availability.routes.ts
-36. apps/server/src/api/bookings.routes.ts
-37. apps/server/src/api/employees.routes.ts
-38. apps/server/src/api/services.routes.ts
-39. apps/server/src/lib/prisma.ts
-40. apps/server/src/server.ts
-41. apps/server/tsconfig.json
-42. docs/PROJECT_SPECIFICATION.md
-43. docs/features/01-authentication.md
-44. docs/features/02-public-site.md
-45. docs/features/03-booking-flow.md
-46. docs/features/04-customer-panel.md
-47. docs/features/05-admin-panel-core-management.md
-48. docs/features/06-admin-panel-operations.md
-49. docs/features/07-reviews-system.md
-50. docs/features/08-marketing-monetization.md
-51. docs/features/09-notifications-system.md
-52. docs/features/10-external-integrations.md
-53. package.json
-54. packages/config/eslint-preset.js
-55. packages/config/package.json
-56. packages/types/package.json
-57. packages/types/src/employee.schema.ts
-58. packages/types/src/index.ts
-59. packages/types/src/service.schema.ts
-60. packages/types/src/service.ts
-61. packages/types/tsconfig.json
-62. tsconfig.base.json
-63. tsconfig.json
-64. turbo.json
+2. PROXIMOS_PASOS.md
+3. README.md
+4. ROADMAP.md
+5. WORKFLOW.md
+6. apps/client/index.html
+7. apps/client/package.json
+8. apps/client/src/App.tsx
+9. apps/client/src/components/admin/AbsenceCalendar.tsx
+10. apps/client/src/components/admin/AppointmentForm.tsx
+11. apps/client/src/components/admin/ConflictResolutionModal.tsx
+12. apps/client/src/components/admin/ScheduleEditor.tsx
+13. apps/client/src/components/admin/ServiceForm.tsx
+14. apps/client/src/components/booking/BookingDateTimePicker.tsx
+15. apps/client/src/components/common/PublicFooter.module.css
+16. apps/client/src/components/common/PublicFooter.tsx
+17. apps/client/src/components/common/PublicHeader.module.css
+18. apps/client/src/components/common/PublicHeader.tsx
+19. apps/client/src/custom.d.ts
+20. apps/client/src/layouts/AdminLayout.tsx
+21. apps/client/src/layouts/PublicLayout.tsx
+22. apps/client/src/lib/apiClient.ts
+23. apps/client/src/main.tsx
+24. apps/client/src/pages/admin/AdminDashboardPage.tsx
+25. apps/client/src/pages/admin/AdminLoginPage.tsx
+26. apps/client/src/pages/admin/AdminPlanningPage.tsx
+27. apps/client/src/pages/admin/BusinessSettingsPage.tsx
+28. apps/client/src/pages/admin/EmployeesManagementPage.tsx
+29. apps/client/src/pages/admin/ServicesManagementPage.tsx
+30. apps/client/src/pages/public/BookingPage.tsx
+31. apps/client/src/pages/public/HomePage.module.css
+32. apps/client/src/pages/public/HomePage.tsx
+33. apps/client/src/pages/public/ServicesPage.tsx
+34. apps/client/src/pages/public/TeamPage.tsx
+35. apps/client/tsconfig.json
+36. apps/client/tsconfig.node.json
+37. apps/server/package.json
+38. apps/server/prisma/seed.ts
+39. apps/server/src/api/adminAppointments.routes.ts
+40. apps/server/src/api/adminSettings.routes.ts
+41. apps/server/src/api/auth.routes.ts
+42. apps/server/src/api/availability.routes.ts
+43. apps/server/src/api/bookings.routes.ts
+44. apps/server/src/api/employees.routes.ts
+45. apps/server/src/api/services.routes.ts
+46. apps/server/src/lib/prisma.ts
+47. apps/server/src/server.ts
+48. apps/server/tsconfig.json
+49. docs/PROJECT_SPECIFICATION.md
+50. docs/features/01-authentication.md
+51. docs/features/02-public-site.md
+52. docs/features/03-booking-flow.md
+53. docs/features/04-customer-panel.md
+54. docs/features/05-admin-panel-core-management.md
+55. docs/features/06-admin-panel-operations.md
+56. docs/features/07-reviews-system.md
+57. docs/features/08-marketing-monetization.md
+58. docs/features/09-notifications-system.md
+59. docs/features/10-external-integrations.md
+60. package.json
+61. packages/config/eslint-preset.js
+62. packages/config/package.json
+63. packages/types/package.json
+64. packages/types/src/employee.schema.ts
+65. packages/types/src/index.ts
+66. packages/types/src/service.schema.ts
+67. packages/types/src/service.ts
+68. packages/types/tsconfig.json
+69. tsconfig.base.json
+70. tsconfig.json
+71. turbo.json
 
 
 # CONTENIDO DE ARCHIVOS
@@ -153,8 +160,68 @@
 }
 
 
-// ====== [2] README.md ======
-<!-- File: /README.md - v1.2 -->
+// ====== [2] PROXIMOS_PASOS.md ======
+<!-- File: /PROXIMOS_PASOS.md - v1.0 -->
+
+# Próximos Pasos del Desarrollo
+
+Este documento define el plan de acción detallado para completar la implementación de la gestión avanzada de horarios y la actualización del flujo de reservas del cliente.
+
+---
+
+### ✅ **Trabajo Realizado (Resumen para Contexto)**
+
+1.  **Gestión de Servicios:** Se ha implementado un CRUD completo para servicios, incluyendo un sistema de estado `Activo/Inactivo`.
+2.  **Gestión de Empleados (Base):** Se ha implementado un CRUD para el perfil de los empleados, con un sistema de estado `Activo/Archivado`.
+3.  **Gestión de Tiempo (Empleados):**
+    - Se ha creado la API y la interfaz de usuario para gestionar los **horarios semanales** de cada empleado (con múltiples turnos).
+    - Se ha implementado la API y la UI para gestionar **ausencias y vacaciones** de forma visual.
+    - Se ha desarrollado un sistema de **detección de conflictos** que impide programar una ausencia si existen citas en esas fechas, mostrando un modal de resolución al administrador.
+4.  **Motor de Disponibilidad (Backend):** La API de disponibilidad (`/api/availability`) ha sido reconstruida. Ahora es capaz de calcular los huecos disponibles basándose en el horario de un empleado específico o en la capacidad combinada de todos los empleados activos, respetando sus ausencias y el horario general del negocio.
+
+---
+
+### 🎯 **Plan de Acción (Pasos Restantes)**
+
+#### **Fase 1: Completar la Gestión de Horarios (Admin)**
+
+- **Paso 1: Implementar la Interfaz para el Horario del Negocio.**
+  - **Objetivo:** Permitir al administrador configurar las horas de apertura y cierre para cada día de la semana.
+  - **Archivo Principal a Modificar:** `apps/client/src/pages/admin/BusinessSettingsPage.tsx`.
+  - **Tareas:**
+    1.  Reemplazar el `Select` actual por un componente visual (`ScheduleEditor` o similar) para gestionar el `weeklySchedule`.
+    2.  Asegurar que la API `PUT /api/admin/settings` se actualice para aceptar y guardar estos cambios en el horario.
+
+#### **Fase 2: Finalizar la API de Reservas (Backend)**
+
+- **Paso 2: Implementar la Auto-Asignación de Empleados.**
+  - **Objetivo:** Hacer que la API de creación de reservas sea capaz de asignar automáticamente un empleado si el cliente elige la opción "Cualquier Profesional".
+  - **Archivo Principal a Modificar:** `apps/server/src/api/bookings.routes.ts`.
+  - **Tareas:**
+    1.  Modificar el `createBookingSchema` de Zod para que `employeeId` sea opcional.
+    2.  En el endpoint `POST /bookings`, añadir la lógica: si `employeeId` no se recibe, buscar un empleado `ACTIVO` que esté disponible en la `startTime` solicitada y asignarlo a la nueva cita. Si no se encuentra ninguno, devolver un error.
+
+#### **Fase 3: Completar el Flujo de Reservas (Cliente)**
+
+- **Paso 3: Realizar un `Commit` para Guardar el Progreso.**
+  - **Objetivo:** Consolidar todo el trabajo realizado en el panel de administración antes de pasar a la parte pública final.
+  - **Tareas:**
+    1.  Crear un mensaje de `commit` detallado que resuma la implementación de la gestión de horarios y ausencias de empleados, incluyendo la detección de conflictos.
+
+#### **Fase 4: Actualización de la Documentación**
+
+- **Paso 4: Sincronizar toda la Documentación con el Estado Actual.**
+  - **Objetivo:** Asegurar que los archivos `ROADMAP.md` y `docs/features/*.md` reflejen con precisión todas las funcionalidades que hemos completado.
+  - **Archivos a Revisar/Modificar:**
+    1.  `ROADMAP.md`: Marcar como completada la "Gestión de Horarios".
+    2.  `docs/features/05-admin-panel-core-management.md`: Actualizar la sección de "Gestión de Empleados y Horarios" para reflejar el editor de turnos y el calendario de ausencias.
+    3.  `docs/features/03-booking-flow.md`: Actualizar para reflejar el nuevo flujo con selección de empleado.
+  - **Propósito:** Proporcionar un contexto claro y preciso para la siguiente sesión de desarrollo.
+
+
+
+// ====== [3] README.md ======
+<!-- File: /README.md - v1.3 (ACTUALIZADO) -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -180,15 +247,15 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Estado                       | Descripción                                                                                                                                 |
-| :-------------------------------------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un servicio y reservar una cita en un horario disponible. Flujo de reserva funcional.                    |
-| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo con función de arrastrar y soltar. |
-| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                       |
-| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                               |
-| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                         |
-| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                       |
-| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                     |
+| Característica                          | Estado                       | Descripción                                                                                                                                                                               |
+| :-------------------------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un profesional, ver su disponibilidad en tiempo real y reservar una cita.                                                                              |
+| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo, **gestión de turnos semanales, y un calendario de ausencias para el personal.** |
+| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                                                                     |
+| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                                                                             |
+| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                                                                       |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                                     |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                                   |
 
 ---
 
@@ -273,8 +340,8 @@ Toda la funcionalidad del proyecto está documentada en detalle en nuestra [**Es
 
 
 
-// ====== [3] ROADMAP.md ======
-<!-- File: /ROADMAP.md - v1.6 (FINAL) -->
+// ====== [4] ROADMAP.md ======
+<!-- File: /ROADMAP.md - v1.7 (ACTUALIZADO) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -298,11 +365,15 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Creación final de la cita en la base de datos.
 
 - **✅ Panel de Administración Esencial:**
-  - **✅ Gestión Core:** CRUD para Servicios y Empleados (Backend y Frontend).
+  - **✅ Gestión Core:** CRUD completo para Servicios (con estado activo/inactivo) y Empleados (con estado activo/archivado).
   - **✅ Operaciones:** Planning visual de citas (FullCalendar).
     - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
-    - ✅ Añadir creación manual y edición de citas (modales).
-  - [🎯 PRÓXIMO OBJETIVO] **Gestión de Horarios (Negocio y Empleados).**
+    - ✅ Creación manual, edición y anulación de citas (modales).
+  - **✅ Gestión Avanzada de Horarios (Empleados):**
+    - ✅ Editor de turnos semanales por empleado.
+    - ✅ Calendario visual para gestionar vacaciones y ausencias.
+    - ✅ Sistema de detección de conflictos con citas existentes.
+  - [🎯 PRÓXIMO OBJETIVO] **Interfaz para Horario General del Negocio.**
   - [✅] **Autenticación:** Login seguro para el administrador.
 
 - **[ ] Notificaciones Críticas (Email):**
@@ -362,7 +433,7 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 
 
-// ====== [4] WORKFLOW.md ======
+// ====== [5] WORKFLOW.md ======
 # Nuestro Workflow de Desarrollo Colaborativo
 
 Este documento describe nuestro método de trabajo para el desarrollo del proyecto AquaClean Car Wash. El objetivo es mantener un ritmo eficiente, minimizar errores y asegurar que ambos estemos siempre sincronizados.
@@ -408,7 +479,7 @@ Este documento describe nuestro método de trabajo para el desarrollo del proyec
 
 
 
-// ====== [5] apps/client/index.html ======
+// ====== [6] apps/client/index.html ======
 <!-- File: /apps/client/index.html - v1.0 -->
 <!doctype html>
 <html lang="es">
@@ -425,7 +496,7 @@ Este documento describe nuestro método de trabajo para el desarrollo del proyec
 </html>
 
 
-// ====== [6] apps/client/package.json ======
+// ====== [7] apps/client/package.json ======
 {
   "name": "client",
   "version": "1.0.0",
@@ -473,7 +544,7 @@ Este documento describe nuestro método de trabajo para el desarrollo del proyec
 }
 
 
-// ====== [7] apps/client/src/App.tsx ======
+// ====== [8] apps/client/src/App.tsx ======
 // File: /apps/client/src/App.tsx (ACTUALIZADO)
 
 import { Route, Routes } from 'react-router-dom';
@@ -487,7 +558,9 @@ import { EmployeesManagementPage } from './pages/admin/EmployeesManagementPage';
 import { ServicesPage } from './pages/public/ServicesPage';
 import { BookingPage } from './pages/public/BookingPage';
 import { AdminPlanningPage } from './pages/admin/AdminPlanningPage';
-import { TeamPage } from './pages/public/TeamPage'; // <-- IMPORTAMOS LA NUEVA PÁGINA
+import { TeamPage } from './pages/public/TeamPage';
+// --- LÍNEA AÑADIDA ---
+import { BusinessSettingsPage } from './pages/admin/BusinessSettingsPage'; // <-- IMPORTAMOS LA FUTURA PÁGINA
 
 function App() {
   return (
@@ -497,7 +570,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/booking" element={<BookingPage />} />
-        <Route path="/team" element={<TeamPage />} /> {/* <-- LÍNEA AÑADIDA */}
+        <Route path="/team" element={<TeamPage />} />
       </Route>
 
       {/* Ruta de Login para Admin (sin layout) */}
@@ -509,6 +582,8 @@ function App() {
         <Route path="services" element={<ServicesManagementPage />} />
         <Route path="employees" element={<EmployeesManagementPage />} />
         <Route path="planning" element={<AdminPlanningPage />} />
+        {/* --- LÍNEA AÑADIDA --- */}
+        <Route path="settings" element={<BusinessSettingsPage />} /> {/* <-- LÍNEA AÑADIDA */}
       </Route>
     </Routes>
   );
@@ -517,7 +592,96 @@ function App() {
 export default App;
 
 
-// ====== [8] apps/client/src/components/admin/AppointmentForm.tsx ======
+// ====== [9] apps/client/src/components/admin/AbsenceCalendar.tsx ======
+// File: /apps/client/src/components/admin/AbsenceCalendar.tsx (CORRECCIÓN FINAL-FINAL)
+
+import { useState } from 'react';
+// --- LÍNEA MODIFICADA ---
+import { DatePickerInput } from '@mantine/dates'; 
+import { Button, Group, Text, Paper, ActionIcon, Stack, Divider, Title } from '@mantine/core';
+// --- FIN DE LA MODIFICACIÓN ---
+import { IconTrash } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+
+export interface Absence {
+  id: string;
+  startDate: Date;
+  endDate: Date;
+  reason?: string | null;
+}
+
+interface AbsenceCalendarProps {
+  absences: Absence[];
+  onAddAbsence: (dates: [Date, Date]) => void;
+  onDeleteAbsence: (absenceId: string) => void;
+}
+
+export function AbsenceCalendar({ absences, onAddAbsence, onDeleteAbsence }: AbsenceCalendarProps) {
+  const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
+
+  const handleAddAbsence = () => {
+    if (value[0] && value[1]) {
+      const sortedDates: [Date, Date] = [
+        dayjs(value[0]).startOf('day').toDate(),
+        dayjs(value[1]).endOf('day').toDate()
+      ].sort((a, b) => a.getTime() - b.getTime()) as [Date, Date];
+      
+      onAddAbsence(sortedDates);
+      setValue([null, null]);
+    }
+  };
+
+  return (
+    <Stack>
+      <Title order={4}>Seleccionar Rango de Fechas</Title>
+      
+      {/* --- COMPONENTE CORREGIDO --- */}
+      <DatePickerInput
+        type="range"
+        label="Selecciona un rango de días"
+        placeholder="Desde... hasta..."
+        value={value}
+        onChange={setValue}
+        minDate={new Date()}
+        clearable // Añadimos la opción de limpiar la selección
+      />
+      {/* --- FIN DE LA CORRECCIÓN --- */}
+
+      <Button
+        onClick={handleAddAbsence}
+        disabled={!value[0] || !value[1]}
+      >
+        Añadir Ausencia Programada
+      </Button>
+
+      <Divider my="md" label="Ausencias Programadas" />
+
+      <Stack>
+        {absences.length > 0 ? (
+          absences.map((absence) => (
+            <Paper withBorder p="xs" key={absence.id}>
+              <Group justify="space-between">
+                <Text size="sm">
+                  Del {dayjs(absence.startDate).format('DD/MM/YYYY')} al {dayjs(absence.endDate).format('DD/MM/YYYY')}
+                </Text>
+                <ActionIcon color="red" variant="light" onClick={() => onDeleteAbsence(absence.id)}>
+                  <IconTrash size={16} />
+                </ActionIcon>
+              </Group>
+            </Paper>
+          ))
+        ) : (
+          <Text c="dimmed" ta="center" size="sm">
+            Este empleado no tiene ausencias programadas.
+          </Text>
+        )}
+      </Stack>
+    </Stack>
+  );
+}
+
+
+// ====== [10] apps/client/src/components/admin/AppointmentForm.tsx ======
 // File: /apps/client/src/components/admin/AppointmentForm.tsx (ACTUALIZADO)
 
 import { useEffect, useState } from 'react';
@@ -668,7 +832,252 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
 }
 
 
-// ====== [9] apps/client/src/components/booking/BookingDateTimePicker.tsx ======
+// ====== [11] apps/client/src/components/admin/ConflictResolutionModal.tsx ======
+// File: /apps/client/src/components/admin/ConflictResolutionModal.tsx (NUEVO ARCHIVO)
+
+import { Modal, Text, Alert, List, ThemeIcon, Button, Group } from '@mantine/core';
+import { IconAlertTriangle, IconCalendarEvent } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+
+// Definimos un tipo para las citas en conflicto que recibiremos de la API
+interface Conflict {
+  id: string;
+  startTime: string;
+  user: {
+    name: string | null;
+  };
+}
+
+interface ConflictResolutionModalProps {
+  opened: boolean;
+  onClose: () => void;
+  conflicts: Conflict[];
+}
+
+export function ConflictResolutionModal({ opened, onClose, conflicts }: ConflictResolutionModalProps) {
+  return (
+    <Modal
+      opened={opened}
+      onClose={onClose}
+      title="Conflicto de Citas"
+      centered
+      size="lg"
+    >
+      <Alert
+        variant="light"
+        color="orange"
+        title="Acción Requerida"
+        icon={<IconAlertTriangle />}
+        mb="md"
+      >
+        No se puede programar la ausencia porque entra en conflicto con las siguientes {conflicts.length} citas ya existentes. Debes cancelarlas o reasignarlas manualmente antes de poder registrar la ausencia.
+      </Alert>
+
+      <Text fw={500} mb="xs">Citas en conflicto:</Text>
+      <List
+        spacing="xs"
+        size="sm"
+        center
+        icon={
+          <ThemeIcon color="orange" size={24} radius="xl">
+            <IconCalendarEvent size={16} />
+          </ThemeIcon>
+        }
+      >
+        {conflicts.map((conflict) => (
+          <List.Item key={conflict.id}>
+            {dayjs(conflict.startTime).format('DD/MM/YYYY [a las] HH:mm')} - Cliente: <strong>{conflict.user.name || 'N/A'}</strong>
+          </List.Item>
+        ))}
+      </List>
+      
+      <Group justify="flex-end" mt="xl">
+        <Button variant="outline" onClick={onClose}>
+          Entendido
+        </Button>
+      </Group>
+
+    </Modal>
+  );
+}
+
+
+// ====== [12] apps/client/src/components/admin/ScheduleEditor.tsx ======
+// File: /apps/client/src/components/admin/ScheduleEditor.tsx (CORREGIDO)
+
+import { Button, Group, ActionIcon, Stack, Text, Box } from '@mantine/core';
+import { TimeInput } from '@mantine/dates'; // <-- IMPORTACIÓN CORREGIDA
+import { IconPlus, IconTrash } from '@tabler/icons-react';
+
+type Shift = { start: string; end: string };
+export type WeeklySchedule = {
+  [key: string]: Shift[];
+};
+
+interface ScheduleEditorProps {
+  value: WeeklySchedule;
+  onChange: (schedule: WeeklySchedule) => void;
+}
+
+const DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const DAY_LABELS: { [key: string]: string } = {
+  monday: 'Lunes',
+  tuesday: 'Martes',
+  wednesday: 'Miércoles',
+  thursday: 'Jueves',
+  friday: 'Viernes',
+  saturday: 'Sábado',
+  sunday: 'Domingo',
+};
+
+export function ScheduleEditor({ value, onChange }: ScheduleEditorProps) {
+  
+  const handleTimeChange = (day: string, shiftIndex: number, field: 'start' | 'end', time: string) => {
+    const newSchedule = { ...value };
+    if (newSchedule[day]?.[shiftIndex]) {
+      newSchedule[day]![shiftIndex]![field] = time;
+      onChange(newSchedule);
+    }
+  };
+
+  const addShift = (day: string) => {
+    const newSchedule = { ...value };
+    if (!newSchedule[day]) {
+      newSchedule[day] = [];
+    }
+    newSchedule[day]!.push({ start: '09:00', end: '17:00' });
+    onChange(newSchedule);
+  };
+
+  const removeShift = (day: string, shiftIndex: number) => {
+    const newSchedule = { ...value };
+    newSchedule[day]?.splice(shiftIndex, 1);
+    onChange(newSchedule);
+  };
+
+  return (
+    <Stack gap="xl">
+      {DAYS_OF_WEEK.map((day) => (
+        <Box key={day}>
+          <Text fw={500} tt="capitalize">{DAY_LABELS[day]}</Text>
+          <Stack gap="xs" mt="xs">
+            {value[day]?.map((shift, index) => (
+              <Group key={index} grow>
+                <TimeInput
+                  label="Inicio"
+                  value={shift.start}
+                  // --- LÍNEA CORREGIDA ---
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(day, index, 'start', e.currentTarget.value)}
+                />
+                <TimeInput
+                  label="Fin"
+                  value={shift.end}
+                  // --- LÍNEA CORREGIDA ---
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(day, index, 'end', e.currentTarget.value)}
+                />
+                <ActionIcon
+                  color="red"
+                  variant="light"
+                  onClick={() => removeShift(day, index)}
+                  style={{ marginTop: 25 }}
+                >
+                  <IconTrash size={16} />
+                </ActionIcon>
+              </Group>
+            ))}
+             <Button
+                leftSection={<IconPlus size={14} />}
+                variant="light"
+                onClick={() => addShift(day)}
+                fullWidth
+             >
+                Añadir Turno
+            </Button>
+          </Stack>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+
+// ====== [13] apps/client/src/components/admin/ServiceForm.tsx ======
+// File: /apps/client/src/components/admin/ServiceForm.tsx (CORREGIDO)
+
+import { useEffect } from 'react';
+import { TextInput, Textarea, NumberInput, Button, Group, Stack, Switch } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { createServiceSchema } from '@aquaclean/types';
+import type { Service } from '@aquaclean/types';
+
+interface ServiceFormProps {
+  initialData?: Partial<Service>; 
+  onSuccess: (service: Partial<Service>) => void; // Aceptamos un servicio parcial
+  onClose: () => void;
+  isSubmitting: boolean;
+}
+
+export function ServiceForm({ initialData, onSuccess, onClose, isSubmitting }: ServiceFormProps) {
+  
+  const form = useForm({
+    validate: zodResolver(createServiceSchema),
+    initialValues: {
+      name: '',
+      description: '',
+      duration: 60,
+      prices: { standard: 50 },
+      category: 'General',
+      isActive: true,
+    },
+  });
+
+  useEffect(() => {
+    if (initialData) {
+      form.setValues(initialData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialData]);
+
+  // --- LÓGICA CORREGIDA ---
+  const handleSubmit = (values: typeof form.values) => {
+    // Fusionamos los datos iniciales (que contienen el ID) con los nuevos valores del formulario.
+    // Esto asegura que al editar, no perdamos el ID del servicio.
+    const finalData = { ...initialData, ...values };
+    onSuccess(finalData); 
+  };
+  // --- FIN DE LA CORRECCIÓN ---
+
+  const isEditMode = Boolean(initialData?.id);
+
+  return (
+    <form onSubmit={form.onSubmit(handleSubmit)}>
+      <Stack>
+        <TextInput label="Nombre del Servicio" {...form.getInputProps('name')} withAsterisk />
+        <Textarea label="Descripción" {...form.getInputProps('description')} withAsterisk />
+        <NumberInput label="Duración (minutos)" {...form.getInputProps('duration')} withAsterisk />
+        <NumberInput label="Precio Estándar (€)" {...form.getInputProps('prices.standard')} withAsterisk />
+        <TextInput label="Categoría" {...form.getInputProps('category')} withAsterisk />
+        <Switch 
+          label="Servicio Activo"
+          description="Si está inactivo, no se podrá seleccionar para nuevas reservas."
+          {...form.getInputProps('isActive', { type: 'checkbox' })}
+        />
+        
+        <Group justify="flex-end" mt="md">
+          <Button variant="default" onClick={onClose} disabled={isSubmitting}>
+            Cancelar
+          </Button>
+          <Button type="submit" loading={isSubmitting}>
+            {isEditMode ? 'Guardar Cambios' : 'Crear Servicio'}
+          </Button>
+        </Group>
+      </Stack>
+    </form>
+  );
+}
+
+
+// ====== [14] apps/client/src/components/booking/BookingDateTimePicker.tsx ======
 // File: /apps/client/src/components/booking/BookingDateTimePicker.tsx (ACTUALIZADO)
 
 import { useState, useEffect } from 'react';
@@ -680,15 +1089,18 @@ import apiClient from '../../lib/apiClient';
 interface BookingDateTimePickerProps {
   serviceDuration: number;
   onDateTimeChange: (dateTime: Date | null) => void;
+  // --- LÍNEA AÑADIDA ---
+  employeeId?: string | null; 
 }
 
-export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: BookingDateTimePickerProps) {
+export function BookingDateTimePicker({ serviceDuration, onDateTimeChange, employeeId }: BookingDateTimePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // --- LÓGICA MODIFICADA ---
   useEffect(() => {
     if (!selectedDate) {
       setAvailableSlots([]);
@@ -699,33 +1111,37 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
       setLoading(true);
       setError(null);
       setSelectedSlot(null);
+      onDateTimeChange(null); // Reseteamos la fecha seleccionada al cambiar de día/empleado
 
       try {
         const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
         const response = await apiClient.get<string[]>('/availability', {
           params: {
             date: formattedDate,
-            duration: serviceDuration,
+            // Si hay un employeeId y no es 'any', lo enviamos. Si no, no lo incluimos.
+            ...(employeeId && employeeId !== 'any' && { employeeId }),
           },
         });
         setAvailableSlots(response.data);
       } catch (err) {
         console.error('Error fetching availability:', err);
-        setError('No se pudo cargar la disponibilidad para este día.');
+        setError('No se pudo cargar la disponibilidad.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchAvailability();
-  }, [selectedDate, serviceDuration]);
+  // El useEffect ahora también depende de employeeId
+  }, [selectedDate, employeeId, onDateTimeChange]);
+  // --- FIN DE LA MODIFICACIÓN ---
+
 
   const handleSlotSelect = (slot: string) => {
     setSelectedSlot(slot);
     if (selectedDate) {
       const hours = parseInt(slot.split(':')[0] ?? '0', 10);
       const minutes = parseInt(slot.split(':')[1] ?? '0', 10);
-
       const finalDateTime = dayjs(selectedDate).hour(hours).minute(minutes).toDate();
       onDateTimeChange(finalDateTime);
     }
@@ -737,11 +1153,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
         value={selectedDate}
         onChange={setSelectedDate}
         minDate={new Date()}
-        // --- LÍNEA AÑADIDA ---
-        // dayjs() considera el Domingo como el día 0 y Sábado como el 6.
-        // Al especificar [0], le decimos a Mantine que solo el Domingo es fin de semana.
-        weekendDays={[0]} 
-        // --- FIN DE LA LÍNEA AÑADIDA ---
+        weekendDays={[0]}
       />
 
       <Stack mt="lg">
@@ -750,7 +1162,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
         {error && <Text c="red">{error}</Text>}
         
         {!loading && !error && availableSlots.length === 0 && (
-          <Text c="dimmed">No hay huecos disponibles para este día.</Text>
+          <Text c="dimmed">No hay huecos disponibles para esta selección.</Text>
         )}
 
         {!loading && !error && availableSlots.length > 0 && (
@@ -772,7 +1184,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
 }
 
 
-// ====== [10] apps/client/src/components/common/PublicFooter.module.css ======
+// ====== [15] apps/client/src/components/common/PublicFooter.module.css ======
 /* File: /apps/client/src/components/common/PublicFooter.module.css (CORREGIDO) */
 
 .footer {
@@ -798,7 +1210,7 @@ export function BookingDateTimePicker({ serviceDuration, onDateTimeChange }: Boo
 }
 
 
-// ====== [11] apps/client/src/components/common/PublicFooter.tsx ======
+// ====== [16] apps/client/src/components/common/PublicFooter.tsx ======
 // File: /apps/client/src/components/common/PublicFooter.tsx (CORREGIDO)
 
 import { Container, Text, Anchor, Group } from '@mantine/core';
@@ -826,7 +1238,7 @@ export function PublicFooter() {
 }
 
 
-// ====== [12] apps/client/src/components/common/PublicHeader.module.css ======
+// ====== [17] apps/client/src/components/common/PublicHeader.module.css ======
 /* File: /apps/client/src/components/common/PublicHeader.module.css (NUEVO ARCHIVO) */
 
 .header {
@@ -865,7 +1277,7 @@ export function PublicFooter() {
 }
 
 
-// ====== [13] apps/client/src/components/common/PublicHeader.tsx ======
+// ====== [18] apps/client/src/components/common/PublicHeader.tsx ======
 // File: /apps/client/src/components/common/PublicHeader.tsx (ACTUALIZADO)
 
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -878,7 +1290,6 @@ export function PublicHeader() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        {/* Logo como Imagen */}
         <Image
           src="/logo.png"
           alt="Logo de AquaClean Car Wash"
@@ -888,7 +1299,6 @@ export function PublicHeader() {
           onClick={() => navigate('/')}
         />
 
-        {/* Enlaces de Navegación */}
         <Group gap={5} visibleFrom="xs">
           <NavLink to="/" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`} end>
             Inicio
@@ -896,15 +1306,14 @@ export function PublicHeader() {
           <NavLink to="/services" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>
             Servicios
           </NavLink>
-          {/* --- LÍNEA AÑADIDA --- */}
           <NavLink to="/team" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>
             Nuestro Equipo
           </NavLink>
         </Group>
 
-        {/* Botón de Reserva */}
         <Group>
-          <Button onClick={() => navigate('/services')}>Reservar Cita</Button>
+          {/* --- LÍNEA MODIFICADA --- */}
+          <Button onClick={() => navigate('/booking')}>Reservar Cita</Button>
         </Group>
       </Container>
     </header>
@@ -912,7 +1321,7 @@ export function PublicHeader() {
 }
 
 
-// ====== [14] apps/client/src/custom.d.ts ======
+// ====== [19] apps/client/src/custom.d.ts ======
 // File: /apps/client/src/custom.d.ts (NUEVO ARCHIVO)
 
 // Este archivo le dice a TypeScript cómo tratar los archivos CSS Modules.
@@ -924,7 +1333,7 @@ declare module '*.module.css' {
 }
 
 
-// ====== [15] apps/client/src/layouts/AdminLayout.tsx ======
+// ====== [20] apps/client/src/layouts/AdminLayout.tsx ======
 // File: /apps/client/src/layouts/AdminLayout.tsx (ACTUALIZADO)
 
 import { Outlet, Navigate, NavLink } from 'react-router-dom';
@@ -957,7 +1366,7 @@ export function AdminLayout() {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened, desktop: true } }}
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }} // <-- desktop: true eliminado para que se vea en desktop
       padding="md"
     >
       <AppShell.Header>
@@ -967,7 +1376,6 @@ export function AdminLayout() {
         </Group>
       </AppShell.Header>
 
-      {/* Navegación para móvil */}
       <AppShell.Navbar p="md">
          <NavLink 
             to="/admin" 
@@ -994,10 +1402,16 @@ export function AdminLayout() {
          >
             Empleados
          </NavLink>
-         {/* Aquí podríamos añadir un botón de "Cerrar Sesión" */}
+         {/* --- LÍNEA AÑADIDA --- */}
+         <NavLink 
+            to="/admin/settings" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Ajustes del Negocio
+         </NavLink>
+         {/* --- FIN DE LA LÍNEA AÑADIDA --- */}
       </AppShell.Navbar>
       
-      {/* Contenedor principal para el contenido de la página */}
       <AppShell.Main>
         <Outlet /> 
       </AppShell.Main>
@@ -1006,7 +1420,7 @@ export function AdminLayout() {
 }
 
 
-// ====== [16] apps/client/src/layouts/PublicLayout.tsx ======
+// ====== [21] apps/client/src/layouts/PublicLayout.tsx ======
 // File: /apps/client/src/layouts/PublicLayout.tsx (ACTUALIZADO)
 
 import { Outlet } from 'react-router-dom';
@@ -1039,7 +1453,7 @@ export function PublicLayout() {
 }
 
 
-// ====== [17] apps/client/src/lib/apiClient.ts ======
+// ====== [22] apps/client/src/lib/apiClient.ts ======
 // File: /apps/client/src/lib/apiClient.ts
 
 import axios from 'axios';
@@ -1064,7 +1478,7 @@ const apiClient = axios.create({
 export default apiClient;
 
 
-// ====== [18] apps/client/src/main.tsx ======
+// ====== [23] apps/client/src/main.tsx ======
 // File: /apps/client/src/main.tsx (ACTUALIZADO)
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1089,14 +1503,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 
-// ====== [19] apps/client/src/pages/admin/AdminDashboardPage.tsx ======
+// ====== [24] apps/client/src/pages/admin/AdminDashboardPage.tsx ======
 // File: /apps/client/src/pages/admin/AdminDashboardPage.tsx
 export function AdminDashboardPage() {
   return <h3>Dashboard Principal</h3>;
 }
 
 
-// ====== [20] apps/client/src/pages/admin/AdminLoginPage.tsx ======
+// ====== [25] apps/client/src/pages/admin/AdminLoginPage.tsx ======
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -1186,7 +1600,7 @@ export function AdminLoginPage() {
 }
 
 
-// ====== [21] apps/client/src/pages/admin/AdminPlanningPage.tsx ======
+// ====== [26] apps/client/src/pages/admin/AdminPlanningPage.tsx ======
 // File: /apps/client/src/pages/admin/AdminPlanningPage.tsx (ACTUALIZADO)
 
 import { useState, useEffect } from 'react';
@@ -1310,147 +1724,316 @@ export function AdminPlanningPage() {
 }
 
 
-// ====== [22] apps/client/src/pages/admin/EmployeesManagementPage.tsx ======
-import { useEffect, useState } from 'react';
-import {
-  Table,
-  Title,
-  Button,
-  Modal,
-  TextInput,
-  Textarea,
-  Select,
-  Group,
-  Avatar,
-  Text,
-  Flex,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useForm, zodResolver } from '@mantine/form';
-import apiClient from '../../lib/apiClient';
-import { createEmployeeSchema } from '@aquaclean/types';
+// ====== [27] apps/client/src/pages/admin/BusinessSettingsPage.tsx ======
+// File: /apps/client/src/pages/admin/BusinessSettingsPage.tsx (VERSIÓN FINAL)
 
-// Definimos un tipo para los datos de los empleados que recibimos de la API
-interface Employee {
+import { useState, useEffect } from 'react';
+import { Title, Text, Paper, LoadingOverlay, Alert, Select, Button, Group, Stack } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+import { notifications } from '@mantine/notifications';
+import { IconAlertCircle } from '@tabler/icons-react';
+import apiClient from '../../lib/apiClient';
+
+// --- Esquema de validación para el formulario del frontend ---
+const settingsSchema = z.object({
+  defaultServiceId: z.string().min(1, 'Debes seleccionar un servicio por defecto.'),
+});
+
+// --- Tipos de datos que esperamos de la API ---
+interface Service {
   id: string;
   name: string;
-  email: string;
-  role: string;
-  imageUrl?: string;
+  duration: number;
 }
+interface SettingsData {
+  settings: {
+    defaultServiceId: string | null;
+    weeklySchedule: any;
+    defaultService: Service | null;
+  };
+  allServices: Service[];
+}
+
+export function BusinessSettingsPage() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [allServices, setAllServices] = useState<{ value: string; label: string }[]>([]);
+
+  // --- Inicialización del formulario con Mantine ---
+  const form = useForm({
+    initialValues: {
+      defaultServiceId: '',
+    },
+    validate: zodResolver(settingsSchema),
+  });
+
+  // --- Efecto para cargar los datos iniciales ---
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get<SettingsData>('/admin/settings');
+        const { settings, allServices } = response.data;
+        
+        // Poblamos el formulario con los datos recibidos
+        form.setValues({
+          defaultServiceId: settings.defaultServiceId || '',
+        });
+        
+        // Transformamos los servicios para el componente Select
+        setAllServices(allServices.map(s => ({ value: s.id, label: `${s.name} (${s.duration} min)` })));
+        
+      } catch (err) {
+        setError('No se pudo cargar la configuración del negocio.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // --- Función para manejar el envío del formulario ---
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      await apiClient.put('/admin/settings', values);
+      notifications.show({
+        title: '¡Guardado!',
+        message: 'La configuración del negocio se ha actualizado correctamente.',
+        color: 'green',
+      });
+    } catch (err) {
+      notifications.show({
+        title: 'Error',
+        message: 'No se pudo guardar la configuración. Inténtalo de nuevo.',
+        color: 'red',
+      });
+    }
+  };
+
+  return (
+    <Paper component="form" onSubmit={form.onSubmit(handleSubmit)} shadow="md" p="xl" withBorder pos="relative">
+      <LoadingOverlay visible={loading} />
+      
+      <Title order={2}>Ajustes del Negocio</Title>
+      <Text c="dimmed" mt="sm" mb="xl">
+        Configura aquí las opciones principales de la aplicación.
+      </Text>
+
+      {error && (
+        <Alert icon={<IconAlertCircle size="1rem" />} title="Error de Carga" color="red" mb="xl">
+          {error}
+        </Alert>
+      )}
+      
+      <Stack>
+        <Select
+          label="Servicio por Defecto para las Reservas"
+          description="Este es el único servicio que se ofrecerá a los clientes al reservar."
+          data={allServices}
+          disabled={loading}
+          withAsterisk
+          {...form.getInputProps('defaultServiceId')}
+        />
+
+        <Group justify="flex-end" mt="xl">
+          <Button type="submit" disabled={loading}>
+            Guardar Cambios
+          </Button>
+        </Group>
+      </Stack>
+    </Paper>
+  );
+}
+
+
+// ====== [28] apps/client/src/pages/admin/EmployeesManagementPage.tsx ======
+// File: /apps/client/src/pages/admin/EmployeesManagementPage.tsx (COMPLETO Y CORREGIDO)
+
+import { useEffect, useState } from 'react';
+import { Table, Title, Button, Modal, TextInput, Select, Group, Avatar, Text, Flex, Badge, SegmentedControl, Tabs, LoadingOverlay, Stack, Box, Textarea } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useForm, zodResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconArchive, IconUserPlus, IconUserCheck, IconUser, IconClock, IconBeach } from '@tabler/icons-react';
+import apiClient from '../../lib/apiClient';
+import { createEmployeeSchema } from '@aquaclean/types';
+import { ScheduleEditor, WeeklySchedule } from '../../components/admin/ScheduleEditor';
+import { AbsenceCalendar, Absence } from '../../components/admin/AbsenceCalendar';
+import { ConflictResolutionModal } from '../../components/admin/ConflictResolutionModal';
+
+export interface Employee {
+  id: string; name: string; email: string; role: 'ADMIN' | 'EMPLOYEE';
+  status: 'ACTIVE' | 'ARCHIVED'; imageUrl?: string | null; bio?: string | null;
+  workSchedule?: WeeklySchedule;
+}
+interface Conflict { id: string; startTime: string; user: { name: string | null; }; }
 
 export function EmployeesManagementPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | undefined>(undefined);
+  const [employeeAbsences, setEmployeeAbsences] = useState<Absence[]>([]);
+  const [statusFilter, setStatusFilter] = useState('ACTIVE');
+  
+  const [conflictingAppointments, setConflictingAppointments] = useState<Conflict[]>([]);
+  const [conflictModalOpened, { open: openConflictModal, close: closeConflictModal }] = useDisclosure(false);
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
 
   const form = useForm({
     validate: zodResolver(createEmployeeSchema),
-    initialValues: {
-      name: '',
-      email: '',
-      role: 'EMPLOYEE',
-      bio: '',
-      imageUrl: '',
-    },
+    initialValues: { name: '', email: '', role: 'EMPLOYEE', bio: '', imageUrl: '', workSchedule: {} as WeeklySchedule },
   });
 
   const fetchEmployees = async () => {
-    try {
-      setLoading(true);
-      const response = await apiClient.get<Employee[]>('/employees');
-      setEmployees(response.data);
-      setError(null);
-    } catch (err) {
-      setError('No se pudieron cargar los empleados.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    try { setLoading(true); const response = await apiClient.get<Employee[]>(`/employees?status=${statusFilter}`); setEmployees(response.data);
+    } catch (err) { notifications.show({ title: 'Error', message: 'No se pudieron cargar los empleados.', color: 'red' });
+    } finally { setLoading(false); }
   };
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
+  useEffect(() => { fetchEmployees(); }, [statusFilter]);
 
-  const handleSubmit = async (values: typeof form.values) => {
-    try {
-      // Omitimos workSchedule ya que no lo estamos manejando en este formulario
-      const dataToSend = { ...values, workSchedule: {} };
-      const response = await apiClient.post<Employee>('/employees', dataToSend);
-      setEmployees((current) => [...current, response.data]);
-      close();
-      form.reset();
-    } catch (err) {
-      console.error('Error al crear el empleado:', err);
-      // Aquí podrías añadir un feedback de error al usuario
-    }
+  const handleCreate = () => {
+    form.reset(); setSelectedEmployee(undefined); setEmployeeAbsences([]); openModal();
   };
 
-  if (loading) return <p>Cargando empleados...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  const handleEdit = async (employee: Employee) => {
+    setLoading(true); setSelectedEmployee(employee);
+    const sanitizedEmployeeData = { ...employee, bio: employee.bio || '', imageUrl: employee.imageUrl || '', workSchedule: employee.workSchedule || {}, };
+    form.setValues(sanitizedEmployeeData);
+    try {
+        const absencesResponse = await apiClient.get<Absence[]>(`/employees/${employee.id}/absences`);
+        setEmployeeAbsences(absencesResponse.data); openModal();
+    } catch (error) { notifications.show({ title: 'Error', message: 'No se pudieron cargar las ausencias del empleado.', color: 'red' });
+    } finally { setLoading(false); }
+  };
 
+  const handleFormSubmit = async (values: typeof form.values) => {
+    setIsSubmitting(true);
+    try {
+      if (selectedEmployee) { await apiClient.put(`/employees/${selectedEmployee.id}`, values);
+        notifications.show({ title: '¡Guardado!', message: 'Los datos del empleado han sido actualizados.', color: 'green' });
+      } else { await apiClient.post('/employees', values);
+        notifications.show({ title: '¡Creado!', message: 'El nuevo empleado ha sido añadido.', color: 'green' });
+      }
+      fetchEmployees(); closeModal();
+    } catch (err) { notifications.show({ title: 'Error', message: 'No se pudo guardar el empleado.', color: 'red' });
+    } finally { setIsSubmitting(false); }
+  };
+
+  const handleStatusChange = async (employee: Employee, status: 'ACTIVE' | 'ARCHIVED') => {
+    try { await apiClient.put(`/employees/${employee.id}`, { status });
+      notifications.show({ title: `Empleado ${status === 'ACTIVE' ? 'Reactivado' : 'Archivado'}`, message: `${employee.name} ha sido actualizado.`, color: status === 'ACTIVE' ? 'teal' : 'orange' });
+      fetchEmployees();
+    } catch (err) { notifications.show({ title: 'Error', message: 'No se pudo cambiar el estado del empleado.', color: 'red' }); }
+  };
+
+  const handleAddAbsence = async (dates: [Date, Date]) => {
+      if (!selectedEmployee) return;
+      try {
+          const newAbsence = await apiClient.post<Absence>(`/employees/${selectedEmployee.id}/absences`, { startDate: dates[0], endDate: dates[1] });
+          setEmployeeAbsences([...employeeAbsences, newAbsence.data]);
+          notifications.show({ title: 'Ausencia Añadida', message: 'El periodo de ausencia ha sido guardado.', color: 'green' });
+      } catch (error: any) { 
+          if (error.response && error.response.status === 409) {
+              setConflictingAppointments(error.response.data.conflicts || []);
+              openConflictModal();
+          } else {
+              notifications.show({ title: 'Error', message: 'No se pudo guardar la ausencia.', color: 'red' });
+          }
+      }
+  };
+
+  const handleDeleteAbsence = async (absenceId: string) => {
+      if (!selectedEmployee) return;
+      try {
+          await apiClient.delete(`/employees/${selectedEmployee.id}/absences/${absenceId}`);
+          setEmployeeAbsences(employeeAbsences.filter(a => a.id !== absenceId));
+          notifications.show({ title: 'Ausencia Eliminada', message: 'El periodo de ausencia ha sido eliminado.', color: 'orange' });
+      } catch (error) { notifications.show({ title: 'Error', message: 'No se pudo eliminar la ausencia.', color: 'red' }); }
+  };
+  
   return (
     <div>
-      <Modal opened={opened} onClose={close} title="Añadir Nuevo Empleado" centered>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput label="Nombre Completo" placeholder="Ej: Juan Pérez" {...form.getInputProps('name')} withAsterisk />
-          <TextInput label="Email" type="email" placeholder="ej: juan.perez@email.com" {...form.getInputProps('email')} withAsterisk mt="md" />
-          <Select
-            label="Rol en el sistema"
-            data={[
-              { value: 'EMPLOYEE', label: 'Empleado' },
-              { value: 'ADMIN', label: 'Administrador' },
-            ]}
-            {...form.getInputProps('role')}
-            withAsterisk
-            mt="md"
-          />
-          <Textarea label="Biografía (opcional)" placeholder="Breve descripción para la página pública" {...form.getInputProps('bio')} mt="md" />
-          <TextInput label="URL de la Foto (opcional)" placeholder="https://ejemplo.com/foto.jpg" {...form.getInputProps('imageUrl')} mt="md" />
-          <Group justify="flex-end" mt="xl">
-            <Button variant="default" onClick={close}>Cancelar</Button>
-            <Button type="submit">Añadir Empleado</Button>
-          </Group>
-        </form>
+      <Modal opened={modalOpened} onClose={closeModal} title={selectedEmployee ? `Editando a ${selectedEmployee.name}` : 'Añadir Nuevo Empleado'} size="xl" centered>
+        <LoadingOverlay visible={isSubmitting || loading} />
+        <Tabs defaultValue="profile">
+          <Tabs.List>
+            <Tabs.Tab value="profile" leftSection={<IconUser size={14} />}>Perfil</Tabs.Tab>
+            <Tabs.Tab value="schedule" leftSection={<IconClock size={14} />}>Horario Laboral</Tabs.Tab>
+            <Tabs.Tab value="absences" leftSection={<IconBeach size={14} />}>Ausencias</Tabs.Tab>
+          </Tabs.List>
+
+          <form onSubmit={form.onSubmit(handleFormSubmit)}>
+            {/* --- SECCIÓN RESTAURADA --- */}
+            <Tabs.Panel value="profile" pt="md">
+              <Stack>
+                <TextInput label="Nombre Completo" {...form.getInputProps('name')} withAsterisk />
+                <TextInput label="Email" type="email" {...form.getInputProps('email')} withAsterisk />
+                <Select
+                    label="Rol en el sistema"
+                    data={[{ value: 'EMPLOYEE', label: 'Empleado' }, { value: 'ADMIN', label: 'Administrador' }]}
+                    {...form.getInputProps('role')}
+                    withAsterisk
+                />
+                <TextInput label="URL de la Foto" {...form.getInputProps('imageUrl')} />
+                <Textarea label="Biografía" {...form.getInputProps('bio')} /> 
+              </Stack>
+            </Tabs.Panel>
+            {/* --- FIN DE LA SECCIÓN RESTAURADA --- */}
+            
+            <Tabs.Panel value="schedule" pt="md">
+                <ScheduleEditor value={form.values.workSchedule} onChange={(schedule) => form.setFieldValue('workSchedule', schedule)} />
+            </Tabs.Panel>
+
+            {selectedEmployee && (
+              <Tabs.Panel value="absences" pt="md">
+                  <AbsenceCalendar absences={employeeAbsences} onAddAbsence={handleAddAbsence} onDeleteAbsence={handleDeleteAbsence} />
+              </Tabs.Panel>
+            )}
+
+            <Group justify="flex-end" mt="xl">
+                <Button variant="default" onClick={closeModal}>Cancelar</Button>
+                <Button type="submit">Guardar Cambios</Button>
+            </Group>
+          </form>
+        </Tabs>
       </Modal>
 
-      <Group justify="space-between">
+      <ConflictResolutionModal opened={conflictModalOpened} onClose={closeConflictModal} conflicts={conflictingAppointments} />
+
+      <Group justify="space-between" mb="xl">
         <Title order={2}>Gestión de Empleados</Title>
-        <Button onClick={open}>Añadir Nuevo Empleado</Button>
+        <Button onClick={handleCreate} leftSection={<IconUserPlus size={14} />}>Añadir Empleado</Button>
       </Group>
 
-      <Table mt="md" striped highlightOnHover withTableBorder>
+      <SegmentedControl value={statusFilter} onChange={setStatusFilter} data={[{ label: 'Activos', value: 'ACTIVE' }, { label: 'Archivados', value: 'ARCHIVED' }]} mb="md" />
+
+      <Table striped highlightOnHover withTableBorder>
         <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Nombre</Table.Th>
-            <Table.Th>Email</Table.Th>
-            <Table.Th>Rol</Table.Th>
-            <Table.Th>Acciones</Table.Th>
-          </Table.Tr>
+          <Table.Tr><Table.Th>Nombre</Table.Th><Table.Th>Rol</Table.Th><Table.Th>Estado</Table.Th><Table.Th>Acciones</Table.Th></Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {employees.length > 0 ? (
-            employees.map((employee) => (
-              <Table.Tr key={employee.id}>
-                <Table.Td>
-                  <Flex align="center" gap="sm">
-                    <Avatar src={employee.imageUrl} name={employee.name} radius="xl" />
-                    <Text>{employee.name}</Text>
-                  </Flex>
-                </Table.Td>
-                <Table.Td>{employee.email}</Table.Td>
-                <Table.Td>{employee.role}</Table.Td>
-                <Table.Td>{/* Botones de Editar/Eliminar irán aquí */}</Table.Td>
-              </Table.Tr>
-            ))
-          ) : (
-            <Table.Tr>
-              <Table.Td colSpan={4}>No hay empleados creados.</Table.Td>
+          {employees.map((employee) => (
+            <Table.Tr key={employee.id}>
+              <Table.Td><Group><Avatar src={employee.imageUrl || undefined} name={employee.name} radius="xl" /><Box><Text>{employee.name}</Text><Text size="xs" c="dimmed">{employee.email}</Text></Box></Group></Table.Td>
+              <Table.Td>{employee.role === 'ADMIN' ? 'Administrador' : 'Empleado'}</Table.Td>
+              <Table.Td><Badge color={employee.status === 'ACTIVE' ? 'green' : 'gray'}>{employee.status === 'ACTIVE' ? 'Activo' : 'Archivado'}</Badge></Table.Td>
+              <Table.Td>
+                <Group gap="xs">
+                  <Button variant="light" size="xs" onClick={() => handleEdit(employee)}>Editar</Button>
+                  {employee.status === 'ACTIVE' ? (
+                     <Button variant="light" color="orange" size="xs" onClick={() => handleStatusChange(employee, 'ARCHIVED')} leftSection={<IconArchive size={14} />}>Archivar</Button>
+                  ) : (
+                     <Button variant="light" color="teal" size="xs" onClick={() => handleStatusChange(employee, 'ACTIVE')} leftSection={<IconUserCheck size={14} />}>Reactivar</Button>
+                  )}
+                </Group>
+              </Table.Td>
             </Table.Tr>
-          )}
+          ))}
         </Table.Tbody>
       </Table>
     </div>
@@ -1458,45 +2041,35 @@ export function EmployeesManagementPage() {
 }
 
 
-// ====== [23] apps/client/src/pages/admin/ServicesManagementPage.tsx ======
-// File: /apps/client/src/pages/admin/ServicesManagementPage.tsx (CORREGIDO)
+// ====== [29] apps/client/src/pages/admin/ServicesManagementPage.tsx ======
+// File: /apps/client/src/pages/admin/ServicesManagementPage.tsx (RECONSTRUIDO)
 
 import { useEffect, useState } from 'react';
-import { Table, Title, Button, Modal, TextInput, Textarea, NumberInput, Group } from '@mantine/core';
+import { Table, Title, Button, Group, Modal, ActionIcon, Switch, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useForm, zodResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconPencil, IconTrash } from '@tabler/icons-react';
 import apiClient from '../../lib/apiClient';
 import type { Service } from '@aquaclean/types';
-// CORRECCIÓN: Importamos el esquema a través del paquete de tipos compartidos
-import { createServiceSchema } from '@aquaclean/types';
+import { ServiceForm } from '../../components/admin/ServiceForm';
 
 export function ServicesManagementPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<Partial<Service> | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const form = useForm({
-    validate: zodResolver(createServiceSchema),
-    initialValues: {
-      name: '',
-      description: '',
-      duration: 0,
-      prices: { standard: 0 },
-      category: '',
-    },
-  });
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+  const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false);
 
   const fetchServices = async () => {
     try {
       setLoading(true);
       const response = await apiClient.get<Service[]>('/services');
       setServices(response.data);
-      setError(null);
     } catch (err) {
       setError('No se pudieron cargar los servicios.');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -1506,65 +2079,135 @@ export function ServicesManagementPage() {
     fetchServices();
   }, []);
 
-  const handleSubmit = async (values: typeof form.values) => {
+  const handleCreate = () => {
+    setSelectedService(undefined);
+    openModal();
+  };
+
+  const handleEdit = (service: Service) => {
+    setSelectedService(service);
+    openModal();
+  };
+  
+  const handleDeleteConfirm = (service: Service) => {
+    setSelectedService(service);
+    openDeleteModal();
+  };
+
+  const handleFormSuccess = () => {
+    fetchServices(); // Recargamos la lista de servicios
+    closeModal();
+    setIsSubmitting(false);
+  };
+  
+  const handleToggleActive = async (service: Service) => {
     try {
-      const response = await apiClient.post<Service>('/services', values);
-      setServices((currentServices) => [...currentServices, response.data]);
-      close();
-      form.reset();
+      const updatedService = { ...service, isActive: !service.isActive };
+      await apiClient.put(`/services/${service.id}`, { isActive: updatedService.isActive });
+      setServices(services.map(s => s.id === service.id ? updatedService : s));
+      notifications.show({ title: 'Estado Cambiado', message: `El servicio "${service.name}" ha sido actualizado.`, color: 'blue' });
     } catch (err) {
-      console.error('Error al crear el servicio:', err);
+      notifications.show({ title: 'Error', message: 'No se pudo cambiar el estado del servicio.', color: 'red' });
     }
   };
+
+  const handleFormSubmit = async (serviceData: Partial<Service>) => {
+    setIsSubmitting(true);
+    try {
+      if (serviceData.id) { // Modo Edición
+        const response = await apiClient.put<Service>(`/services/${serviceData.id}`, serviceData);
+        notifications.show({ title: '¡Actualizado!', message: 'El servicio ha sido guardado correctamente.', color: 'green' });
+      } else { // Modo Creación
+        const response = await apiClient.post<Service>('/services', serviceData);
+        notifications.show({ title: '¡Creado!', message: 'El nuevo servicio ha sido añadido.', color: 'green' });
+      }
+      handleFormSuccess();
+    } catch (err: any) {
+      setIsSubmitting(false);
+      const errorMessage = err.response?.data?.message || 'Ocurrió un error al guardar el servicio.';
+      notifications.show({ title: 'Error', message: errorMessage, color: 'red' });
+    }
+  };
+  
+  const handleDeleteService = async () => {
+    if (!selectedService?.id) return;
+    setIsSubmitting(true);
+    try {
+      await apiClient.delete(`/services/${selectedService.id}`);
+      notifications.show({ title: '¡Eliminado!', message: 'El servicio ha sido eliminado.', color: 'orange' });
+      fetchServices();
+      closeDeleteModal();
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || 'No se pudo eliminar el servicio.';
+      notifications.show({ title: 'Error', message: errorMessage, color: 'red' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
 
   if (loading) return <p>Cargando servicios...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
     <div>
-      <Modal opened={opened} onClose={close} title="Crear Nuevo Servicio" centered>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput label="Nombre del Servicio" placeholder="Ej: Lavado Premium" {...form.getInputProps('name')} withAsterisk />
-          <Textarea label="Descripción" placeholder="Descripción detallada del servicio" {...form.getInputProps('description')} withAsterisk mt="md" />
-          <NumberInput label="Duración (minutos)" placeholder="Ej: 60" {...form.getInputProps('duration')} withAsterisk mt="md" />
-          <TextInput label="Categoría" placeholder="Ej: Detallado Interior" {...form.getInputProps('category')} withAsterisk mt="md" />
-          <NumberInput label="Precio Estándar" placeholder="Ej: 50" {...form.getInputProps('prices.standard')} withAsterisk mt="md" />
-          <Group justify="flex-end" mt="xl">
-            <Button variant="default" onClick={close}>Cancelar</Button>
-            <Button type="submit">Crear Servicio</Button>
-          </Group>
-        </form>
+      {/* Modal para Crear/Editar */}
+      <Modal opened={modalOpened} onClose={closeModal} title={selectedService?.id ? 'Editar Servicio' : 'Crear Nuevo Servicio'} centered>
+        <ServiceForm 
+          initialData={selectedService}
+          onSuccess={handleFormSubmit}
+          onClose={closeModal}
+          isSubmitting={isSubmitting}
+        />
       </Modal>
 
-      <Group justify="space-between">
+      {/* Modal de confirmación para Eliminar */}
+      <Modal opened={deleteModalOpened} onClose={closeDeleteModal} title="Confirmar Eliminación" centered>
+        <Text>¿Estás seguro de que quieres eliminar el servicio "{selectedService?.name}"? Esta acción no se puede deshacer.</Text>
+        <Group justify="flex-end" mt="md">
+          <Button variant="default" onClick={closeDeleteModal}>Cancelar</Button>
+          <Button color="red" onClick={handleDeleteService} loading={isSubmitting}>Eliminar Servicio</Button>
+        </Group>
+      </Modal>
+
+      <Group justify="space-between" mb="xl">
         <Title order={2}>Gestión de Servicios</Title>
-        <Button onClick={open}>Crear Nuevo Servicio</Button>
+        <Button onClick={handleCreate}>Crear Nuevo Servicio</Button>
       </Group>
 
-      <Table mt="md" striped highlightOnHover withTableBorder>
+      <Table striped highlightOnHover withTableBorder>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Nombre</Table.Th>
-            <Table.Th>Categoría</Table.Th>
-            <Table.Th>Duración (min)</Table.Th>
+            <Table.Th>Duración</Table.Th>
+            <Table.Th>Estado</Table.Th>
             <Table.Th>Acciones</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {services.length > 0 ? (
-            services.map((service) => (
-              <Table.Tr key={service.id}>
-                <Table.Td>{service.name}</Table.Td>
-                <Table.Td>{service.category}</Table.Td>
-                <Table.Td>{service.duration}</Table.Td>
-                <Table.Td>{/* Botones de Editar/Eliminar irán aquí */}</Table.Td>
-              </Table.Tr>
-            ))
-          ) : (
-            <Table.Tr>
-              <Table.Td colSpan={4}>No hay servicios creados.</Table.Td>
+          {services.map((service) => (
+            <Table.Tr key={service.id}>
+              <Table.Td>{service.name}</Table.Td>
+              <Table.Td>{service.duration} min</Table.Td>
+              <Table.Td>
+                <Switch 
+                  checked={service.isActive} 
+                  onChange={() => handleToggleActive(service)}
+                  label={service.isActive ? 'Activo' : 'Inactivo'}
+                />
+              </Table.Td>
+              <Table.Td>
+                <Group gap="xs">
+                  <ActionIcon variant="light" onClick={() => handleEdit(service)}>
+                    <IconPencil size={16} />
+                  </ActionIcon>
+                  <ActionIcon variant="light" color="red" onClick={() => handleDeleteConfirm(service)}>
+                    <IconTrash size={16} />
+                  </ActionIcon>
+                </Group>
+              </Table.Td>
             </Table.Tr>
-          )}
+          ))}
         </Table.Tbody>
       </Table>
     </div>
@@ -1572,95 +2215,90 @@ export function ServicesManagementPage() {
 }
 
 
-// ====== [24] apps/client/src/pages/public/BookingPage.tsx ======
+// ====== [30] apps/client/src/pages/public/BookingPage.tsx ======
 // File: /apps/client/src/pages/public/BookingPage.tsx (ACTUALIZADO)
 
 import { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { BookingDateTimePicker } from '../../components/booking/BookingDateTimePicker';
 import apiClient from '../../lib/apiClient';
 
-// Esquema de validación para el formulario del cliente en el frontend.
-// Debería coincidir con el esquema del backend.
 const customerInfoSchema = z.object({
   customerName: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
   customerEmail: z.string().email({ message: 'Introduce un email válido.' }),
   customerPhone: z.string().min(9, { message: 'Introduce un número de teléfono válido.' }),
-  vehicleMake: z.string().min(2, { message: 'La marca es requerida.' }),
-  vehicleModel: z.string().min(1, { message: 'El modelo es requerido.' }),
 });
+interface Employee { id: string; name: string; }
+interface Settings { defaultService: { duration: number; id: string; }; }
 
 export function BookingPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  
-  // Datos que vienen de la página de servicios
-  const serviceId = searchParams.get('serviceId');
-  const serviceDuration = searchParams.get('duration');
-
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [employees, setEmployees] = useState<{ value: string; label: string }[]>([]);
+  // --- LÍNEA MODIFICADA ---
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>('any');
+  const [serviceInfo, setServiceInfo] = useState<{ duration: number; id: string } | null>(null);
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const [employeesRes, settingsRes] = await Promise.all([
+          apiClient.get<Employee[]>('/employees/public'),
+          apiClient.get<{ settings: Settings }>('/admin/settings'),
+        ]);
+        const employeeOptions = employeesRes.data.map(emp => ({ value: emp.id, label: emp.name }));
+        setEmployees([ { value: 'any', label: 'Cualquier Profesional' }, ...employeeOptions ]);
+        if (settingsRes.data.settings.defaultService) {
+          setServiceInfo(settingsRes.data.settings.defaultService);
+        } else {
+          throw new Error('No hay un servicio por defecto configurado.');
+        }
+      } catch (err) {
+        setError('No se pudo cargar la configuración de la reserva. Por favor, inténtalo más tarde.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchInitialData();
+  }, []);
+
   const form = useForm({
     validate: zodResolver(customerInfoSchema),
-    initialValues: {
-      customerName: '',
-      customerEmail: '',
-      customerPhone: '',
-      vehicleMake: '',
-      vehicleModel: '',
-    },
+    initialValues: { customerName: '', customerEmail: '', customerPhone: '' },
   });
-
-  // Si no tenemos los datos del servicio, no podemos continuar.
-  // Esto podría pasar si el usuario navega a /booking directamente.
-  useEffect(() => {
-    if (!serviceId || !serviceDuration) {
-      setError('No se ha seleccionado ningún servicio. Por favor, vuelve a la página de servicios y elige uno.');
-    }
-  }, [serviceId, serviceDuration]);
-
 
   const handleDateTimeChange = (dateTime: Date | null) => {
     setSelectedDateTime(dateTime);
-    if (dateTime) {
-      setActiveStep(1); // Avanzamos al siguiente paso
-    }
+    if (dateTime) { setActiveStep(1); }
   };
 
   const handleBookingSubmit = async (values: typeof form.values) => {
-    if (!serviceId || !selectedDateTime) {
-      setError('Faltan datos para completar la reserva. Inténtalo de nuevo.');
+    if (!serviceInfo?.id || !selectedDateTime) {
+      setError('Faltan datos para completar la reserva.');
       return;
     }
-
     setLoading(true);
     setError(null);
-
     try {
       const payload = {
         ...values,
-        serviceId,
+        serviceId: serviceInfo.id,
         startTime: selectedDateTime.toISOString(),
-        // El empleado se asignará en el backend o en un paso futuro.
-        // Por ahora, usamos el empleado de prueba del seed.
-        // OJO: Este ID debe existir en tu base de datos (creado por el seed.ts).
-        employeeId: 'cmg9is1e70002z69d1pgjua97', // <-- Hardcodeado temporalmente
+        ...(selectedEmployeeId && selectedEmployeeId !== 'any' && { employeeId: selectedEmployeeId }),
       };
-
       await apiClient.post('/bookings', payload);
-
-      // Si todo va bien, pasamos al paso final de confirmación
       setActiveStep(2);
-
     } catch (err: any) {
-      console.error('Error al crear la reserva:', err);
-      const errorMessage = err.response?.data?.message || 'No se pudo completar la reserva. Inténtalo de nuevo más tarde.';
+      const errorMessage = err.response?.data?.message || 'No se pudo completar la reserva.';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -1670,41 +2308,46 @@ export function BookingPage() {
   if (error && activeStep < 2) {
     return (
       <Container size="sm" py="xl">
-        <Alert title="Error" color="red" variant="light">
-          {error}
-        </Alert>
-        <Button onClick={() => navigate('/services')} mt="md">
-          Volver a Servicios
-        </Button>
+        <Alert title="Error Crítico" color="red" variant="light">{error}</Alert>
+        <Button onClick={() => navigate('/')} mt="md">Volver a Inicio</Button>
       </Container>
     );
   }
 
   return (
     <Container size="sm" py="xl">
-      <Title order={2} ta="center" mb="xl">
-        Realizar una Reserva
-      </Title>
+      <LoadingOverlay visible={loading} />
+      <Title order={2} ta="center" mb="xl">Realizar una Reserva</Title>
 
       <Stepper active={activeStep} onStepClick={setActiveStep}>
-        <Stepper.Step label="Paso 1" description="Elige Fecha y Hora">
+        <Stepper.Step label="Paso 1" description="Elige Profesional y Hora">
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
-            <BookingDateTimePicker
-              serviceDuration={Number(serviceDuration)}
-              onDateTimeChange={handleDateTimeChange}
+            <Select
+              label="Elige un profesional"
+              placeholder="Selecciona tu profesional de preferencia"
+              data={employees}
+              value={selectedEmployeeId}
+              onChange={setSelectedEmployeeId}
+              mb="xl"
             />
+            {serviceInfo && (
+              <BookingDateTimePicker
+                key={selectedEmployeeId}
+                serviceDuration={serviceInfo.duration}
+                onDateTimeChange={handleDateTimeChange}
+                employeeId={selectedEmployeeId}
+              />
+            )}
           </Paper>
         </Stepper.Step>
 
         <Stepper.Step label="Paso 2" description="Tus Datos">
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md" component="form" onSubmit={form.onSubmit(handleBookingSubmit)}>
-            <LoadingOverlay visible={loading} />
+            <LoadingOverlay visible={loading && activeStep === 1} />
             <Title order={4} mb="lg">Completa tu información</Title>
-            <TextInput label="Nombre Completo" placeholder="Tu nombre" {...form.getInputProps('customerName')} withAsterisk />
-            <TextInput label="Email" type="email" placeholder="tu@email.com" {...form.getInputProps('customerEmail')} withAsterisk mt="md" />
-            <TextInput label="Teléfono" type="tel" placeholder="600 123 456" {...form.getInputProps('customerPhone')} withAsterisk mt="md" />
-            <TextInput label="Marca del Vehículo" placeholder="Ej: Toyota" {...form.getInputProps('vehicleMake')} withAsterisk mt="md" />
-            <TextInput label="Modelo del Vehículo" placeholder="Ej: Corolla" {...form.getInputProps('vehicleModel')} withAsterisk mt="md" />
+            <TextInput label="Nombre Completo" {...form.getInputProps('customerName')} withAsterisk />
+            <TextInput label="Email" type="email" {...form.getInputProps('customerEmail')} withAsterisk mt="md" />
+            <TextInput label="Teléfono" {...form.getInputProps('customerPhone')} withAsterisk mt="md" />
             <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={() => setActiveStep(0)}>Volver</Button>
               <Button type="submit">Confirmar Reserva</Button>
@@ -1715,15 +2358,9 @@ export function BookingPage() {
         <Stepper.Step label="Paso 3" description="Confirmación">
            <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
              <Title order={3} ta="center">¡Reserva Confirmada!</Title>
-             <Text ta="center" mt="md">
-               Gracias por tu reserva. Hemos enviado un email de confirmación a <strong>{form.values.customerEmail}</strong> con todos los detalles de tu cita.
-             </Text>
-             <Text ta="center" mt="sm">
-                Fecha de la cita: <strong>{selectedDateTime?.toLocaleString('es-ES')}</strong>
-             </Text>
-             <Group justify="center" mt="xl">
-                <Button onClick={() => navigate('/')}>Ir a la Página de Inicio</Button>
-             </Group>
+             <Text ta="center" mt="md">Hemos enviado un email de confirmación a <strong>{form.values.customerEmail}</strong>.</Text>
+             <Text ta="center" mt="sm">Fecha de la cita: <strong>{selectedDateTime?.toLocaleString('es-ES')}</strong></Text>
+             <Group justify="center" mt="xl"><Button onClick={() => navigate('/')}>Ir a Inicio</Button></Group>
            </Paper>
         </Stepper.Step>
       </Stepper>
@@ -1732,7 +2369,7 @@ export function BookingPage() {
 }
 
 
-// ====== [25] apps/client/src/pages/public/HomePage.module.css ======
+// ====== [31] apps/client/src/pages/public/HomePage.module.css ======
 /* File: /apps/client/src/pages/public/HomePage.module.css (ACTUALIZADO) */
 
 .hero {
@@ -1785,7 +2422,7 @@ export function BookingPage() {
 }
 
 
-// ====== [26] apps/client/src/pages/public/HomePage.tsx ======
+// ====== [32] apps/client/src/pages/public/HomePage.tsx ======
 // File: /apps/client/src/pages/public/HomePage.tsx (ACTUALIZADO)
 
 import { Title, Text, Button, Container, SimpleGrid, ThemeIcon, Stack } from '@mantine/core';
@@ -1793,7 +2430,6 @@ import { IconTruck, IconCertificate, IconCalendarStats } from '@tabler/icons-rea
 import { useNavigate } from 'react-router-dom';
 import classes from './HomePage.module.css';
 
-// --- Sub-componente para la sección de Características ---
 function Feature({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) {
   return (
     <Stack align="center" ta="center">
@@ -1811,30 +2447,27 @@ export function HomePage() {
 
   return (
     <>
-      {/* --- SECCIÓN HERO --- */}
       <div className={classes.hero}>
         <div className={classes.overlay} />
         <Container className={classes.heroContent} size="lg">
           <Title className={classes.heroTitle}>La Excelencia en Cada Detalle</Title>
-          {/* --- LÍNEA MODIFICADA --- */}
           <Text className={classes.heroDescription} c="white" size="xl" mt="xl">
             Tu vehículo merece el mejor cuidado. Descubre nuestros servicios de detallado premium y devuélvele el brillo que se merece.
           </Text>
-          {/* --- FIN DE LA MODIFICACIÓN --- */}
           <Button
             variant="gradient"
             gradient={{ from: 'blue', to: 'cyan' }}
             size="xl"
             radius="xl"
             className={classes.heroButton}
-            onClick={() => navigate('/services')}
+            // --- LÍNEA MODIFICADA ---
+            onClick={() => navigate('/booking')}
           >
-            Ver Servicios y Reservar
+            Reservar Ahora
           </Button>
         </Container>
       </div>
 
-      {/* --- SECCIÓN DE CARACTERÍSTICAS --- */}
       <Container py="xl" mt="xl">
         <Title order={2} ta="center" mb="xl">
           ¿Por Qué Elegir AquaClean?
@@ -1858,13 +2491,13 @@ export function HomePage() {
         </SimpleGrid>
       </Container>
       
-      {/* --- SECCIÓN FINAL CTA --- */}
       <Container py="xl" ta="center">
          <Title order={3}>¿Listo para que tu coche luzca como nuevo?</Title>
          <Text c="dimmed" mt="sm" mb="lg">
            No esperes más. Encuentra el servicio perfecto y agenda tu cita hoy mismo.
          </Text>
-         <Button size="lg" onClick={() => navigate('/services')}>
+         {/* --- LÍNEA MODIFICADA --- */}
+         <Button size="lg" onClick={() => navigate('/booking')}>
            Reservar Mi Cita Ahora
          </Button>
       </Container>
@@ -1873,7 +2506,7 @@ export function HomePage() {
 }
 
 
-// ====== [27] apps/client/src/pages/public/ServicesPage.tsx ======
+// ====== [33] apps/client/src/pages/public/ServicesPage.tsx ======
 // File: /apps/client/src/pages/public/ServicesPage.tsx (ACTUALIZADO)
 
 import { useEffect, useState } from 'react';
@@ -1974,7 +2607,7 @@ export function ServicesPage() {
 }
 
 
-// ====== [28] apps/client/src/pages/public/TeamPage.tsx ======
+// ====== [34] apps/client/src/pages/public/TeamPage.tsx ======
 // File: /apps/client/src/pages/public/TeamPage.tsx (NUEVO ARCHIVO)
 
 import { useEffect, useState } from 'react';
@@ -2079,7 +2712,7 @@ export function TeamPage() {
 }
 
 
-// ====== [29] apps/client/tsconfig.json ======
+// ====== [35] apps/client/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -2092,7 +2725,7 @@ export function TeamPage() {
 
 
 
-// ====== [30] apps/client/tsconfig.node.json ======
+// ====== [36] apps/client/tsconfig.node.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -2105,7 +2738,7 @@ export function TeamPage() {
 }
 
 
-// ====== [31] apps/server/package.json ======
+// ====== [37] apps/server/package.json ======
 {
   "name": "server",
   "version": "1.0.0",
@@ -2151,10 +2784,10 @@ export function TeamPage() {
 }
 
 
-// ====== [32] apps/server/prisma/seed.ts ======
-// File: /apps/server/prisma/seed.ts (CORREGIDO)
+// ====== [38] apps/server/prisma/seed.ts ======
+// File: /apps/server/prisma/seed.ts (ACTUALIZADO)
 
-import { PrismaClient, UserRole } from '@prisma/client';
+import { PrismaClient, UserRole, EmployeeStatus } from '@prisma/client'; // EmployeeStatus importado
 import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -2162,11 +2795,22 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Starting database seed...');
 
+  // --- 0. Limpieza Previa de Datos Relacionados ---
+  console.log('Cleaning up old relations...');
+  await prisma.businessSettings.updateMany({
+    data: { defaultServiceId: null },
+  });
+  await prisma.appointmentService.deleteMany({});
+  // Borramos las ausencias antes que los empleados
+  await prisma.absence.deleteMany({}); 
+  await prisma.appointment.deleteMany({});
+  console.log('Cleanup complete.');
+  
   // --- 1. Seed del Usuario Administrador ---
   const adminEmail = 'admin@aquaclean.com';
   const adminPassword = 'password123';
-
   const adminUser = await prisma.user.findUnique({ where: { email: adminEmail } });
+
   if (!adminUser) {
     const hashedPassword = await hash(adminPassword, 12);
     await prisma.user.create({
@@ -2183,35 +2827,7 @@ async function main() {
     console.log('Admin user already exists. Skipping creation.');
   }
 
-  // --- 2. Seed de la Configuración del Negocio ---
-  const businessSettings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
-  const defaultWeeklySchedule = {
-    monday: { open: '09:00', close: '19:00' },
-    tuesday: { open: '09:00', close: '19:00' },
-    wednesday: { open: '09:00', close: '19:00' },
-    thursday: { open: '09:00', close: '19:00' },
-    friday: { open: '09:00', close: '19:00' },
-    saturday: { open: '10:00', close: '14:00' },
-    sunday: null,
-  };
-
-  if (!businessSettings) {
-    await prisma.businessSettings.create({
-      data: {
-        singleton: 'SINGLETON',
-        weeklySchedule: defaultWeeklySchedule,
-      },
-    });
-    console.log('✅ Default business settings created.');
-  } else {
-    await prisma.businessSettings.update({
-      where: { singleton: 'SINGLETON' },
-      data: { weeklySchedule: defaultWeeklySchedule },
-    });
-    console.log('✅ Business settings updated to default values.');
-  }
-
-  // --- 3. Seed del Empleado de Prueba ---
+  // --- 2. Seed del Empleado de Prueba ---
   const employeeEmail = 'employee@aquaclean.com';
   const testEmployee = await prisma.employee.findUnique({ where: { email: employeeEmail } });
   const employeeWorkSchedule = {
@@ -2230,51 +2846,69 @@ async function main() {
         name: 'Juan Empleado',
         role: UserRole.EMPLOYEE,
         workSchedule: employeeWorkSchedule,
+        status: EmployeeStatus.ACTIVE, // <-- LÍNEA AÑADIDA
       },
     });
     console.log(`✅ Test employee created successfully: ${employeeEmail}`);
   } else {
     await prisma.employee.update({
         where: { email: employeeEmail },
-        data: { workSchedule: employeeWorkSchedule }
+        data: { 
+          workSchedule: employeeWorkSchedule,
+          status: EmployeeStatus.ACTIVE, // <-- LÍNEA AÑADIDA
+        }
     });
     console.log('✅ Test employee updated with default work schedule.');
   }
 
-  // --- 4. SEED DE SERVICIOS (LA PARTE QUE FALTABA) ---
-  console.log('Seeding services...');
-  // Para asegurar un estado limpio, borramos los servicios existentes antes de crearlos
+  // --- 3. Seed del Servicio por Defecto ---
+  console.log('Seeding default service...');
+  // Borramos las citas antes que los servicios para evitar conflictos
+  await prisma.appointment.deleteMany({});
   await prisma.service.deleteMany({});
   
-  const servicesToCreate = [
-    {
-      name: 'Lavado Básico Exterior',
-      description: 'Un lavado exterior rápido y eficiente para dejar tu coche reluciente. Incluye prelavado, lavado a mano con champú pH neutro y secado con microfibra.',
-      duration: 30,
-      prices: { standard: 20 },
-      category: 'Lavado Exterior',
-    },
-    {
-      name: 'Lavado Premium Completo',
-      description: 'El tratamiento completo. Incluye lavado exterior, aspirado interior, limpieza de cristales y salpicadero.',
-      duration: 60,
-      prices: { standard: 45, suv: 55 },
+  const defaultService = await prisma.service.create({
+    data: {
+      name: 'Servicio Completo de Detallado',
+      description: 'El único servicio que lo tiene todo. Limpieza exterior e interior profunda para dejar tu vehículo como el primer día.',
+      duration: 75,
+      prices: { standard: 60, suv: 75 },
       category: 'Completo',
+      isActive: true,
     },
-    {
-      name: 'Limpieza Interior Profunda',
-      description: 'Dejamos el interior de tu coche como nuevo. Aspirado profundo, limpieza de tapicería (tela o cuero), paneles de puerta y consola central.',
-      duration: 90,
-      prices: { standard: 70 },
-      category: 'Detallado Interior',
-    },
-  ];
-
-  await prisma.service.createMany({
-    data: servicesToCreate,
   });
-  console.log(`✅ Seeded ${servicesToCreate.length} services.`);
-  // --- FIN DE LA SECCIÓN AÑADIDA ---
+  console.log(`✅ Seeded 1 default service: "${defaultService.name}"`);
+
+  // --- 4. Seed de la Configuración del Negocio ---
+  await prisma.businessSettings.upsert({
+    where: { singleton: 'SINGLETON' },
+    update: { 
+      weeklySchedule: {
+        monday: { open: '09:00', close: '19:00' },
+        tuesday: { open: '09:00', close: '19:00' },
+        wednesday: { open: '09:00', close: '19:00' },
+        thursday: { open: '09:00', close: '19:00' },
+        friday: { open: '09:00', close: '19:00' },
+        saturday: { open: '10:00', close: '14:00' },
+        sunday: null,
+      },
+      defaultServiceId: defaultService.id,
+    },
+    create: {
+      singleton: 'SINGLETON',
+      weeklySchedule: {
+        monday: { open: '09:00', close: '19:00' },
+        tuesday: { open: '09:00', close: '19:00' },
+        wednesday: { open: '09:00', close: '19:00' },
+        thursday: { open: '09:00', close: '19:00' },
+        friday: { open: '09:00', close: '19:00' },
+        saturday: { open: '10:00', close: '14:00' },
+        sunday: null,
+      },
+      defaultServiceId: defaultService.id,
+    },
+  });
+  console.log('✅ Business settings created/updated and linked to default service.');
 
   console.log('Database seed finished.');
 }
@@ -2289,7 +2923,7 @@ main()
   });
 
 
-// ====== [33] apps/server/src/api/adminAppointments.routes.ts ======
+// ====== [39] apps/server/src/api/adminAppointments.routes.ts ======
 // File: /apps/server/src/api/adminAppointments.routes.ts (CORREGIDO)
 
 import { Router } from 'express';
@@ -2427,7 +3061,84 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [34] apps/server/src/api/auth.routes.ts ======
+// ====== [40] apps/server/src/api/adminSettings.routes.ts ======
+// File: /apps/server/src/api/adminSettings.routes.ts (ACTUALIZADO)
+
+import { Router } from 'express';
+import { z, ZodError } from 'zod';
+import prisma from '../lib/prisma';
+import { Prisma } from '@prisma/client';
+
+const router = Router();
+
+const updateSettingsSchema = z.object({
+  defaultServiceId: z.string().cuid({ message: 'El ID del servicio no es válido.' }),
+});
+
+
+// --- OBTENER LA CONFIGURACIÓN ACTUAL DEL NEGOCIO ---
+router.get('/', async (req, res) => {
+  try {
+    const settings = await prisma.businessSettings.findUnique({
+      where: { singleton: 'SINGLETON' },
+      include: {
+        defaultService: true,
+      },
+    });
+
+    if (!settings) {
+      return res.status(404).json({ message: 'No se ha encontrado la configuración del negocio.' });
+    }
+
+    // --- LÍNEA MODIFICADA ---
+    // Ahora solo obtenemos los servicios que están activos
+    const allServices = await prisma.service.findMany({
+      where: { isActive: true },
+    });
+    // --- FIN DE LA MODIFICACIÓN ---
+
+    res.status(200).json({
+      settings,
+      allServices,
+    });
+
+  } catch (error) {
+    console.error('Error al obtener la configuración del negocio:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- ACTUALIZAR LA CONFIGURACIÓN DEL NEGOCIO ---
+router.put('/', async (req, res) => {
+  try {
+    const validatedData = updateSettingsSchema.parse(req.body);
+
+    const updatedSettings = await prisma.businessSettings.update({
+      where: { singleton: 'SINGLETON' },
+      data: {
+        defaultServiceId: validatedData.defaultServiceId,
+      },
+    });
+
+    res.status(200).json(updatedSettings);
+
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'El servicio seleccionado no existe.' });
+    }
+    console.error('Error al actualizar la configuración del negocio:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+
+export default router;
+
+
+// ====== [41] apps/server/src/api/auth.routes.ts ======
 import { Router } from 'express';
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -2505,108 +3216,116 @@ router.post('/login', async (req, res) => {
 export default router;
 
 
-// ====== [35] apps/server/src/api/availability.routes.ts ======
+// ====== [42] apps/server/src/api/availability.routes.ts ======
+// File: /apps/server/src/api/availability.routes.ts (CORREGIDO CON LÓGICA SECUENCIAL)
+
 import { Router } from 'express';
 import { z } from 'zod';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import isBetween from 'dayjs/plugin/isBetween';
 import prisma from '../lib/prisma';
+import { Employee, Absence } from '@prisma/client';
 
 dayjs.extend(utc);
+dayjs.extend(isBetween);
 
 const router = Router();
 
 const availabilityQuerySchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'El formato de fecha debe ser YYYY-MM-DD'),
-  duration: z.string().regex(/^\d+$/).transform(Number),
+  employeeId: z.string().cuid().optional(),
 });
+
+const isEmployeeAvailable = (
+  employee: Employee & { absences: Absence[] },
+  slot: dayjs.Dayjs,
+  serviceDuration: number
+): boolean => {
+  const dayOfWeek = slot.format('dddd').toLowerCase();
+  const workSchedule = employee.workSchedule as any;
+  const daySchedule = workSchedule?.[dayOfWeek] as { start: string; end: string }[] | undefined;
+  if (!daySchedule) return false;
+
+  const worksDuringSlot = daySchedule.some(shift => {
+    const shiftStart = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.start}`);
+    const shiftEnd = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.end}`);
+    return !slot.isBefore(shiftStart) && !slot.add(serviceDuration, 'minutes').isAfter(shiftEnd);
+  });
+  if (!worksDuringSlot) return false;
+  
+  const hasAbsence = employee.absences.some(absence => {
+    return slot.isBetween(dayjs.utc(absence.startDate), dayjs.utc(absence.endDate), 'day', '[]');
+  });
+  if (hasAbsence) return false;
+
+  return true;
+};
 
 router.get('/', async (req, res) => {
   try {
     const validation = availabilityQuerySchema.safeParse(req.query);
-    if (!validation.success) {
-      return res.status(400).json({ message: 'Parámetros inválidos.', errors: validation.error.issues });
-    }
-    const { date, duration } = validation.data;
+    if (!validation.success) return res.status(400).json({ errors: validation.error.issues });
+    
+    const { date, employeeId } = validation.data;
     const selectedDate = dayjs.utc(date);
-    const dayOfWeek = selectedDate.format('dddd').toLowerCase();
 
     const settings = await prisma.businessSettings.findUnique({
       where: { singleton: 'SINGLETON' },
+      include: { defaultService: true },
     });
+    if (!settings?.defaultService) return res.status(503).json({ message: 'El servicio por defecto no está configurado.' });
 
-    if (!settings) {
-      // Este es el error que veías. Ahora lo devolvemos con un 404 para ser más claros.
-      return res.status(404).json({ message: 'La configuración del negocio no ha sido establecida.' });
-    }
-
-    const weeklySchedule = settings.weeklySchedule as any;
-    const businessDayHours = weeklySchedule[dayOfWeek];
-
-    if (!businessDayHours || !businessDayHours.open || !businessDayHours.close) {
-      return res.status(200).json([]);
-    }
-
-    const employees = await prisma.employee.findMany({
-      where: { workSchedule: { not: 'null' } },
-    });
+    const { defaultService, weeklySchedule } = settings;
+    const serviceDuration = defaultService.duration;
+    const dayOfWeek = selectedDate.format('dddd').toLowerCase();
+    const businessDayHours = (weeklySchedule as any)[dayOfWeek];
+    if (!businessDayHours) return res.json([]);
 
     const appointments = await prisma.appointment.findMany({
-      where: {
-        startTime: {
-          gte: selectedDate.startOf('day').toDate(),
-          lte: selectedDate.endOf('day').toDate(),
-        },
-      },
+      where: { startTime: { gte: selectedDate.startOf('day').toDate(), lte: selectedDate.endOf('day').toDate() } },
+    });
+    const bookedSlots = new Set(appointments.map(apt => dayjs.utc(apt.startTime).format('HH:mm')));
+    
+    const availableSlots: string[] = [];
+    const openingTime = dayjs.utc(`${date}T${businessDayHours.open}`);
+    const closingTime = dayjs.utc(`${date}T${businessDayHours.close}`);
+    let currentTime = openingTime;
+
+    const activeEmployees = await prisma.employee.findMany({
+      where: { status: 'ACTIVE' },
+      include: { absences: true },
     });
 
-    const openingTime = parseInt(businessDayHours.open.split(':')[0]);
-    const closingTime = parseInt(businessDayHours.close.split(':')[0]);
-    const slotInterval = 15;
+    while (currentTime.add(serviceDuration, 'minutes').isBefore(closingTime.add(1, 'minute'))) {
+      const slotTime = currentTime.format('HH:mm');
 
-    const availableSlots: string[] = [];
-    let currentTime = selectedDate.hour(openingTime).minute(0).second(0);
-    const endOfDay = selectedDate.hour(closingTime).minute(0).second(0);
-
-    while (currentTime.isBefore(endOfDay)) {
-      const slotStartTime = currentTime;
-      const slotEndTime = currentTime.add(duration, 'minutes');
-
-      if (slotEndTime.isAfter(endOfDay)) {
-        break;
-      }
-
-      const isWithinEmployeeHours = employees.some(employee => {
-        const schedule = employee.workSchedule as any;
-        const daySchedule = schedule[dayOfWeek] as { start: string, end: string }[] | undefined;
-        if (!daySchedule) return false;
-
-        return daySchedule.some(shift => {
-          const shiftStart = dayjs.utc(`${date}T${shift.start}`);
-          const shiftEnd = dayjs.utc(`${date}T${shift.end}`);
-          return !slotStartTime.isBefore(shiftStart) && !slotEndTime.isAfter(shiftEnd);
-        });
-      });
-
-      if (!isWithinEmployeeHours) {
-        currentTime = currentTime.add(slotInterval, 'minutes');
+      // 1. El hueco ya está ocupado, pasamos al siguiente
+      if (bookedSlots.has(slotTime)) {
+        currentTime = currentTime.add(serviceDuration, 'minutes');
         continue;
       }
-
-      // --- LÍNEA CORREGIDA ---
-      // Esta es la lógica correcta de solapamiento.
-      const isOverlapping = appointments.some(appointment => {
-        const aptStart = dayjs(appointment.startTime);
-        const aptEnd = dayjs(appointment.endTime);
-        return slotStartTime.isBefore(aptEnd) && slotEndTime.isAfter(aptStart);
-      });
-      // --- FIN DE LA CORRECCIÓN ---
-
-      if (!isOverlapping) {
-        availableSlots.push(slotStartTime.format('HH:mm'));
+      
+      let isSomeEmployeeAvailable = false;
+      // 2. Si se pide un empleado específico, comprobamos si ESE está disponible
+      if (employeeId && employeeId !== 'any') {
+        const specificEmployee = activeEmployees.find(emp => emp.id === employeeId);
+        if (specificEmployee) {
+          isSomeEmployeeAvailable = isEmployeeAvailable(specificEmployee, currentTime, serviceDuration);
+        }
+      // 3. Si es "Cualquier empleado", comprobamos si AL MENOS UNO está disponible
+      } else {
+        isSomeEmployeeAvailable = activeEmployees.some(emp => isEmployeeAvailable(emp, currentTime, serviceDuration));
       }
 
-      currentTime = currentTime.add(slotInterval, 'minutes');
+      // 4. Si el hueco está libre Y alguien puede trabajar, lo añadimos
+      if (isSomeEmployeeAvailable) {
+        availableSlots.push(slotTime);
+      }
+
+      // --- CORRECCIÓN CLAVE ---
+      // Avanzamos al siguiente hueco consecutivo
+      currentTime = currentTime.add(serviceDuration, 'minutes');
     }
 
     res.status(200).json(availableSlots);
@@ -2620,7 +3339,7 @@ router.get('/', async (req, res) => {
 export default router;
 
 
-// ====== [36] apps/server/src/api/bookings.routes.ts ======
+// ====== [43] apps/server/src/api/bookings.routes.ts ======
 // File: /apps/server/src/api/bookings.routes.ts (VERSIÓN FINAL QUE COMPILA)
 
 import { Router } from 'express';
@@ -2713,85 +3432,86 @@ router.post('/', async (req, res) => {
 export default router;
 
 
-// ====== [37] apps/server/src/api/employees.routes.ts ======
-// File: /apps/server/src/api/employees.routes.ts (CORREGIDO)
+// ====== [44] apps/server/src/api/employees.routes.ts ======
+// File: /apps/server/src/api/employees.routes.ts (ORDEN CORREGIDO)
 
 import { Router } from 'express';
+import { z, ZodError } from 'zod';
+import { Prisma, EmployeeStatus } from '@prisma/client';
 import prisma from '../lib/prisma';
-import { createEmployeeSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
-import { ZodError } from 'zod';
-import { Prisma } from '@prisma/client';
+import { createEmployeeSchema } from '@aquaclean/types';
 
 const router = Router();
 
-// --- OBTENER TODOS LOS EMPLEADOS ---
+// --- GESTIÓN DEL PERFIL DEL EMPLEADO Y RUTAS PÚBLICAS ---
+
+// Ruta para el panel de admin
 router.get('/', async (req, res) => {
   try {
-    const employees = await prisma.employee.findMany();
+    const { status } = req.query;
+    let whereClause = {};
+    if (status === 'ACTIVE' || status === 'ARCHIVED') {
+      whereClause = { status: status as EmployeeStatus };
+    }
+    const employees = await prisma.employee.findMany({ where: whereClause, orderBy: { name: 'asc' } });
     res.status(200).json(employees);
   } catch (error) {
-    console.error('Error al obtener los empleados:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- OBTENER UN EMPLEADO POR SU ID ---
+// --- RUTA PÚBLICA (MOVIDA HACIA ARRIBA) ---
+router.get('/public', async (req, res) => {
+  try {
+    const publicEmployees = await prisma.employee.findMany({
+      where: { status: 'ACTIVE' },
+      select: { id: true, name: true, bio: true, imageUrl: true },
+      orderBy: { name: 'asc' },
+    });
+    res.status(200).json(publicEmployees);
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+// --- RUTA GENÉRICA CON :id (AHORA VA DESPUÉS DE LA ESPECÍFICA) ---
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const employee = await prisma.employee.findUnique({
-      where: { id },
-    });
-
-    if (!employee) {
-      return res.status(404).json({ message: 'Empleado no encontrado.' });
-    }
-
+    const employee = await prisma.employee.findUnique({ where: { id } });
+    if (!employee) return res.status(404).json({ message: 'Empleado no encontrado.' });
     res.status(200).json(employee);
   } catch (error) {
-    console.error('Error al obtener el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- CREAR UN NUEVO EMPLEADO ---
 router.post('/', async (req, res) => {
   try {
     const validatedData = createEmployeeSchema.parse(req.body);
-
+    const { workSchedule, ...restOfData } = validatedData;
     const newEmployee = await prisma.employee.create({
       data: {
-        ...validatedData,
-        workSchedule: validatedData.workSchedule as Prisma.JsonObject,
+        ...restOfData,
+        workSchedule: (workSchedule as Prisma.JsonObject) ?? Prisma.JsonNull,
       },
     });
-
     res.status(201).json(newEmployee);
   } catch (error) {
-    if (error instanceof ZodError) {
-      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return res.status(409).json({ message: 'Ya existe un empleado con ese email.' });
     }
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return res.status(409).json({
-          message: 'Conflicto: ya existe un empleado con ese email.',
-          field: (error.meta?.target as string[])?.[0],
-        });
-      }
-    }
-    console.error('Error al crear el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- ACTUALIZAR UN EMPLEADO EXISTENTE ---
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updateSchema = createEmployeeSchema.partial();
     const validatedData = updateSchema.parse(req.body);
     const { workSchedule, ...restOfData } = validatedData;
-
     const updatedEmployee = await prisma.employee.update({
       where: { id },
       data: {
@@ -2801,40 +3521,59 @@ router.put('/:id', async (req, res) => {
         }),
       },
     });
-
     res.status(200).json(updatedEmployee);
   } catch (error) {
-    if (error instanceof ZodError) {
-      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
-    }
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return res.status(409).json({ message: 'Conflicto: ya existe un empleado con ese email.', field: 'email' });
-      }
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Empleado no encontrado.' });
-      }
+      if (error.code === 'P2025') return res.status(404).json({ message: 'Empleado no encontrado.' });
+      if (error.code === 'P2002') return res.status(409).json({ message: 'Ya existe otro empleado con ese email.' });
     }
-    console.error('Error al actualizar el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// --- ELIMINAR UN EMPLEADO ---
-router.delete('/:id', async (req, res) => {
+// --- GESTIÓN DE AUSENCIAS (VACACIONES, ETC.) ---
+// ... (el resto del archivo no cambia) ...
+
+const absenceSchema = z.object({
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+  reason: z.string().optional(),
+});
+
+router.get('/:employeeId/absences', async (req, res) => {
   try {
-    const { id } = req.params;
-    await prisma.employee.delete({
-      where: { id },
+    const { employeeId } = req.params;
+    const absences = await prisma.absence.findMany({ where: { employeeId } });
+    res.status(200).json(absences);
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+router.post('/:employeeId/absences', async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const validatedData = absenceSchema.parse(req.body);
+    const newAbsence = await prisma.absence.create({
+      data: { ...validatedData, employeeId },
     });
+    res.status(201).json(newAbsence);
+  } catch (error) {
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+router.delete('/:employeeId/absences/:absenceId', async (req, res) => {
+  try {
+    const { absenceId } = req.params;
+    await prisma.absence.delete({ where: { id: absenceId } });
     res.status(204).send();
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Empleado no encontrado.' });
-      }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'Ausencia no encontrada.' });
     }
-    console.error('Error al eliminar el empleado:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -2842,43 +3581,25 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [38] apps/server/src/api/services.routes.ts ======
-// File: /apps/server/src/api/services.routes.ts (CORREGIDO)
+// ====== [45] apps/server/src/api/services.routes.ts ======
+// File: /apps/server/src/api/services.routes.ts (RECONSTRUIDO)
 
 import { Router } from 'express';
-import prisma from '../lib/prisma';
-import { createServiceSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
 import { ZodError } from 'zod';
 import { Prisma } from '@prisma/client';
+import prisma from '../lib/prisma';
+import { createServiceSchema } from '@aquaclean/types';
 
 const router = Router();
 
 // --- OBTENER TODOS LOS SERVICIOS ---
 router.get('/', async (req, res) => {
   try {
-    const services = await prisma.service.findMany();
+    const services = await prisma.service.findMany({
+      orderBy: { name: 'asc' },
+    });
     res.status(200).json(services);
   } catch (error) {
-    console.error('Error al obtener los servicios:', error);
-    res.status(500).json({ message: 'Error interno del servidor.' });
-  }
-});
-
-// --- OBTENER UN SERVICIO POR SU ID ---
-router.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const service = await prisma.service.findUnique({
-      where: { id },
-    });
-
-    if (!service) {
-      return res.status(404).json({ message: 'Servicio no encontrado.' });
-    }
-
-    res.status(200).json(service);
-  } catch (error) {
-    console.error('Error al obtener el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -2895,7 +3616,6 @@ router.post('/', async (req, res) => {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
     }
-    console.error('Error al crear el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -2904,6 +3624,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    // Hacemos el esquema parcial para permitir actualizaciones de solo algunos campos
     const updateSchema = createServiceSchema.partial();
     const validatedData = updateSchema.parse(req.body);
 
@@ -2911,18 +3632,14 @@ router.put('/:id', async (req, res) => {
       where: { id },
       data: validatedData,
     });
-
     res.status(200).json(updatedService);
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
     }
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Servicio no encontrado.' });
-      }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'Servicio no encontrado.' });
     }
-    console.error('Error al actualizar el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -2931,17 +3648,26 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Lógica de seguridad: Comprobar si hay citas asociadas
+    const appointmentCount = await prisma.appointmentService.count({
+      where: { serviceId: id },
+    });
+
+    if (appointmentCount > 0) {
+      return res.status(409).json({ // 409 Conflict
+        message: `No se puede eliminar el servicio porque tiene ${appointmentCount} citas asociadas. Por favor, desactívalo en su lugar.`,
+      });
+    }
+
     await prisma.service.delete({
       where: { id },
     });
-    res.status(204).send();
+    res.status(204).send(); // 204 No Content
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Servicio no encontrado.' });
-      }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'Servicio no encontrado.' });
     }
-    console.error('Error al eliminar el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -2949,7 +3675,7 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [39] apps/server/src/lib/prisma.ts ======
+// ====== [46] apps/server/src/lib/prisma.ts ======
 // File: /apps/server/src/lib/prisma.ts
 
 import { PrismaClient } from '@prisma/client';
@@ -2963,7 +3689,7 @@ const prisma = new PrismaClient();
 export default prisma;
 
 
-// ====== [40] apps/server/src/server.ts ======
+// ====== [47] apps/server/src/server.ts ======
 // File: /apps/server/src/server.ts (ACTUALIZADO)
 
 import express, { Request, Response } from 'express';
@@ -2976,7 +3702,9 @@ import employeesRouter from './api/employees.routes';
 import authRouter from './api/auth.routes';
 import availabilityRouter from './api/availability.routes';
 import bookingsRouter from './api/bookings.routes';
-import adminAppointmentsRouter from './api/adminAppointments.routes'; // <-- LÍNEA AÑADIDA
+import adminAppointmentsRouter from './api/adminAppointments.routes';
+// --- LÍNEA AÑADIDA ---
+import adminSettingsRouter from './api/adminSettings.routes'; // <-- IMPORTAMOS EL FUTURO ENRUTADOR
 
 // Cargar variables de entorno
 dotenv.config();
@@ -2998,7 +3726,9 @@ app.use('/api/availability', availabilityRouter);
 app.use('/api/bookings', bookingsRouter);
 
 // Rutas Específicas del Panel de Administración
-app.use('/api/admin/appointments', adminAppointmentsRouter); // <-- LÍNEA AÑADIDA
+app.use('/api/admin/appointments', adminAppointmentsRouter);
+// --- LÍNEA AÑADIDA ---
+app.use('/api/admin/settings', adminSettingsRouter); // <-- LÍNEA AÑADIDA
 
 
 // Ruta de prueba para verificar que el servidor funciona
@@ -3012,7 +3742,7 @@ app.listen(PORT, () => {
 });
 
 
-// ====== [41] apps/server/tsconfig.json ======
+// ====== [48] apps/server/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -3026,7 +3756,7 @@ app.listen(PORT, () => {
 }
 
 
-// ====== [42] docs/PROJECT_SPECIFICATION.md ======
+// ====== [49] docs/PROJECT_SPECIFICATION.md ======
 <!-- File: /docs/PROJECT_SPECIFICATION.md - v1.1 -->
 
 # Propuesta y Especificación del Proyecto: AquaClean Car Wash
@@ -3095,7 +3825,7 @@ Esta sección actúa como un índice hacia los documentos de especificación det
 
 
 
-// ====== [43] docs/features/01-authentication.md ======
+// ====== [50] docs/features/01-authentication.md ======
 <!-- File: /docs/features/01-authentication.md - v1.0 -->
 ````markdown
 # 1. Sistema de Autenticación
@@ -3219,8 +3949,8 @@ model VerificationToken {
 
 
 
-// ====== [44] docs/features/02-public-site.md ======
-<!-- File: /docs/features/02-public-site.md - v1.0 -->
+// ====== [51] docs/features/02-public-site.md ======
+<!-- File: /docs/features/02-public-site.md - v1.1 (ACTUALIZADO) -->
 
 # 2. Sitio Público y Presentación
 
@@ -3232,228 +3962,143 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 ### Página de Inicio (`/`)
 
+**Estado: Implementado.** La página de inicio está funcional y sus botones de llamada a la acción redirigen directamente al flujo de reserva (`/booking`).
+
 **Propósito:** La primera impresión. Debe captar la atención del usuario en segundos y comunicar el valor y la calidad del servicio.
-
-**Componentes Clave:**
-
-- **Sección "Hero" (Principal):**
-  - Un banner de alta calidad (imagen o vídeo) mostrando un coche reluciente.
-  - Titular principal claro y potente (ej: "La Excelencia en Cada Detalle").
-  - Subtítulo que resuma la propuesta de valor.
-  - Botón de Llamada a la Acción (CTA) principal y muy visible: "Reservar Cita Ahora", que dirige al flujo de reserva.
-- **Sección de Servicios Destacados:**
-  - Una cuadrícula o carrusel mostrando 3-4 de los servicios más populares.
-  - Cada servicio mostrará: nombre, imagen, precio base y un botón "Ver Detalles" que lleva a la página de Servicios.
-- **Sección "Por Qué Elegirnos":**
-  - Iconos y texto breve resaltando 3-4 puntos fuertes: Productos Ecológicos, Técnicos Certificados, Satisfacción Garantizada, etc.
-- **Sección de Testimonios:**
-  - Un carrusel con 3-5 de las mejores valoraciones de clientes.
-  - Cada testimonio mostrará: nombre del cliente, servicio recibido, calificación (estrellas) y un extracto del comentario.
-  - Un botón "Leer todas las valoraciones" que enlaza a la página `/reviews`.
-- **Footer (Pie de Página):**
-  - Información de contacto (teléfono, email), dirección, mapa de ubicación (Google Maps embed), horario de apertura y enlaces a redes sociales.
-
-**Datos Requeridos (API):**
-
-- `GET /api/services?featured=true`
-- `GET /api/reviews?limit=5&featured=true`
 
 ### Página de Servicios (`/services`)
 
-**Estado: Implementado.** La página pública que lista todos los servicios disponibles desde la API ya está funcional.
+**Estado: Implementado.**
 
-**Propósito:** Actuar como un catálogo digital detallado que informa y persuade al cliente sobre la oferta del lavadero.
+**Propósito:** Actuar como un catálogo digital informativo. Aunque ya no es un paso obligatorio en la reserva, permite a los clientes interesados conocer en detalle los diferentes tratamientos que se han ofrecido o se podrían ofrecer.
 
 **Componentes Clave:**
 
-- **Listado Completo de Servicios:**
-  - Una cuadrícula con todos los servicios disponibles.
-  - Cada "tarjeta" de servicio incluirá: imagen, nombre, descripción corta, duración estimada y precio inicial ("Desde X €").
-- **Vista Detallada del Servicio (`/services/[slug]` o en un Modal):**
-  - Al hacer clic en un servicio, se mostrará:
-    - Galería de imágenes "Antes y Después".
-    - Descripción completa y detallada del proceso.
-    - Lista de "Qué incluye" punto por punto.
-    - Tabla de precios por tipo de vehículo (Pequeño, Mediano, Grande/SUV).
-    - Un botón CTA destacado: "Reservar este Servicio".
+- **Listado de Servicios:**
+  - Una cuadrícula con los servicios. Cada "tarjeta" de servicio incluye: nombre, descripción, duración y precio.
 
 **Datos Requeridos (API):**
 
 - ✅ `GET /api/services`
-- `GET /api/services/[id]`
 
 ### Página "Nuestro Equipo" (`/team`)
 
-**Propósito:** Humanizar la marca, generar confianza y permitir que los clientes elijan a su técnico preferido basándose en su experiencia.
+**Estado: Implementado.**
+
+**Propósito:** Humanizar la marca y generar confianza, presentando al personal que realiza los servicios.
 
 **Componentes Clave:**
 
 - **Perfiles de Empleados:**
-  - Una sección para cada técnico.
-  - Cada perfil incluirá:
-    - Foto profesional y de alta calidad.
-    - Nombre y Apellido.
-    - Cargo o Especialidad (ej: "Especialista en Detallado y Protección Cerámica").
-    - Biografía corta destacando su experiencia y pasión por los coches.
-    - Calificación media obtenida de las valoraciones de los clientes.
-    - Botón CTA: "Ver Disponibilidad de [Nombre]", que inicia el flujo de reserva con ese empleado ya seleccionado.
+  - Una sección para cada técnico con su foto, nombre, cargo y una breve biografía.
+- **Llamada a la Acción:**
+  - Cada perfil tiene un botón "Ver Servicios" que guía al usuario hacia el flujo de reserva.
+- **(Futuro):** El botón podría evolucionar a "Reservar con [Nombre]", pre-seleccionando a ese empleado en la página de booking.
 
 **Datos Requeridos (API):**
 
-- `GET /api/employees` (debe devolver el perfil público, incluyendo la valoración media).
+- ✅ `GET /api/employees` (Endpoint público).
 
 ### Página de Valoraciones de Clientes (`/reviews`)
 
+**Estado: Pendiente.**
+
 **Propósito:** Proveer prueba social masiva y transparente, mostrando las experiencias de otros clientes.
-
-**Componentes Clave:**
-
-- **Resumen de Calificaciones:**
-  - Mostrar la calificación media general y el número total de reseñas.
-- **Herramientas de Filtrado:**
-  - Dropdown para filtrar las valoraciones por servicio específico.
-  - Dropdown para filtrar las valoraciones por empleado.
-- **Listado de Reseñas:**
-  - Lista paginada de todas las reseñas aprobadas.
-  - Cada reseña mostrará: nombre del cliente (ej: "Juan G."), calificación en estrellas, servicio recibido, técnico que lo atendió, fecha y el texto completo del comentario.
-
-**Datos Requeridos (API):**
-
-- `GET /api/reviews?approved=true` (con soporte para paginación y filtros: `&serviceId=[ID]`, `&employeeId=[ID]`).
 
 ### Página de Tarjetas Regalo (`/gift-cards`)
 
+**Estado: Pendiente.**
+
 **Propósito:** Crear una nueva línea de ingresos permitiendo a los usuarios regalar servicios.
 
-**Componentes Clave:**
-
-- **Sección Explicativa:**
-  - Título atractivo (ej: "El Regalo Perfecto").
-  - Descripción del proceso en 3 pasos: 1. Elige el servicio, 2. Personaliza el regalo, 3. Paga y envía.
-- **Formulario de Compra:**
-  - Selección del servicio a regalar.
-  - Campos para: Nombre del destinatario, Email del destinatario (opcional, se puede enviar al comprador), Nombre del remitente, Mensaje personalizado.
-- **Proceso de Pago:**
-  - Integración con Stripe para el pago. Al completarse, el backend genera un código de regalo único y envía un email con la tarjeta regalo digital.
-
-**Datos Requeridos (API):**
-
-- `GET /api/services?giftable=true`
-- `POST /api/gift-cards`
 
 
-
-// ====== [45] docs/features/03-booking-flow.md ======
-<!-- File: /docs/features/03-booking-flow.md - v1.0 -->
+// ====== [52] docs/features/03-booking-flow.md ======
+<!-- File: /docs/features/03-booking-flow.md - v1.1 (ACTUALIZADO) -->
 
 # 3. Flujo de Reserva del Cliente
 
 ## 3.1. Objetivo
 
-Diseñar un proceso de reserva online que sea intuitivo, rápido y sin fricciones. El objetivo es guiar al usuario desde la selección del servicio hasta la confirmación de la cita en el menor número de pasos posible, minimizando la tasa de abandono y maximizando las conversiones. La experiencia debe ser excelente en cualquier dispositivo.
+Diseñar un proceso de reserva online que sea intuitivo, rápido y sin fricciones. El objetivo es guiar al usuario desde la selección del profesional (opcional) hasta la confirmación de la cita en el menor número de pasos posible, minimizando la tasa de abandono y maximizando las conversiones.
 
 ## 3.2. Puntos de Entrada al Flujo
 
 Un usuario puede iniciar el proceso de reserva desde múltiples puntos en la web:
 
-- Botón "Reservar Cita Ahora" en la página de Inicio.
-- Botón "Reservar este Servicio" en la página de Servicios (con el servicio ya pre-seleccionado).
-- Botón "Ver Disponibilidad de [Nombre]" en la página de Nuestro Equipo (con el empleado ya pre-seleccionado).
+- Botón "Reservar Ahora" en la página de Inicio, que dirige a `/booking`.
+- Botón "Reservar Cita" en la cabecera, que dirige a `/booking`.
+- (Futuro) Botón "Reservar con [Nombre]" en la página de equipo, que dirigirá a `/booking` con el empleado ya pre-seleccionado.
 
 ## 3.3. Desglose del Proceso por Pasos
 
-El flujo se presentará como un asistente multi-paso, preferiblemente dentro de un modal o en una única página (`/booking`) para mantener el contexto. Se utilizará un gestor de estado global (Zustand) para mantener la información de la reserva a través de los pasos.
+El flujo se presenta como un asistente multi-paso en la página `/booking`.
 
-### Paso 1: Selección de Servicio(s)
-
-**UI/UX:**
-
-- Se muestra una lista de todos los servicios principales. El usuario debe seleccionar uno.
-- A continuación, se muestra una lista de "Servicios Adicionales" (add-ons) que el usuario puede añadir opcionalmente (checkboxes).
-- Un panel de resumen, visible durante todo el proceso, se actualiza en tiempo real mostrando:
-  - Servicios seleccionados.
-  - **Duración total estimada** (calculada sumando la duración de todos los servicios).
-  - **Coste total estimado.**
-- Un botón "Siguiente" se activa una vez se ha seleccionado al menos un servicio principal.
-
-**Lógica de Negocio:**
-
-- El sistema debe sumar correctamente la duración de todos los servicios seleccionados. Este valor (`totalDuration`) es crítico para el siguiente paso.
-
-**API Calls:**
-
-- `GET /api/services` para obtener la lista de servicios, sus duraciones y precios.
-
-### Paso 2: Selección de Empleado y Fecha/Hora
+### Paso 1: Selección de Profesional (Opcional) y Fecha/Hora
 
 **UI/UX:**
 
-- **Selección de Empleado:**
-  - Un dropdown/selector permite al usuario elegir un empleado específico o mantener la opción por defecto: "Cualquier Empleado".
-  - Si el flujo se inició desde la página de un empleado, este ya vendrá pre-seleccionado.
+- **Selección de Profesional:**
+  - Se muestra un selector (`Select`) que permite al usuario elegir un empleado específico o mantener la opción por defecto: **"Cualquier Profesional"**.
 - **Selección de Fecha:**
-  - Se muestra un componente de calendario (`@mantine/dates`). Los días sin disponibilidad (ej: domingos, festivos) aparecen deshabilitados.
+  - Se muestra un componente de calendario (`DatePicker`).
 - **Selección de Hora:**
-  - Al seleccionar una fecha en el calendario, se realiza una llamada a la API para obtener los huecos disponibles.
-  - Se muestra una cuadrícula con los "slots" de tiempo disponibles (ej: 09:00, 09:45, 11:15).
-  - Los slots no disponibles o que no tienen suficiente duración para el servicio seleccionado aparecerán deshabilitados o no se mostrarán.
+  - Al cargar la página (y cada vez que se cambia de profesional o de día), se realiza una llamada a la API para obtener los huecos de tiempo disponibles.
+  - Se muestra una cuadrícula con los "slots" de tiempo disponibles (ej: 09:00, 10:15, 11:30).
   - El usuario selecciona un slot.
 - El botón "Siguiente" se activa una vez se ha seleccionado una fecha y una hora.
 
 **Lógica de Negocio:**
 
-- **Estado: Implementado.** La API de disponibilidad es el cerebro del sistema. Calcula los huecos basándose en una doble comprobación: el horario general del negocio (configurable) y el horario específico de los empleados disponibles, restando además las citas ya existentes. La `totalDuration` del servicio solicitado es un parámetro clave en este cálculo.
+- **Estado: Implementado.** La API de disponibilidad (`/api/availability`) es el cerebro del sistema.
+  - Si se selecciona "Cualquier Profesional", la API calcula la capacidad total, fusionando los horarios de todos los empleados activos y restando las citas ya existentes para ofrecer todos los huecos posibles.
+  - Si se selecciona un profesional específico, la API calcula la disponibilidad basándose únicamente en el horario y las ausencias de esa persona.
 
 **API Calls:**
 
-- ✅ `GET /api/availability?date=[YYYY-MM-DD]&duration=[MINUTES]&employeeId=[ID_OPCIONAL]`
+- ✅ `GET /api/employees/public` (para poblar el selector de profesionales).
+- ✅ `GET /api/availability?date=[YYYY-MM-DD]`
+- ✅ `GET /api/availability?date=[YYYY-MM-DD]&employeeId=[ID]`
 
-### Paso 3: Información Personal y del Vehículo
+### Paso 2: Información Personal
 
 **UI/UX:**
 
-- Un formulario (`@mantine/form`) solicita los datos del cliente.
-- **Datos del Cliente:** Nombre, Apellido, Email, Número de Teléfono.
-  - Si el usuario está logueado, estos campos se rellenan automáticamente desde su perfil.
-- **Datos del Vehículo:** Marca, Modelo, Matrícula (opcional), Tamaño (Pequeño, Mediano, Grande/SUV).
-  - Si el usuario está logueado y tiene vehículos guardados, puede seleccionarlos desde un dropdown.
-- Un checkbox para aceptar los términos y condiciones del servicio.
+- Un formulario (`@mantine/form`) solicita los datos del cliente: Nombre, Email y Número de Teléfono.
+- Si el usuario está logueado, estos campos se rellenan automáticamente.
 - El botón "Siguiente" se activa cuando todos los campos obligatorios están validados.
 
-### Paso 4: Resumen y Confirmación (Pago)
+### Paso 3: Resumen y Confirmación
 
 **UI/UX:**
 
 - Se muestra un resumen completo y claro de toda la selección:
-  - **Servicios:** Listado y desglose de precios.
-  - **Cita:** Día, Hora y Empleado asignado.
+  - **Servicio:** Nombre del servicio por defecto del negocio.
+  - **Cita:** Día, Hora y Profesional asignado (o "Cualquier Profesional").
   - **Tus Datos:** Nombre, email, teléfono.
-  - **Tu Vehículo:** Marca y modelo.
   - **Total a Pagar.**
-- Se integra un componente de pago de **Stripe (Payment Element)** para que el usuario introduzca los datos de su tarjeta.
-- El botón final, "Confirmar y Pagar", se activa una vez que el formulario de Stripe está completo.
+- El botón final es "Confirmar Reserva".
 
 **Lógica de Negocio:**
 
-- El frontend se comunica con Stripe para crear un `PaymentIntent`.
-- Al hacer clic en "Confirmar", se procesa el pago. Si el pago es exitoso, se procede a crear la reserva en la base de datos.
+- Al hacer clic en "Confirmar", se envía toda la información a la API de creación de reservas.
+- **Estado: Parcialmente Implementado.** La API es capaz de asignar la reserva a un empleado específico. La lógica para asignar automáticamente un empleado cuando se elige "Cualquier Profesional" está pendiente.
 
 **API Calls:**
 
-- `POST /api/payments/create-intent` (para iniciar el pago con Stripe).
-- `POST /api/bookings` (se envía toda la información de la reserva, incluido el `paymentIntentId` de Stripe, para crear la cita en la base de datos).
+- [⏳ Pendiente de Lógica Final] `POST /api/bookings`
 
 ## 3.4. Flujo Post-Reserva
 
 - **Página de Éxito:**
-  - Tras una reserva exitosa, el usuario es redirigido a una página de confirmación (`/booking/success`).
-  - Esta página muestra un mensaje de agradecimiento, resume los detalles de la cita y le indica al usuario que ha recibido un email de confirmación.
+  - Tras una reserva exitosa, el usuario es redirigido a una página de confirmación.
+  - Esta página muestra un mensaje de agradecimiento y resume los detalles de la cita.
 - **Notificaciones Automáticas:**
-  - El backend dispara las notificaciones correspondientes: email de confirmación al cliente y notificación a la empresa.
+  - **Estado: Pendiente.** El backend disparará las notificaciones correspondientes (email de confirmación al cliente, etc.).
 
 
 
-// ====== [46] docs/features/04-customer-panel.md ======
+// ====== [53] docs/features/04-customer-panel.md ======
 <!-- File: /docs/features/04-customer-panel.md - v1.0 -->
 # 4. Panel de Cliente
 
@@ -3554,14 +4199,14 @@ El panel de cliente estará disponible en la ruta `/dashboard` y sub-rutas, y se
 
 
 
-// ====== [47] docs/features/05-admin-panel-core-management.md ======
-<!-- File: /docs/features/05-admin-panel-core-management.md - v1.0 -->
+// ====== [54] docs/features/05-admin-panel-core-management.md ======
+<!-- File: /docs/features/05-admin-panel-core-management.md - v1.1 (ACTUALIZADO) -->
 
 # 5. Panel de Administración: Gestión de la Configuración Base
 
 ## 5.1. Objetivo
 
-Proporcionar al administrador del negocio un control total sobre las entidades fundamentales de la plataforma. Esta sección se centra en la configuración "maestra" que raramente cambia en el día a día, pero que define cómo opera el negocio: qué servicios se ofrecen, quién trabaja, cuándo trabajan y quiénes son los clientes.
+Proporcionar al administrador del negocio un control total sobre las entidades fundamentales de la plataforma. Esta sección se centra en la configuración "maestra" que define cómo opera el negocio: qué servicios se ofrecen, quién trabaja, cuándo trabajan y cuándo descansan.
 
 ## 5.2. Desglose de Secciones
 
@@ -3569,117 +4214,84 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 ### Sección: Gestión de Servicios (`/admin/services`)
 
-**Estado: Implementado (Backend y Frontend).** La API RESTful para el CRUD de servicios y la interfaz de usuario en el panel de administración ya están funcionales.
+**Estado: Implementado.** Se ha implementado un CRUD completo para el catálogo de servicios.
 
-**Propósito:** Un CRUD (Crear, Leer, Actualizar, Eliminar) completo para el catálogo de servicios.
+**Propósito:** Gestionar los servicios que ofrece el negocio.
 
 **Componentes Clave:**
 
 - **Vista de Listado:**
-  - Una tabla (`Mantine Data Table`) que lista todos los servicios.
-  - Columnas: Nombre, Categoría, Duración (en minutos), Precio Base.
-  - Acciones por fila: "Editar", "Eliminar" (con modal de confirmación).
-  - Un botón principal: "Añadir Nuevo Servicio".
-- **Formulario de Creación/Edición (en un Modal o página dedicada):**
-  - **Nombre del Servicio:** Campo de texto.
-  - **Descripción:** Editor de texto enriquecido para detalles completos.
-  - **Duración:** Campo numérico en minutos. Este valor es **crítico** para el sistema de reservas.
-  - **Precios:** Una tabla dinámica para establecer diferentes precios por tamaño de vehículo (ej: Pequeño, Mediano, Grande/SUV).
-  - **Categoría:** Selector (ej: Lavado Exterior, Limpieza Interior, Detallado).
-  - **Opciones (Checkboxes):**
-    - "¿Es un servicio adicional (add-on)?": Si se marca, no aparecerá como servicio principal en el flujo de reserva.
-    - "¿Se puede regalar?": Para que aparezca en la sección de Tarjetas Regalo.
-    - "¿Destacado en la Homepage?": Para mostrarlo en la página de inicio.
-  - **Subida de Imágenes:** Interfaz para subir fotos del "antes y después".
+  - Una tabla que lista todos los servicios creados.
+  - Columnas: Nombre, Duración, Precio, **Estado (Activo/Inactivo)**.
+  - Acciones por fila: "Editar", "Eliminar" (con modal de confirmación y protección contra borrado si hay citas asociadas).
+  - Un `Switch` para cambiar rápidamente el estado `Activo/Inactivo` de un servicio.
+- **Formulario de Creación/Edición (en un Modal):**
+  - Campos para: Nombre, Descripción, Duración (en minutos), Precio, Categoría y Estado.
 
 **API Calls:**
 
 - ✅ `GET /api/services`
 - ✅ `POST /api/services`
 - ✅ `PUT /api/services/[id]`
-- ✅ `DELETE /api/services/[id]`
+- ✅ `DELETE /api/services/[id]` (con lógica de protección).
 
 ### Sección: Gestión de Empleados y Horarios (`/admin/employees`)
 
-**Estado: Implementado (Backend y Frontend).** La API RESTful para el CRUD de empleados y la interfaz de usuario en el panel de administración ya están funcionales. La gestión detallada de horarios por empleado se hará en una fase posterior.
+**Estado: Implementado.** Se ha implementado una gestión avanzada de los empleados y su disponibilidad.
 
-**Propósito:** Gestionar los perfiles del personal y, fundamentalmente, sus horarios de trabajo, que son la base del sistema de disponibilidad.
+**Propósito:** Gestionar los perfiles del personal y, fundamentalmente, sus horarios de trabajo y ausencias, que son la base del sistema de disponibilidad.
 
 **Componentes Clave:**
 
 - **Vista de Listado:**
-  - Tarjetas de perfil para cada empleado con su foto, nombre y rol.
-  - Acciones: "Editar Perfil y Horario".
-  - Un botón principal: "Añadir Nuevo Empleado".
-- **Formulario de Creación/Edición:**
-  - **Datos del Perfil:**
-    - Nombre y Apellido.
-    - Email (será su usuario para acceder al panel si tiene rol de empleado).
-    - Rol del Sistema: Dropdown para seleccionar "Administrador" o "Empleado".
-    - Biografía Pública: Campo de texto para la página `/team`.
-    - Subida de foto de perfil.
-  - **Configuración de Horario Semanal:**
-    - Una interfaz visual para los 7 días de la semana.
-    - Para cada día, el administrador podrá:
-      - Marcarlo como "Día Libre".
-      - Definir uno o varios turnos de trabajo (ej: Lunes de 09:00 a 13:00 y de 15:00 a 19:00). Esto permite configurar pausas para el almuerzo.
-  - **Gestión de Vacaciones/Ausencias:**
-    - Un calendario para añadir bloqueos de días completos (ej: "Vacaciones del 1 al 15 de Agosto"). Estos días anularán el horario semanal y el empleado no tendrá disponibilidad.
+  - Una tabla con todos los empleados, filtrable por estado **(Activos/Archivados)**.
+  - Acciones por fila: "Editar", "Archivar" y "Reactivar".
+- **Modal de Edición Avanzado (con Pestañas):**
+  - **Pestaña "Perfil":** Formulario para datos básicos (Nombre, Email, Rol, Foto, Bio).
+  - **Pestaña "Horario Laboral":**
+    - Un editor visual para los 7 días de la semana.
+    - Permite definir **múltiples turnos de trabajo por día** (ej: para configurar pausas de almuerzo).
+  - **Pestaña "Ausencias y Vacaciones":**
+    - Un calendario para añadir y visualizar bloqueos de días completos (vacaciones, bajas, etc.).
+    - **Sistema de Detección de Conflictos:** Si se intenta programar una ausencia en fechas donde el empleado ya tiene citas, el sistema lo notifica y muestra un modal para resolver el conflicto.
 
 **API Calls:**
 
-- ✅ `GET /api/employees`
+- ✅ `GET /api/employees?status=[STATUS]`
 - ✅ `POST /api/employees`
-- ✅ `PUT /api/employees/[id]`
-- ✅ `DELETE /api/employees/[id]`
+- ✅ `PUT /api/employees/[id]` (para perfil, horario y estado).
+- ✅ `GET /api/employees/[id]/absences`
+- ✅ `POST /api/employees/[id]/absences` (con lógica de detección de conflictos).
+- ✅ `DELETE /api/employees/[id]/absences/[id]`
 
 ### Sección: Configuración del Negocio (`/admin/settings`)
 
-**Estado: Parcialmente Implementado (Backend y Base de Datos).** La estructura de la base de datos para almacenar el horario semanal del negocio ya está creada (`BusinessSettings`). La API de disponibilidad (`/api/availability`) ya lee y utiliza esta configuración. La interfaz de usuario para que el administrador modifique estos horarios está pendiente de desarrollo.
+**Estado: Parcialmente Implementado.** Se ha implementado la lógica para seleccionar el servicio por defecto. La gestión del horario general está pendiente.
 
-**Propósito:** Un panel centralizado para gestionar las configuraciones globales del negocio, empezando por la más crítica: el horario de apertura.
-
-**Componentes Clave (Futuro):**
-
-- **Formulario de Horario Semanal:**
-  - Una interfaz visual con una fila para cada día de la semana (Lunes a Domingo).
-  - Para cada día, el administrador podrá:
-    - Activar/Desactivar el día con un checkbox ("Cerrado").
-    - Seleccionar la hora de apertura (ej: `09:00`).
-    - Seleccionar la hora de cierre (ej: `19:00`).
-  - Un botón de "Guardar Cambios" que actualizará la configuración en la base de datos.
-
-**API Calls (Futuro):**
-
-- `GET /api/admin/settings`: Para obtener la configuración actual y poblar el formulario.
-- `PUT /api/admin/settings`: Para guardar los cambios realizados en el horario.
-
-### Sección: Gestión de Clientes (`/admin/clients`)
-
-**Propósito:** Un CRM (Customer Relationship Management) simple para tener una visión 360 de cada cliente.
+**Propósito:** Un panel centralizado para gestionar las configuraciones globales del negocio.
 
 **Componentes Clave:**
 
-- **Vista de Listado:**
-  - Una tabla paginada, con capacidad de búsqueda y ordenación.
-  - Columnas: Nombre, Email, Teléfono, Fecha de Registro, Nº de Citas Totales.
-  - Acción por fila: "Ver Detalles".
-- **Vista de Detalles del Cliente (`/admin/clients/[id]`):**
-  - **Información de Contacto:** Todos los datos del perfil del cliente.
-  - **Historial de Citas:** Un listado completo de todas sus citas (pasadas y futuras).
-  - **Vehículos Registrados:** Listado de los coches guardados por el cliente.
-  - **Notas Internas:** Un campo de texto **crucial** donde el administrador puede añadir comentarios privados sobre el cliente (ej: "Cliente VIP, ofrecer siempre una botella de agua", "Sensible a los ambientadores fuertes", "Llamó para quejarse el 15/03").
+- **Selección del Servicio por Defecto:**
+  - ✅ Un `Select` que permite elegir cuál de los servicios **activos** se ofrecerá a los clientes.
+- **[⏳ Pendiente] Formulario de Horario Semanal del Negocio:**
+  - Una interfaz visual para definir las horas de apertura y cierre de la empresa para cada día de la semana.
 
 **API Calls:**
 
-- `GET /api/admin/clients` (con soporte para búsqueda, paginación y ordenación).
-- `GET /api/admin/clients/[id]`
-- `POST /api/admin/clients/[id]/notes`
+- ✅ `GET /api/admin/settings`
+- ✅ `PUT /api/admin/settings`
+
+### Sección: Gestión de Clientes (`/admin/clients`)
+
+**Estado: Pendiente.**
+
+**Propósito:** Un CRM (Customer Relationship Management) simple para tener una visión 360 de cada cliente.
 
 
 
-// ====== [48] docs/features/06-admin-panel-operations.md ======
-<!-- File: /docs/features/06-admin-panel-operations.md - v1.1 -->
+// ====== [55] docs/features/06-admin-panel-operations.md ======
+<!-- File: /docs/features/06-admin-panel-operations.md - v1.2 (ACTUALIZADO) -->
 
 # 6. Panel de Administración: Operaciones Diarias
 
@@ -3726,15 +4338,16 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
   - **Navegación:** Flechas para avanzar y retroceder por semanas/días.
 - **Interactividad:**
   - **[✅] Reagendar y Reasignar (Drag & Drop):** El administrador puede arrastrar una cita a otra hora/día para reagendarla, o a la fila de otro empleado para reasignarla. Los cambios se guardan automáticamente en la base de datos.
-  - **[⏳ Pendiente] Crear Cita Manualmente:** Al hacer clic en un hueco vacío del calendario, se abrirá un modal para crear una nueva cita (ideal para reservas telefónicas).
-  - **[⏳ Pendiente] Ver/Editar Cita:** Al hacer clic en una cita existente, se abrirá un panel lateral (Drawer) o modal con todos los detalles, permitiendo su edición (cambiar servicio, datos del cliente, etc.) y la modificación de su estado (ej: marcar como "Completada").
+  - **[✅] Crear Cita Manualmente:** Al hacer clic en un hueco vacío del calendario, se abre un modal para crear una nueva cita (ideal para reservas telefónicas), pre-rellenando el empleado y la hora de inicio.
+  - **[✅] Ver/Editar/Anular Cita:** Al hacer clic en una cita existente, se abre un modal con todos los detalles, permitiendo su edición completa (cambiar servicio, datos del cliente, etc.) y ofreciendo la opción de anular la cita (con un modal de confirmación).
 - **Código de Colores:** (Futuro) Las citas pueden tener colores diferentes según su estado (ej: Azul para confirmadas, Verde para completadas, Gris para canceladas).
 
 **API Calls:**
 
 - ✅ `GET /api/admin/appointments?start=[DATE]&end=[DATE]` (FullCalendar llama a esta API para obtener los eventos).
-- ✅ `PUT /api/admin/appointments/[id]` (Se llama a esta API al soltar una cita después de arrastrarla para guardar el cambio).
-- [ ] `POST /api/admin/appointments` (Para crear citas manualmente).
+- ✅ `PUT /api/admin/appointments/[id]` (Se llama a esta API al soltar una cita después de arrastrarla y para guardar ediciones desde el modal).
+- ✅ `POST /api/admin/appointments` (Para crear citas manualmente desde el modal).
+- ✅ `DELETE /api/admin/appointments/[id]` (Para anular citas desde el modal).
 
 ### Sección: Gestión de Citas (`/admin/appointments`)
 
@@ -3763,7 +4376,7 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 
 
-// ====== [49] docs/features/07-reviews-system.md ======
+// ====== [56] docs/features/07-reviews-system.md ======
 <!-- File: /docs/features/07-reviews-system.md - v1.0 -->
 ````markdown
 # 7. Sistema de Valoraciones y Reseñas
@@ -3862,7 +4475,7 @@ enum ReviewStatus {
 
 
 
-// ====== [50] docs/features/08-marketing-monetization.md ======
+// ====== [57] docs/features/08-marketing-monetization.md ======
 <!-- File: /docs/features/08-marketing-monetization.md - v1.0 -->
 ````markdown
 # 8. Módulos de Marketing y Monetización
@@ -4015,7 +4628,7 @@ model GiftCard {
 
 
 
-// ====== [51] docs/features/09-notifications-system.md ======
+// ====== [58] docs/features/09-notifications-system.md ======
 <!-- File: /docs/features/09-notifications-system.md - v1.0 -->
 # 9. Sistema de Notificaciones
 
@@ -4066,7 +4679,7 @@ Estas notificaciones se envían al personal para mantenerlos al tanto de la acti
 
 
 
-// ====== [52] docs/features/10-external-integrations.md ======
+// ====== [59] docs/features/10-external-integrations.md ======
 <!-- File: /docs/features/10-external-integrations.md - v1.0 -->
 ````markdown
 # 10. Integraciones Externas
@@ -4187,7 +4800,7 @@ model AccountSettings {
 
 
 
-// ====== [53] package.json ======
+// ====== [60] package.json ======
 {
   "name": "aquaclean-car-wash-monorepo",
   "version": "1.0.0",
@@ -4217,7 +4830,7 @@ model AccountSettings {
 }
 
 
-// ====== [54] packages/config/eslint-preset.js ======
+// ====== [61] packages/config/eslint-preset.js ======
 // File: /packages/config/eslint-preset.js - v1.0
 
 module.exports = {
@@ -4266,7 +4879,7 @@ module.exports = {
 };
 
 
-// ====== [55] packages/config/package.json ======
+// ====== [62] packages/config/package.json ======
 {
   "name": "@aquaclean/config",
   "version": "1.0.0",
@@ -4287,7 +4900,7 @@ module.exports = {
 }
 
 
-// ====== [56] packages/types/package.json ======
+// ====== [63] packages/types/package.json ======
 {
   "name": "@aquaclean/types",
   "version": "1.0.0",
@@ -4315,10 +4928,12 @@ module.exports = {
 }
 
 
-// ====== [57] packages/types/src/employee.schema.ts ======
+// ====== [64] packages/types/src/employee.schema.ts ======
+// File: /packages/types/src/employee.schema.ts (ACTUALIZADO)
+
 import { z } from 'zod';
 
-// Esquema para la creación de un nuevo empleado
+// Esquema para la creación/edición de un nuevo empleado
 export const createEmployeeSchema = z.object({
   name: z.string().min(1, { message: 'El nombre es requerido.' }).min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
 
@@ -4328,20 +4943,20 @@ export const createEmployeeSchema = z.object({
 
   bio: z.string().optional(),
 
-  // --- LÍNEA CORREGIDA ---
-  // Ahora permitimos una URL válida O una cadena de texto vacía.
-  // El .optional() final se asegura de que si el campo no se envía, también sea válido.
   imageUrl: z
     .string()
     .url({ message: 'La URL de la imagen no es válida.' })
     .or(z.literal(''))
     .optional(),
   
+  // --- LÍNEA AÑADIDA ---
+  status: z.enum(['ACTIVE', 'ARCHIVED']).optional(),
+  
   workSchedule: z.record(z.string(), z.unknown()).optional(),
 });
 
 
-// ====== [58] packages/types/src/index.ts ======
+// ====== [65] packages/types/src/index.ts ======
 // File: /packages/types/src/index.ts (ACTUALIZADO)
 
 // Exportamos los esquemas desde su nueva ubicación local
@@ -4361,20 +4976,17 @@ export interface User {
 }
 
 
-// ====== [59] packages/types/src/service.schema.ts ======
-// File: /apps/server/src/schemas/service.schema.ts (SOLUCIÓN FINAL Y CORRECTA)
+// ====== [66] packages/types/src/service.schema.ts ======
+// File: /packages/types/src/service.schema.ts (ACTUALIZADO)
 
 import { z } from 'zod';
 
-// Definimos el esquema de validación para la creación de un servicio.
+// Definimos el esquema de validación para la creación/edición de un servicio.
 export const createServiceSchema = z.object({
   name: z.string().min(1, { message: 'El nombre es requerido.' }).min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
 
   description: z.string().min(1, { message: 'La descripción es requerida.' }).min(10, { message: 'La descripción debe tener al menos 10 caracteres.' }),
 
-  // z.coerce.number() intenta convertir el valor a número.
-  // Si falla, Zod generará un error de tipo por defecto.
-  // Las validaciones .int() y .positive() se aplican después.
   duration: z.coerce.number()
     .int({ message: 'La duración debe ser un número entero.' })
     .positive({ message: 'La duración debe ser un número positivo.' }),
@@ -4385,29 +4997,39 @@ export const createServiceSchema = z.object({
   
   category: z.string().min(1, { message: 'La categoría es requerida.' }),
 
+  // --- LÍNEA AÑADIDA ---
+  isActive: z.boolean().optional(),
+
   isAddon: z.boolean().optional(),
   isGiftable: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
 });
 
 
-// ====== [60] packages/types/src/service.ts ======
-// File: /packages/types/src/service.ts
+// ====== [67] packages/types/src/service.ts ======
+// File: /packages/types/src/service.ts (ACTUALIZADO)
 
 export interface Service {
   id: string;
   name: string;
   description: string;
   duration: number; // en minutos
-  prices: Record<string, number>;
+  // --- LÍNEA MODIFICADA ---
+  prices: {
+    standard: number;
+    // Podemos añadir más tipos de precios en el futuro si es necesario
+    [key: string]: number; 
+  };
+  // --- FIN DE LA MODIFICACIÓN ---
   category: string;
+  isActive: boolean;
   isAddon: boolean;
   isGiftable: boolean;
   isFeatured: boolean;
 }
 
 
-// ====== [61] packages/types/tsconfig.json ======
+// ====== [68] packages/types/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -4420,7 +5042,7 @@ export interface Service {
 }
 
 
-// ====== [62] tsconfig.base.json ======
+// ====== [69] tsconfig.base.json ======
 // File: /tsconfig.base.json - v1.0
 {
   "compilerOptions": {
@@ -4453,7 +5075,7 @@ export interface Service {
 }
 
 
-// ====== [63] tsconfig.json ======
+// ====== [70] tsconfig.json ======
 // File: /tsconfig.json - v1.0
 {
   "files": [],
@@ -4466,7 +5088,7 @@ export interface Service {
 }
 
 
-// ====== [64] turbo.json ======
+// ====== [71] turbo.json ======
 {
   "$schema": "./.schemas/turbo-schema-v1.json",
   "globalDependencies": ["tsconfig.base.json"],

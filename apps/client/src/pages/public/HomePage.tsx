@@ -5,7 +5,6 @@ import { IconTruck, IconCertificate, IconCalendarStats } from '@tabler/icons-rea
 import { useNavigate } from 'react-router-dom';
 import classes from './HomePage.module.css';
 
-// --- Sub-componente para la sección de Características ---
 function Feature({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) {
   return (
     <Stack align="center" ta="center">
@@ -23,30 +22,27 @@ export function HomePage() {
 
   return (
     <>
-      {/* --- SECCIÓN HERO --- */}
       <div className={classes.hero}>
         <div className={classes.overlay} />
         <Container className={classes.heroContent} size="lg">
           <Title className={classes.heroTitle}>La Excelencia en Cada Detalle</Title>
-          {/* --- LÍNEA MODIFICADA --- */}
           <Text className={classes.heroDescription} c="white" size="xl" mt="xl">
             Tu vehículo merece el mejor cuidado. Descubre nuestros servicios de detallado premium y devuélvele el brillo que se merece.
           </Text>
-          {/* --- FIN DE LA MODIFICACIÓN --- */}
           <Button
             variant="gradient"
             gradient={{ from: 'blue', to: 'cyan' }}
             size="xl"
             radius="xl"
             className={classes.heroButton}
-            onClick={() => navigate('/services')}
+            // --- LÍNEA MODIFICADA ---
+            onClick={() => navigate('/booking')}
           >
-            Ver Servicios y Reservar
+            Reservar Ahora
           </Button>
         </Container>
       </div>
 
-      {/* --- SECCIÓN DE CARACTERÍSTICAS --- */}
       <Container py="xl" mt="xl">
         <Title order={2} ta="center" mb="xl">
           ¿Por Qué Elegir AquaClean?
@@ -70,13 +66,13 @@ export function HomePage() {
         </SimpleGrid>
       </Container>
       
-      {/* --- SECCIÓN FINAL CTA --- */}
       <Container py="xl" ta="center">
          <Title order={3}>¿Listo para que tu coche luzca como nuevo?</Title>
          <Text c="dimmed" mt="sm" mb="lg">
            No esperes más. Encuentra el servicio perfecto y agenda tu cita hoy mismo.
          </Text>
-         <Button size="lg" onClick={() => navigate('/services')}>
+         {/* --- LÍNEA MODIFICADA --- */}
+         <Button size="lg" onClick={() => navigate('/booking')}>
            Reservar Mi Cita Ahora
          </Button>
       </Container>

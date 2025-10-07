@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/employees.routes.ts (VERSIÓN CORREGIDA FINAL)
+// File: /apps/server/src/api/employees.routes.ts (ACTUALIZADO CON DETECCIÓN DE CONFLICTOS)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
@@ -38,10 +38,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const validatedData = createEmployeeSchema.parse(req.body);
-    // --- CORRECCIÓN ---
-    // Separamos workSchedule del resto de los datos para manejar los tipos correctamente
     const { workSchedule, ...restOfData } = validatedData;
-
     const newEmployee = await prisma.employee.create({
       data: {
         ...restOfData,
@@ -63,10 +60,7 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const updateSchema = createEmployeeSchema.partial();
     const validatedData = updateSchema.parse(req.body);
-    // --- CORRECCIÓN ---
-    // Aplicamos la misma estrategia para la actualización
     const { workSchedule, ...restOfData } = validatedData;
-
     const updatedEmployee = await prisma.employee.update({
       where: { id },
       data: {
@@ -99,21 +93,48 @@ const absenceSchema = z.object({
 router.get('/:employeeId/absences', async (req, res) => {
   try {
     const { employeeId } = req.params;
-    const absences = await prisma.absence.findMany({ where: { employeeId } });
+    const absences = await prisma.absence.findMany({ where: { employeeId }, orderBy: { startDate: 'asc' } });
     res.status(200).json(absences);
   } catch (error) {
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
+// --- ENDPOINT MODIFICADO CON LÓGICA DE CONFLICTOS ---
 router.post('/:employeeId/absences', async (req, res) => {
   try {
     const { employeeId } = req.params;
     const validatedData = absenceSchema.parse(req.body);
+    const { startDate, endDate } = validatedData;
+
+    // 1. Buscamos citas que se solapen con el periodo de ausencia
+    const conflictingAppointments = await prisma.appointment.findMany({
+      where: {
+        employeeId: employeeId,
+        startTime: {
+          gte: startDate,
+          lt: endDate, // Usamos 'lt' (less than) para cubrir hasta el final del día
+        },
+      },
+      include: {
+        user: { select: { name: true } }, // Incluimos el nombre del cliente
+      },
+    });
+
+    // 2. Si hay conflictos, devolvemos un error 409 con los datos
+    if (conflictingAppointments.length > 0) {
+      return res.status(409).json({
+        message: `No se puede programar la ausencia. Entra en conflicto con ${conflictingAppointments.length} cita(s).`,
+        conflicts: conflictingAppointments,
+      });
+    }
+
+    // 3. Si no hay conflictos, creamos la ausencia
     const newAbsence = await prisma.absence.create({
       data: { ...validatedData, employeeId },
     });
     res.status(201).json(newAbsence);
+
   } catch (error) {
     if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
     res.status(500).json({ message: 'Error interno del servidor.' });

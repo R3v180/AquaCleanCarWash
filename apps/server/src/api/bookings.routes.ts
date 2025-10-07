@@ -1,19 +1,15 @@
-// File: /apps/server/src/api/bookings.routes.ts (ACTUALIZADO CON AUTO-ASIGNACIÓN)
+// File: /apps/server/src/api/bookings.routes.ts (REFACTORIZADO Y CON NOTIFICACIONES)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
 import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
 import prisma from '../lib/prisma';
 import { Prisma } from '@prisma/client';
-
-dayjs.extend(isBetween);
+import { notificationService } from '../lib/notificationService';
+import { findAvailableEmployeeForSlot } from '../lib/availabilityService';
 
 const router = Router();
 
-// --- ESQUEMA ACTUALIZADO ---
-// employeeId ahora es opcional.
-// Se han eliminado los campos de vehículo que no se usan actualmente.
 const createBookingSchema = z.object({
   serviceId: z.string().cuid({ message: 'El ID del servicio no es válido.' }),
   startTime: z.coerce.date({ invalid_type_error: 'La fecha de inicio debe ser una fecha válida.' }),
@@ -23,7 +19,7 @@ const createBookingSchema = z.object({
   customerPhone: z.string().min(1, { message: 'El teléfono del cliente es requerido.' }),
 });
 
-// --- CREAR UNA NUEVA RESERVA (CITA) ---
+
 router.post('/', async (req, res) => {
   try {
     const validatedData = createBookingSchema.parse(req.body);
@@ -36,58 +32,16 @@ router.post('/', async (req, res) => {
     }
     const endTime = dayjs(startTime).add(service.duration, 'minutes').toDate();
 
-    // --- LÓGICA DE AUTO-ASIGNACIÓN ---
+    // --- LÓGICA DE AUTO-ASIGNACIÓN REFACTORIZADA ---
     if (!assignedEmployeeId) {
-      const dayOfWeek = dayjs(startTime).format('dddd').toLowerCase();
-
-      // 1. Encontrar empleados ocupados en ese slot
-      const overlappingAppointments = await prisma.appointment.findMany({
-        where: {
-          OR: [
-            { startTime: { lt: endTime }, endTime: { gt: startTime } },
-          ],
-        },
-        select: { employeeId: true },
-      });
-      const busyEmployeeIds = new Set(overlappingAppointments.map(a => a.employeeId));
-
-      // 2. Encontrar empleados activos que no tengan ausencia
-      const potentialEmployees = await prisma.employee.findMany({
-        where: {
-          status: 'ACTIVE',
-          absences: {
-            none: {
-              startDate: { lte: endTime },
-              endDate: { gte: startTime },
-            },
-          },
-        },
-      });
-      
-      // 3. Filtrar por horario laboral y si están ocupados
-      const availableEmployees = potentialEmployees.filter(employee => {
-        if (busyEmployeeIds.has(employee.id)) return false;
-
-        const schedule = employee.workSchedule as any;
-        const daySchedule = schedule?.[dayOfWeek] as { start: string; end: string }[] | undefined;
-        if (!daySchedule) return false;
-        
-        return daySchedule.some(shift => {
-            const shiftStart = dayjs.utc(`${dayjs(startTime).format('YYYY-MM-DD')}T${shift.start}`);
-            const shiftEnd = dayjs.utc(`${dayjs(startTime).format('YYYY-MM-DD')}T${shift.end}`);
-            return !dayjs(startTime).isBefore(shiftStart) && !dayjs(endTime).isAfter(shiftEnd);
-        });
-      });
-
-      if (availableEmployees.length === 0) {
-        return res.status(409).json({ message: 'Lo sentimos, no hay profesionales disponibles en el horario seleccionado. Por favor, elige otra hora.' });
-      }
-      
-      // 4. Asignar el primer empleado disponible encontrado
-      assignedEmployeeId = availableEmployees[0]!.id;
+      assignedEmployeeId = await findAvailableEmployeeForSlot(startTime, endTime, service.duration);
     }
-    // --- FIN DE LA LÓGICA DE AUTO-ASIGNACIÓN ---
+    // --- FIN DE LA LÓGICA ---
 
+    if (!assignedEmployeeId) {
+      return res.status(409).json({ message: 'Lo sentimos, no hay profesionales disponibles en el horario seleccionado. Por favor, elige otra hora.' });
+    }
+    
     const newAppointment = await prisma.appointment.create({
       data: {
         startTime, endTime, status: 'CONFIRMED',
@@ -101,6 +55,22 @@ router.post('/', async (req, res) => {
         },
       },
     });
+
+    // --- ENVIAR NOTIFICACIONES ---
+    // Obtenemos los detalles completos de la cita para pasarlos al servicio de notificaciones
+    const fullAppointmentDetails = await prisma.appointment.findUnique({
+      where: { id: newAppointment.id },
+      include: {
+        user: true,
+        employee: true,
+        services: { include: { service: true } },
+      },
+    });
+
+    if (fullAppointmentDetails) {
+      await notificationService.sendBookingConfirmation(fullAppointmentDetails);
+    }
+    // --- FIN DEL ENVÍO ---
 
     res.status(201).json(newAppointment);
 

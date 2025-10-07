@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/adminSettings.routes.ts (CORREGIDO)
+// File: /apps/server/src/api/adminSettings.routes.ts (VERSIÓN DE DEPURACIÓN PARA EL GUARDADO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
@@ -9,12 +9,9 @@ const router = Router();
 
 const updateSettingsSchema = z.object({
   defaultServiceId: z.string().cuid({ message: 'El ID del servicio no es válido.' }),
-  // El frontend ahora nos enviará el horario en el formato de array de shifts
   weeklySchedule: z.record(z.any()).optional(),
 });
 
-
-// --- OBTENER LA CONFIGURACIÓN ACTUAL DEL NEGOCIO ---
 router.get('/', async (req, res) => {
   try {
     const settings = await prisma.businessSettings.findUnique({
@@ -26,9 +23,6 @@ router.get('/', async (req, res) => {
       return res.status(404).json({ message: 'No se ha encontrado la configuración del negocio.' });
     }
     
-    // --- LÓGICA DE TRANSFORMACIÓN ---
-    // Convertimos el formato de la BBDD { open, close } al formato que el
-    // componente ScheduleEditor espera: [{ start, end }]
     const transformedSchedule: { [key: string]: { start: string, end: string }[] } = {};
     const originalSchedule = settings.weeklySchedule as any;
     if (originalSchedule) {
@@ -41,14 +35,13 @@ router.get('/', async (req, res) => {
             }
         }
     }
-    // --- FIN DE LA TRANSFORMACIÓN ---
 
     const allServices = await prisma.service.findMany({
       where: { isActive: true },
     });
     
     res.status(200).json({
-      settings: { ...settings, weeklySchedule: transformedSchedule }, // Enviamos el horario transformado
+      settings: { ...settings, weeklySchedule: transformedSchedule },
       allServices,
     });
 
@@ -58,37 +51,40 @@ router.get('/', async (req, res) => {
   }
 });
 
-// --- ACTUALIZAR LA CONFIGURACIÓN DEL NEGOCIO ---
 router.put('/', async (req, res) => {
   try {
+    // --- SECCIÓN DE LOGS ---
+    console.log('\n\n--- Petición PUT a /api/admin/settings ---');
+
     const validatedData = updateSettingsSchema.parse(req.body);
     const { defaultServiceId, weeklySchedule } = validatedData;
     
-    // --- LÓGICA DE TRANSFORMACIÓN INVERSA ---
-    // Convertimos el formato del ScheduleEditor [{ start, end }] de vuelta
-    // al formato que guardamos en la BBDD para el negocio: { open, close }
+    console.log('1. Datos recibidos del frontend (weeklySchedule):', JSON.stringify(weeklySchedule, null, 2));
+
     const scheduleToSave: { [key: string]: { open: string, close: string } | null } = {};
     if (weeklySchedule) {
         for (const day in weeklySchedule) {
             const shifts = weeklySchedule[day] as { start: string, end: string }[];
-            // Solo nos interesa el primer turno para el horario del negocio
             if (shifts && shifts.length > 0 && shifts[0]) {
                 scheduleToSave[day] = { open: shifts[0].start, close: shifts[0].end };
             } else {
-                scheduleToSave[day] = null; // Día cerrado
+                scheduleToSave[day] = null;
             }
         }
     }
-    // --- FIN DE LA TRANSFORMACIÓN INVERSA ---
+    
+    console.log('2. Datos transformados para guardar en BBDD:', JSON.stringify(scheduleToSave, null, 2));
+    // --- FIN DE SECCIÓN DE LOGS ---
 
     const updatedSettings = await prisma.businessSettings.update({
       where: { singleton: 'SINGLETON' },
       data: {
         defaultServiceId,
-        weeklySchedule: scheduleToSave, // Guardamos el horario en el formato original
+        weeklySchedule: scheduleToSave,
       },
     });
 
+    console.log('3. Guardado en base de datos completado con éxito.');
     res.status(200).json(updatedSettings);
 
   } catch (error) {

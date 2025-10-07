@@ -1,12 +1,14 @@
-// File: /apps/server/src/api/availability.routes.ts (VERSIÓN FINAL Y LIMPIA)
+// File: /apps/server/src/api/availability.routes.ts (CORRECCIÓN FINAL: dayjs locale)
 
 import { Router } from 'express';
 import { z } from 'zod';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import isBetween from 'dayjs/plugin/isBetween';
+import 'dayjs/locale/en'; // <-- IMPORTAMOS EL LOCALE INGLÉS
 import prisma from '../lib/prisma';
 import { Employee, Absence } from '@prisma/client';
+import { isEmployeeAvailable } from '../lib/availabilityService';
 
 dayjs.extend(utc);
 dayjs.extend(isBetween);
@@ -18,31 +20,6 @@ const availabilityQuerySchema = z.object({
   employeeId: z.string().cuid().optional(),
 });
 
-const isEmployeeAvailable = (
-  employee: Employee & { absences: Absence[] },
-  slot: dayjs.Dayjs,
-  serviceDuration: number
-): boolean => {
-  const dayOfWeek = slot.format('dddd').toLowerCase();
-  const workSchedule = employee.workSchedule as any;
-  const daySchedule = workSchedule?.[dayOfWeek] as { start: string; end: string }[] | undefined;
-  if (!daySchedule) return false;
-
-  const worksDuringSlot = daySchedule.some(shift => {
-    const shiftStart = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.start}`);
-    const shiftEnd = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.end}`);
-    return !slot.isBefore(shiftStart) && !slot.add(serviceDuration, 'minutes').isAfter(shiftEnd);
-  });
-  if (!worksDuringSlot) return false;
-  
-  const hasAbsence = employee.absences.some(absence => {
-    return slot.isBetween(dayjs.utc(absence.startDate), dayjs.utc(absence.endDate), 'day', '[]');
-  });
-  if (hasAbsence) return false;
-
-  return true;
-};
-
 router.get('/', async (req, res) => {
   try {
     const validation = availabilityQuerySchema.safeParse(req.query);
@@ -50,6 +27,10 @@ router.get('/', async (req, res) => {
     
     const { date, employeeId } = validation.data;
     const selectedDate = dayjs.utc(date);
+
+    // --- LÍNEA CORREGIDA ---
+    // Forzamos a dayjs a usar inglés para que 'monday' coincida con la clave en la BBDD
+    dayjs.locale('en');
 
     const settings = await prisma.businessSettings.findUnique({
       where: { singleton: 'SINGLETON' },
@@ -60,12 +41,7 @@ router.get('/', async (req, res) => {
     let businessDayHours: { open: string; close: string } | null = null;
 
     const override = await prisma.dateOverride.findFirst({
-        where: { 
-            date: { 
-                gte: selectedDate.startOf('day').toDate(), 
-                lte: selectedDate.endOf('day').toDate() 
-            } 
-        }
+        where: { date: { gte: selectedDate.startOf('day').toDate(), lte: selectedDate.endOf('day').toDate() } }
     });
 
     if (override) {
@@ -75,7 +51,7 @@ router.get('/', async (req, res) => {
             return res.json([]);
         }
     } else {
-        const dayOfWeek = selectedDate.format('dddd').toLowerCase();
+        const dayOfWeek = selectedDate.format('dddd').toLowerCase(); // <-- Esto ahora devolverá "monday", "tuesday", etc.
         const weeklySchedule = settings.weeklySchedule as any;
         businessDayHours = weeklySchedule?.[dayOfWeek] || null;
     }
@@ -108,18 +84,20 @@ router.get('/', async (req, res) => {
         currentTime = currentTime.add(serviceDuration, 'minutes');
         continue;
       }
-      let isSomeEmployeeAvailable = false;
+      let isSlotAvailable = false;
       if (employeeId && employeeId !== 'any') {
-        const specificEmployee = activeEmployees.find(emp => emp.id === employeeId);
-        if (specificEmployee) {
-          isSomeEmployeeAvailable = isEmployeeAvailable(specificEmployee, currentTime, serviceDuration);
-        }
+          const specificEmployee = activeEmployees.find(emp => emp.id === employeeId);
+          if (specificEmployee) {
+              isSlotAvailable = isEmployeeAvailable(specificEmployee, currentTime, serviceDuration);
+          }
       } else {
-        isSomeEmployeeAvailable = activeEmployees.some(emp => isEmployeeAvailable(emp, currentTime, serviceDuration));
+          isSlotAvailable = activeEmployees.some(emp => isEmployeeAvailable(emp, currentTime, serviceDuration));
       }
-      if (isSomeEmployeeAvailable) {
+      
+      if (isSlotAvailable) {
         availableSlots.push(slotTime);
       }
+      
       currentTime = currentTime.add(serviceDuration, 'minutes');
     }
     res.status(200).json(availableSlots);

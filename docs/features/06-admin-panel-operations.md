@@ -1,4 +1,4 @@
-<!-- File: /docs/features/06-admin-panel-operations.md - v1.1 -->
+<!-- File: /docs/features/06-admin-panel-operations.md - v1.2 (ACTUALIZADO) -->
 
 # 6. Panel de Administración: Operaciones Diarias
 
@@ -45,15 +45,16 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
   - **Navegación:** Flechas para avanzar y retroceder por semanas/días.
 - **Interactividad:**
   - **[✅] Reagendar y Reasignar (Drag & Drop):** El administrador puede arrastrar una cita a otra hora/día para reagendarla, o a la fila de otro empleado para reasignarla. Los cambios se guardan automáticamente en la base de datos.
-  - **[⏳ Pendiente] Crear Cita Manualmente:** Al hacer clic en un hueco vacío del calendario, se abrirá un modal para crear una nueva cita (ideal para reservas telefónicas).
-  - **[⏳ Pendiente] Ver/Editar Cita:** Al hacer clic en una cita existente, se abrirá un panel lateral (Drawer) o modal con todos los detalles, permitiendo su edición (cambiar servicio, datos del cliente, etc.) y la modificación de su estado (ej: marcar como "Completada").
+  - **[✅] Crear Cita Manualmente:** Al hacer clic en un hueco vacío del calendario, se abre un modal para crear una nueva cita (ideal para reservas telefónicas), pre-rellenando el empleado y la hora de inicio.
+  - **[✅] Ver/Editar/Anular Cita:** Al hacer clic en una cita existente, se abre un modal con todos los detalles, permitiendo su edición completa (cambiar servicio, datos del cliente, etc.) y ofreciendo la opción de anular la cita (con un modal de confirmación).
 - **Código de Colores:** (Futuro) Las citas pueden tener colores diferentes según su estado (ej: Azul para confirmadas, Verde para completadas, Gris para canceladas).
 
 **API Calls:**
 
 - ✅ `GET /api/admin/appointments?start=[DATE]&end=[DATE]` (FullCalendar llama a esta API para obtener los eventos).
-- ✅ `PUT /api/admin/appointments/[id]` (Se llama a esta API al soltar una cita después de arrastrarla para guardar el cambio).
-- [ ] `POST /api/admin/appointments` (Para crear citas manualmente).
+- ✅ `PUT /api/admin/appointments/[id]` (Se llama a esta API al soltar una cita después de arrastrarla y para guardar ediciones desde el modal).
+- ✅ `POST /api/admin/appointments` (Para crear citas manualmente desde el modal).
+- ✅ `DELETE /api/admin/appointments/[id]` (Para anular citas desde el modal).
 
 ### Sección: Gestión de Citas (`/admin/appointments`)
 

@@ -30,7 +30,7 @@ export function AdminLayout() {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened, desktop: true } }}
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }} // <-- desktop: true eliminado para que se vea en desktop
       padding="md"
     >
       <AppShell.Header>
@@ -40,7 +40,6 @@ export function AdminLayout() {
         </Group>
       </AppShell.Header>
 
-      {/* Navegación para móvil */}
       <AppShell.Navbar p="md">
          <NavLink 
             to="/admin" 
@@ -67,10 +66,16 @@ export function AdminLayout() {
          >
             Empleados
          </NavLink>
-         {/* Aquí podríamos añadir un botón de "Cerrar Sesión" */}
+         {/* --- LÍNEA AÑADIDA --- */}
+         <NavLink 
+            to="/admin/settings" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Ajustes del Negocio
+         </NavLink>
+         {/* --- FIN DE LA LÍNEA AÑADIDA --- */}
       </AppShell.Navbar>
       
-      {/* Contenedor principal para el contenido de la página */}
       <AppShell.Main>
         <Outlet /> 
       </AppShell.Main>

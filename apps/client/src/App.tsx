@@ -11,7 +11,9 @@ import { EmployeesManagementPage } from './pages/admin/EmployeesManagementPage';
 import { ServicesPage } from './pages/public/ServicesPage';
 import { BookingPage } from './pages/public/BookingPage';
 import { AdminPlanningPage } from './pages/admin/AdminPlanningPage';
-import { TeamPage } from './pages/public/TeamPage'; // <-- IMPORTAMOS LA NUEVA PÁGINA
+import { TeamPage } from './pages/public/TeamPage';
+// --- LÍNEA AÑADIDA ---
+import { BusinessSettingsPage } from './pages/admin/BusinessSettingsPage'; // <-- IMPORTAMOS LA FUTURA PÁGINA
 
 function App() {
   return (
@@ -21,7 +23,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/booking" element={<BookingPage />} />
-        <Route path="/team" element={<TeamPage />} /> {/* <-- LÍNEA AÑADIDA */}
+        <Route path="/team" element={<TeamPage />} />
       </Route>
 
       {/* Ruta de Login para Admin (sin layout) */}
@@ -33,6 +35,8 @@ function App() {
         <Route path="services" element={<ServicesManagementPage />} />
         <Route path="employees" element={<EmployeesManagementPage />} />
         <Route path="planning" element={<AdminPlanningPage />} />
+        {/* --- LÍNEA AÑADIDA --- */}
+        <Route path="settings" element={<BusinessSettingsPage />} /> {/* <-- LÍNEA AÑADIDA */}
       </Route>
     </Routes>
   );

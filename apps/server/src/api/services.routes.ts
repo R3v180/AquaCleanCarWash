@@ -1,39 +1,21 @@
-// File: /apps/server/src/api/services.routes.ts (CORREGIDO)
+// File: /apps/server/src/api/services.routes.ts (RECONSTRUIDO)
 
 import { Router } from 'express';
-import prisma from '../lib/prisma';
-import { createServiceSchema } from '@aquaclean/types'; // <-- IMPORTACIÓN CORREGIDA
 import { ZodError } from 'zod';
 import { Prisma } from '@prisma/client';
+import prisma from '../lib/prisma';
+import { createServiceSchema } from '@aquaclean/types';
 
 const router = Router();
 
 // --- OBTENER TODOS LOS SERVICIOS ---
 router.get('/', async (req, res) => {
   try {
-    const services = await prisma.service.findMany();
+    const services = await prisma.service.findMany({
+      orderBy: { name: 'asc' },
+    });
     res.status(200).json(services);
   } catch (error) {
-    console.error('Error al obtener los servicios:', error);
-    res.status(500).json({ message: 'Error interno del servidor.' });
-  }
-});
-
-// --- OBTENER UN SERVICIO POR SU ID ---
-router.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const service = await prisma.service.findUnique({
-      where: { id },
-    });
-
-    if (!service) {
-      return res.status(404).json({ message: 'Servicio no encontrado.' });
-    }
-
-    res.status(200).json(service);
-  } catch (error) {
-    console.error('Error al obtener el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -50,7 +32,6 @@ router.post('/', async (req, res) => {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
     }
-    console.error('Error al crear el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -59,6 +40,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    // Hacemos el esquema parcial para permitir actualizaciones de solo algunos campos
     const updateSchema = createServiceSchema.partial();
     const validatedData = updateSchema.parse(req.body);
 
@@ -66,18 +48,14 @@ router.put('/:id', async (req, res) => {
       where: { id },
       data: validatedData,
     });
-
     res.status(200).json(updatedService);
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
     }
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Servicio no encontrado.' });
-      }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'Servicio no encontrado.' });
     }
-    console.error('Error al actualizar el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -86,17 +64,26 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Lógica de seguridad: Comprobar si hay citas asociadas
+    const appointmentCount = await prisma.appointmentService.count({
+      where: { serviceId: id },
+    });
+
+    if (appointmentCount > 0) {
+      return res.status(409).json({ // 409 Conflict
+        message: `No se puede eliminar el servicio porque tiene ${appointmentCount} citas asociadas. Por favor, desactívalo en su lugar.`,
+      });
+    }
+
     await prisma.service.delete({
       where: { id },
     });
-    res.status(204).send();
+    res.status(204).send(); // 204 No Content
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') {
-        return res.status(404).json({ message: 'Servicio no encontrado.' });
-      }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return res.status(404).json({ message: 'Servicio no encontrado.' });
     }
-    console.error('Error al eliminar el servicio:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });

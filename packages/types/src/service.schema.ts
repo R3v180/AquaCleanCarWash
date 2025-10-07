@@ -1,16 +1,13 @@
-// File: /apps/server/src/schemas/service.schema.ts (SOLUCIÓN FINAL Y CORRECTA)
+// File: /packages/types/src/service.schema.ts (ACTUALIZADO)
 
 import { z } from 'zod';
 
-// Definimos el esquema de validación para la creación de un servicio.
+// Definimos el esquema de validación para la creación/edición de un servicio.
 export const createServiceSchema = z.object({
   name: z.string().min(1, { message: 'El nombre es requerido.' }).min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
 
   description: z.string().min(1, { message: 'La descripción es requerida.' }).min(10, { message: 'La descripción debe tener al menos 10 caracteres.' }),
 
-  // z.coerce.number() intenta convertir el valor a número.
-  // Si falla, Zod generará un error de tipo por defecto.
-  // Las validaciones .int() y .positive() se aplican después.
   duration: z.coerce.number()
     .int({ message: 'La duración debe ser un número entero.' })
     .positive({ message: 'La duración debe ser un número positivo.' }),
@@ -20,6 +17,9 @@ export const createServiceSchema = z.object({
   }),
   
   category: z.string().min(1, { message: 'La categoría es requerida.' }),
+
+  // --- LÍNEA AÑADIDA ---
+  isActive: z.boolean().optional(),
 
   isAddon: z.boolean().optional(),
   isGiftable: z.boolean().optional(),

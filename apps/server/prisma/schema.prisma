@@ -1,4 +1,4 @@
-// File: /apps/server/prisma/schema.prisma
+// File: /apps/server/prisma/schema.prisma (ACTUALIZADO)
 
 generator client {
   provider = "prisma-client-js"
@@ -72,10 +72,14 @@ model Service {
   isAddon     Boolean  @default(false)
   isGiftable  Boolean  @default(false)
   isFeatured  Boolean  @default(false)
+  // --- LÍNEA AÑADIDA ---
+  isActive    Boolean  @default(true)
 
   appointments    AppointmentService[]
   bonusOfferings  BonusOffering[]
   giftCards       GiftCard[]
+
+  businessSettings BusinessSettings?
 }
 
 model Employee {
@@ -196,11 +200,11 @@ model GiftCard {
 // 6. Modelo de Configuración del Negocio
 model BusinessSettings {
   id              String    @id @default(cuid())
-  // Guardamos el horario semanal del negocio. Ej: { "monday": { "open": "09:00", "close": "19:00" }, "tuesday": ... }
-  // Un día puede ser `null` si el negocio está cerrado.
   weeklySchedule  Json
-  // Un identificador único para asegurar que solo haya una fila de configuración.
   singleton       String    @unique @default("SINGLETON")
+
+  defaultService   Service? @relation(fields: [defaultServiceId], references: [id])
+  defaultServiceId String?  @unique
 }
 
 // 7. Enums

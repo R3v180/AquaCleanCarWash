@@ -1,3 +1,5 @@
+// File: /apps/server/src/api/availability.routes.ts (ACTUALIZADO CON NUEVA LÓGICA)
+
 import { Router } from 'express';
 import { z } from 'zod';
 import dayjs from 'dayjs';
@@ -8,41 +10,45 @@ dayjs.extend(utc);
 
 const router = Router();
 
+// El esquema de validación ahora es mucho más simple. Solo necesitamos la fecha.
 const availabilityQuerySchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'El formato de fecha debe ser YYYY-MM-DD'),
-  duration: z.string().regex(/^\d+$/).transform(Number),
 });
 
 router.get('/', async (req, res) => {
   try {
+    // 1. Validar la fecha de entrada
     const validation = availabilityQuerySchema.safeParse(req.query);
     if (!validation.success) {
       return res.status(400).json({ message: 'Parámetros inválidos.', errors: validation.error.issues });
     }
-    const { date, duration } = validation.data;
+    const { date } = validation.data;
     const selectedDate = dayjs.utc(date);
     const dayOfWeek = selectedDate.format('dddd').toLowerCase();
 
+    // 2. Obtener la configuración del negocio, incluyendo el servicio por defecto
     const settings = await prisma.businessSettings.findUnique({
       where: { singleton: 'SINGLETON' },
+      include: {
+        defaultService: true, // Incluimos el servicio para obtener su duración
+      },
     });
 
-    if (!settings) {
-      // Este es el error que veías. Ahora lo devolvemos con un 404 para ser más claros.
-      return res.status(404).json({ message: 'La configuración del negocio no ha sido establecida.' });
+    // Si no hay configuración o servicio por defecto, el sistema no puede operar.
+    if (!settings || !settings.defaultService) {
+      return res.status(503).json({ message: 'La configuración del negocio no está completa o no se ha establecido un servicio por defecto.' });
     }
 
-    const weeklySchedule = settings.weeklySchedule as any;
-    const businessDayHours = weeklySchedule[dayOfWeek];
-
+    const { weeklySchedule, defaultService } = settings;
+    const serviceDuration = defaultService.duration; // La duración fija del servicio
+    
+    // 3. Comprobar si el negocio está abierto en el día seleccionado
+    const businessDayHours = (weeklySchedule as any)[dayOfWeek];
     if (!businessDayHours || !businessDayHours.open || !businessDayHours.close) {
-      return res.status(200).json([]);
+      return res.status(200).json([]); // El negocio está cerrado, devolvemos 0 huecos.
     }
 
-    const employees = await prisma.employee.findMany({
-      where: { workSchedule: { not: 'null' } },
-    });
-
+    // 4. Obtener las citas que ya existen para ese día
     const appointments = await prisma.appointment.findMany({
       where: {
         startTime: {
@@ -51,54 +57,28 @@ router.get('/', async (req, res) => {
         },
       },
     });
+    // Creamos un Set con las horas de inicio ya reservadas para una búsqueda rápida
+    const bookedSlots = new Set(
+      appointments.map(apt => dayjs(apt.startTime).utc().format('HH:mm'))
+    );
 
-    const openingTime = parseInt(businessDayHours.open.split(':')[0]);
-    const closingTime = parseInt(businessDayHours.close.split(':')[0]);
-    const slotInterval = 15;
-
+    // 5. Generar todos los tramos horarios posibles del día
+    const openingTime = dayjs.utc(`${date}T${businessDayHours.open}`);
+    const closingTime = dayjs.utc(`${date}T${businessDayHours.close}`);
+    
     const availableSlots: string[] = [];
-    let currentTime = selectedDate.hour(openingTime).minute(0).second(0);
-    const endOfDay = selectedDate.hour(closingTime).minute(0).second(0);
+    let currentTime = openingTime;
 
-    while (currentTime.isBefore(endOfDay)) {
-      const slotStartTime = currentTime;
-      const slotEndTime = currentTime.add(duration, 'minutes');
-
-      if (slotEndTime.isAfter(endOfDay)) {
-        break;
+    while (currentTime.add(serviceDuration, 'minutes').isBefore(closingTime.add(1, 'minute'))) {
+      const slot = currentTime.format('HH:mm');
+      
+      // Añadimos el tramo solo si NO está ya reservado
+      if (!bookedSlots.has(slot)) {
+        availableSlots.push(slot);
       }
-
-      const isWithinEmployeeHours = employees.some(employee => {
-        const schedule = employee.workSchedule as any;
-        const daySchedule = schedule[dayOfWeek] as { start: string, end: string }[] | undefined;
-        if (!daySchedule) return false;
-
-        return daySchedule.some(shift => {
-          const shiftStart = dayjs.utc(`${date}T${shift.start}`);
-          const shiftEnd = dayjs.utc(`${date}T${shift.end}`);
-          return !slotStartTime.isBefore(shiftStart) && !slotEndTime.isAfter(shiftEnd);
-        });
-      });
-
-      if (!isWithinEmployeeHours) {
-        currentTime = currentTime.add(slotInterval, 'minutes');
-        continue;
-      }
-
-      // --- LÍNEA CORREGIDA ---
-      // Esta es la lógica correcta de solapamiento.
-      const isOverlapping = appointments.some(appointment => {
-        const aptStart = dayjs(appointment.startTime);
-        const aptEnd = dayjs(appointment.endTime);
-        return slotStartTime.isBefore(aptEnd) && slotEndTime.isAfter(aptStart);
-      });
-      // --- FIN DE LA CORRECCIÓN ---
-
-      if (!isOverlapping) {
-        availableSlots.push(slotStartTime.format('HH:mm'));
-      }
-
-      currentTime = currentTime.add(slotInterval, 'minutes');
+      
+      // El siguiente tramo empieza justo cuando acaba el actual
+      currentTime = currentTime.add(serviceDuration, 'minutes');
     }
 
     res.status(200).json(availableSlots);

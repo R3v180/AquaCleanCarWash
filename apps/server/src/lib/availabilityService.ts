@@ -1,19 +1,18 @@
-// File: /apps/server/src/lib/availabilityService.ts (CORRECCIÓN FINAL DE ZONA HORARIA)
+// File: /apps/server/src/lib/availabilityService.ts (CORRECCIÓN FINAL DE LÓGICA DE LÍMITES)
 
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc'; // <-- Importamos UTC
+import utc from 'dayjs/plugin/utc';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import 'dayjs/locale/en';
 import { Employee, Absence } from '@prisma/client';
 import prisma from './prisma';
 
-dayjs.extend(utc); // <-- Y lo usamos
+dayjs.extend(utc);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+dayjs.locale('en');
 
-/**
- * Comprueba si un empleado específico está disponible para un tramo horario.
- * @param employee El objeto del empleado con sus ausencias.
- * @param slot El objeto dayjs del inicio del tramo.
- * @param serviceDuration La duración del servicio en minutos.
- * @returns true si el empleado está disponible, false si no.
- */
 export function isEmployeeAvailable(
   employee: Employee & { absences: Absence[] },
   slot: dayjs.Dayjs,
@@ -21,58 +20,79 @@ export function isEmployeeAvailable(
 ): boolean {
   const dayOfWeek = slot.format('dddd').toLowerCase();
   const workSchedule = employee.workSchedule as any;
-  const daySchedule = workSchedule?.[dayOfWeek] as { start: string; end: string }[] | undefined;
-  if (!daySchedule) return false;
+  const daySchedule = workSchedule?.[dayOfWeek];
 
-  const worksDuringSlot = daySchedule.some(shift => {
+  console.log(`\n[isEmployeeAvailable] Empleado: ${employee.name}, Slot: ${slot.format('HH:mm')}, Día: [${dayOfWeek}]`);
+
+  if (!daySchedule) {
+    console.log(` -> RESULTADO: FALLO (No se encontró horario para [${dayOfWeek}]).`);
+    return false;
+  }
+
+  const worksDuringSlot = (daySchedule as any[]).some(shift => {
+    console.log(` -> Comprobando turno: ${shift.start}-${shift.end}`);
     const shiftStart = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.start}`);
     const shiftEnd = dayjs.utc(`${slot.format('YYYY-MM-DD')}T${shift.end}`);
     const slotEnd = slot.add(serviceDuration, 'minutes');
-    return !slot.isBefore(shiftStart) && !slotEnd.isAfter(shiftEnd);
+
+    const fits = slot.isSameOrAfter(shiftStart) && slotEnd.isSameOrBefore(shiftEnd);
+    
+    if(!fits) {
+      console.log(`    -> RESULTADO TURNO: FALLO.`);
+    } else {
+      console.log(`    -> RESULTADO TURNO: ÉXITO (El tramo cabe en este turno).`);
+    }
+    return fits;
   });
-  if (!worksDuringSlot) return false;
+
+  if (!worksDuringSlot) {
+    console.log(` -> RESULTADO FINAL: FALLO (No encaja en ningún turno).`);
+    return false;
+  }
   
   const hasAbsence = employee.absences.some(absence => {
     return slot.isBetween(dayjs.utc(absence.startDate), dayjs.utc(absence.endDate), 'day', '[]');
   });
-  if (hasAbsence) return false;
 
+  if (hasAbsence) {
+    console.log(` -> RESULTADO FINAL: FALLO (Ausencia programada).`);
+    return false;
+  }
+
+  console.log(` -> RESULTADO FINAL: ÉXITO.`);
   return true;
 };
 
-/**
- * Busca un empleado activo y disponible para un tramo horario específico.
- * @param startTime El inicio de la cita.
- * @param endTime El fin de la cita.
- * @param serviceDuration La duración en minutos.
- * @returns El ID del primer empleado disponible encontrado, o undefined si no hay ninguno.
- */
 export async function findAvailableEmployeeForSlot(startTime: Date, endTime: Date, serviceDuration: number): Promise<string | undefined> {
-  // 1. Encontrar empleados ocupados en ese slot
+  console.log('\n--- [findAvailableEmployeeForSlot] Buscando empleado... ---');
+  
   const overlappingAppointments = await prisma.appointment.findMany({
-    where: {
-      OR: [ { startTime: { lt: endTime }, endTime: { gt: startTime } } ],
-    },
+    where: { OR: [ { startTime: { lt: endTime }, endTime: { gt: startTime } } ] },
     select: { employeeId: true },
   });
   const busyEmployeeIds = new Set(overlappingAppointments.map(a => a.employeeId));
 
-  // 2. Encontrar empleados activos que no tengan ausencia
   const potentialEmployees = await prisma.employee.findMany({
-    where: {
-      status: 'ACTIVE',
-      absences: { none: { startDate: { lte: endTime }, endDate: { gte: startTime } } },
-    },
-    include: { absences: true } // Incluimos ausencias para pasarlo al helper
+    where: { status: 'ACTIVE', absences: { none: { startDate: { lte: endTime }, endDate: { gte: startTime } } } },
+    include: { absences: true }
   });
   
-  // 3. Filtrar por horario laboral usando el helper centralizado
+  const startTimeUtc = dayjs(startTime.toISOString());
+  console.log(`[findAvailableEmployeeForSlot] Hora de inicio normalizada a UTC: ${startTimeUtc.format('YYYY-MM-DD HH:mm:ss')}`);
+
+
   const availableEmployee = potentialEmployees.find(employee => {
-    if (busyEmployeeIds.has(employee.id)) return false;
-    // --- LÍNEA CORREGIDA ---
-    // DEBE ser dayjs.utc() para que coincida con la lógica de la API de disponibilidad
-    return isEmployeeAvailable(employee, dayjs.utc(startTime), serviceDuration);
+    if (busyEmployeeIds.has(employee.id)) {
+        return false;
+    }
+    return isEmployeeAvailable(employee, startTimeUtc, serviceDuration);
   });
+
+  if (!availableEmployee) {
+    console.log('--- [findAvailableEmployeeForSlot] RESULTADO: NO se encontró ningún empleado. ---');
+  } else {
+    console.log(`--- [findAvailableEmployeeForSlot] RESULTADO: Empleado encontrado -> ${availableEmployee.name}`);
+  }
 
   return availableEmployee ? availableEmployee.id : undefined;
 }

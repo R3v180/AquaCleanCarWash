@@ -1,3 +1,233 @@
+commit f6d84ed67e447b824c5335acb7f033bfcda77c19
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 17:08:58 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 17:08:58 2025 +0200
+
+    feat(availability): Implementar anulaciones de fecha y corregir bugs críticos
+    
+    Esta entrega completa la funcionalidad de 'Anulaciones por Fecha' y soluciona varios problemas fundamentales en el motor de disponibilidad.
+    
+    Funcionalidad Implementada:
+    1.  **Gestión de Anulaciones de Fecha (Admin Panel):**
+        - Se ha refactorizado el modelo BusinessClosure a DateOverride, permitiendo ahora no solo cierres de día completo (festivos) sino también la definición de horarios especiales para fechas concretas (jornada reducida).
+        - La API (dminDateOverrides.routes.ts) y la interfaz de usuario en 'Ajustes del Negocio' han sido actualizadas para soportar esta nueva flexibilidad.
+        - El motor de disponibilidad (vailability.routes.ts) ahora prioriza estas anulaciones sobre el horario semanal estándar.
+    
+    Correcciones Críticas y Depuración:
+    1.  **Solucionado Error de Compilación:** Se eliminó un archivo obsoleto (dminClosures.routes.ts) que causaba un fallo en el comando pnpm build e impedía que las actualizaciones del backend se aplicaran correctamente.
+    2.  **Solucionado Bug de Zona Horaria:** Se corrigió un error crítico donde las fechas de cierre se guardaban incorrectamente debido a conversiones de zona horaria. La solución se implementó enviando la fecha desde el cliente como un string 'YYYY-MM-DD' y normalizándola a UTC en el backend.
+    3.  **Solucionado Bug de Locale (Idioma):** Se identificó y corrigió el error final que impedía mostrar la disponibilidad. La librería dayjs generaba nombres de días en español ('martes') mientras que las claves en la base de datos estaban en inglés ('tuesday'). Se solucionó forzando el locale de dayjs a 'en' dentro de la API de disponibilidad para asegurar la coincidencia.
+
+commit 63949b660d2d70f9f8df045d33fc12f2853e8398
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 15:33:54 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 15:33:54 2025 +0200
+
+    feat(settings): Implementar gestión de anulaciones de fecha
+    
+    Añade una funcionalidad avanzada que permite a los administradores anular el horario semanal estándar para fechas específicas, soportando tanto cierres de día completo (festivos) como horarios especiales (jornada reducida).
+    
+    Cambios Implementados:
+    
+    1.  **Refactorización del Modelo de Datos:**
+        - Se ha refactorizado el modelo BusinessClosure a DateOverride en schema.prisma para reflejar su nueva capacidad.
+        - Se han añadido los campos opcionales openTime y closeTime para definir horarios especiales.
+        - Se ha ejecutado la migración correspondiente para actualizar la estructura de la base de datos.
+    
+    2.  **Backend Robusto:**
+        - Se ha creado la nueva API dminDateOverrides.routes.ts para gestionar las anulaciones.
+        - La lógica de creación (POST /) ahora detecta conflictos de forma inteligente: busca citas en todo el día para cierres completos y solo fuera del nuevo horario para jornadas especiales.
+        - El motor de disponibilidad (vailability.routes.ts) ha sido actualizado para priorizar las reglas de DateOverride sobre el horario semanal estándar.
+    
+    3.  **Corrección de Bug Crítico de Zona Horaria:**
+        - Se ha identificado y solucionado un bug fundamental relacionado con la gestión de zonas horarias que causaba que las anulaciones no se aplicaran correctamente.
+        - La solución se implementó enviando la fecha desde el cliente como un string YYYY-MM-DD y normalizándola a UTC en el backend antes de guardarla o consultarla, eliminando toda ambigüedad.
+    
+    4.  **Frontend Intuitivo:**
+        - La interfaz en 'Ajustes del Negocio' ha sido mejorada para permitir la configuración de horarios especiales a través de dos nuevos campos de hora.
+        - La lista de fechas configuradas ahora diferencia visualmente entre cierres completos y horarios especiales para mayor claridad.
+
+commit 0308007d641b56d075f336430f1dd3aee51a9106
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 14:34:08 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 14:34:08 2025 +0200
+
+    feat(settings): Implementar gestión de días de cierre del negocio
+    
+    Añade la funcionalidad completa para que los administradores puedan gestionar festivos y otros días de cierre, bloqueando la disponibilidad para los clientes.
+    
+    El desarrollo incluye:
+    
+    1.  **Backend & Base de Datos:**
+        - Se ha añadido un nuevo modelo BusinessClosure al schema.prisma para almacenar los días de cierre.
+        - Se ha creado una nueva API en dminClosures.routes.ts con endpoints para GET, POST y DELETE.
+        - La API POST incluye lógica de detección de conflictos: devuelve un error 409 si se intenta cerrar un día con citas ya existentes.
+        - Se ha actualizado el script seed.ts para limpiar la nueva tabla en cada ejecución.
+    
+    2.  **Motor de Disponibilidad:**
+        - Se ha actualizado la API vailability.routes.ts para que compruebe si una fecha solicitada es un día de cierre. Si lo es, devuelve inmediatamente la disponibilidad como nula, optimizando el rendimiento.
+    
+    3.  **Frontend (Panel de Administración):**
+        - Se ha añadido una nueva sección 'Días de Cierre y Festivos' en la página de 'Ajustes del Negocio'.
+        - La UI incluye un componente <DatePicker> para seleccionar fechas y una lista para visualizar los cierres programados.
+        - Se ha reutilizado el ConflictResolutionModal para mostrar al administrador las citas en conflicto de forma visual.
+        - Se ha solucionado un bug de compilación de TypeScript reemplazando el componente <Calendar> por <DatePicker> para una correcta gestión del estado.
+
+commit 662cac009ec9dd8e8263341c780177adf5ff053a
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 14:21:00 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 14:21:00 2025 +0200
+
+    docs: Synchronize documentation with recent feature completion
+    
+    - Updated ROADMAP.md to mark 'Business Schedule UI' and 'Booking Auto-Assignment' as complete.
+    - Updated feature specifications in 'docs/features/03-booking-flow.md' and 'docs/features/05-admin-panel-core-management.md' to reflect the newly implemented functionalities.
+
+commit b45901b860816338ac155bf6ae01dd92650e4443
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 14:17:56 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 14:17:56 2025 +0200
+
+    feat(schedule, booking): Implementación de horario de negocio y auto-asignación
+    
+    Esta entrega completa dos funcionalidades críticas del sistema de reservas:
+    
+    1.  **Gestión del Horario del Negocio (Admin Panel):**
+        - Se ha añadido el componente ScheduleEditor a la página de 'Ajustes del Negocio'.
+        - El administrador ahora puede definir las horas de apertura y cierre para cada día de la semana.
+        - Se implementó una capa de transformación en la API (dminSettings.routes.ts) para adaptar la estructura de datos del horario del negocio al formato esperado por el componente ScheduleEditor, resolviendo un error de renderizado (.map is not a function).
+    
+    2.  **Auto-Asignación de Empleados (Booking API):**
+        - La API de creación de reservas (POST /api/bookings) ha sido mejorada para gestionar la selección de 'Cualquier Profesional'.
+        - Si no se recibe un employeeId, la API ahora busca activamente un empleado disponible que cumpla con los criterios (estado ACTIVO, sin ausencias, con horario laboral compatible).
+        - Si no se encuentra ningún profesional, la API devuelve un error 409 Conflict con un mensaje claro para el usuario.
+        - Se ha actualizado el esquema de validación de Zod para hacer el employeeId opcional.
+
+commit aede9b51b22763d3d6366958a45405631f58595b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 14:02:13 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 14:02:13 2025 +0200
+
+    feat(admin, booking): Implementar gestión de horarios y ausencias con resolución de conflictos
+    
+    Se implementa la funcionalidad completa para la gestión de tiempo de los empleados y se adapta el flujo de reserva público.
+    
+    **Backend:**
+    - La API de disponibilidad (/api/availability) se reconstruye para ser 'employee-centric', respetar ausencias y generar huecos secuenciales.
+    - La API de ausencias (POST /.../absences) ahora detecta conflictos con citas existentes y devuelve un error 409.
+    - Se añade el endpoint GET /api/employees/public y se corrige un bug de enrutamiento (404) reordenando las rutas.
+    
+    **Frontend (Admin):**
+    - Se crean los componentes reutilizables ScheduleEditor, AbsenceCalendar y ConflictResolutionModal.
+    - La página EmployeesManagementPage se refactoriza con un modal de pestañas para integrar la gestión de horarios y ausencias, y el flujo de resolución de conflictos.
+    
+    **Frontend (Cliente):**
+    - Se simplifica el flujo de reserva, apuntando los CTAs directamente a /booking.
+    - BookingPage se reconstruye para incluir un Select de profesional, que por defecto es 'Cualquier Profesional'.
+    - BookingDateTimePicker se hace reactivo a la selección del profesional.
+
+commit e8bf2c6cd5c1f727ad680855f8ed71238b7d088b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 14:00:44 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 14:00:44 2025 +0200
+
+    docs: Sincronizar toda la documentación con el estado actual
+    
+    Se realiza una actualización completa de toda la documentación del proyecto para reflejar el progreso y los cambios de lógica implementados.
+    
+    **Archivos Creados:**
+    - PROXIMOS_PASOS.md: Nuevo documento que define el plan de acción detallado.
+    
+    **Archivos Actualizados:**
+    - ROADMAP.md: Refleja la finalización de la gestión de horarios de empleados.
+    - README.md: Se mejora la descripción de las características principales.
+    - docs/features/03-booking-flow.md: Describe el nuevo flujo de reserva centrado en el empleado.
+    - docs/features/05-admin-panel-core-management.md: Detalla el CRUD de servicios y la gestión avanzada de empleados.
+    - docs/features/02-public-site.md: Se ajusta el propósito de las páginas públicas.
+
+commit 4174728517c35af0c51fc5f295732d3d0872f210
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 13:26:53 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 13:26:53 2025 +0200
+
+    refactor(booking): Simplificar flujo de reserva eliminando paso de servicios
+    
+    Se refactoriza la navegación principal del sitio público para agilizar la experiencia de reserva del cliente.
+    
+    Dado que el negocio ahora opera con un único servicio configurable, se elimina el paso intermedio de visitar la página de servicios.
+    
+    - Los botones CTA en la HomePage y en el PublicHeader ahora redirigen directamente a /booking.
+
+commit 3518747c7bc02ccdbc10e7db4e205da2463203b4
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 12:55:38 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 12:55:38 2025 +0200
+
+    feat(admin): Implementar gestión de estado activo/archivado para empleados
+    
+    Se introduce un sistema de estado para los empleados (Activo/Archivado), reemplazando la eliminación física para mantener la integridad del historial de citas.
+    
+    **Backend:**
+    - Se añade EmployeeStatus y el campo status al modelo Employee en schema.prisma.
+    - El seed.ts se actualiza para establecer el estado ACTIVE por defecto.
+    - La API (/api/employees) se reconstruye para filtrar por estado y gestionar el archivado/reactivación vía PUT.
+    - Se corrige un error de tipos de TypeScript con los campos JSON de Prisma.
+    
+    **Frontend:**
+    - La página EmployeesManagementPage.tsx se rediseña con un filtro para ver empleados activos o archivados.
+    - Se implementa la lógica de botones condicionales para Archivar y Reactivar empleados, completando el ciclo de vida.
+
+commit 28f13dc25f086b858480ee5891fab93c7c589354
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 12:36:02 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 12:36:02 2025 +0200
+
+    feat(admin): Implementar CRUD completo para gestión de servicios
+    
+    Se implementa la funcionalidad completa para la gestión de servicios en el panel de administración, permitiendo crear, editar, eliminar y gestionar el estado (activo/inactivo) de cada servicio.
+    
+    **Backend:**
+    - Se añade el campo isActive al modelo Service en schema.prisma.
+    - La API (/api/services) se reconstruye para soportar operaciones CRUD completas, incluyendo la lógica de negocio para impedir la eliminación de servicios con citas asociadas.
+    - La API (/api/admin/settings) ahora solo devuelve servicios activos.
+    
+    **Frontend:**
+    - Se crea el componente reutilizable ServiceForm.tsx.
+    - La página ServicesManagementPage.tsx se rediseña por completo con una tabla de gestión, modales y notificaciones.
+    - Se solucionan errores de tipos entre el formulario y la interfaz Service.
+    
+    **Problemas Resueltos:**
+    - Se corrige el error Foreign Key Constraint en el script seed.ts al añadir una limpieza previa de las citas.
+    - Se regenera el cliente de Prisma para solucionar errores de TypeScript tras la modificación del esquema.
+
+commit 0fd919457c5b140174876a0a7002c45fa14f783a
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 11:23:03 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 11:23:03 2025 +0200
+
+    fix(deps): Resolver conflicto de dependencias de Zod en el monorepo
+    
+    Se reestructura la gestión de la dependencia 'zod' para forzar una única versión en todo el workspace. Se establece 'zod' como peerDependency en @aquaclean/types y como dependencia directa en los paquetes que lo consumen (server y client), solucionando los errores de tipo TS2345 en el build.
+
+commit 1234930a01bd788b3eb9d491d0bd09f6ada670f4
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 3 00:23:33 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 3 00:23:33 2025 +0200
+
+    docs(roadmap): Alinear con el plan real y establecer Gestión de Horarios como próximo objetivo
+
 commit 3b954dedbd1304c29035ff45cbb17d3d11e7cae9
 Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
 AuthorDate: Fri Oct 3 00:14:34 2025 +0200

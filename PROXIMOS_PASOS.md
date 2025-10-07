@@ -1,56 +1,47 @@
-<!-- File: /PROXIMOS_PASOS.md - v1.0 -->
+<!-- File: /PROXIMOS_PASOS.md - v2.0 (Informe de Situación) -->
 
-# Próximos Pasos del Desarrollo
+# Informe de Situación y Próximos Pasos
 
-Este documento define el plan de acción detallado para completar la implementación de la gestión avanzada de horarios y la actualización del flujo de reservas del cliente.
+Este documento describe el estado actual del desarrollo, detalla el bug crítico que bloquea el progreso y define el plan de acción inmediato para resolverlo.
 
 ---
 
 ### ✅ **Trabajo Realizado (Resumen para Contexto)**
 
-1.  **Gestión de Servicios:** Se ha implementado un CRUD completo para servicios, incluyendo un sistema de estado `Activo/Inactivo`.
-2.  **Gestión de Empleados (Base):** Se ha implementado un CRUD para el perfil de los empleados, con un sistema de estado `Activo/Archivado`.
-3.  **Gestión de Tiempo (Empleados):**
-    - Se ha creado la API y la interfaz de usuario para gestionar los **horarios semanales** de cada empleado (con múltiples turnos).
-    - Se ha implementado la API y la UI para gestionar **ausencias y vacaciones** de forma visual.
-    - Se ha desarrollado un sistema de **detección de conflictos** que impide programar una ausencia si existen citas en esas fechas, mostrando un modal de resolución al administrador.
-4.  **Motor de Disponibilidad (Backend):** La API de disponibilidad (`/api/availability`) ha sido reconstruida. Ahora es capaz de calcular los huecos disponibles basándose en el horario de un empleado específico o en la capacidad combinada de todos los empleados activos, respetando sus ausencias y el horario general del negocio.
+1.  **Gestión de Servicios y Empleados:** Se han implementado CRUDs completos para servicios y empleados, incluyendo estados (`Activo`/`Inactivo`, `Activo`/`Archivado`), horarios semanales por turnos y gestión de ausencias.
+
+2.  **Motor de Disponibilidad (Backend):** La API de disponibilidad (`/api/availability`) ha sido reconstruida para calcular los huecos disponibles basándose en la capacidad combinada de los empleados, sus horarios, ausencias y el horario general del negocio.
+
+3.  **Gestión de Horarios del Negocio (Avanzado):**
+    - Se implementó la interfaz para que el administrador configure el horario semanal del negocio.
+    - El sistema fue evolucionado para soportar **Anulaciones por Fecha**, permitiendo al administrador configurar tanto **cierres de día completo (festivos)** como **horarios especiales (jornada reducida)**, los cuales tienen prioridad sobre el horario semanal.
+
+4.  **Flujo de Reservas (Backend - Intento de Finalización):** Se implementó la lógica de auto-asignación de empleados en la API `POST /bookings`.
+
+5.  **Sistema de Notificaciones (Base):** Se ha instalado `Nodemailer` y se ha creado la estructura inicial de un `NotificationService` con un sistema de simulación de envío de emails vía Ethereal.
 
 ---
 
-### 🎯 **Plan de Acción (Pasos Restantes)**
+### 🔴 **PROBLEMA CRÍTICO ACTUAL (BLOQUEANTE)**
 
-#### **Fase 1: Completar la Gestión de Horarios (Admin)**
+Actualmente, el proyecto se encuentra bloqueado por un bug crítico de inconsistencia en el motor de disponibilidad, conocido como la **"paradoja de la disponibilidad"**.
 
-- **Paso 1: Implementar la Interfaz para el Horario del Negocio.**
-  - **Objetivo:** Permitir al administrador configurar las horas de apertura y cierre para cada día de la semana.
-  - **Archivo Principal a Modificar:** `apps/client/src/pages/admin/BusinessSettingsPage.tsx`.
-  - **Tareas:**
-    1.  Reemplazar el `Select` actual por un componente visual (`ScheduleEditor` o similar) para gestionar el `weeklySchedule`.
-    2.  Asegurar que la API `PUT /api/admin/settings` se actualice para aceptar y guardar estos cambios en el horario.
+**Descripción del Bug:**
 
-#### **Fase 2: Finalizar la API de Reservas (Backend)**
+1.  La API que muestra los huecos al cliente (`GET /api/availability`) llama a la función de validación `isEmployeeAvailable` y determina correctamente que un empleado está disponible para un tramo horario (ej: 09:00), mostrando el hueco en la interfaz. **(Comportamiento Correcto)**.
 
-- **Paso 2: Implementar la Auto-Asignación de Empleados.**
-  - **Objetivo:** Hacer que la API de creación de reservas sea capaz de asignar automáticamente un empleado si el cliente elige la opción "Cualquier Profesional".
-  - **Archivo Principal a Modificar:** `apps/server/src/api/bookings.routes.ts`.
-  - **Tareas:**
-    1.  Modificar el `createBookingSchema` de Zod para que `employeeId` sea opcional.
-    2.  En el endpoint `POST /bookings`, añadir la lógica: si `employeeId` no se recibe, buscar un empleado `ACTIVO` que esté disponible en la `startTime` solicitada y asignarlo a la nueva cita. Si no se encuentra ninguno, devolver un error.
+2.  Sin embargo, al intentar reservar ese mismo hueco, la API de creación de reservas (`POST /bookings`) llama a la **misma función `isEmployeeAvailable`** con los **mismos parámetros**, y esta devuelve `false`, concluyendo erróneamente que el empleado no está disponible.
 
-#### **Fase 3: Completar el Flujo de Reservas (Cliente)**
+3.  Esto provoca que la API de reservas devuelva un error `409 Conflict`, bloqueando todas las reservas con auto-asignación y rompiendo el flujo principal de la aplicación.
 
-- **Paso 3: Realizar un `Commit` para Guardar el Progreso.**
-  - **Objetivo:** Consolidar todo el trabajo realizado en el panel de administración antes de pasar a la parte pública final.
-  - **Tareas:**
-    1.  Crear un mensaje de `commit` detallado que resuma la implementación de la gestión de horarios y ausencias de empleados, incluyendo la detección de conflictos.
+**Causa Raíz Identificada (Gracias a los Logs):**
 
-#### **Fase 4: Actualización de la Documentación**
+Los logs de depuración han confirmado que la contradicción ocurre dentro de la función `isEmployeeAvailable` en el archivo `apps/server/src/lib/availabilityService.ts`. El problema reside en la lógica de comparación de los límites de fecha/hora (ej: `slot.isSameOrAfter(shiftStart)`), que se comporta de manera inconsistente. La misma comparación `09:00 >= 09:00` devuelve `true` en un contexto y `false` en otro, lo que es lógicamente imposible y apunta a un bug muy sutil.
 
-- **Paso 4: Sincronizar toda la Documentación con el Estado Actual.**
-  - **Objetivo:** Asegurar que los archivos `ROADMAP.md` y `docs/features/*.md` reflejen con precisión todas las funcionalidades que hemos completado.
-  - **Archivos a Revisar/Modificar:**
-    1.  `ROADMAP.md`: Marcar como completada la "Gestión de Horarios".
-    2.  `docs/features/05-admin-panel-core-management.md`: Actualizar la sección de "Gestión de Empleados y Horarios" para reflejar el editor de turnos y el calendario de ausencias.
-    3.  `docs/features/03-booking-flow.md`: Actualizar para reflejar el nuevo flujo con selección de empleado.
-  - **Propósito:** Proporcionar un contexto claro y preciso para la siguiente sesión de desarrollo.
+---
+
+### 🎯 **ÚNICO OBJETIVO INMEDIATO: Resolución del Bug**
+
+1.  **Depurar y Corregir `isEmployeeAvailable`:** Iniciar una nueva sesión de desarrollo enfocada exclusivamente en analizar los logs detallados de la función `isEmployeeAvailable` para encontrar la causa raíz de la inconsistencia en la comparación de fechas y aplicar una solución definitiva. El objetivo es que la función devuelva siempre `true` cuando un tramo horario encaja perfectamente en un turno de trabajo.
+
+**Nota:** Todas las demás tareas, incluyendo la finalización del sistema de notificaciones, quedan en pausa hasta que este bug bloqueante sea resuelto.

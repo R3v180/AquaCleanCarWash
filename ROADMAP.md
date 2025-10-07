@@ -1,6 +1,4 @@
-// ====== [4] ROADMAP.md ======
-
-<!-- File: /ROADMAP.md - v1.7 (ACTUALIZADO) -->
+<!-- File: /ROADMAP.md - v1.8 (Actualizado con Estado de Bug) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -17,23 +15,23 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Página de Servicios detallada.
   - [✅] Perfiles públicos del equipo (`/team`).
 
-- **✅ Flujo de Reserva (Sin Pago):**
+- **🟡 Flujo de Reserva (Sin Pago) - EN REVISIÓN:**
   - [✅] Lógica de Disponibilidad (API y Componente de Frontend).
   - [✅] Conexión del flujo (Selección de servicio -> Calendario).
-  - [✅] Formulario de datos de cliente y vehículo.
+  - [✅] Formulario de datos de cliente.
   - [✅] Creación final de la cita en la base de datos.
-  - [✅] **Auto-asignación de empleado para "Cualquier Profesional".**
+  - [🔴 BUG BLOQUEANTE] **Auto-asignación de empleado para "Cualquier Profesional".**
 
 - **✅ Panel de Administración Esencial:**
   - **✅ Gestión Core:** CRUD completo para Servicios (con estado activo/inactivo) y Empleados (con estado activo/archivado).
   - **✅ Operaciones:** Planning visual de citas (FullCalendar).
     - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
     - ✅ Creación manual, edición y anulación de citas (modales).
-  - **✅ Gestión Avanzada de Horarios (Empleados):**
+  - **✅ Gestión Avanzada de Horarios (Empleados y Negocio):**
     - ✅ Editor de turnos semanales por empleado.
-    - ✅ Calendario visual para gestionar vacaciones y ausencias.
-    - ✅ Sistema de detección de conflictos con citas existentes.
-  - ✅ **Interfaz para Horario General del Negocio.**
+    - ✅ Calendario visual para gestionar vacaciones y ausencias (con detección de conflictos).
+    - ✅ Interfaz para Horario General del Negocio.
+    - ✅ **Sistema de Anulaciones por Fecha (Festivos y Horarios Especiales).**
   - ✅ **Autenticación:** Login seguro para el administrador.
 
 - **[ ] Notificaciones Críticas (Email):**

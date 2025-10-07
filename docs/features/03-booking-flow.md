@@ -1,6 +1,4 @@
-// ====== [52] docs/features/03-booking-flow.md ======
-
-<!-- File: /docs/features/03-booking-flow.md - v1.1 (ACTUALIZADO) -->
+<!-- File: /docs/features/03-booking-flow.md - v1.2 (Actualizado con Estado de Bug) -->
 
 # 3. Flujo de Reserva del Cliente
 
@@ -36,13 +34,13 @@ El flujo se presenta como un asistente multi-paso en la página `/booking`.
 
 **Lógica de Negocio:**
 
-- **Estado: Implementado.** La API de disponibilidad (`/api/availability`) es el cerebro del sistema.
-  - Si se selecciona "Cualquier Profesional", la API calcula la capacidad total, fusionando los horarios de todos los empleados activos y restando las citas ya existentes para ofrecer todos los huecos posibles.
-  - Si se selecciona un profesional específico, la API calcula la disponibilidad basándose únicamente en el horario y las ausencias de esa persona.
+- **Estado: Implementado.** La API de disponibilidad (`GET /api/availability`) es el cerebro del sistema y funciona correctamente, mostrando los huecos disponibles.
+  - Si se selecciona "Cualquier Profesional", la API calcula la capacidad total.
+  - Si se selecciona un profesional específico, la API calcula su disponibilidad individual.
 
 **API Calls:**
 
-- ✅ `GET /api/employees/public` (para poblar el selector de profesionales).
+- ✅ `GET /api/employees/public`
 - ✅ `GET /api/availability?date=[YYYY-MM-DD]`
 - ✅ `GET /api/availability?date=[YYYY-MM-DD]&employeeId=[ID]`
 
@@ -51,33 +49,27 @@ El flujo se presenta como un asistente multi-paso en la página `/booking`.
 **UI/UX:**
 
 - Un formulario (`@mantine/form`) solicita los datos del cliente: Nombre, Email y Número de Teléfono.
-- Si el usuario está logueado, estos campos se rellenan automáticamente.
 - El botón "Siguiente" se activa cuando todos los campos obligatorios están validados.
 
 ### Paso 3: Resumen y Confirmación
 
 **UI/UX:**
 
-- Se muestra un resumen completo y claro de toda la selección:
-  - **Servicio:** Nombre del servicio por defecto del negocio.
-  - **Cita:** Día, Hora y Profesional asignado (o "Cualquier Profesional").
-  - **Tus Datos:** Nombre, email, teléfono.
-  - **Total a Pagar.**
+- Se muestra un resumen completo y claro de toda la selección.
 - El botón final es "Confirmar Reserva".
 
 **Lógica de Negocio:**
 
 - Al hacer clic en "Confirmar", se envía toda la información a la API de creación de reservas.
-- **Estado: Implementado.** La API es capaz de asignar la reserva a un empleado específico. Si el cliente elige "Cualquier Profesional", el backend es capaz de encontrar un empleado disponible y asignárselo automáticamente a la cita.
+- **Estado: 🔴 Con Bug Bloqueante.** Aunque la lógica de auto-asignación está implementada en el backend, actualmente sufre de un bug crítico de inconsistencia. Esto causa que devuelva incorrectamente un error `409 Conflict` ("No hay profesionales disponibles") incluso para huecos que la API de disponibilidad ha mostrado como válidos, impidiendo que las reservas se completen.
 
 **API Calls:**
 
-- ✅ `POST /api/bookings`
+- [🔴] `POST /api/bookings`
 
 ## 3.4. Flujo Post-Reserva
 
 - **Página de Éxito:**
-  - Tras una reserva exitosa, el usuario es redirigido a una página de confirmación.
-  - Esta página muestra un mensaje de agradecimiento y resume los detalles de la cita.
+  - Inaccesible actualmente debido al bug de la API.
 - **Notificaciones Automáticas:**
-  - **Estado: Pendiente.** El backend disparará las notificaciones correspondientes (email de confirmación al cliente, etc.).
+  - **Estado: Pendiente.** La implementación está en pausa hasta que se resuelva el bug de la API de reservas.

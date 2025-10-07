@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/bookings.routes.ts (REFACTORIZADO Y CON NOTIFICACIONES)
+// File: /apps/server/src/api/bookings.routes.ts (CON LOGS PARA DEPURACIÓN)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
@@ -22,7 +22,10 @@ const createBookingSchema = z.object({
 
 router.post('/', async (req, res) => {
   try {
+    console.log('\n\n--- [POST /bookings] Nueva Petición de Reserva ---');
     const validatedData = createBookingSchema.parse(req.body);
+    console.log('[POST /bookings] Datos recibidos y validados:', validatedData);
+
     const { serviceId, startTime, customerName, customerEmail, customerPhone } = validatedData;
     let assignedEmployeeId = validatedData.employeeId;
 
@@ -32,16 +35,16 @@ router.post('/', async (req, res) => {
     }
     const endTime = dayjs(startTime).add(service.duration, 'minutes').toDate();
 
-    // --- LÓGICA DE AUTO-ASIGNACIÓN REFACTORIZADA ---
     if (!assignedEmployeeId) {
       assignedEmployeeId = await findAvailableEmployeeForSlot(startTime, endTime, service.duration);
     }
-    // --- FIN DE LA LÓGICA ---
 
     if (!assignedEmployeeId) {
+      console.log('[POST /bookings] FALLO: No se pudo asignar un empleado. Devolviendo 409.');
       return res.status(409).json({ message: 'Lo sentimos, no hay profesionales disponibles en el horario seleccionado. Por favor, elige otra hora.' });
     }
     
+    console.log(`[POST /bookings] ÉXITO: Empleado asignado -> ID: ${assignedEmployeeId}`);
     const newAppointment = await prisma.appointment.create({
       data: {
         startTime, endTime, status: 'CONFIRMED',
@@ -56,21 +59,14 @@ router.post('/', async (req, res) => {
       },
     });
 
-    // --- ENVIAR NOTIFICACIONES ---
-    // Obtenemos los detalles completos de la cita para pasarlos al servicio de notificaciones
     const fullAppointmentDetails = await prisma.appointment.findUnique({
       where: { id: newAppointment.id },
-      include: {
-        user: true,
-        employee: true,
-        services: { include: { service: true } },
-      },
+      include: { user: true, employee: true, services: { include: { service: true } } },
     });
 
     if (fullAppointmentDetails) {
-      await notificationService.sendBookingConfirmation(fullAppointmentDetails);
+      notificationService.sendBookingConfirmation(fullAppointmentDetails);
     }
-    // --- FIN DEL ENVÍO ---
 
     res.status(201).json(newAppointment);
 

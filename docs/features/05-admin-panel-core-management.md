@@ -1,6 +1,4 @@
-// ====== [54] docs/features/05-admin-panel-core-management.md ======
-
-<!-- File: /docs/features/05-admin-panel-core-management.md - v1.1 (ACTUALIZADO) -->
+<!-- File: /docs/features/05-admin-panel-core-management.md - v1.2 (Actualizado con Anulaciones por Fecha) -->
 
 # 5. Panel de Administración: Gestión de la Configuración Base
 
@@ -68,19 +66,27 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 **Estado: Implementado.**
 
-**Propósito:** Un panel centralizado para gestionar las configuraciones globales del negocio.
+**Propósito:** Un panel centralizado para gestionar las configuraciones globales y las excepciones del horario del negocio.
 
 **Componentes Clave:**
 
 - **Selección del Servicio por Defecto:**
   - ✅ Un `Select` que permite elegir cuál de los servicios **activos** se ofrecerá a los clientes.
-- **Formulario de Horario Semanal del Negocio:**
-  - ✅ Una interfaz visual (`ScheduleEditor`) para definir las horas de apertura y cierre de la empresa para cada día de la semana.
+- **Formulario de Horario Semanal Estándar:**
+  - ✅ Una interfaz visual (`ScheduleEditor`) para definir las horas de apertura y cierre recurrentes para cada día de la semana.
+- **Gestión de Anulaciones por Fecha:**
+  - ✅ Una interfaz de calendario que permite anular el horario estándar para fechas específicas.
+  - ✅ Soporte para **Cierres de Día Completo** (ej: festivos nacionales).
+  - ✅ Soporte para **Horarios Especiales** (ej: jornada reducida para un día concreto).
+  - ✅ Sistema de detección de conflictos que avisa si se intenta modificar un día con citas ya programadas.
 
 **API Calls:**
 
-- ✅ `GET /api/admin/settings`
+- ✅ `GET /api/admin/settings` (para el horario y servicio por defecto).
 - ✅ `PUT /api/admin/settings`
+- ✅ `GET /api/admin/overrides` (para las anulaciones de fecha).
+- ✅ `POST /api/admin/overrides` (con lógica de detección de conflictos).
+- ✅ `DELETE /api/admin/overrides/[id]`
 
 ### Sección: Gestión de Clientes (`/admin/clients`)
 

@@ -1,13 +1,11 @@
 // ====== [47] apps/server/src/api/bookings.routes.ts ======
-// File: /apps/server/src/api/bookings.routes.ts (LÓGICA DE CREACIÓN RECONSTRUIDA)
+// File: /apps/server/src/api/bookings.routes.ts (PASANDO EL TELÉFONO AL SERVICIO DE NOTIFICACIÓN)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
 import prisma from '../lib/prisma';
 import { AppointmentStatus, Prisma } from '@prisma/client';
 import { notificationService } from '../lib/notificationService';
-// Ya no necesitamos 'findAvailableEmployeeForSlot' porque la lógica ha cambiado
-// import { findAvailableEmployeeForSlot } from '../lib/availabilityService';
 
 const router = Router();
 
@@ -27,20 +25,16 @@ router.post('/', async (req, res) => {
     const validatedData = createBookingSchema.parse(req.body);
     console.log('[POST /bookings] Datos recibidos y validados:', validatedData);
 
-    const { startTime, customerName, customerEmail, employeeId } = validatedData;
+    const { startTime, customerName, customerEmail, employeeId, customerPhone } = validatedData;
     
-    // 1. Buscar un hueco DISPONIBLE que coincida con la hora y el empleado (si se especifica)
     const availableSlot = await prisma.appointment.findFirst({
         where: {
             startTime: startTime,
             status: AppointmentStatus.AVAILABLE,
-            // Si el cliente eligió un empleado, lo usamos para filtrar.
-            // Si no, cualquier empleado con un hueco disponible a esa hora es válido.
             ...(employeeId && { employeeId: employeeId }),
         },
     });
 
-    // 2. Si no se encuentra ningún hueco, significa que alguien lo reservó mientras nuestro cliente decidía.
     if (!availableSlot) {
       console.log('[POST /bookings] FALLO: No se encontró un slot "AVAILABLE" coincidente. Devolviendo 409.');
       return res.status(409).json({ message: 'Lo sentimos, no hay profesionales disponibles en el horario seleccionado. Por favor, elige otra hora.' });
@@ -48,14 +42,12 @@ router.post('/', async (req, res) => {
 
     console.log(`[POST /bookings] ÉXITO: Slot disponible encontrado (ID: ${availableSlot.id}), asignado al empleado ID: ${availableSlot.employeeId}`);
 
-    // 3. Crear o actualizar los datos del cliente
     const customer = await prisma.user.upsert({
       where: { email: customerEmail },
       update: { name: customerName },
       create: { email: customerEmail, name: customerName, role: 'CUSTOMER' },
     });
 
-    // 4. "Reclamar" el hueco: actualizar la cita existente con los datos del cliente
     const confirmedAppointment = await prisma.appointment.update({
         where: { id: availableSlot.id },
         data: {
@@ -69,9 +61,10 @@ router.post('/', async (req, res) => {
         },
     });
 
-    // 5. Enviar notificaciones
     if (confirmedAppointment.user) {
-      notificationService.sendBookingConfirmation(confirmedAppointment as any);
+      // --- LÍNEA MODIFICADA ---
+      // Ahora también pasamos el número de teléfono del cliente a la función
+      notificationService.sendBookingConfirmation(confirmedAppointment as any, customerPhone);
     }
 
     res.status(201).json(confirmedAppointment);

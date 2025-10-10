@@ -1,18 +1,23 @@
-// File: /apps/client/src/pages/public/BookingPage.tsx (ACTUALIZADO)
+// ====== [31] apps/client/src/pages/public/BookingPage.tsx ======
+// File: /apps/client/src/pages/public/BookingPage.tsx (JSX RESTAURADO Y COMPLETO)
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select } from '@mantine/core';
+import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select, Input } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { BookingDateTimePicker } from '../../components/booking/BookingDateTimePicker';
 import apiClient from '../../lib/apiClient';
 
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+
 const customerInfoSchema = z.object({
   customerName: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
   customerEmail: z.string().email({ message: 'Introduce un email válido.' }),
-  customerPhone: z.string().min(9, { message: 'Introduce un número de teléfono válido.' }),
+  customerPhone: z.string().min(10, { message: 'Introduce un número de teléfono válido.' }),
 });
+
 interface Employee { id: string; name: string; }
 interface Settings { defaultService: { duration: number; id: string; }; }
 
@@ -23,7 +28,6 @@ export function BookingPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [employees, setEmployees] = useState<{ value: string; label: string }[]>([]);
-  // --- LÍNEA MODIFICADA ---
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>('any');
   const [serviceInfo, setServiceInfo] = useState<{ duration: number; id: string } | null>(null);
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
@@ -102,6 +106,7 @@ export function BookingPage() {
       <Title order={2} ta="center" mb="xl">Realizar una Reserva</Title>
 
       <Stepper active={activeStep} onStepClick={setActiveStep}>
+        {/* --- JSX DEL PASO 1 RESTAURADO --- */}
         <Stepper.Step label="Paso 1" description="Elige Profesional y Hora">
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
             <Select
@@ -129,14 +134,28 @@ export function BookingPage() {
             <Title order={4} mb="lg">Completa tu información</Title>
             <TextInput label="Nombre Completo" {...form.getInputProps('customerName')} withAsterisk />
             <TextInput label="Email" type="email" {...form.getInputProps('customerEmail')} withAsterisk mt="md" />
-            <TextInput label="Teléfono" {...form.getInputProps('customerPhone')} withAsterisk mt="md" />
+            
+            <Input.Wrapper
+              label="Teléfono"
+              withAsterisk
+              mt="md"
+              error={form.errors.customerPhone}
+            >
+              <PhoneInput
+                defaultCountry="es"
+                value={form.values.customerPhone}
+                onChange={(phone) => form.setFieldValue('customerPhone', phone)}
+              />
+            </Input.Wrapper>
+            
             <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={() => setActiveStep(0)}>Volver</Button>
               <Button type="submit">Confirmar Reserva</Button>
             </Group>
           </Paper>
         </Stepper.Step>
-
+        
+        {/* --- JSX DEL PASO 3 RESTAURADO --- */}
         <Stepper.Step label="Paso 3" description="Confirmación">
            <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
              <Title order={3} ta="center">¡Reserva Confirmada!</Title>

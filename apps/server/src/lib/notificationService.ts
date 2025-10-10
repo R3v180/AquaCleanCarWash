@@ -1,9 +1,12 @@
-// File: /apps/server/src/lib/notificationService.ts (VERSIÓN FINAL CON ETHEREAL FORZADO Y SIN ERRORES)
+// ====== [51] apps/server/src/lib/notificationService.ts ======
+// File: /apps/server/src/lib/notificationService.ts (CORRECCIÓN FINAL DE FORMATEO DE NÚMERO DE TWILIO)
 
 import nodemailer from 'nodemailer';
+import twilio from 'twilio';
 import { Appointment, Employee, Service, User } from '@prisma/client';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import prisma from './prisma';
 
 dayjs.locale('es');
 
@@ -14,117 +17,107 @@ export type FullAppointmentDetails = Appointment & {
 };
 
 let transporter: nodemailer.Transporter | null = null;
-let testAccount: nodemailer.TestAccount | null = null;
 
-/**
- * Crea y configura un transporter de Nodemailer usando una cuenta de prueba de Ethereal.
- * Es una función asíncrona que solo se ejecuta una vez para obtener las credenciales.
- */
 async function getTransporter() {
-  // Si ya tenemos el transporter, lo reutilizamos.
-  if (transporter) {
+  if (transporter) { return transporter; }
+  const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+  if (settings && settings.emailHost && settings.emailPort && settings.emailUser && settings.emailPass) {
+    console.log('--- Configuración SMTP encontrada en la BBDD. Usando transporter real. ---');
+    transporter = nodemailer.createTransport({
+      host: settings.emailHost,
+      port: Number(settings.emailPort),
+      secure: Number(settings.emailPort) === 465,
+      auth: { user: settings.emailUser, pass: settings.emailPass },
+    });
     return transporter;
   }
-
-  // Si no, creamos una cuenta de prueba de Ethereal.
-  testAccount = await nodemailer.createTestAccount();
-
-  console.log('--- Ethereal Mail Account (SIMULADOR DE EMAIL) ---');
-  console.log('User:', testAccount.user);
-  console.log('Pass:', testAccount.pass);
-  console.log('Los emails enviados aparecerán en la terminal con un enlace individual.');
-  console.log('----------------------------------------------------');
-
+  console.log('--- No se encontró configuración SMTP. Usando simulador Ethereal. ---');
+  const testAccount = await nodemailer.createTestAccount();
+  console.log('User:', testAccount.user, 'Pass:', testAccount.pass);
   transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
-    },
+    secure: false,
+    auth: { user: testAccount.user, pass: testAccount.pass },
   });
-
   return transporter;
 }
 
-/**
- * Envía un email de confirmación de reserva al cliente y una notificación al negocio.
- * @param appointmentDetails - El objeto completo de la cita con sus relaciones.
- */
-async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetails) {
+async function sendWhatsAppConfirmation(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
   try {
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    if (!settings || !settings.twilioSid || !settings.twilioAuthToken || !settings.twilioPhoneNumber) {
+      console.log('--- Faltan credenciales de Twilio en la BBDD. Omitiendo envío de WhatsApp. ---');
+      return;
+    }
+    console.log('--- Credenciales de Twilio encontradas. Intentando enviar WhatsApp. ---');
+    const client = twilio(settings.twilioSid, settings.twilioAuthToken);
+    const { user, services, startTime } = appointmentDetails;
+    const service = services[0]?.service;
+    if (!service) return;
+
+    const formattedDate = dayjs(startTime).format('D [de] MMMM');
+    const formattedTime = dayjs(startTime).format('HH:mm');
+
+    const fromNumber = settings.twilioPhoneNumber; // ej: 'whatsapp:+14155238886'
+    const toNumber = `whatsapp:${customerPhone.startsWith('+') ? customerPhone : `+34${customerPhone}`.replace(/\s+/g, '')}`;
+
+    console.log(`  -> Intentando enviar desde: ${fromNumber}`);
+    console.log(`  -> Intentando enviar a: ${toNumber}`);
+
+    await client.messages.create({
+      from: fromNumber,
+      to: toNumber,
+      body: `¡Hola ${user.name}! 👋 Tu cita en AquaClean para un *${service.name}* el *${formattedDate}* a las *${formattedTime}h* está confirmada. ¡Te esperamos!`,
+    });
+
+    console.log(`✅ WhatsApp de confirmación enviado con éxito a: ${toNumber}`);
+
+  } catch (error) {
+    console.error('Error al enviar el WhatsApp de confirmación:', error);
+  }
+}
+
+async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
+  try {
+    // Lógica de Email
     const mailTransporter = await getTransporter();
     const { user, employee, services, startTime } = appointmentDetails;
     const service = services[0]?.service;
-
-    if (!service) {
-      console.error('Error: No se encontró el servicio en los detalles de la cita.');
-      return;
-    }
-
+    if (!service) { return; }
     const formattedDateTime = dayjs(startTime).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm');
-
-    // 1. Email para el Cliente
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    const fromEmail = settings?.emailFrom || '"AquaClean Car Wash" <noreply@aquaclean.com>';
+    const businessEmail = settings?.emailUser || 'business@aquaclean.com';
     const customerMailOptions = {
-      from: '"AquaClean Car Wash" <noreply@aquaclean.com>',
+      from: fromEmail,
       to: user.email,
       subject: `¡Tu cita en AquaClean está confirmada para el ${dayjs(startTime).format('DD/MM/YYYY')}!`,
-      text: `
-        Hola ${user.name || 'Cliente'},
-
-        ¡Gracias por reservar con nosotros!
-
-        Tu cita ha sido confirmada con los siguientes detalles:
-        - Servicio: ${service.name}
-        - Profesional: ${employee.name}
-        - Fecha y Hora: ${formattedDateTime}
-
-        Te esperamos. Si necesitas cancelar o reprogramar, por favor, contacta con nosotros.
-
-        Saludos,
-        El equipo de AquaClean Car Wash
-      `,
+      html: `<p>Hola ${user.name || 'Cliente'},</p><p>Tu cita ha sido confirmada con los siguientes detalles:</p><ul><li><strong>Servicio:</strong> ${service.name}</li><li><strong>Profesional:</strong> ${employee.name}</li><li><strong>Fecha y Hora:</strong> ${formattedDateTime}</li></ul><p>Te esperamos.</p>`,
     };
-
-    // 2. Email para el Negocio (se enviará a Ethereal también)
     const businessMailOptions = {
-      from: '"Sistema de Reservas AquaClean" <noreply@aquaclean.com>',
-      to: 'business@aquaclean.com', // Dirección de prueba
+      from: fromEmail,
+      to: businessEmail,
       subject: `📢 Nueva Reserva: ${service.name} para ${user.name}`,
-      text: `
-        ¡Se ha registrado una nueva reserva!
-
-        Detalles de la cita:
-        - Cliente: ${user.name} (${user.email})
-        - Servicio: ${service.name}
-        - Profesional Asignado: ${employee.name}
-        - Fecha y Hora: ${formattedDateTime}
-
-        La cita ha sido añadida automáticamente al planning.
-      `,
+      html: `<p>Nueva reserva:</p><ul><li><strong>Cliente:</strong> ${user.name} (${user.email})</li><li><strong>Servicio:</strong> ${service.name}</li><li><strong>Profesional:</strong> ${employee.name}</li><li><strong>Fecha y Hora:</strong> ${formattedDateTime}</li></ul>`,
     };
-
     const [customerInfo, businessInfo] = await Promise.all([
       mailTransporter.sendMail(customerMailOptions),
       mailTransporter.sendMail(businessMailOptions),
     ]);
+    if (customerInfo.accepted.length > 0) { console.log('✅ Email de confirmación enviado con éxito a:', user.email); }
+    if (businessInfo.accepted.length > 0) { console.log('✅ Email de notificación enviado con éxito a:', businessEmail); }
+    const previewUrl = nodemailer.getTestMessageUrl(customerInfo);
+    if (previewUrl) { console.log('🔗 Vista previa (Ethereal):', previewUrl); }
 
-    // --- LOGS CORREGIDOS ---
-    // Obtenemos la URL del mensaje DESPUÉS de enviarlo, lo cual es correcto y no da error.
-    console.log('----------------------------------------------------');
-    console.log('✅ Emails de simulación enviados con éxito.');
-    console.log('🔗 Vista previa del email del CLIENTE:', nodemailer.getTestMessageUrl(customerInfo));
-    console.log('🔗 Vista previa del email del NEGOCIO:', nodemailer.getTestMessageUrl(businessInfo));
-    console.log('----------------------------------------------------');
+    // Lógica de WhatsApp
+    await sendWhatsAppConfirmation(appointmentDetails, customerPhone);
 
   } catch (error) {
-    console.error('Error al enviar los emails de confirmación:', error);
+    console.error('Error durante el proceso de notificación:', error);
   }
 }
 
-
-// Exportamos el servicio para que pueda ser utilizado en otras partes de la aplicación
 export const notificationService = {
   sendBookingConfirmation,
 };

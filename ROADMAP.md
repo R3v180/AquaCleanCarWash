@@ -1,4 +1,6 @@
-<!-- File: /ROADMAP.md - v1.8 (Actualizado con Estado de Bug) -->
+// ====== [5] ROADMAP.md ======
+
+<!-- File: /ROADMAP.md - v1.9 (BUG RESUELTO) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -15,12 +17,12 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Página de Servicios detallada.
   - [✅] Perfiles públicos del equipo (`/team`).
 
-- **🟡 Flujo de Reserva (Sin Pago) - EN REVISIÓN:**
+- **✅ Flujo de Reserva (Sin Pago) - FUNCIONAL:** <!-- LÍNEA MODIFICADA -->
   - [✅] Lógica de Disponibilidad (API y Componente de Frontend).
   - [✅] Conexión del flujo (Selección de servicio -> Calendario).
   - [✅] Formulario de datos de cliente.
   - [✅] Creación final de la cita en la base de datos.
-  - [🔴 BUG BLOQUEANTE] **Auto-asignación de empleado para "Cualquier Profesional".**
+  - [✅] **Auto-asignación de empleado para "Cualquier Profesional".** <!-- LÍNEA MODIFICADA -->
 
 - **✅ Panel de Administración Esencial:**
   - **✅ Gestión Core:** CRUD completo para Servicios (con estado activo/inactivo) y Empleados (con estado activo/archivado).

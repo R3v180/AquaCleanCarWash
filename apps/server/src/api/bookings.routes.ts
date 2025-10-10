@@ -1,12 +1,13 @@
-// File: /apps/server/src/api/bookings.routes.ts (CORRECCIÓN FINAL DE TIPADO)
+// ====== [47] apps/server/src/api/bookings.routes.ts ======
+// File: /apps/server/src/api/bookings.routes.ts (LÓGICA DE CREACIÓN RECONSTRUIDA)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
-import dayjs from 'dayjs';
 import prisma from '../lib/prisma';
-import { Prisma, AppointmentStatus } from '@prisma/client';
+import { AppointmentStatus, Prisma } from '@prisma/client';
 import { notificationService } from '../lib/notificationService';
-import { findAvailableEmployeeForSlot } from '../lib/availabilityService';
+// Ya no necesitamos 'findAvailableEmployeeForSlot' porque la lógica ha cambiado
+// import { findAvailableEmployeeForSlot } from '../lib/availabilityService';
 
 const router = Router();
 
@@ -26,57 +27,54 @@ router.post('/', async (req, res) => {
     const validatedData = createBookingSchema.parse(req.body);
     console.log('[POST /bookings] Datos recibidos y validados:', validatedData);
 
-    const { serviceId, startTime, customerName, customerEmail, customerPhone } = validatedData;
-    let assignedEmployeeId = validatedData.employeeId;
+    const { startTime, customerName, customerEmail, employeeId } = validatedData;
+    
+    // 1. Buscar un hueco DISPONIBLE que coincida con la hora y el empleado (si se especifica)
+    const availableSlot = await prisma.appointment.findFirst({
+        where: {
+            startTime: startTime,
+            status: AppointmentStatus.AVAILABLE,
+            // Si el cliente eligió un empleado, lo usamos para filtrar.
+            // Si no, cualquier empleado con un hueco disponible a esa hora es válido.
+            ...(employeeId && { employeeId: employeeId }),
+        },
+    });
 
-    const service = await prisma.service.findUnique({ where: { id: serviceId } });
-    if (!service) {
-      return res.status(404).json({ message: 'El servicio seleccionado no existe.' });
-    }
-    const endTime = dayjs(startTime).add(service.duration, 'minutes').toDate();
-
-    if (!assignedEmployeeId) {
-      assignedEmployeeId = await findAvailableEmployeeForSlot(startTime, endTime, service.duration);
-    }
-
-    if (!assignedEmployeeId) {
-      console.log('[POST /bookings] FALLO: No se pudo asignar un empleado. Devolviendo 409.');
+    // 2. Si no se encuentra ningún hueco, significa que alguien lo reservó mientras nuestro cliente decidía.
+    if (!availableSlot) {
+      console.log('[POST /bookings] FALLO: No se encontró un slot "AVAILABLE" coincidente. Devolviendo 409.');
       return res.status(409).json({ message: 'Lo sentimos, no hay profesionales disponibles en el horario seleccionado. Por favor, elige otra hora.' });
     }
-    
-    console.log(`[POST /bookings] ÉXITO: Empleado asignado -> ID: ${assignedEmployeeId}`);
-    
+
+    console.log(`[POST /bookings] ÉXITO: Slot disponible encontrado (ID: ${availableSlot.id}), asignado al empleado ID: ${availableSlot.employeeId}`);
+
+    // 3. Crear o actualizar los datos del cliente
     const customer = await prisma.user.upsert({
       where: { email: customerEmail },
       update: { name: customerName },
       create: { email: customerEmail, name: customerName, role: 'CUSTOMER' },
     });
 
-    const newAppointment = await prisma.appointment.create({
-      data: {
-        startTime, 
-        endTime, 
-        status: AppointmentStatus.CONFIRMED,
-        employeeId: assignedEmployeeId,
-        userId: customer.id,
-        services: { create: { serviceId: serviceId } },
-      },
-      include: { 
-        user: true, 
-        employee: true, 
-        services: { include: { service: true } } 
-      },
+    // 4. "Reclamar" el hueco: actualizar la cita existente con los datos del cliente
+    const confirmedAppointment = await prisma.appointment.update({
+        where: { id: availableSlot.id },
+        data: {
+            status: AppointmentStatus.CONFIRMED,
+            userId: customer.id,
+        },
+        include: { 
+            user: true, 
+            employee: true, 
+            services: { include: { service: true } } 
+        },
     });
 
-    // --- BLOQUE CORREGIDO ---
-    // Añadimos una comprobación para asegurar a TypeScript que 'user' no es nulo
-    if (newAppointment && newAppointment.user) {
-      // TypeScript ahora sabe que newAppointment cumple con el tipo FullAppointmentDetails
-      notificationService.sendBookingConfirmation(newAppointment as any); // Usamos 'as any' como último recurso si TS sigue quejándose
+    // 5. Enviar notificaciones
+    if (confirmedAppointment.user) {
+      notificationService.sendBookingConfirmation(confirmedAppointment as any);
     }
-    // --- FIN DEL BLOQUE ---
 
-    res.status(201).json(newAppointment);
+    res.status(201).json(confirmedAppointment);
 
   } catch (error) {
     if (error instanceof ZodError) {

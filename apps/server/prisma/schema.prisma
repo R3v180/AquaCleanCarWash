@@ -1,4 +1,5 @@
-// File: /apps/server/prisma/schema.prisma (AÑADIENDO CAMPO DE COLOR)
+// ====== [40] apps/server/prisma/schema.prisma ======
+// File: /apps/server/prisma/schema.prisma (AÑADIENDO CONFIGURACIÓN DE NOTIFICACIONES)
 
 generator client {
   provider = "prisma-client-js"
@@ -89,8 +90,7 @@ model Employee {
   bio          String? @db.Text
   imageUrl     String?
   status       EmployeeStatus @default(ACTIVE)
-  // --- CAMPO AÑADIDO ---
-  color        String?  @default("#868e96") // Un color gris por defecto
+  color        String?  @default("#868e96")
   
   workSchedule Json?
   absences     Absence[]
@@ -118,6 +118,8 @@ model Appointment {
   status        AppointmentStatus @default(AVAILABLE)
   paymentIntentId String?  @unique
   googleEventId   String?  @unique
+  // --- CAMPO AÑADIDO ---
+  reminderSent  Boolean  @default(false) // Para controlar el envío de recordatorios
 
   user          User?    @relation(fields: [userId], references: [id])
   userId        String?
@@ -207,6 +209,19 @@ model BusinessSettings {
 
   defaultService   Service? @relation(fields: [defaultServiceId], references: [id])
   defaultServiceId String?  @unique
+
+  // --- CAMPOS AÑADIDOS PARA NOTIFICACIONES ---
+  // Configuración de Email (SMTP)
+  emailHost       String?
+  emailPort       String?
+  emailUser       String?
+  emailPass       String? // Se guardará encriptado en un futuro, por ahora en texto plano
+  emailFrom       String? // Ej: "AquaClean Notificaciones <info@aquaclean.com>"
+
+  // Configuración de WhatsApp (Twilio)
+  twilioSid       String?
+  twilioAuthToken String?
+  twilioPhoneNumber String? // El número de WhatsApp Business de Twilio
 }
 
 model DateOverride {

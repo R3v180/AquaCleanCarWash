@@ -1,3 +1,17 @@
+commit 64914f33bcc56d112f405e03639236013deba77b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Tue Oct 7 18:27:50 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Tue Oct 7 18:27:50 2025 +0200
+
+    docs(project-status): Synchronize all documentation with current state
+    
+    Updates all relevant .md files to accurately reflect the project's current status, including the implementation of new features and the identification of a critical blocking bug.
+    
+    - PROXIMOS_PASOS.md: Converted from a future plan to a detailed status report, highlighting the blocking bug as the sole immediate objective.
+    - ROADMAP.md: Updated to mark the booking flow as 'In Review' due to the blocking bug.
+    - docs/features/*.md: Updated feature specifications to include the new 'DateOverride' functionality and note the impact of the bug on the booking flow.
+
 commit f6d84ed67e447b824c5335acb7f033bfcda77c19
 Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
 AuthorDate: Tue Oct 7 17:08:58 2025 +0200

@@ -1,17 +1,10 @@
-// File: /apps/server/src/api/availability.routes.ts (VERSIÓN FINAL CON CORRECCIÓN DE TIPO)
+// File: /apps/server/src/api/availability.routes.ts (REFACTORIZADO PARA LEER INVENTARIO)
 
 import { Router } from 'express';
 import { z } from 'zod';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import isBetween from 'dayjs/plugin/isBetween';
-import 'dayjs/locale/en';
-import 'dayjs/locale/es';
+import { AppointmentStatus } from '@prisma/client';
 import prisma from '../lib/prisma';
-import { isEmployeeAvailable } from '../lib/availabilityService';
-
-dayjs.extend(utc);
-dayjs.extend(isBetween);
 
 const router = Router();
 
@@ -23,102 +16,52 @@ const availabilityQuerySchema = z.object({
 router.get('/', async (req, res) => {
   try {
     const { date, employeeId } = availabilityQuerySchema.parse(req.query);
-    const selectedDate = dayjs.utc(date);
+    const selectedDate = dayjs(date);
+    const now = dayjs();
 
-    const settings = await prisma.businessSettings.findUnique({
-      where: { singleton: 'SINGLETON' }, include: { defaultService: true },
-    });
+    // Construimos la consulta base
+    const whereClause: any = {
+      status: AppointmentStatus.AVAILABLE,
+      startTime: {
+        gte: selectedDate.startOf('day').toDate(),
+        lt: selectedDate.endOf('day').toDate(),
+      },
+    };
 
-    if (!settings?.defaultService) {
-      return res.status(503).json({ message: 'El servicio por defecto no está configurado.' });
-    }
-
-    let businessDayHours: { open: string; close: string } | null = null;
-    const override = await prisma.dateOverride.findFirst({
-      where: { date: { gte: selectedDate.startOf('day').toDate(), lte: selectedDate.endOf('day').toDate() } }
-    });
-
-    if (override) {
-      if (override.openTime && override.closeTime) {
-        businessDayHours = { open: override.openTime, close: override.closeTime };
-      }
-    } else {
-      const dayOfWeek = selectedDate.locale('en').format('dddd').toLowerCase();
-      const weeklySchedule = settings.weeklySchedule as any;
-      const daySchedule = weeklySchedule?.[dayOfWeek];
-      if (daySchedule) {
-        if (Array.isArray(daySchedule) && daySchedule.length > 0 && daySchedule[0]) {
-          businessDayHours = { open: daySchedule[0].start, close: daySchedule[0].end };
-        } else if (daySchedule.open && daySchedule.close) {
-          businessDayHours = { open: daySchedule.open, close: daySchedule.close };
-        }
-      }
-    }
-
-    if (!businessDayHours) {
-      return res.json([]);
-    }
-
-    const { defaultService } = settings;
-    const serviceDuration = defaultService.duration;
-    
-    const appointmentsOnDay = await prisma.appointment.findMany({
-      where: { startTime: { gte: selectedDate.startOf('day').toDate(), lte: selectedDate.endOf('day').toDate() } },
-      select: { startTime: true, endTime: true, employeeId: true },
-    });
-
-    const employeesToCheck = await prisma.employee.findMany({
-      where: { status: 'ACTIVE', ...(employeeId && { id: employeeId }) },
-      include: { absences: true },
-    });
-    
-    const availableSlots: string[] = [];
-    const openingTime = dayjs.utc(`${date}T${businessDayHours.open}`);
-    const closingTime = dayjs.utc(`${date}T${businessDayHours.close}`);
-
-    let currentTime = openingTime;
-    
-    const slotInterval = serviceDuration;
-    
-    while (currentTime.add(serviceDuration, 'minutes').isBefore(closingTime.add(1, 'minute'))) {
-      const slotStart = currentTime;
-      const slotEnd = currentTime.add(serviceDuration, 'minutes');
-
-      const theoreticallyAvailableEmployees = employeesToCheck.filter(emp => 
-        isEmployeeAvailable(emp, slotStart, serviceDuration)
-      );
-      
-      // --- BLOQUE CORREGIDO ---
-      // Agrupamos las citas por empleado de una forma que TypeScript puede verificar
-      const employeeAppointments = appointmentsOnDay.reduce((acc, apt) => {
-        const key = apt.employeeId;
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        // Ahora TypeScript sabe que acc[key] es un array y permite el push
-        acc[key].push(apt);
-        return acc;
-      }, {} as Record<string, (typeof appointmentsOnDay)>);
-      // --- FIN DEL BLOQUE CORREGIDO ---
-
-      const freeEmployeeCount = theoreticallyAvailableEmployees.filter(emp => {
-        const appointmentsForEmployee = employeeAppointments[emp.id] || [];
-        const hasOverlappingAppointment = appointmentsForEmployee.some(apt => 
-            dayjs.utc(apt.startTime).isBefore(slotEnd) && dayjs.utc(apt.endTime).isAfter(slotStart)
-        );
-        return !hasOverlappingAppointment;
-      }).length;
-
-      if (freeEmployeeCount > 0) {
-        availableSlots.push(slotStart.format('HH:mm'));
-      }
-      
-      currentTime = currentTime.add(slotInterval, 'minutes');
+    // Si se pide un empleado específico, lo añadimos al filtro
+    if (employeeId) {
+      whereClause.employeeId = employeeId;
     }
     
-    res.status(200).json(availableSlots);
+    // Si la fecha es hoy, añadimos la condición de que el hueco sea en el futuro
+    if (selectedDate.isSame(now, 'day')) {
+        whereClause.startTime.gte = now.toDate();
+    }
+
+    const availableAppointments = await prisma.appointment.findMany({
+      where: whereClause,
+      orderBy: {
+        startTime: 'asc',
+      },
+      select: {
+        startTime: true,
+      },
+    });
+
+    // Usamos un Set para obtener solo las horas de inicio únicas (evita duplicados si 3 empleados están libres a la misma hora)
+    const uniqueSlots = new Set(
+      availableAppointments.map(appt => dayjs(appt.startTime).format('HH:mm'))
+    );
+    
+    // Convertimos el Set a un array y lo devolvemos
+    const slots = Array.from(uniqueSlots);
+    
+    res.status(200).json(slots);
 
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ message: 'Datos inválidos.', errors: error.issues });
+    }
     console.error('[AVAILABILITY] Error fatal:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }

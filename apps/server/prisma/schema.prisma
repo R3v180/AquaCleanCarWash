@@ -1,4 +1,4 @@
-// File: /apps/server/prisma/schema.prisma (CORREGIDO)
+// File: /apps/server/prisma/schema.prisma (AÑADIENDO CAMPO DE COLOR)
 
 generator client {
   provider = "prisma-client-js"
@@ -89,6 +89,8 @@ model Employee {
   bio          String? @db.Text
   imageUrl     String?
   status       EmployeeStatus @default(ACTIVE)
+  // --- CAMPO AÑADIDO ---
+  color        String?  @default("#868e96") // Un color gris por defecto
   
   workSchedule Json?
   absences     Absence[]
@@ -113,12 +115,12 @@ model Appointment {
   startTime     DateTime
   endTime       DateTime
   notes         String?
-  status        AppointmentStatus @default(CONFIRMED)
+  status        AppointmentStatus @default(AVAILABLE)
   paymentIntentId String?  @unique
   googleEventId   String?  @unique
 
-  user          User     @relation(fields: [userId], references: [id])
-  userId        String
+  user          User?    @relation(fields: [userId], references: [id])
+  userId        String?
   
   employee      Employee @relation(fields: [employeeId], references: [id])
   employeeId    String
@@ -207,16 +209,12 @@ model BusinessSettings {
   defaultServiceId String?  @unique
 }
 
-// --- MODELO REFACTORIZADO (Antiguo BusinessClosure) ---
 model DateOverride {
   id        String   @id @default(cuid())
-  date      DateTime // <-- @unique ha sido eliminado
+  date      DateTime
   reason    String?
-
-  // Si estos son nulos, es un cierre completo.
-  // Si tienen valor, es un horario especial para este día.
-  openTime  String? // formato "HH:mm"
-  closeTime String? // formato "HH:mm"
+  openTime  String?
+  closeTime String?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -230,10 +228,11 @@ enum UserRole {
 }
 
 enum AppointmentStatus {
+  AVAILABLE
   CONFIRMED
   COMPLETED
   CANCELLED
-  PENDING_PAYMENT
+  NO_SHOW
 }
 
 enum ReviewStatus {

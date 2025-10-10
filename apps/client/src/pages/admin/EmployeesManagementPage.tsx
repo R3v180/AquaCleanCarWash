@@ -1,11 +1,11 @@
-// File: /apps/client/src/pages/admin/EmployeesManagementPage.tsx (COMPLETO Y CORREGIDO)
+// File: /apps/client/src/pages/admin/EmployeesManagementPage.tsx (CON SELECTOR DE COLOR)
 
 import { useEffect, useState } from 'react';
-import { Table, Title, Button, Modal, TextInput, Select, Group, Avatar, Text, Flex, Badge, SegmentedControl, Tabs, LoadingOverlay, Stack, Box, Textarea } from '@mantine/core';
+import { Table, Title, Button, Modal, TextInput, Select, Group, Avatar, Text, Badge, SegmentedControl, Tabs, LoadingOverlay, Stack, Box, Textarea, ColorInput } from '@mantine/core'; // ColorInput añadido
 import { useDisclosure } from '@mantine/hooks';
 import { useForm, zodResolver } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { IconArchive, IconUserPlus, IconUserCheck, IconUser, IconClock, IconBeach } from '@tabler/icons-react';
+import { IconArchive, IconUserPlus, IconUserCheck, IconUser, IconClock, IconBeach, IconPalette } from '@tabler/icons-react'; // IconPalette añadido
 import apiClient from '../../lib/apiClient';
 import { createEmployeeSchema } from '@aquaclean/types';
 import { ScheduleEditor, WeeklySchedule } from '../../components/admin/ScheduleEditor';
@@ -15,7 +15,7 @@ import { ConflictResolutionModal } from '../../components/admin/ConflictResoluti
 export interface Employee {
   id: string; name: string; email: string; role: 'ADMIN' | 'EMPLOYEE';
   status: 'ACTIVE' | 'ARCHIVED'; imageUrl?: string | null; bio?: string | null;
-  workSchedule?: WeeklySchedule;
+  workSchedule?: WeeklySchedule; color?: string;
 }
 interface Conflict { id: string; startTime: string; user: { name: string | null; }; }
 
@@ -34,7 +34,7 @@ export function EmployeesManagementPage() {
 
   const form = useForm({
     validate: zodResolver(createEmployeeSchema),
-    initialValues: { name: '', email: '', role: 'EMPLOYEE', bio: '', imageUrl: '', workSchedule: {} as WeeklySchedule },
+    initialValues: { name: '', email: '', role: 'EMPLOYEE', bio: '', imageUrl: '', workSchedule: {} as WeeklySchedule, color: '#868e96' },
   });
 
   const fetchEmployees = async () => {
@@ -51,7 +51,13 @@ export function EmployeesManagementPage() {
 
   const handleEdit = async (employee: Employee) => {
     setLoading(true); setSelectedEmployee(employee);
-    const sanitizedEmployeeData = { ...employee, bio: employee.bio || '', imageUrl: employee.imageUrl || '', workSchedule: employee.workSchedule || {}, };
+    const sanitizedEmployeeData = { 
+        ...employee, 
+        bio: employee.bio || '', 
+        imageUrl: employee.imageUrl || '', 
+        workSchedule: employee.workSchedule || {},
+        color: employee.color || '#868e96'
+    };
     form.setValues(sanitizedEmployeeData);
     try {
         const absencesResponse = await apiClient.get<Absence[]>(`/employees/${employee.id}/absences`);
@@ -117,7 +123,6 @@ export function EmployeesManagementPage() {
           </Tabs.List>
 
           <form onSubmit={form.onSubmit(handleFormSubmit)}>
-            {/* --- SECCIÓN RESTAURADA --- */}
             <Tabs.Panel value="profile" pt="md">
               <Stack>
                 <TextInput label="Nombre Completo" {...form.getInputProps('name')} withAsterisk />
@@ -130,9 +135,15 @@ export function EmployeesManagementPage() {
                 />
                 <TextInput label="URL de la Foto" {...form.getInputProps('imageUrl')} />
                 <Textarea label="Biografía" {...form.getInputProps('bio')} /> 
+                {/* --- COMPONENTE AÑADIDO --- */}
+                <ColorInput 
+                  label="Color en el Calendario"
+                  description="Elige un color para identificar a este empleado en el planning."
+                  {...form.getInputProps('color')}
+                  withAsterisk
+                />
               </Stack>
             </Tabs.Panel>
-            {/* --- FIN DE LA SECCIÓN RESTAURADA --- */}
             
             <Tabs.Panel value="schedule" pt="md">
                 <ScheduleEditor value={form.values.workSchedule} onChange={(schedule) => form.setFieldValue('workSchedule', schedule)} />
@@ -168,7 +179,7 @@ export function EmployeesManagementPage() {
         <Table.Tbody>
           {employees.map((employee) => (
             <Table.Tr key={employee.id}>
-              <Table.Td><Group><Avatar src={employee.imageUrl || undefined} name={employee.name} radius="xl" /><Box><Text>{employee.name}</Text><Text size="xs" c="dimmed">{employee.email}</Text></Box></Group></Table.Td>
+              <Table.Td><Group><Avatar src={employee.imageUrl || undefined} name={employee.name} radius="xl" color={employee.color || 'gray'} /><Box><Text>{employee.name}</Text><Text size="xs" c="dimmed">{employee.email}</Text></Box></Group></Table.Td>
               <Table.Td>{employee.role === 'ADMIN' ? 'Administrador' : 'Empleado'}</Table.Td>
               <Table.Td><Badge color={employee.status === 'ACTIVE' ? 'green' : 'gray'}>{employee.status === 'ACTIVE' ? 'Activo' : 'Archivado'}</Badge></Table.Td>
               <Table.Td>

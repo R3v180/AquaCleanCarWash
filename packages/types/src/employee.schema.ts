@@ -1,4 +1,4 @@
-// File: /packages/types/src/employee.schema.ts (ACTUALIZADO)
+// File: /packages/types/src/employee.schema.ts (ACTUALIZADO CON CAMPO DE COLOR)
 
 import { z } from 'zod';
 
@@ -18,8 +18,10 @@ export const createEmployeeSchema = z.object({
     .or(z.literal(''))
     .optional(),
   
-  // --- LÍNEA AÑADIDA ---
   status: z.enum(['ACTIVE', 'ARCHIVED']).optional(),
+  
+  // --- CAMPO AÑADIDO ---
+  color: z.string().optional(),
   
   workSchedule: z.record(z.string(), z.unknown()).optional(),
 });

@@ -53,6 +53,9 @@ importers:
       '@fullcalendar/react':
         specifier: ^6.1.19
         version: 6.1.19(@fullcalendar/core@6.1.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@fullcalendar/resource-timegrid':
+        specifier: ^6.1.19
+        version: 6.1.19(@fullcalendar/core@6.1.19)(@fullcalendar/resource@6.1.19(@fullcalendar/core@6.1.19))
       '@fullcalendar/resource-timeline':
         specifier: ^6.1.19
         version: 6.1.19(@fullcalendar/core@6.1.19)(@fullcalendar/resource@6.1.19(@fullcalendar/core@6.1.19))
@@ -641,6 +644,18 @@ packages:
       '@fullcalendar/core': ~6.1.19
       react: ^16.7.0 || ^17 || ^18 || ^19
       react-dom: ^16.7.0 || ^17 || ^18 || ^19
+
+  '@fullcalendar/resource-daygrid@6.1.19':
+    resolution: {integrity: sha512-ylcPQwxwbMS4sIvhwJltNWUZhCinD/IhsYvIxfv/wXb0UBds8d9zacPEjcRRKiXShXj/95W/YWVF+9JcCiRfIQ==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.19
+      '@fullcalendar/resource': ~6.1.19
+
+  '@fullcalendar/resource-timegrid@6.1.19':
+    resolution: {integrity: sha512-Y16w/Z28gZwAVxVKmicKjbaSY4DixV9canEeY2A09Ka3golaxSrTDQ72PMbxzPGEMv3S7HaqDojofNsfh+wH/g==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.19
+      '@fullcalendar/resource': ~6.1.19
 
   '@fullcalendar/resource-timeline@6.1.19':
     resolution: {integrity: sha512-oC3aVR++dLqJNeBwmLHq9sDgRDFfIG0qSteV7bgBekvNlqEMqXx8wPjUxnELrq8rrhMmK4iV3wO7AB/48IVgyg==}
@@ -3543,6 +3558,21 @@ snapshots:
       '@fullcalendar/core': 6.1.19
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  '@fullcalendar/resource-daygrid@6.1.19(@fullcalendar/core@6.1.19)(@fullcalendar/resource@6.1.19(@fullcalendar/core@6.1.19))':
+    dependencies:
+      '@fullcalendar/core': 6.1.19
+      '@fullcalendar/daygrid': 6.1.19(@fullcalendar/core@6.1.19)
+      '@fullcalendar/premium-common': 6.1.19(@fullcalendar/core@6.1.19)
+      '@fullcalendar/resource': 6.1.19(@fullcalendar/core@6.1.19)
+
+  '@fullcalendar/resource-timegrid@6.1.19(@fullcalendar/core@6.1.19)(@fullcalendar/resource@6.1.19(@fullcalendar/core@6.1.19))':
+    dependencies:
+      '@fullcalendar/core': 6.1.19
+      '@fullcalendar/premium-common': 6.1.19(@fullcalendar/core@6.1.19)
+      '@fullcalendar/resource': 6.1.19(@fullcalendar/core@6.1.19)
+      '@fullcalendar/resource-daygrid': 6.1.19(@fullcalendar/core@6.1.19)(@fullcalendar/resource@6.1.19(@fullcalendar/core@6.1.19))
+      '@fullcalendar/timegrid': 6.1.19(@fullcalendar/core@6.1.19)
 
   '@fullcalendar/resource-timeline@6.1.19(@fullcalendar/core@6.1.19)(@fullcalendar/resource@6.1.19(@fullcalendar/core@6.1.19))':
     dependencies:

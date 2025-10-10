@@ -1,4 +1,6 @@
-<!-- File: /docs/features/03-booking-flow.md - v1.2 (Actualizado con Estado de Bug) -->
+// ====== [58] docs/features/03-booking-flow.md ======
+
+<!-- File: /docs/features/03-booking-flow.md - v1.3 (Funcional) -->
 
 # 3. Flujo de Reserva del Cliente
 
@@ -34,9 +36,7 @@ El flujo se presenta como un asistente multi-paso en la página `/booking`.
 
 **Lógica de Negocio:**
 
-- **Estado: Implementado.** La API de disponibilidad (`GET /api/availability`) es el cerebro del sistema y funciona correctamente, mostrando los huecos disponibles.
-  - Si se selecciona "Cualquier Profesional", la API calcula la capacidad total.
-  - Si se selecciona un profesional específico, la API calcula su disponibilidad individual.
+- **Estado: Implementado.** La API de disponibilidad (`GET /api/availability`) lee el inventario de citas disponibles y funciona correctamente.
 
 **API Calls:**
 
@@ -61,15 +61,15 @@ El flujo se presenta como un asistente multi-paso en la página `/booking`.
 **Lógica de Negocio:**
 
 - Al hacer clic en "Confirmar", se envía toda la información a la API de creación de reservas.
-- **Estado: 🔴 Con Bug Bloqueante.** Aunque la lógica de auto-asignación está implementada en el backend, actualmente sufre de un bug crítico de inconsistencia. Esto causa que devuelva incorrectamente un error `409 Conflict` ("No hay profesionales disponibles") incluso para huecos que la API de disponibilidad ha mostrado como válidos, impidiendo que las reservas se completen.
+- **Estado: Implementado.** El backend busca un hueco disponible que coincida con la selección y lo actualiza con los datos del cliente, cambiando su estado a `CONFIRMED`.
 
 **API Calls:**
 
-- [🔴] `POST /api/bookings`
+- [✅] `POST /api/bookings` <!-- LÍNEA MODIFICADA -->
 
 ## 3.4. Flujo Post-Reserva
 
 - **Página de Éxito:**
-  - Inaccesible actualmente debido al bug de la API.
+  - Funcional.
 - **Notificaciones Automáticas:**
-  - **Estado: Pendiente.** La implementación está en pausa hasta que se resuelva el bug de la API de reservas.
+  - **Estado: Implementado (base).** La lógica de envío está lista y se integra con Ethereal para simulación.

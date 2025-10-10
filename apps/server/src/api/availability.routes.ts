@@ -1,10 +1,14 @@
-// File: /apps/server/src/api/availability.routes.ts (REFACTORIZADO PARA LEER INVENTARIO)
+// ====== [46] apps/server/src/api/availability.routes.ts ======
+// File: /apps/server/src/api/availability.routes.ts (CORRECCIÓN FINAL DE FORMATEO A LOCAL)
 
 import { Router } from 'express';
 import { z } from 'zod';
 import dayjs from 'dayjs';
-import { AppointmentStatus } from '@prisma/client';
+import utc from 'dayjs/plugin/utc';
 import prisma from '../lib/prisma';
+import { AppointmentStatus, Prisma } from '@prisma/client';
+
+dayjs.extend(utc);
 
 const router = Router();
 
@@ -15,28 +19,31 @@ const availabilityQuerySchema = z.object({
 
 router.get('/', async (req, res) => {
   try {
+    console.log('\n\n--- [GET /availability] Nueva Petición de Disponibilidad ---');
     const { date, employeeId } = availabilityQuerySchema.parse(req.query);
-    const selectedDate = dayjs(date);
-    const now = dayjs();
+    console.log(`1. Parámetros recibidos: date=${date}, employeeId=${employeeId || 'ninguno'}`);
 
-    // Construimos la consulta base
-    const whereClause: any = {
+    const startOfDay = dayjs.utc(date).startOf('day');
+    const endOfDay = dayjs.utc(date).endOf('day');
+    const now = dayjs.utc();
+    
+    const gteTime = startOfDay.format('YYYY-MM-DD') === now.format('YYYY-MM-DD')
+      ? now.toDate()
+      : startOfDay.toDate();
+
+    const whereClause: Prisma.AppointmentWhereInput = {
       status: AppointmentStatus.AVAILABLE,
       startTime: {
-        gte: selectedDate.startOf('day').toDate(),
-        lt: selectedDate.endOf('day').toDate(),
+        gte: gteTime,
+        lte: endOfDay.toDate(),
       },
     };
 
-    // Si se pide un empleado específico, lo añadimos al filtro
     if (employeeId) {
       whereClause.employeeId = employeeId;
     }
-    
-    // Si la fecha es hoy, añadimos la condición de que el hueco sea en el futuro
-    if (selectedDate.isSame(now, 'day')) {
-        whereClause.startTime.gte = now.toDate();
-    }
+
+    console.log('2. Cláusula WHERE para Prisma:', JSON.stringify(whereClause, null, 2));
 
     const availableAppointments = await prisma.appointment.findMany({
       where: whereClause,
@@ -48,21 +55,27 @@ router.get('/', async (req, res) => {
       },
     });
 
-    // Usamos un Set para obtener solo las horas de inicio únicas (evita duplicados si 3 empleados están libres a la misma hora)
-    const uniqueSlots = new Set(
-      availableAppointments.map(appt => dayjs(appt.startTime).format('HH:mm'))
-    );
-    
-    // Convertimos el Set a un array y lo devolvemos
-    const slots = Array.from(uniqueSlots);
-    
-    res.status(200).json(slots);
+    console.log(`3. Citas encontradas en la BBDD: ${availableAppointments.length} resultados.`);
+    console.log('   -> Primeros resultados:', availableAppointments.slice(0, 10));
+
+    const uniqueSlots = new Set<string>();
+    availableAppointments.forEach(appt => {
+      // --- LÍNEA CORREGIDA ---
+      // Tomamos la fecha UTC de la BBDD y la formateamos en la zona horaria local del servidor.
+      // dayjs() por defecto convierte la fecha UTC a local.
+      uniqueSlots.add(dayjs(appt.startTime).format('HH:mm'));
+    });
+
+    const finalSlots = Array.from(uniqueSlots);
+    console.log('4. Slots finales enviados al frontend:', finalSlots);
+
+    res.status(200).json(finalSlots);
 
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Datos inválidos.', errors: error.issues });
     }
-    console.error('[AVAILABILITY] Error fatal:', error);
+    console.error('[AVAILABILITY] Error fatal al buscar en inventario:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });

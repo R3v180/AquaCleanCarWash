@@ -1,6 +1,7 @@
-// File: /apps/client/src/pages/admin/AdminPlanningPage.tsx (VERSIÓN FINAL CON SCOPE CORREGIDO)
+// ====== [27] apps/client/src/pages/admin/AdminPlanningPage.tsx ======
+// File: /apps/client/src/pages/admin/AdminPlanningPage.tsx (CORRECCIÓN FINAL DE ZONA HORARIA)
 
-import { useState, useEffect, useCallback } from 'react'; // <-- useCallback AÑADIDO
+import { useState, useEffect, useCallback } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import { EventDropArg, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,7 +12,6 @@ import { useDisclosure } from '@mantine/hooks';
 import apiClient from '../../lib/apiClient';
 import { AppointmentForm } from '../../components/admin/AppointmentForm';
 
-// --- (Tipos no cambian) ---
 interface BusinessHour {
   daysOfWeek: number[];
   startTime: string;
@@ -40,7 +40,6 @@ export function AdminPlanningPage() {
   const [viewConfig, setViewConfig] = useState<ViewConfig | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // --- LÓGICA CORREGIDA: fetchData AHORA ESTÁ EN EL SCOPE PRINCIPAL ---
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -89,12 +88,11 @@ export function AdminPlanningPage() {
     } finally {
       setLoading(false);
     }
-  }, []); // El array vacío significa que esta función no necesita recrearse
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]); // useEffect ahora depende de fetchData
-  // --- FIN DE LA CORRECCIÓN ---
+  }, [fetchData]);
 
   const handleEventDrop = async (dropInfo: EventDropArg) => {
     try {
@@ -108,7 +106,7 @@ export function AdminPlanningPage() {
       };
 
       await apiClient.put(`/admin/appointments/${event.id}`, updateData);
-      fetchData(); // Recargamos para asegurar consistencia
+      fetchData();
     } catch (err) {
       console.error('Error al reagendar la cita:', err);
       dropInfo.revert();
@@ -127,7 +125,7 @@ export function AdminPlanningPage() {
   
   const handleFormSuccess = () => {
     close();
-    fetchData(); // Ahora 'fetchData' es visible y se puede llamar aquí
+    fetchData();
   };
 
   if (error) {
@@ -160,7 +158,8 @@ export function AdminPlanningPage() {
             eventDrop={handleEventDrop}
             dateClick={handleDateClick}
             eventClick={handleEventClick}
-            timeZone="UTC"
+            // --- LÍNEA ELIMINADA ---
+            // timeZone="UTC" // <-- ¡ESTA ES LA LÍNEA QUE CAUSABA EL PROBLEMA!
             slotMinTime={viewConfig.minTime}
             slotMaxTime={viewConfig.maxTime}
             businessHours={true}

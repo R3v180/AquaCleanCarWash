@@ -1,10 +1,12 @@
-// File: /apps/server/prisma/seed.ts (CORREGIDO CON BUCLE DE CREACIÓN DE EMPLEADOS)
+// ====== [41] apps/server/prisma/seed.ts ======
+// File: /apps/server/prisma/seed.ts (VERSIÓN CON LOGS DETALLADOS DE GENERACIÓN)
 
 import { PrismaClient, UserRole, EmployeeStatus, AppointmentStatus } from '@prisma/client';
 import { hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import 'dayjs/locale/en';
 
 dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
@@ -14,7 +16,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Starting database seed...');
 
-  // --- 0. Limpieza Completa ---
+  // Limpieza
   console.log('Cleaning up old data...');
   await prisma.businessSettings.updateMany({ data: { defaultServiceId: null } });
   await prisma.appointmentService.deleteMany({});
@@ -26,7 +28,7 @@ async function main() {
   await prisma.service.deleteMany({});
   console.log('Cleanup complete.');
 
-  // --- 1. Seed del Usuario Administrador ---
+  // Admin
   await prisma.user.upsert({
     where: { email: 'admin@aquaclean.com' },
     update: {},
@@ -38,7 +40,7 @@ async function main() {
   });
   console.log(`✅ Admin user seeded.`);
   
-  // --- 2. Seed del Servicio por Defecto ---
+  // Servicio
   const defaultService = await prisma.service.create({
     data: {
       name: 'Servicio Completo de Detallado', duration: 75,
@@ -48,7 +50,7 @@ async function main() {
   });
   console.log(`✅ Seeded 1 default service.`);
 
-  // --- 3. Seed de la Configuración del Negocio ---
+  // Ajustes
   await prisma.businessSettings.upsert({
     where: { singleton: 'SINGLETON' },
     update: { defaultServiceId: defaultService.id },
@@ -64,7 +66,7 @@ async function main() {
   });
   console.log('✅ Business settings created/updated.');
 
-  // --- 4. Seed de Empleados con Colores (CORREGIDO) ---
+  // Empleados
   console.log('Seeding employees...');
   const standardWorkSchedule = {
     monday: [{ start: '09:00', end: '14:00' }, { start: '15:00', end: '19:00' }],
@@ -76,9 +78,9 @@ async function main() {
   };
   
   const employeesToCreate = [
-    { email: 'juan@aquaclean.com', name: 'Juan Empleado', role: UserRole.EMPLOYEE, status: EmployeeStatus.ACTIVE, workSchedule: standardWorkSchedule, color: '#228be6' }, // Azul
-    { email: 'maria@aquaclean.com', name: 'Maria Recepcionista', role: UserRole.EMPLOYEE, status: EmployeeStatus.ACTIVE, workSchedule: standardWorkSchedule, color: '#e64980' }, // Rosa
-    { email: 'carlos@aquaclean.com', name: 'Carlos Detallista', role: UserRole.EMPLOYEE, status: EmployeeStatus.ACTIVE, workSchedule: standardWorkSchedule, color: '#12b886' }, // Verde
+    { email: 'juan@aquaclean.com', name: 'Juan Empleado', role: UserRole.EMPLOYEE, status: EmployeeStatus.ACTIVE, workSchedule: standardWorkSchedule, color: '#228be6' },
+    { email: 'maria@aquaclean.com', name: 'Maria Recepcionista', role: UserRole.EMPLOYEE, status: EmployeeStatus.ACTIVE, workSchedule: standardWorkSchedule, color: '#e64980' },
+    { email: 'carlos@aquaclean.com', name: 'Carlos Detallista', role: UserRole.EMPLOYEE, status: EmployeeStatus.ACTIVE, workSchedule: standardWorkSchedule, color: '#b84712' },
   ];
 
   for (const employeeData of employeesToCreate) {
@@ -86,7 +88,7 @@ async function main() {
   }
   console.log(`✅ Seeded ${employeesToCreate.length} employees with colors.`);
 
-  // --- 5. GENERADOR DE INVENTARIO Y CITAS CONFIRMADAS ---
+  // Generador de Citas
   console.log('Generating appointment inventory...');
   const employees = await prisma.employee.findMany();
   const serviceDuration = defaultService.duration;
@@ -94,29 +96,57 @@ async function main() {
 
   for (const employee of employees) {
     for (let dayOffset = 0; dayOffset < 14; dayOffset++) {
-      const currentDay = dayjs().add(dayOffset, 'day');
+      const currentDay = dayjs().add(dayOffset, 'day').startOf('day');
       const dayOfWeek = currentDay.locale('en').format('dddd').toLowerCase();
       const daySchedule = (employee.workSchedule as any)?.[dayOfWeek];
 
-      if (daySchedule) {
+      // --- LOG AÑADIDO ---
+      console.log(`\n-- Processing Employee: ${employee.name} | Day: ${currentDay.format('YYYY-MM-DD')} --`);
+
+      if (daySchedule && daySchedule.length > 0) {
         for (const shift of daySchedule) {
-          let currentTime = dayjs.utc(`${currentDay.format('YYYY-MM-DD')}T${shift.start}`);
-          const shiftEnd = dayjs.utc(`${currentDay.format('YYYY-MM-DD')}T${shift.end}`);
+          // --- LOG AÑADIDO ---
+          console.log(`  -> Found Shift: ${shift.start} to ${shift.end}`);
+
+          const [startHour, startMinute] = shift.start.split(':').map(Number);
+          const [endHour, endMinute] = shift.end.split(':').map(Number);
+
+          const shiftStart = currentDay.hour(startHour).minute(startMinute);
+          const shiftEnd = currentDay.hour(endHour).minute(endMinute);
           
-          while (currentTime.add(serviceDuration, 'minutes').isSameOrBefore(shiftEnd)) {
+          let currentSlotStart = shiftStart;
+
+          while (true) {
+            const currentSlotEnd = currentSlotStart.add(serviceDuration, 'minutes');
+            
+            if (currentSlotEnd.isAfter(shiftEnd)) {
+              // --- LOG AÑADIDO ---
+              console.log(`     -- Slot ${currentSlotEnd.format('HH:mm')} is after shift end. Stopping this shift.`);
+              break; 
+            }
+            
+            // --- LOG AÑADIDO ---
+            console.log(`     => Generating slot: ${currentSlotStart.format('YYYY-MM-DD HH:mm')}`);
+
             appointmentsToCreate.push({
-              startTime: currentTime.toDate(),
-              endTime: currentTime.add(serviceDuration, 'minutes').toDate(),
+              startTime: currentSlotStart.toDate(),
+              endTime: currentSlotEnd.toDate(),
               employeeId: employee.id,
               status: AppointmentStatus.AVAILABLE,
             });
-            currentTime = currentTime.add(serviceDuration, 'minutes');
+
+            currentSlotStart = currentSlotStart.add(serviceDuration, 'minutes');
           }
         }
+      } else {
+        // --- LOG AÑADIDO ---
+        console.log('  -> No shifts found for this day.');
       }
     }
   }
 
+  // (El resto del archivo no cambia)
+  console.log(`\n✅ Total slots generated before saving: ${appointmentsToCreate.length}`);
   await prisma.appointment.createMany({ data: appointmentsToCreate });
 
   const createdAppointments = await prisma.appointment.findMany({ where: { status: AppointmentStatus.AVAILABLE } });
@@ -125,7 +155,7 @@ async function main() {
           data: { appointmentId: appt.id, serviceId: defaultService.id }
       });
   }
-  console.log(`✅ Generated ${createdAppointments.length} available appointment slots.`);
+  console.log(`✅ Generated ${createdAppointments.length} available appointment slots in DB.`);
 
   console.log('Converting a portion of appointments to CONFIRMED for demo purposes...');
   let confirmedCount = 0;

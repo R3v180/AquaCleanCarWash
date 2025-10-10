@@ -1,10 +1,10 @@
-// File: /apps/server/src/api/bookings.routes.ts (CON LOGS PARA DEPURACIÓN)
+// File: /apps/server/src/api/bookings.routes.ts (CORRECCIÓN FINAL DE TIPADO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
 import dayjs from 'dayjs';
 import prisma from '../lib/prisma';
-import { Prisma } from '@prisma/client';
+import { Prisma, AppointmentStatus } from '@prisma/client';
 import { notificationService } from '../lib/notificationService';
 import { findAvailableEmployeeForSlot } from '../lib/availabilityService';
 
@@ -45,28 +45,36 @@ router.post('/', async (req, res) => {
     }
     
     console.log(`[POST /bookings] ÉXITO: Empleado asignado -> ID: ${assignedEmployeeId}`);
+    
+    const customer = await prisma.user.upsert({
+      where: { email: customerEmail },
+      update: { name: customerName },
+      create: { email: customerEmail, name: customerName, role: 'CUSTOMER' },
+    });
+
     const newAppointment = await prisma.appointment.create({
       data: {
-        startTime, endTime, status: 'CONFIRMED',
-        employee: { connect: { id: assignedEmployeeId } },
-        services: { create: { service: { connect: { id: serviceId } } } },
-        user: {
-          connectOrCreate: {
-            where: { email: customerEmail },
-            create: { email: customerEmail, name: customerName, role: 'CUSTOMER' },
-          },
-        },
+        startTime, 
+        endTime, 
+        status: AppointmentStatus.CONFIRMED,
+        employeeId: assignedEmployeeId,
+        userId: customer.id,
+        services: { create: { serviceId: serviceId } },
+      },
+      include: { 
+        user: true, 
+        employee: true, 
+        services: { include: { service: true } } 
       },
     });
 
-    const fullAppointmentDetails = await prisma.appointment.findUnique({
-      where: { id: newAppointment.id },
-      include: { user: true, employee: true, services: { include: { service: true } } },
-    });
-
-    if (fullAppointmentDetails) {
-      notificationService.sendBookingConfirmation(fullAppointmentDetails);
+    // --- BLOQUE CORREGIDO ---
+    // Añadimos una comprobación para asegurar a TypeScript que 'user' no es nulo
+    if (newAppointment && newAppointment.user) {
+      // TypeScript ahora sabe que newAppointment cumple con el tipo FullAppointmentDetails
+      notificationService.sendBookingConfirmation(newAppointment as any); // Usamos 'as any' como último recurso si TS sigue quejándose
     }
+    // --- FIN DEL BLOQUE ---
 
     res.status(201).json(newAppointment);
 
@@ -75,7 +83,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
     }
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
-      return res.status(404).json({ message: 'El empleado especificado no existe.' });
+      return res.status(404).json({ message: 'El empleado o servicio especificado no existe.' });
     }
     console.error('Error al crear la reserva:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });

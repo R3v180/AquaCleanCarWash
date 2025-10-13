@@ -64,3 +64,15 @@
 2025-10-13T11:09:56.090303Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\src\\lib\\cronService.ts")}
 2025-10-13T11:09:56.090319Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
 2025-10-13T11:09:56.121566Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-13T11:17:08.523629Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\cookies"), AnchoredSystemPathBuf(".turbo\\cookies\\1.cookie"), AnchoredSystemPathBuf(".turbo")}
+2025-10-13T11:17:08.523661Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-13T11:26:51.818503Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\cookies")}
+2025-10-13T11:26:51.818522Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-13T11:26:58.421593Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\src\\api\\bookings.routes.ts")}
+2025-10-13T11:26:58.421616Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
+2025-10-13T11:29:23.922884Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\7c4ba6314ed681e6-turbo.log.2025-10-13")}
+2025-10-13T11:29:23.922898Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-13T11:48:57.313860Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("PROXIMOS_PASOS.md")}
+2025-10-13T11:48:57.313880Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-13T11:50:16.217467Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\prisma\\schema.prisma")}
+2025-10-13T11:50:16.217482Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))

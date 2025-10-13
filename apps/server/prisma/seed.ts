@@ -1,5 +1,4 @@
-// ====== [41] apps/server/prisma/seed.ts ======
-// File: /apps/server/prisma/seed.ts (VERSIÓN CON LOGS DETALLADOS DE GENERACIÓN)
+// File: /apps/server/prisma/seed.ts (ACTUALIZADO PARA INCLUIR RESERVAS DE INVITADO)
 
 import { PrismaClient, UserRole, EmployeeStatus, AppointmentStatus } from '@prisma/client';
 import { hash } from 'bcryptjs';
@@ -18,6 +17,7 @@ async function main() {
 
   // Limpieza
   console.log('Cleaning up old data...');
+  await prisma.review.deleteMany({}); // Limpiar nuevas tablas
   await prisma.businessSettings.updateMany({ data: { defaultServiceId: null } });
   await prisma.appointmentService.deleteMany({});
   await prisma.absence.deleteMany({});
@@ -100,52 +100,30 @@ async function main() {
       const dayOfWeek = currentDay.locale('en').format('dddd').toLowerCase();
       const daySchedule = (employee.workSchedule as any)?.[dayOfWeek];
 
-      // --- LOG AÑADIDO ---
-      console.log(`\n-- Processing Employee: ${employee.name} | Day: ${currentDay.format('YYYY-MM-DD')} --`);
-
       if (daySchedule && daySchedule.length > 0) {
         for (const shift of daySchedule) {
-          // --- LOG AÑADIDO ---
-          console.log(`  -> Found Shift: ${shift.start} to ${shift.end}`);
-
           const [startHour, startMinute] = shift.start.split(':').map(Number);
           const [endHour, endMinute] = shift.end.split(':').map(Number);
-
           const shiftStart = currentDay.hour(startHour).minute(startMinute);
           const shiftEnd = currentDay.hour(endHour).minute(endMinute);
-          
           let currentSlotStart = shiftStart;
 
           while (true) {
             const currentSlotEnd = currentSlotStart.add(serviceDuration, 'minutes');
-            
-            if (currentSlotEnd.isAfter(shiftEnd)) {
-              // --- LOG AÑADIDO ---
-              console.log(`     -- Slot ${currentSlotEnd.format('HH:mm')} is after shift end. Stopping this shift.`);
-              break; 
-            }
-            
-            // --- LOG AÑADIDO ---
-            console.log(`     => Generating slot: ${currentSlotStart.format('YYYY-MM-DD HH:mm')}`);
-
+            if (currentSlotEnd.isAfter(shiftEnd)) break; 
             appointmentsToCreate.push({
               startTime: currentSlotStart.toDate(),
               endTime: currentSlotEnd.toDate(),
               employeeId: employee.id,
               status: AppointmentStatus.AVAILABLE,
             });
-
             currentSlotStart = currentSlotStart.add(serviceDuration, 'minutes');
           }
         }
-      } else {
-        // --- LOG AÑADIDO ---
-        console.log('  -> No shifts found for this day.');
       }
     }
   }
 
-  // (El resto del archivo no cambia)
   console.log(`\n✅ Total slots generated before saving: ${appointmentsToCreate.length}`);
   await prisma.appointment.createMany({ data: appointmentsToCreate });
 
@@ -159,30 +137,46 @@ async function main() {
 
   console.log('Converting a portion of appointments to CONFIRMED for demo purposes...');
   let confirmedCount = 0;
-  for (const appt of createdAppointments) {
-    if (Math.random() < 0.6) {
-      const customerEmail = `customer.${dayjs(appt.startTime).unix()}@example.com`;
-      const customer = await prisma.user.upsert({
-        where: { email: customerEmail },
-        update: {},
-        create: {
-          email: customerEmail,
-          name: `Cliente ${dayjs(appt.startTime).format('HH:mm')}`,
-          role: UserRole.CUSTOMER,
-        },
-      });
+  let guestCount = 0;
 
-      await prisma.appointment.update({
-        where: { id: appt.id },
-        data: {
-          status: AppointmentStatus.CONFIRMED,
-          userId: customer.id,
-        },
-      });
-      confirmedCount++;
+  for (const appt of createdAppointments) {
+    if (Math.random() < 0.6) { // Afecta al 60% de las citas disponibles
+      
+      // --- LÓGICA MODIFICADA ---
+      // Aleatoriamente, creamos una reserva de invitado o una de usuario registrado
+      if (Math.random() < 0.5) { // 50% de las confirmadas serán de invitados
+        await prisma.appointment.update({
+          where: { id: appt.id },
+          data: {
+            status: AppointmentStatus.CONFIRMED,
+            guestName: `Invitado ${dayjs(appt.startTime).format('HH:mm')}`,
+            guestEmail: `guest.${dayjs(appt.startTime).unix()}@example.com`,
+            guestPhone: '600123123',
+          },
+        });
+        guestCount++;
+      } else { // El otro 50% serán de usuarios registrados
+        const customerEmail = `customer.${dayjs(appt.startTime).unix()}@example.com`;
+        const customer = await prisma.user.upsert({
+          where: { email: customerEmail },
+          update: {},
+          create: {
+            email: customerEmail,
+            name: `Cliente ${dayjs(appt.startTime).format('HH:mm')}`,
+            role: UserRole.CUSTOMER,
+          },
+        });
+        await prisma.appointment.update({
+          where: { id: appt.id },
+          data: { status: AppointmentStatus.CONFIRMED, userId: customer.id },
+        });
+        confirmedCount++;
+      }
+      // --- FIN DE LA MODIFICACIÓN ---
     }
   }
-  console.log(`✅ Converted ${confirmedCount} appointments to CONFIRMED state.`);
+  console.log(`✅ Converted ${confirmedCount} appointments to CONFIRMED for registered users.`);
+  console.log(`✅ Converted ${guestCount} appointments to CONFIRMED for guests.`);
   console.log('Database seed finished successfully.');
 }
 

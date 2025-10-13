@@ -1,4 +1,4 @@
-// File: /apps/server/src/server.ts (AÑADIENDO RUTAS DE VALORACIÓN)
+// File: /apps/server/src/server.ts (CONECTANDO RUTAS DEL DASHBOARD)
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
@@ -14,10 +14,11 @@ import adminAppointmentsRouter from './api/adminAppointments.routes';
 import adminSettingsRouter from './api/adminSettings.routes';
 import adminDateOverridesRouter from './api/adminDateOverrides.routes';
 import customerAuthRouter from './api/customerAuth.routes';
+import reviewsRouter from './api/reviews.routes';
 import { reminderService } from './lib/cronService';
 
 // --- IMPORTACIÓN AÑADIDA ---
-import reviewsRouter from './api/reviews.routes';
+import adminDashboardRouter from './api/adminDashboard.routes';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -37,7 +38,7 @@ app.use('/api/employees', employeesRouter);
 app.use('/api/availability', availabilityRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/customer', customerAuthRouter);
-app.use('/api/reviews', reviewsRouter); // <-- RUTA AÑADIDA
+app.use('/api/reviews', reviewsRouter);
 
 // Rutas de Autenticación Admin
 app.use('/api/auth', authRouter);
@@ -46,7 +47,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/admin/appointments', adminAppointmentsRouter);
 app.use('/api/admin/settings', adminSettingsRouter);
 app.use('/api/admin/overrides', adminDateOverridesRouter);
-
+app.use('/api/admin/dashboard', adminDashboardRouter); // <-- RUTA AÑADIDA
 
 // Ruta de prueba
 app.get('/api', (req: Request, res: Response) => {

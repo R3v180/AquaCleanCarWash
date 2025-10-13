@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/reviews.routes.ts (CON RUTAS DE ADMINISTRACIÓN)
+// File: /apps/server/src/api/reviews.routes.ts (CON RUTA PÚBLICA GET)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
@@ -23,6 +23,43 @@ interface ReviewTokenPayload {
   appointmentId: string;
 }
 
+// ===============================================
+// --- RUTA PÚBLICA PARA OBTENER VALORACIONES ---
+// ===============================================
+router.get('/', async (req, res) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            where: { status: ReviewStatus.APPROVED },
+            orderBy: { createdAt: 'desc' },
+            take: 6, // Mostramos las 6 más recientes
+            include: {
+                appointment: {
+                    select: {
+                        // Seleccionamos el nombre del cliente, ya sea de un usuario registrado o de un invitado
+                        user: { select: { name: true } },
+                        guestName: true,
+                    }
+                }
+            }
+        });
+
+        // Formateamos los datos para el público, evitando exponer información sensible
+        const publicReviews = reviews.map(review => ({
+            id: review.id,
+            rating: review.rating,
+            comment: review.comment,
+            customerName: review.appointment.user?.name || review.appointment.guestName,
+            createdAt: review.createdAt,
+        }));
+
+        res.status(200).json(publicReviews);
+    } catch (error) {
+        console.error('Error al obtener las valoraciones públicas:', error);
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+
 // =============================================
 // --- RUTA PÚBLICA PARA ENVIAR VALORACIÓN ---
 // =============================================
@@ -43,16 +80,11 @@ router.post('/', async (req, res) => {
 
     const { appointmentId } = payload;
     const targetAppointment = await prisma.appointment.findUnique({
-      where: { id: appointmentId },
-      include: { review: true },
+      where: { id: appointmentId }, include: { review: true },
     });
 
-    if (!targetAppointment) {
-      return res.status(404).json({ message: 'La cita asociada no fue encontrada.' });
-    }
-    if (targetAppointment.review) {
-      return res.status(409).json({ message: 'Esta cita ya ha sido valorada.' });
-    }
+    if (!targetAppointment) return res.status(404).json({ message: 'La cita asociada no fue encontrada.' });
+    if (targetAppointment.review) return res.status(409).json({ message: 'Esta cita ya ha sido valorada.' });
 
     const newReview = await prisma.review.create({
       data: {
@@ -66,7 +98,6 @@ router.post('/', async (req, res) => {
     res.status(201).json(newReview);
   } catch (error) {
     if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
-    console.error('Error al crear la valoración:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
@@ -75,8 +106,6 @@ router.post('/', async (req, res) => {
 // =======================================================
 // --- RUTAS DE ADMINISTRACIÓN PARA MODERAR VALORACIONES ---
 // =======================================================
-
-// --- OBTENER TODAS LAS VALORACIONES PARA EL PANEL DE ADMIN ---
 router.get('/admin', async (req, res) => {
     try {
         const reviews = await prisma.review.findMany({
@@ -91,46 +120,29 @@ router.get('/admin', async (req, res) => {
                 }
             }
         });
-
-        // Aplanamos los datos para que sean más fáciles de consumir en el frontend
         const formattedReviews = reviews.map(review => ({
-            id: review.id,
-            rating: review.rating,
-            comment: review.comment,
-            status: review.status,
-            createdAt: review.createdAt,
-            employeeName: review.employee.name,
+            id: review.id, rating: review.rating, comment: review.comment,
+            status: review.status, createdAt: review.createdAt, employeeName: review.employee.name,
             customerName: review.appointment.user?.name || review.appointment.guestName,
             serviceName: review.appointment.services[0]?.service.name || 'Servicio Desconocido',
         }));
-
         res.status(200).json(formattedReviews);
     } catch (error) {
-        console.error('Error al obtener las valoraciones para admin:', error);
         res.status(500).json({ message: 'Error interno del servidor.' });
     }
 });
 
-// --- ACTUALIZAR EL ESTADO DE UNA VALORACIÓN ---
 router.put('/admin/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { status } = updateReviewStatusSchema.parse(req.body);
-
-        const updatedReview = await prisma.review.update({
-            where: { id },
-            data: { status },
-        });
-
+        const updatedReview = await prisma.review.update({ where: { id }, data: { status } });
         res.status(200).json(updatedReview);
     } catch (error) {
-        if (error instanceof ZodError) {
-            return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
-        }
+        if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
         if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
             return res.status(404).json({ message: 'La valoración no fue encontrada.' });
         }
-        console.error('Error al actualizar la valoración:', error);
         res.status(500).json({ message: 'Error interno del servidor.' });
     }
 });

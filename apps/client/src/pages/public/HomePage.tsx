@@ -1,9 +1,11 @@
-// File: /apps/client/src/pages/public/HomePage.tsx (ACTUALIZADO)
+// File: /apps/client/src/pages/public/HomePage.tsx (CON RESEÑAS INTEGRADAS)
 
-import { Title, Text, Button, Container, SimpleGrid, ThemeIcon, Stack } from '@mantine/core';
+import { Title, Text, Button, Container, SimpleGrid, ThemeIcon, Stack, Divider } from '@mantine/core';
 import { IconTruck, IconCertificate, IconCalendarStats } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import classes from './HomePage.module.css';
+// --- IMPORTACIÓN AÑADIDA ---
+import { FeaturedReviews } from '../../components/home/FeaturedReviews';
 
 function Feature({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) {
   return (
@@ -35,7 +37,6 @@ export function HomePage() {
             size="xl"
             radius="xl"
             className={classes.heroButton}
-            // --- LÍNEA MODIFICADA ---
             onClick={() => navigate('/booking')}
           >
             Reservar Ahora
@@ -66,12 +67,17 @@ export function HomePage() {
         </SimpleGrid>
       </Container>
       
+      {/* --- SECCIÓN AÑADIDA --- */}
+      <Divider my="lg" />
+      <FeaturedReviews />
+      <Divider my="lg" />
+      {/* --- FIN DE LA SECCIÓN AÑADIDA --- */}
+
       <Container py="xl" ta="center">
          <Title order={3}>¿Listo para que tu coche luzca como nuevo?</Title>
          <Text c="dimmed" mt="sm" mb="lg">
            No esperes más. Encuentra el servicio perfecto y agenda tu cita hoy mismo.
          </Text>
-         {/* --- LÍNEA MODIFICADA --- */}
          <Button size="lg" onClick={() => navigate('/booking')}>
            Reservar Mi Cita Ahora
          </Button>

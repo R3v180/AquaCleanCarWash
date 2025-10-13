@@ -1,4 +1,4 @@
-// File: /apps/client/src/App.tsx (CON RUTA 'MIS CITAS')
+// File: /apps/client/src/App.tsx (CON RUTA 'MI PERFIL')
 
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
@@ -19,9 +19,11 @@ import { CustomerLayout } from './layouts/CustomerLayout';
 import { CustomerDashboardPage } from './pages/customer/CustomerDashboardPage';
 import { ReviewPage } from './pages/public/ReviewPage';
 import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
+import { CustomerAppointmentsPage } from './pages/customer/CustomerAppointmentsPage';
 
 // --- IMPORTACIÓN AÑADIDA ---
-import { CustomerAppointmentsPage } from './pages/customer/CustomerAppointmentsPage';
+import { CustomerProfilePage } from './pages/customer/CustomerProfilePage';
+
 
 function App() {
   return (
@@ -40,9 +42,10 @@ function App() {
       {/* Rutas Protegidas para Clientes */}
       <Route path="/dashboard" element={<CustomerLayout />}>
         <Route index element={<CustomerDashboardPage />} />
-        
-        {/* --- RUTA DESCOMENTADA Y ACTUALIZADA --- */}
         <Route path="appointments" element={<CustomerAppointmentsPage />} />
+        
+        {/* --- RUTA AÑADIDA --- */}
+        <Route path="profile" element={<CustomerProfilePage />} />
       </Route>
 
       {/* Ruta de Login para Admin (sin layout) */}

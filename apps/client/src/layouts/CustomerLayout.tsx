@@ -1,11 +1,11 @@
-// File: /apps/client/src/layouts/CustomerLayout.tsx (CON NAVEGACIÓN MEJORADA)
+// File: /apps/client/src/layouts/CustomerLayout.tsx (CON ENLACE A PERFIL)
 
 import { Outlet, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { AppShell, Burger, Group, Title, Button, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-// --- IMPORTACIONES AÑADIDAS ---
-import { IconLogout, IconCalendarPlus, IconHome } from '@tabler/icons-react';
+// --- IMPORTACIONES MODIFICADAS ---
+import { IconLogout, IconCalendarPlus, IconHome, IconUserCircle } from '@tabler/icons-react';
 
 export function CustomerLayout() {
   const navigate = useNavigate();
@@ -59,7 +59,6 @@ export function CustomerLayout() {
             <Title order={4}>Mi Cuenta de AquaClean</Title>
           </Group>
 
-          {/* --- GRUPO DE BOTONES DE ACCIÓN (MODIFICADO) --- */}
           <Group visibleFrom="sm">
             <Button
               leftSection={<IconCalendarPlus size={16} />}
@@ -76,7 +75,6 @@ export function CustomerLayout() {
               Cerrar Sesión
             </Button>
           </Group>
-          {/* --- FIN DEL GRUPO DE BOTONES --- */}
 
         </Group>
       </AppShell.Header>
@@ -97,8 +95,17 @@ export function CustomerLayout() {
             <IconCalendarPlus size={18} style={{ marginRight: '10px' }} />
             Mis Citas
          </NavLink>
+         
+         {/* --- ENLACE AÑADIDO --- */}
+         <NavLink
+            to="/dashboard/profile"
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            <IconUserCircle size={18} style={{ marginRight: '10px' }} />
+            Mi Perfil
+         </NavLink>
+         {/* --- FIN DEL ENLACE AÑADIDO --- */}
 
-         {/* --- SECCIÓN DE NAVEGACIÓN AÑADIDA --- */}
          <Divider my="md" />
          <NavLink
             to="/"
@@ -108,7 +115,6 @@ export function CustomerLayout() {
             Página de Inicio
          </NavLink>
 
-         {/* --- BOTONES PARA VISTA MÓVIL (MODIFICADO) --- */}
          <div style={{ marginTop: 'auto' }}>
             <Button
                 fullWidth

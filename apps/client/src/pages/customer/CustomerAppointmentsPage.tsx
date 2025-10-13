@@ -1,14 +1,15 @@
-// File: /apps/client/src/pages/customer/CustomerAppointmentsPage.tsx (NUEVO ARCHIVO)
+// File: /apps/client/src/pages/customer/CustomerAppointmentsPage.tsx (CON CORRECCIÓN DE LOADER)
 
 import { useEffect, useState } from 'react';
-import { Title, Text, Tabs, Stack, Card, Group, Badge, Button, LoadingOverlay, Alert } from '@mantine/core';
+import { Title, Text, Tabs, Stack, Card, Group, Badge, Button, LoadingOverlay, Alert, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import apiClient from '../../lib/apiClient';
 
 dayjs.locale('es');
 
-// Definimos los tipos de datos que esperamos de nuestra nueva API
 interface AppointmentService {
   service: { name: string; duration: number };
 }
@@ -27,7 +28,7 @@ const statusConfig = {
     NO_SHOW: { label: 'No Presentado', color: 'orange' },
 };
 
-function AppointmentCard({ appointment }: { appointment: Appointment }) {
+function AppointmentCard({ appointment, onCancel }: { appointment: Appointment; onCancel: (id: string) => void; }) {
     const config = statusConfig[appointment.status] || { label: 'Desconocido', color: 'gray' };
     const service = appointment.services[0]?.service;
     const isPast = dayjs(appointment.startTime).isBefore(dayjs());
@@ -44,7 +45,9 @@ function AppointmentCard({ appointment }: { appointment: Appointment }) {
             </Group>
             <Group justify="flex-end" mt="md">
                 {appointment.status === 'CONFIRMED' && !isPast && (
-                    <Button variant="outline" color="red" size="xs">Cancelar Cita</Button>
+                    <Button variant="outline" color="red" size="xs" onClick={() => onCancel(appointment.id)}>
+                        Cancelar Cita
+                    </Button>
                 )}
                 {appointment.status === 'COMPLETED' && (
                     <Button variant="light" size="xs">Reservar de Nuevo</Button>
@@ -59,17 +62,53 @@ export function CustomerAppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+  const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(null);
+  
+  // --- ESTADO CORREGIDO ---
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const openCancelModal = (id: string) => {
+    setAppointmentToCancel(id);
+    openModal();
+  };
+
+  const handleConfirmCancel = async () => {
+    if (!appointmentToCancel) return;
+    
+    setIsSubmitting(true); // <-- Usamos el nuevo estado
+    try {
+      await apiClient.post(`/me/appointments/${appointmentToCancel}/cancel`);
+      
+      setAppointments(currentAppointments =>
+        currentAppointments.map(appt =>
+          appt.id === appointmentToCancel ? { ...appt, status: 'CANCELLED' } : appt
+        )
+      );
+      
+      notifications.show({
+        title: 'Cita Cancelada', message: 'Tu cita ha sido cancelada correctamente.', color: 'orange',
+      });
+      closeModal(); // Cerramos el modal solo en caso de éxito
+    } catch (err: any) {
+      notifications.show({
+        title: 'Error', message: err.response?.data?.message || 'No se pudo cancelar la cita.', color: 'red',
+      });
+    } finally {
+      setIsSubmitting(false); // <-- Desactivamos el loader siempre
+      setAppointmentToCancel(null); // Limpiamos el ID
+    }
+  };
+
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await apiClient.get<Appointment[]>('/me/appointments');
         setAppointments(response.data);
-      } catch (err) {
-        setError('No se pudieron cargar tus citas.');
-      } finally {
-        setLoading(false);
-      }
+      } catch (err) { setError('No se pudieron cargar tus citas.'); }
+      finally { setLoading(false); }
     };
     fetchAppointments();
   }, []);
@@ -83,42 +122,44 @@ export function CustomerAppointmentsPage() {
   );
 
   return (
-    <div>
-      <Title order={2} mb="xl">Mis Citas</Title>
-      
-      <div style={{ position: 'relative' }}>
-        <LoadingOverlay visible={loading} />
-        {error && <Alert color="red" title="Error">{error}</Alert>}
+    <>
+      <Modal opened={modalOpened} onClose={() => !isSubmitting && closeModal()} title="Confirmar Cancelación" centered>
+        <Text>¿Estás seguro de que quieres cancelar esta cita? Esta acción no se puede deshacer.</Text>
+        <Group justify="flex-end" mt="xl">
+          <Button variant="default" onClick={closeModal} disabled={isSubmitting}>No, mantener cita</Button>
+          <Button color="red" onClick={handleConfirmCancel} loading={isSubmitting}>Sí, cancelar</Button>
+        </Group>
+      </Modal>
 
-        {!loading && !error && (
+      <div>
+        <Title order={2} mb="xl">Mis Citas</Title>
+        <div style={{ position: "relative" }}>
+          <LoadingOverlay visible={loading} />
+          {error && <Alert color="red" title="Error">{error}</Alert>}
+          {!loading && !error && (
             <Tabs defaultValue="upcoming">
-                <Tabs.List>
-                    <Tabs.Tab value="upcoming">Próximas Citas ({upcomingAppointments.length})</Tabs.Tab>
-                    <Tabs.Tab value="history">Historial ({pastAppointments.length})</Tabs.Tab>
-                </Tabs.List>
-
-                <Tabs.Panel value="upcoming" pt="lg">
-                    <Stack>
-                        {upcomingAppointments.length > 0 ? (
-                            upcomingAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} />)
-                        ) : (
-                            <Text c="dimmed">No tienes ninguna cita programada.</Text>
-                        )}
-                    </Stack>
-                </Tabs.Panel>
-
-                <Tabs.Panel value="history" pt="lg">
-                    <Stack>
-                        {pastAppointments.length > 0 ? (
-                             pastAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} />)
-                        ) : (
-                            <Text c="dimmed">Aún no tienes un historial de citas.</Text>
-                        )}
-                    </Stack>
-                </Tabs.Panel>
+              <Tabs.List>
+                <Tabs.Tab value="upcoming">Próximas Citas ({upcomingAppointments.length})</Tabs.Tab>
+                <Tabs.Tab value="history">Historial ({pastAppointments.length})</Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Panel value="upcoming" pt="lg">
+                <Stack>
+                  {upcomingAppointments.length > 0 ? (
+                    upcomingAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} />)
+                  ) : (<Text c="dimmed">No tienes ninguna cita programada.</Text>)}
+                </Stack>
+              </Tabs.Panel>
+              <Tabs.Panel value="history" pt="lg">
+                <Stack>
+                  {pastAppointments.length > 0 ? (
+                    pastAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} />)
+                  ) : (<Text c="dimmed">Aún no tienes un historial de citas.</Text>)}
+                </Stack>
+              </Tabs.Panel>
             </Tabs>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

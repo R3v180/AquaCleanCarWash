@@ -1,10 +1,11 @@
-// File: /apps/client/src/layouts/CustomerLayout.tsx (SIN CAMBIOS, SOLO CONFIRMACIÓN)
+// File: /apps/client/src/layouts/CustomerLayout.tsx (CON NAVEGACIÓN MEJORADA)
 
 import { Outlet, Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { AppShell, Burger, Group, Title, Button } from '@mantine/core';
+import { AppShell, Burger, Group, Title, Button, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconLogout } from '@tabler/icons-react';
+// --- IMPORTACIONES AÑADIDAS ---
+import { IconLogout, IconCalendarPlus, IconHome } from '@tabler/icons-react';
 
 export function CustomerLayout() {
   const navigate = useNavigate();
@@ -57,48 +58,82 @@ export function CustomerLayout() {
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             <Title order={4}>Mi Cuenta de AquaClean</Title>
           </Group>
-          <Button
-            variant="light"
-            color="red"
-            leftSection={<IconLogout size={14} />}
-            onClick={handleLogout}
-            visibleFrom="sm"
-          >
-            Cerrar Sesión
-          </Button>
+
+          {/* --- GRUPO DE BOTONES DE ACCIÓN (MODIFICADO) --- */}
+          <Group visibleFrom="sm">
+            <Button
+              leftSection={<IconCalendarPlus size={16} />}
+              onClick={() => navigate('/booking')}
+            >
+              Reservar Cita
+            </Button>
+            <Button
+              variant="light"
+              color="red"
+              leftSection={<IconLogout size={14} />}
+              onClick={handleLogout}
+            >
+              Cerrar Sesión
+            </Button>
+          </Group>
+          {/* --- FIN DEL GRUPO DE BOTONES --- */}
+
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
-         <NavLink 
-            to="/dashboard" 
+         <NavLink
+            to="/dashboard"
             end
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
          >
+            <IconHome size={18} style={{ marginRight: '10px' }} />
             Resumen
          </NavLink>
-         {/* Este es el enlace que ahora funcionará y tendrá un estilo activo */}
-         <NavLink 
-            to="/dashboard/appointments" 
+         <NavLink
+            to="/dashboard/appointments"
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
          >
+            <IconCalendarPlus size={18} style={{ marginRight: '10px' }} />
             Mis Citas
          </NavLink>
 
-         <Button
-            variant="light"
-            color="red"
-            leftSection={<IconLogout size={14} />}
-            onClick={handleLogout}
-            hiddenFrom="sm"
-            mt="auto"
-          >
-            Cerrar Sesión
-          </Button>
+         {/* --- SECCIÓN DE NAVEGACIÓN AÑADIDA --- */}
+         <Divider my="md" />
+         <NavLink
+            to="/"
+            style={linkStyles}
+         >
+            <IconHome size={18} style={{ marginRight: '10px' }} />
+            Página de Inicio
+         </NavLink>
+
+         {/* --- BOTONES PARA VISTA MÓVIL (MODIFICADO) --- */}
+         <div style={{ marginTop: 'auto' }}>
+            <Button
+                fullWidth
+                leftSection={<IconCalendarPlus size={16} />}
+                onClick={() => navigate('/booking')}
+                hiddenFrom="sm"
+            >
+                Reservar Cita
+            </Button>
+            <Button
+                variant="light"
+                color="red"
+                leftSection={<IconLogout size={14} />}
+                onClick={handleLogout}
+                hiddenFrom="sm"
+                mt="md"
+                fullWidth
+            >
+                Cerrar Sesión
+            </Button>
+         </div>
       </AppShell.Navbar>
-      
+
       <AppShell.Main>
-        <Outlet /> 
+        <Outlet />
       </AppShell.Main>
     </AppShell>
   );

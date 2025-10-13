@@ -1,3 +1,181 @@
+commit dea103be0daf40c13c0c77e71ae449ce8b0f837b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 15:45:35 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 15:45:35 2025 +0200
+
+    feat(customer): implement self-service appointment cancellation
+    
+    This commit enables authenticated customers to cancel their own upcoming appointments through the 'My Appointments' page.
+    
+    Backend:
+    - Adds a new secure endpoint 'POST /api/me/appointments/:id/cancel'.
+    - The endpoint verifies that the appointment belongs to the logged-in user before changing its status to 'CANCELLED', ensuring security.
+    
+    Frontend:
+    - The 'Cancel' button on the 'AppointmentCard' now triggers a confirmation modal.
+    - On confirmation, an API call is made to the new cancellation endpoint.
+    - Implements an optimistic UI update: on success, the appointment's state is updated locally, moving it from the 'Upcoming' to the 'History' tab without a full page reload.
+
+commit 062b905990d358f5fc4380bd50e091bc34fbe8c1
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 15:32:20 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 15:32:20 2025 +0200
+
+    feat(customer): implement 'My Appointments' page
+    
+    This commit builds the core feature of the customer-facing dashboard: the 'My Appointments' page.
+    
+    Backend:
+    - Creates a new secure router at '/api/me' for authenticated customer actions.
+    - Implements a JWT authentication middleware to protect these routes.
+    - Adds the 'GET /api/me/appointments' endpoint, which securely fetches and returns only the appointments belonging to the logged-in user.
+    
+    Frontend:
+    - The 'apiClient' is enhanced with a request interceptor to automatically attach the customer's auth token to all relevant API calls.
+    - A new 'CustomerAppointmentsPage' is created, which fetches and displays the user's appointments.
+    - The page uses Tabs to separate upcoming appointments from the user's history and renders each appointment in a clear card format.
+
+commit 9f374151536a64f39ea02fe71add0327e01682df
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 15:24:23 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 15:24:23 2025 +0200
+
+    feat(dashboard): add bookings-over-time chart
+    
+    This enhances the Admin Dashboard by adding a bar chart that visualizes the number of appointments over the last 7 days.
+    
+    Backend:
+    - Adds a new endpoint 'GET /api/admin/dashboard/charts/bookings-over-time'.
+    - The endpoint aggregates appointment data, groups it by day, and formats it specifically for the chart component, including days with zero bookings.
+    
+    Frontend:
+    - Installs '@mantine/charts' and 'recharts' dependencies.
+    - The 'AdminDashboardPage' now fetches both KPI and chart data in parallel.
+    - Renders a 'BarChart' component to display the bookings trend, providing valuable insight into weekly activity.
+
+commit c91124f8dd99d3175bfcb24dd1cc1e0a7dd3e3e1
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 15:17:15 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 15:17:15 2025 +0200
+
+    feat(dashboard): implement dynamic KPI cards
+    
+    This commit introduces the first version of the Admin Dashboard, focusing on Key Performance Indicators (KPIs).
+    Backend:
+    Creates a new '/api/admin/dashboard' route with a '/kpis' endpoint.
+    The endpoint calculates and returns key metrics: appointments for today, potential revenue for today, new customers this month, and the no-show rate for this month.
+    Frontend:
+    Rebuilds the 'AdminDashboardPage' to be a dynamic component.
+    The page now fetches data from the new '/kpis' endpoint.
+    Displays the metrics in a responsive 'SimpleGrid' of 'StatsCard' components, providing an at-a-glance overview of the business's current state.
+
+commit 084558b46002072b2f4f49e854730f8d0b30fac5
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 15:11:35 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 15:11:35 2025 +0200
+
+    feat(reviews): display approved reviews on homepage
+    
+    This commit closes the loop on the customer feedback system by displaying approved reviews on the public-facing homepage.
+    
+    - Adds a new public GET /api/reviews endpoint to fetch reviews with an 'APPROVED' status.
+    - Creates a new reusable FeaturedReviews component in the frontend to handle data fetching and rendering.
+    - Integrates the FeaturedReviews component into the HomePage to provide social proof to new visitors.
+
+commit 231d299b2ffb9f65472e4474203651b06c9bb0e8
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 15:05:27 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 15:05:27 2025 +0200
+
+    feat(reviews): implement full review lifecycle and moderation
+    
+    This commit introduces the complete customer review system, from automated requests to admin moderation.
+    
+    Backend:
+    - The PUT /admin/appointments/:id endpoint now accepts a 'status' change, triggering notifications.
+    - Added sendReviewRequest to 'notificationService', which sends multi-channel (Email, WhatsApp) review requests with a secure JWT.
+    - Created a new '/api/reviews' endpoint to validate the JWT and save new reviews with a 'PENDING' status, preventing duplicates.
+    - Added '/api/reviews/admin' GET and PUT endpoints for the moderation panel.
+    
+    Frontend:
+    - The Admin 'AppointmentForm' now includes a dropdown to change the appointment status ('COMPLETED', 'NO_SHOW').
+    - A new public '/review' page allows customers to submit ratings and comments.
+    - A new '/admin/reviews' page provides a full moderation panel for the administrator, with filtering by status and actions to approve or hide reviews.
+
+commit fd06204d5df1b125775117a50f3ea33a475ea60b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 14:32:42 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 14:32:42 2025 +0200
+
+    feat(booking): implement flexible guest and new-user reservations
+    
+    This commit enhances the customer booking flow to support multiple scenarios.
+    
+    Frontend (BookingPage.tsx):
+    - The form now detects if a user is already logged in and pre-fills their data.
+    - For guests, it presents a checkbox to optionally create an account during booking.
+    - A dynamic Zod schema validates the form based on whether account creation is selected.
+    
+    Backend (ookings.routes.ts):
+    - The POST /api/bookings endpoint is now more robust.
+    - It handles three distinct cases: bookings by logged-in users (future), bookings by guests, and bookings by guests who are simultaneously creating a new account.
+    - It correctly associates the appointment with a new or existing user, or stores guest data directly on the appointment record.
+
+commit 42e8bdea8ae5d09cedf37ee5da03d077a0586204
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 14:29:43 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 14:29:43 2025 +0200
+
+    feat(auth): implement full customer authentication flow
+    
+    This commit introduces the complete authentication system for customers, enabling user registration, login, and session management.
+    
+    Backend (pps/server):
+    - Adds a new '/api/customer' endpoint with '/register' and '/login' routes.
+    - Implements password hashing with bcrypt and session management with JWT.
+    
+    Frontend (pps/client):
+    - Creates dedicated pages for customer Login ('/login') and Register ('/register').
+    - Builds the UI forms using Mantine and handles validation with Zod.
+    - Implements a protected '/dashboard' route group using a new 'CustomerLayout'.
+    - 'CustomerLayout' provides navigation and a logout function.
+    - The 'PublicHeader' is now dynamic, showing login/logout buttons or a user menu based on the authentication state.
+
+commit 8faecaedb82e54d3d7bdeac57c1e1df77f54d658
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 13:54:42 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 13:54:42 2025 +0200
+
+    feat(db): prepare schema for customer ecosystem
+    
+    This commit lays the database foundation for the full customer lifecycle features.
+    
+    - Updates 'Appointment' model to support guest bookings by making 'userId' optional and adding 'guestName', 'guestEmail', and 'guestPhone' fields.
+    - Adds 'NO_SHOW' to the 'AppointmentStatus' enum for tracking non-attendance.
+    - Introduces a new 'Review' model and 'ReviewStatus' enum to handle customer feedback.
+    - Updates the seed script to generate both registered user and guest bookings for a more realistic development environment.
+
+commit 4208cff295ec5869795ce53b863245357b3ed98b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Mon Oct 13 13:29:27 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Mon Oct 13 13:29:27 2025 +0200
+
+    fix(server): make booking slot lookup precision-agnostic
+    
+    The previous logic required an exact millisecond match for 'startTime' when creating a booking. This caused valid booking attempts to fail if the frontend sent a slightly different timestamp.
+    
+    This change modifies the query to search for an available slot within the same minute as the requested time (using gte/lte on the start/end of the minute). This makes the booking process robust against timestamp inaccuracies and correctly handles scenarios with multiple employees available at the same time slot.
+
 commit 1ccb22d4d6e64bc343738ec111d1363204c9a176
 Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
 AuthorDate: Fri Oct 10 20:03:42 2025 +0200

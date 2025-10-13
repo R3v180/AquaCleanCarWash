@@ -1,7 +1,8 @@
-// File: /apps/client/src/pages/public/BookingPage.tsx (ACTUALIZADO PARA RESERVA FLEXIBLE)
+// File: /apps/client/src/pages/public/BookingPage.tsx (CON LÓGICA DE PRE-SELECCIÓN)
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// --- IMPORTACIÓN AÑADIDA ---
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select, Input, Checkbox, PasswordInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -11,7 +12,6 @@ import apiClient from '../../lib/apiClient';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
-// Esquema de validación dinámico
 const createBookingSchema = (isCreatingAccount: boolean) => z.object({
   customerName: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
   customerEmail: z.string().email({ message: 'Introduce un email válido.' }),
@@ -22,13 +22,13 @@ const createBookingSchema = (isCreatingAccount: boolean) => z.object({
     : z.string().optional(),
 });
 
-
 interface Employee { id: string; name: string; }
 interface Settings { defaultService: { duration: number; id: string; }; }
 interface CustomerInfo { id: string; name: string; email: string; }
 
 export function BookingPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams(); // <-- HOOK AÑADIDO
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,23 +38,19 @@ export function BookingPage() {
   const [serviceInfo, setServiceInfo] = useState<{ duration: number; id: string } | null>(null);
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
   
-  // --- NUEVA LÓGICA ---
   const [loggedInCustomer, setLoggedInCustomer] = useState<CustomerInfo | null>(null);
   const [wantsToCreateAccount, setWantsToCreateAccount] = useState(false);
   
   const form = useForm({
-    // Usamos una función para que el schema se reevalúe cuando cambie el checkbox
     validate: zodResolver(createBookingSchema(wantsToCreateAccount)),
     initialValues: { customerName: '', customerEmail: '', customerPhone: '', createAccount: false, password: '' },
   });
 
   useEffect(() => {
-    // Comprobar si hay un usuario logueado al cargar
     const customerInfoStr = localStorage.getItem('customerInfo');
     if (customerInfoStr) {
       const customer = JSON.parse(customerInfoStr);
       setLoggedInCustomer(customer);
-      // Rellenar el formulario con sus datos
       form.setValues({ customerName: customer.name, customerEmail: customer.email });
     }
     
@@ -67,18 +63,31 @@ export function BookingPage() {
         ]);
         const employeeOptions = employeesRes.data.map(emp => ({ value: emp.id, label: emp.name }));
         setEmployees([ { value: 'any', label: 'Cualquier Profesional' }, ...employeeOptions ]);
+        
+        // --- LÓGICA AÑADIDA PARA PRE-SELECCIÓN ---
+        const employeeIdFromUrl = searchParams.get('employeeId');
+        if (employeeIdFromUrl) {
+          // Verificamos que el empleado de la URL existe en la lista que hemos cargado
+          const employeeExists = employeeOptions.some(emp => emp.value === employeeIdFromUrl);
+          if (employeeExists) {
+            setSelectedEmployeeId(employeeIdFromUrl);
+          }
+        }
+        // --- FIN DE LA LÓGICA AÑADIDA ---
+
         if (settingsRes.data.settings.defaultService) {
           setServiceInfo(settingsRes.data.settings.defaultService);
         } else { throw new Error('No hay un servicio por defecto configurado.'); }
+
       } catch (err) {
         setError('No se pudo cargar la configuración de la reserva.');
       } finally { setLoading(false); }
     };
+
     fetchInitialData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // <-- El searchParams no necesita ser dependencia, solo se lee al montar
 
-  // Sincronizamos el estado del checkbox con el del formulario
   useEffect(() => {
     setWantsToCreateAccount(form.values.createAccount);
   }, [form.values.createAccount]);
@@ -98,15 +107,12 @@ export function BookingPage() {
         serviceId: serviceInfo.id,
         startTime: selectedDateTime.toISOString(),
         ...(selectedEmployeeId && selectedEmployeeId !== 'any' && { employeeId: selectedEmployeeId }),
-        // --- LÓGICA DE PAYLOAD MODIFICADA ---
         customerName: values.customerName,
         customerEmail: values.customerEmail,
         customerPhone: values.customerPhone,
         createAccount: values.createAccount,
         password: values.password,
       };
-      
-      // La API se encarga de si es invitado o nuevo usuario
       await apiClient.post('/bookings', payload);
       setActiveStep(2);
     } catch (err: any) {
@@ -145,7 +151,6 @@ export function BookingPage() {
               <PhoneInput defaultCountry="es" value={form.values.customerPhone} onChange={(phone) => form.setFieldValue('customerPhone', phone)} />
             </Input.Wrapper>
             
-            {/* --- LÓGICA CONDICIONAL AÑADIDA --- */}
             {!loggedInCustomer && (
               <>
                 <Checkbox label="Crear una cuenta para gestionar mis citas" {...form.getInputProps('createAccount', { type: 'checkbox' })} mt="lg" />

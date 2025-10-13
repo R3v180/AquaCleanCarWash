@@ -1,11 +1,11 @@
-<!-- File: /README.md - v1.3 (ACTUALIZADO) -->
+<!-- File: /README.md - v1.4 (ACTUALIZADO CON ÚLTIMOS AVANCES) -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
 
 # AquaClean Car Wash - Plataforma de Gestión y Reservas
 
-![Versión](https://img.shields.io/badge/version-1.0.0-blue)
+![Versión](https://img.shields.io/badge/version-1.1.0-blue)
 ![Estado](https://img.shields.io/badge/status-en--desarrollo-green)
 ![Licencia](https://img.shields.io/badge/licencia-privada-red)
 
@@ -24,15 +24,16 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Estado                       | Descripción                                                                                                                                                                               |
-| :-------------------------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un profesional, ver su disponibilidad en tiempo real y reservar una cita.                                                                              |
-| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo, **gestión de turnos semanales, y un calendario de ausencias para el personal.** |
-| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                                                                     |
-| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                                                                             |
-| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                                                                       |
-| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                                     |
-| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                                   |
+| Característica                          | Estado                       | Descripción                                                                                                                                                              |
+| :-------------------------------------- | :--------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | 🟢 Implementado              | Permite a clientes (registrados o invitados) ver la disponibilidad en tiempo real y reservar una cita.                                                                   |
+| 📊 **Panel de Administración Completo** | 🟢 Implementado              | Centro de control para gestionar citas, servicios, empleados y horarios. Incluye un dashboard con KPIs, planning visual interactivo y un panel de moderación de reseñas. |
+| ⭐ **Sistema de Valoraciones**          | 🟢 Implementado              | Automatiza la solicitud de reseñas post-servicio por Email/WhatsApp y permite moderarlas antes de mostrarlas públicamente en la web.                                     |
+| 🔔 **Notificaciones Automáticas**       | 🟢 Implementado              | Confirmaciones de reserva y recordatorios 24h antes por Email/WhatsApp para reducir las ausencias y mantener a todos informados.                                         |
+| 👤 **Panel de Cliente**                 | 🟡 Parcialmente Implementado | Los clientes pueden registrarse, iniciar sesión y ver su historial de citas, con opción de cancelar las futuras.                                                         |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                    |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                  |
+| 📱 **Diseño 100% Adaptativo**           | 🟡 Parcialmente Implementado | La experiencia de usuario es funcional en móvil, tablet y ordenador, con mejoras de pulido pendientes.                                                                   |
 
 ---
 
@@ -51,57 +52,20 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 ## 🚀 Cómo Empezar (Guía para Desarrolladores)
 
 <details>
-<summary><strong>Haz clic aquí para ver las instrucciones de instalación y ejecución</strong></summary>
+<summary><strong>Haz clic aquí para ver las instrucciones</strong></summary>
 
 ### Requisitos Previos
 
-- Node.js (v20+)
-- pnpm (v9+)
-- Git
-- Una instancia de PostgreSQL en ejecución
+- Node.js (v20+), pnpm (v9+), Git, una instancia de PostgreSQL.
 
-### Pasos para la Instalación
+### Pasos
 
-1.  **Clonar el repositorio:**
-
-    ```bash
-    git clone https://github.com/R3v180/AquaCleanCarWash.git
-    cd AquaCleanCarWash
-    ```
-
-2.  **Instalar dependencias:**
-
-    ```bash
-    pnpm install
-    ```
-
-    _Nota: Este comando también instalará y configurará **Husky**. A partir de ahora, se ejecutarán comprobaciones de calidad de código (ESLint, Prettier) automáticamente antes de cada `git commit`._
-
-3.  **Configurar variables de entorno:**
-    - Habrá un archivo `.env.example` en la carpeta del servidor (`apps/server`).
-    - Cópialo a un nuevo archivo llamado `.env` en la misma carpeta.
-    - Rellena las variables (credenciales de la base de datos, claves de API, etc.).
-      _Nota: Estos archivos se crearán durante el desarrollo del backend._
-
-4.  **Ejecutar las migraciones de la base de datos:**
-
-    ```bash
-    # Ejecuta el script 'migrate:dev' solo en el workspace del servidor
-    pnpm --filter server run migrate:dev
-    ```
-
-5.  **Poblar la base de datos con datos de prueba:**
-
-    ```bash
-    # Este comando es esencial para tener servicios, empleados y un admin de prueba
-    pnpm --filter server run prisma:seed
-    ```
-
-6.  **Iniciar los servidores de desarrollo:**
-    ```bash
-    # Este comando iniciará el frontend y el backend simultáneamente
-    pnpm dev
-    ```
+1. Clonar: `git clone https://github.com/R3v180/AquaCleanCarWash.git`
+2. Instalar: `pnpm install`
+3. Configurar: Copia `apps/server/.env.example` a `.env` y rellena las variables.
+4. Migrar: `pnpm --filter server run migrate:dev`
+5. Poblar: `pnpm --filter server run prisma:seed`
+6. Iniciar: `pnpm dev`
 
 </details>
 

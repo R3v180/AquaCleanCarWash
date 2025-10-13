@@ -1,6 +1,7 @@
-// File: /apps/client/src/pages/customer/CustomerAppointmentsPage.tsx (CON CORRECCIÓN DE LOADER)
+// File: /apps/client/src/pages/customer/CustomerAppointmentsPage.tsx (CON LÓGICA "RESERVAR DE NUEVO")
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- IMPORTACIÓN AÑADIDA
 import { Title, Text, Tabs, Stack, Card, Group, Badge, Button, LoadingOverlay, Alert, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -10,16 +11,25 @@ import apiClient from '../../lib/apiClient';
 
 dayjs.locale('es');
 
+// --- INTERFACES ACTUALIZADAS ---
 interface AppointmentService {
-  service: { name: string; duration: number };
+  service: { 
+    id: string; // ID añadido
+    name: string; 
+    duration: number;
+  };
 }
 interface Appointment {
   id: string;
   startTime: string;
   status: 'CONFIRMED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';
   services: AppointmentService[];
-  employee: { name: string };
+  employee: { 
+    id: string; // ID añadido
+    name: string;
+  };
 }
+// --- FIN DE LA ACTUALIZACIÓN DE INTERFACES ---
 
 const statusConfig = {
     CONFIRMED: { label: 'Confirmada', color: 'blue' },
@@ -28,7 +38,12 @@ const statusConfig = {
     NO_SHOW: { label: 'No Presentado', color: 'orange' },
 };
 
-function AppointmentCard({ appointment, onCancel }: { appointment: Appointment; onCancel: (id: string) => void; }) {
+// --- COMPONENTE AppointmentCard MODIFICADO ---
+function AppointmentCard({ appointment, onCancel, onBookAgain }: { 
+  appointment: Appointment; 
+  onCancel: (id: string) => void;
+  onBookAgain: (appointment: Appointment) => void; // Prop añadida
+}) {
     const config = statusConfig[appointment.status] || { label: 'Desconocido', color: 'gray' };
     const service = appointment.services[0]?.service;
     const isPast = dayjs(appointment.startTime).isBefore(dayjs());
@@ -50,7 +65,13 @@ function AppointmentCard({ appointment, onCancel }: { appointment: Appointment; 
                     </Button>
                 )}
                 {appointment.status === 'COMPLETED' && (
-                    <Button variant="light" size="xs">Reservar de Nuevo</Button>
+                    <Button 
+                      variant="light" 
+                      size="xs" 
+                      onClick={() => onBookAgain(appointment)} // onClick añadido
+                    >
+                      Reservar de Nuevo
+                    </Button>
                 )}
             </Group>
         </Card>
@@ -59,6 +80,7 @@ function AppointmentCard({ appointment, onCancel }: { appointment: Appointment; 
 
 
 export function CustomerAppointmentsPage() {
+  const navigate = useNavigate(); // <-- HOOK AÑADIDO
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +88,6 @@ export function CustomerAppointmentsPage() {
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
   const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(null);
   
-  // --- ESTADO CORREGIDO ---
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const openCancelModal = (id: string) => {
@@ -74,30 +95,47 @@ export function CustomerAppointmentsPage() {
     openModal();
   };
 
+  // --- FUNCIÓN AÑADIDA ---
+  const handleBookAgain = (appointment: Appointment) => {
+    const service = appointment.services[0]?.service;
+    const employee = appointment.employee;
+
+    if (service?.id && employee?.id) {
+        // Navegamos a la página de reserva pasando los IDs como parámetros
+        navigate(`/booking?serviceId=${service.id}&employeeId=${employee.id}`);
+    } else {
+        // Si por alguna razón faltan datos, notificamos y llevamos a la página de reserva normal
+        notifications.show({
+            title: 'Faltan datos',
+            message: 'Redirigiendo a la página de reserva general.',
+            color: 'orange',
+        });
+        navigate('/booking');
+    }
+  };
+
   const handleConfirmCancel = async () => {
     if (!appointmentToCancel) return;
     
-    setIsSubmitting(true); // <-- Usamos el nuevo estado
+    setIsSubmitting(true);
     try {
       await apiClient.post(`/me/appointments/${appointmentToCancel}/cancel`);
-      
       setAppointments(currentAppointments =>
         currentAppointments.map(appt =>
           appt.id === appointmentToCancel ? { ...appt, status: 'CANCELLED' } : appt
         )
       );
-      
       notifications.show({
         title: 'Cita Cancelada', message: 'Tu cita ha sido cancelada correctamente.', color: 'orange',
       });
-      closeModal(); // Cerramos el modal solo en caso de éxito
+      closeModal();
     } catch (err: any) {
       notifications.show({
         title: 'Error', message: err.response?.data?.message || 'No se pudo cancelar la cita.', color: 'red',
       });
     } finally {
-      setIsSubmitting(false); // <-- Desactivamos el loader siempre
-      setAppointmentToCancel(null); // Limpiamos el ID
+      setIsSubmitting(false);
+      setAppointmentToCancel(null);
     }
   };
 
@@ -145,14 +183,14 @@ export function CustomerAppointmentsPage() {
               <Tabs.Panel value="upcoming" pt="lg">
                 <Stack>
                   {upcomingAppointments.length > 0 ? (
-                    upcomingAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} />)
+                    upcomingAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} onBookAgain={handleBookAgain} />)
                   ) : (<Text c="dimmed">No tienes ninguna cita programada.</Text>)}
                 </Stack>
               </Tabs.Panel>
               <Tabs.Panel value="history" pt="lg">
                 <Stack>
                   {pastAppointments.length > 0 ? (
-                    pastAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} />)
+                    pastAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} onBookAgain={handleBookAgain} />)
                   ) : (<Text c="dimmed">Aún no tienes un historial de citas.</Text>)}
                 </Stack>
               </Tabs.Panel>

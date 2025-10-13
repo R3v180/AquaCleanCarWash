@@ -19,64 +19,78 @@
 17. apps/client/src/components/common/PublicFooter.tsx
 18. apps/client/src/components/common/PublicHeader.module.css
 19. apps/client/src/components/common/PublicHeader.tsx
-20. apps/client/src/custom.d.ts
-21. apps/client/src/layouts/AdminLayout.tsx
-22. apps/client/src/layouts/PublicLayout.tsx
-23. apps/client/src/lib/apiClient.ts
-24. apps/client/src/main.tsx
-25. apps/client/src/pages/admin/AdminDashboardPage.tsx
-26. apps/client/src/pages/admin/AdminLoginPage.tsx
-27. apps/client/src/pages/admin/AdminPlanningPage.tsx
-28. apps/client/src/pages/admin/BusinessSettingsPage.tsx
-29. apps/client/src/pages/admin/EmployeesManagementPage.tsx
-30. apps/client/src/pages/admin/ServicesManagementPage.tsx
-31. apps/client/src/pages/public/BookingPage.tsx
-32. apps/client/src/pages/public/HomePage.module.css
-33. apps/client/src/pages/public/HomePage.tsx
-34. apps/client/src/pages/public/ServicesPage.tsx
-35. apps/client/src/pages/public/TeamPage.tsx
-36. apps/client/tsconfig.json
-37. apps/client/tsconfig.node.json
-38. apps/server/.env
-39. apps/server/package.json
-40. apps/server/prisma/schema.prisma
-41. apps/server/prisma/seed.ts
-42. apps/server/src/api/adminAppointments.routes.ts
-43. apps/server/src/api/adminDateOverrides.routes.ts
-44. apps/server/src/api/adminSettings.routes.ts
-45. apps/server/src/api/auth.routes.ts
-46. apps/server/src/api/availability.routes.ts
-47. apps/server/src/api/bookings.routes.ts
-48. apps/server/src/api/employees.routes.ts
-49. apps/server/src/api/services.routes.ts
-50. apps/server/src/lib/availabilityService.ts
-51. apps/server/src/lib/notificationService.ts
-52. apps/server/src/lib/prisma.ts
-53. apps/server/src/server.ts
-54. apps/server/tsconfig.json
-55. docs/PROJECT_SPECIFICATION.md
-56. docs/features/01-authentication.md
-57. docs/features/02-public-site.md
-58. docs/features/03-booking-flow.md
-59. docs/features/04-customer-panel.md
-60. docs/features/05-admin-panel-core-management.md
-61. docs/features/06-admin-panel-operations.md
-62. docs/features/07-reviews-system.md
-63. docs/features/08-marketing-monetization.md
-64. docs/features/09-notifications-system.md
-65. docs/features/10-external-integrations.md
-66. package.json
-67. packages/config/eslint-preset.js
-68. packages/config/package.json
-69. packages/types/package.json
-70. packages/types/src/employee.schema.ts
-71. packages/types/src/index.ts
-72. packages/types/src/service.schema.ts
-73. packages/types/src/service.ts
-74. packages/types/tsconfig.json
-75. tsconfig.base.json
-76. tsconfig.json
-77. turbo.json
+20. apps/client/src/components/home/FeaturedReviews.tsx
+21. apps/client/src/custom.d.ts
+22. apps/client/src/layouts/AdminLayout.tsx
+23. apps/client/src/layouts/CustomerLayout.tsx
+24. apps/client/src/layouts/PublicLayout.tsx
+25. apps/client/src/lib/apiClient.ts
+26. apps/client/src/main.tsx
+27. apps/client/src/pages/admin/AdminDashboardPage.tsx
+28. apps/client/src/pages/admin/AdminLoginPage.tsx
+29. apps/client/src/pages/admin/AdminPlanningPage.tsx
+30. apps/client/src/pages/admin/BusinessSettingsPage.tsx
+31. apps/client/src/pages/admin/EmployeesManagementPage.tsx
+32. apps/client/src/pages/admin/ReviewsManagementPage.tsx
+33. apps/client/src/pages/admin/ServicesManagementPage.tsx
+34. apps/client/src/pages/customer/CustomerAppointmentsPage.tsx
+35. apps/client/src/pages/customer/CustomerDashboardPage.tsx
+36. apps/client/src/pages/public/BookingPage.tsx
+37. apps/client/src/pages/public/HomePage.module.css
+38. apps/client/src/pages/public/HomePage.tsx
+39. apps/client/src/pages/public/LoginPage.tsx
+40. apps/client/src/pages/public/RegisterPage.tsx
+41. apps/client/src/pages/public/ReviewPage.tsx
+42. apps/client/src/pages/public/ServicesPage.tsx
+43. apps/client/src/pages/public/TeamPage.tsx
+44. apps/client/tsconfig.json
+45. apps/client/tsconfig.node.json
+46. apps/server/.env
+47. apps/server/package.json
+48. apps/server/prisma/schema.prisma
+49. apps/server/prisma/seed.ts
+50. apps/server/src/api/adminAppointments.routes.ts
+51. apps/server/src/api/adminDashboard.routes.ts
+52. apps/server/src/api/adminDateOverrides.routes.ts
+53. apps/server/src/api/adminSettings.routes.ts
+54. apps/server/src/api/auth.routes.ts
+55. apps/server/src/api/availability.routes.ts
+56. apps/server/src/api/bookings.routes.ts
+57. apps/server/src/api/customer.routes.ts
+58. apps/server/src/api/customerAuth.routes.ts
+59. apps/server/src/api/employees.routes.ts
+60. apps/server/src/api/reviews.routes.ts
+61. apps/server/src/api/services.routes.ts
+62. apps/server/src/lib/availabilityService.ts
+63. apps/server/src/lib/cronService.ts
+64. apps/server/src/lib/cronService_24h.ts
+65. apps/server/src/lib/notificationService.ts
+66. apps/server/src/lib/prisma.ts
+67. apps/server/src/server.ts
+68. apps/server/tsconfig.json
+69. docs/PROJECT_SPECIFICATION.md
+70. docs/features/01-authentication.md
+71. docs/features/02-public-site.md
+72. docs/features/03-booking-flow.md
+73. docs/features/04-customer-panel.md
+74. docs/features/05-admin-panel-core-management.md
+75. docs/features/06-admin-panel-operations.md
+76. docs/features/07-reviews-system.md
+77. docs/features/08-marketing-monetization.md
+78. docs/features/09-notifications-system.md
+79. docs/features/10-external-integrations.md
+80. package.json
+81. packages/config/eslint-preset.js
+82. packages/config/package.json
+83. packages/types/package.json
+84. packages/types/src/employee.schema.ts
+85. packages/types/src/index.ts
+86. packages/types/src/service.schema.ts
+87. packages/types/src/service.ts
+88. packages/types/tsconfig.json
+89. tsconfig.base.json
+90. tsconfig.json
+91. turbo.json
 
 
 # CONTENIDO DE ARCHIVOS
@@ -192,50 +206,52 @@ build/
 
 
 // ====== [3] PROXIMOS_PASOS.md ======
-// ====== [3] PROXIMOS_PASOS.md ======
+<!-- File: /PROXIMOS_PASOS.md - v5.0 (Finalizar Panel de Cliente) -->
 
-<!-- File: /PROXIMOS_PASOS.md - v3.0 (Nuevo Objetivo) -->
+# Próximos Pasos: Finalizar el Panel de Cliente
 
-# Próximos Pasos
-
-Este documento define el siguiente objetivo clave del desarrollo tras la resolución del bug de disponibilidad.
+Este documento define el siguiente objetivo clave del desarrollo tras la implementación del núcleo del panel de cliente y el sistema de valoraciones.
 
 ---
 
-### ✅ **Hito Alcanzado: Bug de Disponibilidad Resuelto**
+### ✅ **Hito Alcanzado: Ecosistema del Cliente Implementado (v1)**
 
-Se ha depurado y corregido con éxito el sistema de disponibilidad. La causa raíz, relacionada con el manejo de zonas horarias en la generación de datos (`seed.ts`) y la visualización en el frontend (`AdminPlanningPage.tsx`), ha sido solucionada.
+Se ha finalizado con éxito la implementación de un ciclo de vida completo para el cliente. Los logros clave incluyen:
 
-**El flujo de visualización de disponibilidad ahora es 100% funcional y consistente entre el panel de administración y la página pública de reservas.**
+- **Autenticación de Clientes:** Sistema completo de registro, login y gestión de sesiones.
+- **Reservas Flexibles:** La plataforma ahora soporta reservas de usuarios registrados, invitados y nuevos usuarios que se registran durante el proceso.
+- **Sistema de Valoraciones Completo:** Automatización de la solicitud de reseñas por Email/WhatsApp con tokens seguros, y un panel de moderación funcional para el administrador.
+- **Panel de Cliente (Base):** Implementación de un área de cliente protegida (`/dashboard`) con una página funcional de "Mis Citas".
+- **Autogestión de Citas:** Los clientes ahora pueden cancelar sus propias citas desde su panel.
 
 ---
 
-### 🎯 **PRÓXIMO OBJETIVO: Finalizar el Flujo de Reserva y Notificaciones**
+### 🎯 **PRÓXIMO OBJETIVO: Implementar la Funcionalidad "Reservar de Nuevo"**
 
-Ahora que los clientes pueden ver los huecos correctamente, el siguiente paso es asegurar que puedan completar una reserva de principio a fin y que todas las partes sean notificadas.
+El siguiente paso es añadir una de las funcionalidades de fidelización más importantes: permitir a los clientes volver a reservar un servicio pasado con un solo clic, reduciendo la fricción al mínimo.
 
-1.  **Probar el Flujo de Creación de Reservas (`POST /bookings`):**
-    - Realizar una reserva de prueba completa desde la interfaz pública.
-    - Seleccionar un hueco, rellenar el formulario de cliente y confirmar la reserva.
-    - **Verificar:** Que la reserva se crea correctamente en la base de datos (el hueco `AVAILABLE` pasa a `CONFIRMED`) y que la interfaz muestra la página de éxito.
+La implementación se centrará exclusivamente en el frontend:
 
-2.  **Activar y Probar el Sistema de Notificaciones por Email:**
-    - Asegurarse de que, tras una reserva exitosa, el `NotificationService` se activa.
-    - **Verificar en la terminal:** Que aparecen los logs del simulador de email (Ethereal) con los enlaces para previsualizar los dos correos:
-      - El email de confirmación para el cliente.
-      - El email de notificación de nueva reserva para el negocio.
+1.  **Modificar `CustomerAppointmentsPage.tsx`:**
+    - Se añadirá la lógica al botón "Reservar de Nuevo" en las tarjetas de citas del historial.
+    - Al hacer clic, la aplicación navegará a la página `/booking`.
+    - Se pasarán los datos clave de la cita (como `serviceId` y `employeeId`) a través de parámetros en la URL (ej: `/booking?serviceId=...&employeeId=...`).
+
+2.  **Modificar `BookingPage.tsx`:**
+    - Se mejorará el `useEffect` inicial para que detecte la presencia de estos parámetros en la URL al cargar la página.
+    - Si los parámetros existen, se usarán para pre-seleccionar automáticamente el servicio y/o el profesional en los campos correspondientes, presentando al cliente un flujo de reserva casi completo.
 
 
 
 // ====== [4] README.md ======
-<!-- File: /README.md - v1.3 (ACTUALIZADO) -->
+<!-- File: /README.md - v1.4 (ACTUALIZADO CON ÚLTIMOS AVANCES) -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
 
 # AquaClean Car Wash - Plataforma de Gestión y Reservas
 
-![Versión](https://img.shields.io/badge/version-1.0.0-blue)
+![Versión](https://img.shields.io/badge/version-1.1.0-blue)
 ![Estado](https://img.shields.io/badge/status-en--desarrollo-green)
 ![Licencia](https://img.shields.io/badge/licencia-privada-red)
 
@@ -254,15 +270,16 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Estado                       | Descripción                                                                                                                                                                               |
-| :-------------------------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 📅 **Sistema de Reservas 24/7**         | 🟢 Parcialmente Implementado | Permite a los clientes seleccionar un profesional, ver su disponibilidad en tiempo real y reservar una cita.                                                                              |
-| 📊 **Panel de Administración Completo** | 🟢 Parcialmente Implementado | Un centro de control para gestionar citas, servicios y empleados. Incluye un planning visual interactivo, **gestión de turnos semanales, y un calendario de ausencias para el personal.** |
-| 📱 **Diseño 100% Adaptativo**           | ⏳ Pendiente                 | Experiencia de usuario impecable en cualquier dispositivo: móvil, tablet y ordenador.                                                                                                     |
-| 🔔 **Notificaciones Automáticas**       | ⏳ Pendiente                 | Confirmaciones y recordatorios por Email y WhatsApp para reducir las ausencias y mantener a todos informados.                                                                             |
-| ⭐ **Sistema de Valoraciones**          | ⏳ Pendiente                 | Automatiza la solicitud de reseñas y permite moderarlas antes de mostrarlas públicamente en la web.                                                                                       |
-| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                                     |
-| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                                   |
+| Característica                          | Estado                       | Descripción                                                                                                                                                              |
+| :-------------------------------------- | :--------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | 🟢 Implementado              | Permite a clientes (registrados o invitados) ver la disponibilidad en tiempo real y reservar una cita.                                                                   |
+| 📊 **Panel de Administración Completo** | 🟢 Implementado              | Centro de control para gestionar citas, servicios, empleados y horarios. Incluye un dashboard con KPIs, planning visual interactivo y un panel de moderación de reseñas. |
+| ⭐ **Sistema de Valoraciones**          | 🟢 Implementado              | Automatiza la solicitud de reseñas post-servicio por Email/WhatsApp y permite moderarlas antes de mostrarlas públicamente en la web.                                     |
+| 🔔 **Notificaciones Automáticas**       | 🟢 Implementado              | Confirmaciones de reserva y recordatorios 24h antes por Email/WhatsApp para reducir las ausencias y mantener a todos informados.                                         |
+| 👤 **Panel de Cliente**                 | 🟡 Parcialmente Implementado | Los clientes pueden registrarse, iniciar sesión y ver su historial de citas, con opción de cancelar las futuras.                                                         |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                    |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                  |
+| 📱 **Diseño 100% Adaptativo**           | 🟡 Parcialmente Implementado | La experiencia de usuario es funcional en móvil, tablet y ordenador, con mejoras de pulido pendientes.                                                                   |
 
 ---
 
@@ -281,57 +298,20 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 ## 🚀 Cómo Empezar (Guía para Desarrolladores)
 
 <details>
-<summary><strong>Haz clic aquí para ver las instrucciones de instalación y ejecución</strong></summary>
+<summary><strong>Haz clic aquí para ver las instrucciones</strong></summary>
 
 ### Requisitos Previos
 
-- Node.js (v20+)
-- pnpm (v9+)
-- Git
-- Una instancia de PostgreSQL en ejecución
+- Node.js (v20+), pnpm (v9+), Git, una instancia de PostgreSQL.
 
-### Pasos para la Instalación
+### Pasos
 
-1.  **Clonar el repositorio:**
-
-    ```bash
-    git clone https://github.com/R3v180/AquaCleanCarWash.git
-    cd AquaCleanCarWash
-    ```
-
-2.  **Instalar dependencias:**
-
-    ```bash
-    pnpm install
-    ```
-
-    _Nota: Este comando también instalará y configurará **Husky**. A partir de ahora, se ejecutarán comprobaciones de calidad de código (ESLint, Prettier) automáticamente antes de cada `git commit`._
-
-3.  **Configurar variables de entorno:**
-    - Habrá un archivo `.env.example` en la carpeta del servidor (`apps/server`).
-    - Cópialo a un nuevo archivo llamado `.env` en la misma carpeta.
-    - Rellena las variables (credenciales de la base de datos, claves de API, etc.).
-      _Nota: Estos archivos se crearán durante el desarrollo del backend._
-
-4.  **Ejecutar las migraciones de la base de datos:**
-
-    ```bash
-    # Ejecuta el script 'migrate:dev' solo en el workspace del servidor
-    pnpm --filter server run migrate:dev
-    ```
-
-5.  **Poblar la base de datos con datos de prueba:**
-
-    ```bash
-    # Este comando es esencial para tener servicios, empleados y un admin de prueba
-    pnpm --filter server run prisma:seed
-    ```
-
-6.  **Iniciar los servidores de desarrollo:**
-    ```bash
-    # Este comando iniciará el frontend y el backend simultáneamente
-    pnpm dev
-    ```
+1. Clonar: `git clone https://github.com/R3v180/AquaCleanCarWash.git`
+2. Instalar: `pnpm install`
+3. Configurar: Copia `apps/server/.env.example` a `.env` y rellena las variables.
+4. Migrar: `pnpm --filter server run migrate:dev`
+5. Poblar: `pnpm --filter server run prisma:seed`
+6. Iniciar: `pnpm dev`
 
 </details>
 
@@ -348,9 +328,7 @@ Toda la funcionalidad del proyecto está documentada en detalle en nuestra [**Es
 
 
 // ====== [5] ROADMAP.md ======
-// ====== [5] ROADMAP.md ======
-
-<!-- File: /ROADMAP.md - v2.0 (Flujo de Reserva Completo) -->
+<!-- File: /ROADMAP.md - v2.1 (Panel de Cliente en Progreso) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -375,20 +353,18 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Auto-asignación de empleado para "Cualquier Profesional".
 
 - **✅ Panel de Administración Esencial:**
-  - **✅ Gestión Core:** CRUD completo para Servicios (con estado activo/inactivo) y Empleados (con estado activo/archivado).
+  - **✅ Gestión Core:** CRUD completo para Servicios y Empleados.
   - **✅ Operaciones:** Planning visual de citas (FullCalendar).
     - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
     - ✅ Creación manual, edición y anulación de citas (modales).
-  - **✅ Gestión Avanzada de Horarios (Empleados y Negocio):**
-    - ✅ Editor de turnos semanales por empleado.
-    - ✅ Calendario visual para gestionar vacaciones y ausencias (con detección de conflictos).
-    - ✅ Interfaz para Horario General del Negocio.
-    - ✅ **Sistema de Anulaciones por Fecha (Festivos y Horarios Especiales).**
+  - **✅ Gestión Avanzada de Horarios:**
+    - ✅ Editor de turnos semanales, calendario de ausencias y anulaciones por fecha.
   - ✅ **Autenticación:** Login seguro para el administrador.
 
-- **🟡 Notificaciones Críticas (Email) - EN PROGRESO:**
-  - [🟡] Email de confirmación de cita para el cliente.
-  - [🟡] Email de notificación de nueva cita para la empresa.
+- **✅ Notificaciones Críticas (Email/WhatsApp) - COMPLETADO:**
+  - [✅] Email/WhatsApp de confirmación de cita para el cliente.
+  - [✅] Email de notificación de nueva cita para la empresa.
+  - [✅] Recordatorios automáticos 24h antes de la cita.
 
 ---
 
@@ -396,16 +372,16 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Mejorar la retención de clientes y automatizar el marketing de reputación.
 
-- **[ ] Panel de Cliente Completo:**
-  - [ ] Registro de usuarios (Email/Google) con verificación.
-  - [ ] Login y gestión de perfil.
-  - [ ] Historial de citas y opción "Reservar de Nuevo".
+- **🟡 Panel de Cliente Completo - EN PROGRESO:**
+  - [✅] Registro de usuarios (Email) y Login.
+  - [🟡] Historial de citas y opción "Reservar de Nuevo".
+  - [ ] Gestión de perfil (cambiar nombre/contraseña).
   - [ ] Gestión de múltiples vehículos.
 
-- **[ ] Sistema de Valoraciones y Reseñas:**
-  - [ ] Email/WhatsApp automático post-servicio para solicitar valoración.
-  - [ ] Panel de moderación de reseñas en el área de administración.
-  - [ ] Visualización de reseñas aprobadas en el sitio público.
+- **✅ Sistema de Valoraciones y Reseñas - COMPLETADO:**
+  - [✅] Notificación automática post-servicio para solicitar valoración.
+  - [✅] Panel de moderación de reseñas en el área de administración.
+  - [✅] Visualización de reseñas aprobadas en el sitio público.
 
 - **[ ] Integración con Pasarela de Pagos (Stripe):**
   - [ ] Integración básica para pagos en el flujo de reserva.
@@ -424,22 +400,13 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [ ] Venta de Tarjetas Regalo digitales.
   - [ ] Sistema de suscripciones mensuales (Club de Lavado).
 
-- **[ ] Dashboard de Analíticas:**
-  - [ ] Gráficos con métricas clave (ingresos, ocupación, servicios populares, etc.).
+- **🟡 Dashboard de Analíticas - EN PROGRESO:**
+  - [✅] KPIs de negocio (citas, ingresos, no-shows).
+  - [✅] Gráfico de actividad semanal.
+  - [ ] Gráficos con métricas avanzadas (servicios populares, etc.).
 
 - **[ ] Notificaciones Avanzadas (WhatsApp):**
-  - [ ] Recordatorios de citas automáticos por WhatsApp.
   - [ ] Notificaciones de nuevas citas por WhatsApp para la empresa.
-
----
-
-## 💡 Futuro (Ideas a Considerar)
-
-- **Pagos Configurables:** Permitir al administrador elegir si las reservas requieren pago (completo/parcial) o no.
-- PWA para Empleados: Una aplicación "instalable" para que los empleados gestionen su agenda diaria.
-- Precios Dinámicos: Configuración de tarifas especiales para horas de alta/baja demanda.
-- Tienda Online: Venta de productos de detailing directamente desde la web.
-- Integración con Software de Contabilidad.
 
 
 
@@ -526,6 +493,7 @@ Este documento describe nuestro método de trabajo para el desarrollo del proyec
     "@fullcalendar/resource-timegrid": "^6.1.19",
     "@fullcalendar/resource-timeline": "^6.1.19",
     "@fullcalendar/timegrid": "^6.1.19",
+    "@mantine/charts": "^7.10.2",
     "@mantine/core": "^7.10.2",
     "@mantine/dates": "^7.10.2",
     "@mantine/form": "^7.10.2",
@@ -538,6 +506,7 @@ Este documento describe nuestro método de trabajo para el desarrollo del proyec
     "react-dom": "^18.2.0",
     "react-international-phone": "^4.3.0",
     "react-router-dom": "^6.23.1",
+    "recharts": "^2.12.7",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -557,7 +526,7 @@ Este documento describe nuestro método de trabajo para el desarrollo del proyec
 
 
 // ====== [9] apps/client/src/App.tsx ======
-// File: /apps/client/src/App.tsx (ACTUALIZADO)
+// File: /apps/client/src/App.tsx (CON RUTA 'MIS CITAS')
 
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
@@ -571,8 +540,16 @@ import { ServicesPage } from './pages/public/ServicesPage';
 import { BookingPage } from './pages/public/BookingPage';
 import { AdminPlanningPage } from './pages/admin/AdminPlanningPage';
 import { TeamPage } from './pages/public/TeamPage';
-// --- LÍNEA AÑADIDA ---
-import { BusinessSettingsPage } from './pages/admin/BusinessSettingsPage'; // <-- IMPORTAMOS LA FUTURA PÁGINA
+import { BusinessSettingsPage } from './pages/admin/BusinessSettingsPage';
+import { LoginPage } from './pages/public/LoginPage';
+import { RegisterPage } from './pages/public/RegisterPage';
+import { CustomerLayout } from './layouts/CustomerLayout';
+import { CustomerDashboardPage } from './pages/customer/CustomerDashboardPage';
+import { ReviewPage } from './pages/public/ReviewPage';
+import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
+
+// --- IMPORTACIÓN AÑADIDA ---
+import { CustomerAppointmentsPage } from './pages/customer/CustomerAppointmentsPage';
 
 function App() {
   return (
@@ -583,6 +560,17 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/team" element={<TeamPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/review" element={<ReviewPage />} />
+      </Route>
+
+      {/* Rutas Protegidas para Clientes */}
+      <Route path="/dashboard" element={<CustomerLayout />}>
+        <Route index element={<CustomerDashboardPage />} />
+        
+        {/* --- RUTA DESCOMENTADA Y ACTUALIZADA --- */}
+        <Route path="appointments" element={<CustomerAppointmentsPage />} />
       </Route>
 
       {/* Ruta de Login para Admin (sin layout) */}
@@ -594,8 +582,8 @@ function App() {
         <Route path="services" element={<ServicesManagementPage />} />
         <Route path="employees" element={<EmployeesManagementPage />} />
         <Route path="planning" element={<AdminPlanningPage />} />
-        {/* --- LÍNEA AÑADIDA --- */}
-        <Route path="settings" element={<BusinessSettingsPage />} /> {/* <-- LÍNEA AÑADIDA */}
+        <Route path="settings" element={<BusinessSettingsPage />} />
+        <Route path="reviews" element={<ReviewsManagementPage />} />
       </Route>
     </Routes>
   );
@@ -694,14 +682,14 @@ export function AbsenceCalendar({ absences, onAddAbsence, onDeleteAbsence }: Abs
 
 
 // ====== [11] apps/client/src/components/admin/AppointmentForm.tsx ======
-// File: /apps/client/src/components/admin/AppointmentForm.tsx (ACTUALIZADO)
+// File: /apps/client/src/components/admin/AppointmentForm.tsx (ACTUALIZADO CON GESTIÓN DE ESTADO)
 
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, Select, Button, Group, Stack, LoadingOverlay, Modal, Text } from '@mantine/core'; // Modal, Text añadidos
+import { TextInput, Select, Button, Group, Stack, LoadingOverlay, Modal, Text } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
-import { useDisclosure } from '@mantine/hooks'; // useDisclosure añadido
+import { useDisclosure } from '@mantine/hooks';
 import apiClient from '../../lib/apiClient';
 import type { Service } from '@aquaclean/types';
 
@@ -716,13 +704,20 @@ interface AppointmentFormProps {
   onClose: () => void;
 }
 
+// Opciones de estado para el selector
+const statusOptions = [
+  { value: 'CONFIRMED', label: 'Confirmada' },
+  { value: 'COMPLETED', label: 'Completada' },
+  { value: 'NO_SHOW', label: 'No Presentado' },
+  { value: 'CANCELLED', label: 'Cancelada' },
+];
+
 export function AppointmentForm({ initialData, onSuccess, onClose }: AppointmentFormProps) {
   const [services, setServices] = useState<{ value: string; label: string }[]>([]);
   const [employees, setEmployees] = useState<{ value: string; label: string }[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Estado para el modal de confirmación de anulación
   const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false);
 
   const form = useForm({
@@ -732,6 +727,7 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
       serviceId: '',
       employeeId: '',
       startTime: null as Date | null,
+      status: 'CONFIRMED', // <-- CAMPO AÑADIDO
     },
   });
 
@@ -743,6 +739,7 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
         serviceId: initialData.serviceId || '',
         employeeId: initialData.employeeId || '',
         startTime: initialData.start ? new Date(initialData.start) : null,
+        status: initialData.status || 'CONFIRMED', // <-- CAMPO AÑADIDO
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -768,31 +765,27 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
     setIsSubmitting(true);
     try {
       if (initialData?.type === 'edit') {
+        // Ahora enviamos todos los valores del formulario, incluido el 'status'
         await apiClient.put(`/admin/appointments/${initialData.appointmentId}`, values);
-        notifications.show({ title: 'Cita Actualizada', message: 'Los cambios en la cita han sido guardados.', color: 'blue' });
+        notifications.show({ title: 'Cita Actualizada', message: 'Los cambios se han guardado.', color: 'blue' });
       } else {
         await apiClient.post('/admin/appointments', values);
-        notifications.show({ title: 'Cita Creada', message: 'La nueva cita ha sido guardada en el calendario.', color: 'green' });
+        notifications.show({ title: 'Cita Creada', message: 'La nueva cita ha sido guardada.', color: 'green' });
       }
       onSuccess();
     } catch (error) {
-      notifications.show({ title: 'Error al Guardar', message: 'No se pudo guardar la cita. Inténtalo de nuevo.', color: 'red' });
+      notifications.show({ title: 'Error al Guardar', message: 'No se pudo guardar la cita.', color: 'red' });
     } finally {
       setIsSubmitting(false);
     }
   };
   
-  // --- LÓGICA DE ANULACIÓN ---
   const handleDelete = async () => {
     setIsSubmitting(true);
     try {
       await apiClient.delete(`/admin/appointments/${initialData.appointmentId}`);
-      notifications.show({
-        title: 'Cita Anulada',
-        message: 'La cita ha sido eliminada del calendario.',
-        color: 'orange',
-      });
-      onSuccess(); // Reutilizamos onSuccess para cerrar modal y refrescar
+      notifications.show({ title: 'Cita Anulada', message: 'La cita ha sido eliminada.', color: 'orange' });
+      onSuccess();
     } catch (error) {
       notifications.show({ title: 'Error al Anular', message: 'No se pudo anular la cita.', color: 'red' });
     } finally {
@@ -804,7 +797,7 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
   return (
     <>
       <Modal opened={deleteModalOpened} onClose={closeDeleteModal} title="Confirmar Anulación" centered>
-        <Text>¿Estás seguro de que quieres anular esta cita? Esta acción no se puede deshacer.</Text>
+        <Text>¿Seguro que quieres anular esta cita? Esto la devolverá al estado 'Disponible'.</Text>
         <Group justify="flex-end" mt="md">
           <Button variant="default" onClick={closeDeleteModal}>Cancelar</Button>
           <Button color="red" onClick={handleDelete} loading={isSubmitting}>Anular Cita</Button>
@@ -816,25 +809,27 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
         <Stack>
           <TextInput label="Nombre del Cliente" {...form.getInputProps('customerName')} required />
           <TextInput type="email" label="Email del Cliente" {...form.getInputProps('customerEmail')} required />
-          <DateTimePicker label="Fecha y Hora de la Cita" {...form.getInputProps('startTime')} valueFormat="DD/MM/YYYY HH:mm" required />
+          <DateTimePicker label="Fecha y Hora" {...form.getInputProps('startTime')} valueFormat="DD/MM/YYYY HH:mm" required />
           <Select label="Servicio" data={services} {...form.getInputProps('serviceId')} searchable required />
           <Select label="Empleado Asignado" data={employees} {...form.getInputProps('employeeId')} required />
           
+          {/* --- COMPONENTE AÑADIDO --- */}
+          {initialData?.type === 'edit' && (
+            <Select
+              label="Estado de la Cita"
+              data={statusOptions}
+              {...form.getInputProps('status')}
+              required
+            />
+          )}
+
           <Group justify="space-between" mt="md">
-            {/* El botón de anular solo aparece en modo edición */}
             {initialData?.type === 'edit' ? (
-              <Button variant="outline" color="red" onClick={openDeleteModal} disabled={isSubmitting}>
-                Anular Cita
-              </Button>
-            ) : <div />} {/* Placeholder para mantener el espacio */}
-            
+              <Button variant="outline" color="red" onClick={openDeleteModal} disabled={isSubmitting}>Anular Cita</Button>
+            ) : <div />}
             <Group>
-              <Button variant="default" onClick={onClose} disabled={isSubmitting}>
-                Cancelar
-              </Button>
-              <Button type="submit" loading={isSubmitting}>
-                Guardar Cambios
-              </Button>
+              <Button variant="default" onClick={onClose} disabled={isSubmitting}>Cancelar</Button>
+              <Button type="submit" loading={isSubmitting}>Guardar Cambios</Button>
             </Group>
           </Group>
         </Stack>
@@ -1315,85 +1310,121 @@ export function PublicFooter() {
 
 
 // ====== [19] apps/client/src/components/common/PublicHeader.tsx ======
-// ====== [19] apps/client/src/components/common/PublicHeader.tsx ======
-// File: /apps/client/src/components/common/PublicHeader.tsx (CON MENÚ HAMBURGUESA)
+// File: /apps/client/src/components/common/PublicHeader.tsx (CON LÓGICA DE AUTENTICACIÓN)
 
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Container, Group, Button, Image, Burger, Drawer, Stack } from '@mantine/core';
+import { Container, Group, Button, Image, Burger, Drawer, Stack, Menu, Text, Avatar } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import { IconDashboard, IconLogout } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 import classes from './PublicHeader.module.css';
+
+interface CustomerInfo {
+  name?: string;
+  email?: string;
+}
 
 export function PublicHeader() {
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
-  // Función para cerrar el drawer al hacer clic en un enlace
+  // --- LÓGICA AÑADIDA ---
+  const [customer, setCustomer] = useState<CustomerInfo | null>(null);
+
+  // Este efecto se ejecutará al cargar y cada vez que cambie el localStorage
+  useEffect(() => {
+    const updateCustomerState = () => {
+      const token = localStorage.getItem('customerAuthToken');
+      const info = localStorage.getItem('customerInfo');
+      if (token && info) {
+        setCustomer(JSON.parse(info));
+      } else {
+        setCustomer(null);
+      }
+    };
+
+    updateCustomerState();
+
+    // Escuchamos cambios en el storage para actualizar la cabecera en tiempo real
+    // (si el login/logout ocurre en otra pestaña)
+    window.addEventListener('storage', updateCustomerState);
+    return () => {
+      window.removeEventListener('storage', updateCustomerState);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('customerAuthToken');
+    localStorage.removeItem('customerInfo');
+    setCustomer(null); // Actualizamos el estado local
+    notifications.show({
+      title: 'Sesión cerrada',
+      message: 'Has cerrado sesión correctamente.',
+      color: 'blue',
+    });
+    navigate('/');
+  };
+
   const handleLinkClick = (path: string) => {
     navigate(path);
     close();
   };
+  // --- FIN DE LA LÓGICA AÑADIDA ---
 
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        {/* Logo */}
-        <Image
-          src="/logo.png"
-          alt="Logo de AquaClean Car Wash"
-          h={40}
-          fit="contain"
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigate('/')}
-        />
+        <Image src="/logo.png" alt="Logo" h={40} fit="contain" style={{ cursor: 'pointer' }} onClick={() => navigate('/')} />
 
-        {/* Navegación para Escritorio */}
         <Group gap={5} visibleFrom="xs">
-          <NavLink to="/" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`} end>
-            Inicio
-          </NavLink>
-          <NavLink to="/services" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>
-            Servicios
-          </NavLink>
-          <NavLink to="/team" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>
-            Nuestro Equipo
-          </NavLink>
+          <NavLink to="/" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`} end>Inicio</NavLink>
+          <NavLink to="/services" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>Servicios</NavLink>
+          <NavLink to="/team" className={({ isActive }) => `${classes.link} ${isActive ? classes.linkActive : ''}`}>Nuestro Equipo</NavLink>
         </Group>
         
-        {/* Botón de Reservar (Escritorio) */}
-        <Button onClick={() => navigate('/booking')} visibleFrom="xs">Reservar Cita</Button>
+        {/* --- RENDERIZADO CONDICIONAL DEL BOTÓN --- */}
+        <Group visibleFrom="xs">
+          {customer ? (
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button variant="outline">
+                  <Group>
+                    <Avatar size="sm" color="blue" radius="xl">{customer.name?.charAt(0)}</Avatar>
+                    <Text size="sm">{customer.name}</Text>
+                  </Group>
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>Mi Cuenta</Menu.Label>
+                <Menu.Item leftSection={<IconDashboard size={14} />} onClick={() => navigate('/dashboard')}>
+                  Mi Panel
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item color="red" leftSection={<IconLogout size={14} />} onClick={handleLogout}>
+                  Cerrar Sesión
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          ) : (
+            <Group>
+                <Button variant="default" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
+                <Button onClick={() => navigate('/booking')}>Reservar Cita</Button>
+            </Group>
+          )}
+        </Group>
+        {/* --- FIN DEL RENDERIZADO CONDICIONAL --- */}
 
-        {/* Menú de Hamburguesa (Móvil) */}
         <Burger opened={opened} onClick={open} hiddenFrom="xs" size="sm" />
       </Container>
       
-      {/* Panel Lateral Desplegable (Drawer) para Móvil */}
       <Drawer opened={opened} onClose={close} title="Menú" padding="xl" size="sm">
         <Stack gap="lg">
-          <NavLink
-            to="/"
-            className={({ isActive }) => `${classes.drawerLink} ${isActive ? classes.drawerLinkActive : ''}`}
-            onClick={close}
-            end
-          >
-            Inicio
-          </NavLink>
-          <NavLink
-            to="/services"
-            className={({ isActive }) => `${classes.drawerLink} ${isActive ? classes.drawerLinkActive : ''}`}
-            onClick={close}
-          >
-            Servicios
-          </NavLink>
-          <NavLink
-            to="/team"
-            className={({ isActive }) => `${classes.drawerLink} ${isActive ? classes.drawerLinkActive : ''}`}
-            onClick={close}
-          >
-            Nuestro Equipo
-          </NavLink>
-          <Button onClick={() => handleLinkClick('/booking')} size="lg" mt="md">
-            Reservar Cita
-          </Button>
+          <NavLink to="/" className={({ isActive }) => `${classes.drawerLink} ${isActive ? classes.drawerLinkActive : ''}`} onClick={close} end>Inicio</NavLink>
+          <NavLink to="/services" className={({ isActive }) => `${classes.drawerLink} ${isActive ? classes.drawerLinkActive : ''}`} onClick={close}>Servicios</NavLink>
+          <NavLink to="/team" className={({ isActive }) => `${classes.drawerLink} ${isActive ? classes.drawerLinkActive : ''}`} onClick={close}>Nuestro Equipo</NavLink>
+          <Button onClick={() => handleLinkClick('/booking')} size="lg" mt="md">Reservar Cita</Button>
+          {/* Aquí podríamos añadir también la lógica de login/logout para móvil */}
         </Stack>
       </Drawer>
     </header>
@@ -1401,7 +1432,96 @@ export function PublicHeader() {
 }
 
 
-// ====== [20] apps/client/src/custom.d.ts ======
+// ====== [20] apps/client/src/components/home/FeaturedReviews.tsx ======
+// File: /apps/client/src/components/home/FeaturedReviews.tsx (NUEVO ARCHIVO)
+
+import { useEffect, useState } from 'react';
+import { Container, Title, Text, SimpleGrid, Paper, Rating, Blockquote, Loader, Center, Alert } from '@mantine/core';
+import { IconMessageCircle2 } from '@tabler/icons-react';
+import apiClient from '../../lib/apiClient';
+
+// Interfaz para los datos que esperamos de la API pública
+interface PublicReview {
+  id: string;
+  rating: number;
+  comment: string | null;
+  customerName: string | null;
+}
+
+export function FeaturedReviews() {
+  const [reviews, setReviews] = useState<PublicReview[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await apiClient.get<PublicReview[]>('/reviews');
+        setReviews(response.data);
+      } catch (err) {
+        console.error('Error fetching public reviews:', err);
+        setError('No se pudieron cargar las valoraciones en este momento.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  if (loading) {
+    return (
+      <Center style={{ height: 200 }}>
+        <Loader />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container size="md" py="xl">
+        <Alert color="orange" title="Opiniones no disponibles">
+          {error}
+        </Alert>
+      </Container>
+    );
+  }
+
+  if (reviews.length === 0) {
+    // No mostramos nada si no hay reseñas que mostrar
+    return null;
+  }
+
+  return (
+    <Container size="lg" py="xl">
+      <Title order={2} ta="center" mb="xs">
+        La Opinión de Nuestros Clientes
+      </Title>
+      <Text c="dimmed" ta="center" mb="xl">
+        Descubre por qué nuestros clientes confían en nosotros para el cuidado de sus vehículos.
+      </Text>
+
+      <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
+        {reviews.map((review) => (
+          <Paper withBorder radius="md" p="lg" key={review.id}>
+            <Rating value={review.rating} readOnly />
+            <Blockquote
+              color="blue"
+              cite={`– ${review.customerName || 'Cliente Anónimo'}`}
+              icon={<IconMessageCircle2 size={24} />}
+              mt="sm"
+            >
+              {review.comment || '¡Un servicio excelente!'}
+            </Blockquote>
+          </Paper>
+        ))}
+      </SimpleGrid>
+    </Container>
+  );
+}
+
+
+// ====== [21] apps/client/src/custom.d.ts ======
 // File: /apps/client/src/custom.d.ts (NUEVO ARCHIVO)
 
 // Este archivo le dice a TypeScript cómo tratar los archivos CSS Modules.
@@ -1413,8 +1533,8 @@ declare module '*.module.css' {
 }
 
 
-// ====== [21] apps/client/src/layouts/AdminLayout.tsx ======
-// File: /apps/client/src/layouts/AdminLayout.tsx (ACTUALIZADO)
+// ====== [22] apps/client/src/layouts/AdminLayout.tsx ======
+// File: /apps/client/src/layouts/AdminLayout.tsx (AÑADIENDO ENLACE A RESEÑAS)
 
 import { Outlet, Navigate, NavLink } from 'react-router-dom';
 import { AppShell, Burger, Group, Title } from '@mantine/core';
@@ -1429,7 +1549,7 @@ export function AdminLayout() {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Estilos para los NavLink de react-router-dom
+  // Estilos para los NavLink
   const linkStyles = {
     display: 'block',
     padding: '8px 16px',
@@ -1446,7 +1566,7 @@ export function AdminLayout() {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }} // <-- desktop: true eliminado para que se vea en desktop
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>
@@ -1459,7 +1579,7 @@ export function AdminLayout() {
       <AppShell.Navbar p="md">
          <NavLink 
             to="/admin" 
-            end // 'end' asegura que solo esté activo en la ruta exacta
+            end
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
          >
             Dashboard
@@ -1482,14 +1602,22 @@ export function AdminLayout() {
          >
             Empleados
          </NavLink>
-         {/* --- LÍNEA AÑADIDA --- */}
          <NavLink 
             to="/admin/settings" 
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
          >
             Ajustes del Negocio
          </NavLink>
-         {/* --- FIN DE LA LÍNEA AÑADIDA --- */}
+
+         {/* --- ENLACE AÑADIDO --- */}
+         <NavLink 
+            to="/admin/reviews" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Valoraciones
+         </NavLink>
+         {/* --- FIN DEL ENLACE AÑADIDO --- */}
+
       </AppShell.Navbar>
       
       <AppShell.Main>
@@ -1500,7 +1628,115 @@ export function AdminLayout() {
 }
 
 
-// ====== [22] apps/client/src/layouts/PublicLayout.tsx ======
+// ====== [23] apps/client/src/layouts/CustomerLayout.tsx ======
+// File: /apps/client/src/layouts/CustomerLayout.tsx (SIN CAMBIOS, SOLO CONFIRMACIÓN)
+
+import { Outlet, Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { AppShell, Burger, Group, Title, Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import { IconLogout } from '@tabler/icons-react';
+
+export function CustomerLayout() {
+  const navigate = useNavigate();
+  const [opened, { toggle }] = useDisclosure();
+
+  const authToken = localStorage.getItem('customerAuthToken');
+
+  const handleLogout = () => {
+    localStorage.removeItem('customerAuthToken');
+    localStorage.removeItem('customerInfo');
+    notifications.show({
+      title: 'Sesión cerrada',
+      message: 'Has cerrado sesión correctamente.',
+      color: 'blue',
+    });
+    navigate('/');
+  };
+
+  if (!authToken) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Estilos para los NavLink
+  const linkStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    padding: '10px 15px',
+    borderRadius: 'var(--mantine-radius-md)',
+    textDecoration: 'none',
+    color: 'var(--mantine-color-text)',
+    fontWeight: 500,
+    fontSize: 'var(--mantine-font-size-sm)',
+  };
+
+  const activeLinkStyles: React.CSSProperties = {
+    backgroundColor: 'var(--mantine-color-blue-light)',
+    color: 'var(--mantine-color-blue-light-color)',
+  };
+
+  return (
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      padding="md"
+    >
+      <AppShell.Header>
+        <Group h="100%" px="md" justify="space-between">
+          <Group>
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+            <Title order={4}>Mi Cuenta de AquaClean</Title>
+          </Group>
+          <Button
+            variant="light"
+            color="red"
+            leftSection={<IconLogout size={14} />}
+            onClick={handleLogout}
+            visibleFrom="sm"
+          >
+            Cerrar Sesión
+          </Button>
+        </Group>
+      </AppShell.Header>
+
+      <AppShell.Navbar p="md">
+         <NavLink 
+            to="/dashboard" 
+            end
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Resumen
+         </NavLink>
+         {/* Este es el enlace que ahora funcionará y tendrá un estilo activo */}
+         <NavLink 
+            to="/dashboard/appointments" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Mis Citas
+         </NavLink>
+
+         <Button
+            variant="light"
+            color="red"
+            leftSection={<IconLogout size={14} />}
+            onClick={handleLogout}
+            hiddenFrom="sm"
+            mt="auto"
+          >
+            Cerrar Sesión
+          </Button>
+      </AppShell.Navbar>
+      
+      <AppShell.Main>
+        <Outlet /> 
+      </AppShell.Main>
+    </AppShell>
+  );
+}
+
+
+// ====== [24] apps/client/src/layouts/PublicLayout.tsx ======
 // File: /apps/client/src/layouts/PublicLayout.tsx (ACTUALIZADO)
 
 import { Outlet } from 'react-router-dom';
@@ -1533,48 +1769,61 @@ export function PublicLayout() {
 }
 
 
-// ====== [23] apps/client/src/lib/apiClient.ts ======
-// File: /apps/client/src/lib/apiClient.ts
+// ====== [25] apps/client/src/lib/apiClient.ts ======
+// File: /apps/client/src/lib/apiClient.ts (ACTUALIZADO CON INTERCEPTOR DE AUTH)
 
 import axios from 'axios';
 
-// Creamos una instancia de Axios con una configuración base.
-// Todas las llamadas que hagamos usando 'apiClient' partirán de esta URL.
 const apiClient = axios.create({
-  // La URL base de nuestra API de backend.
-  // Para un proyecto en producción, esto vendría de una variable de entorno,
-  // pero para el desarrollo local, esta configuración es perfecta.
   baseURL: 'http://localhost:3001/api',
-
-  // Opcional: un tiempo de espera de 10 segundos para las peticiones.
   timeout: 10000,
-
-  // Opcional: encabezados por defecto que se enviarán con cada petición.
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
+// --- INTERCEPTOR AÑADIDO ---
+// Este código se ejecuta en CADA petición que se hace con apiClient
+apiClient.interceptors.request.use(
+  (config) => {
+    // Buscamos el token del cliente. Podríamos añadir lógica para el token de admin también.
+    const token = localStorage.getItem('customerAuthToken');
+    
+    if (token) {
+      // Si el token existe, lo añadimos a la cabecera de la petición
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    // Manejar errores de la configuración de la petición
+    return Promise.reject(error);
+  }
+);
+
 export default apiClient;
 
 
-// ====== [24] apps/client/src/main.tsx ======
-// File: /apps/client/src/main.tsx (ACTUALIZADO)
+// ====== [26] apps/client/src/main.tsx ======
+// File: /apps/client/src/main.tsx (ACTUALIZADO CON ESTILOS DE GRÁFICOS)
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
-import { Notifications } from '@mantine/notifications'; // <-- 1. IMPORTAR
+import { Notifications } from '@mantine/notifications';
 import App from './App';
 
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
-import '@mantine/notifications/styles.css'; // <-- 2. AÑADIR ESTILOS
+import '@mantine/notifications/styles.css';
+import '@mantine/charts/styles.css'; // <-- LÍNEA AÑADIDA
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MantineProvider>
-      <Notifications /> {/* <-- 3. AÑADIR COMPONENTE */}
+      <Notifications />
       <BrowserRouter>
         <App />
       </BrowserRouter>
@@ -1583,14 +1832,115 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 
-// ====== [25] apps/client/src/pages/admin/AdminDashboardPage.tsx ======
-// File: /apps/client/src/pages/admin/AdminDashboardPage.tsx
-export function AdminDashboardPage() {
-  return <h3>Dashboard Principal</h3>;
+// ====== [27] apps/client/src/pages/admin/AdminDashboardPage.tsx ======
+// File: /apps/client/src/pages/admin/AdminDashboardPage.tsx (CON GRÁFICO DE BARRAS)
+
+import { useEffect, useState } from 'react';
+import { Title, Text, SimpleGrid, Paper, Group, ThemeIcon, LoadingOverlay, Alert } from '@mantine/core';
+import { BarChart } from '@mantine/charts'; // <-- 1. IMPORTAMOS EL GRÁFICO
+import { IconCalendar, IconCash, IconUserPlus, IconUserExclamation } from '@tabler/icons-react';
+import apiClient from '../../lib/apiClient';
+
+interface KpiData {
+  appointmentsToday: number;
+  potentialRevenueToday: number;
+  newCustomersThisMonth: number;
+  noShowRateThisMonth: number;
+}
+
+// Interfaz para los datos del gráfico
+interface ChartData {
+  date: string;
+  Citas: number;
+}
+
+interface StatsCardProps {
+  icon: React.ReactNode;
+  title: string;
+  value: string;
+  description: string;
+  color: string;
+}
+
+function StatsCard({ icon, title, value, description, color }: StatsCardProps) {
+  return (
+    <Paper withBorder p="md" radius="md">
+      <Group justify="space-between">
+        <Text size="xs" c="dimmed" tt="uppercase" fw={700}>{title}</Text>
+        <ThemeIcon color={color} variant="light" size={38} radius="md">{icon}</ThemeIcon>
+      </Group>
+      <Group align="flex-end" gap="xs" mt={25}>
+        <Text fz={38} fw={800} lh={1}>{value}</Text>
+      </Group>
+      <Text fz="sm" c="dimmed" mt={7}>{description}</Text>
+    </Paper>
+  );
 }
 
 
-// ====== [26] apps/client/src/pages/admin/AdminLoginPage.tsx ======
+export function AdminDashboardPage() {
+  const [kpis, setKpis] = useState<KpiData | null>(null);
+  const [chartData, setChartData] = useState<ChartData[]>([]); // <-- 2. NUEVO ESTADO
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // --- 3. LLAMADAS EN PARALELO ---
+        const [kpisResponse, chartResponse] = await Promise.all([
+          apiClient.get<KpiData>('/admin/dashboard/kpis'),
+          apiClient.get<ChartData[]>('/admin/dashboard/charts/bookings-over-time')
+        ]);
+        setKpis(kpisResponse.data);
+        setChartData(chartResponse.data);
+      } catch (err) {
+        setError('No se pudieron cargar los datos del dashboard.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <Title order={2} mb="xl">Dashboard Principal</Title>
+      
+      {error && <Alert color="red" title="Error">{error}</Alert>}
+      
+      <div style={{ position: 'relative' }}>
+        <LoadingOverlay visible={loading} />
+        {kpis && (
+          <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} mb="xl">
+            <StatsCard icon={<IconCalendar size={24} />} title="Citas para Hoy" value={kpis.appointmentsToday.toString()} description="Citas con estado 'Confirmada'" color="blue" />
+            <StatsCard icon={<IconCash size={24} />} title="Ingresos Potenciales Hoy" value={`${kpis.potentialRevenueToday.toFixed(2)}€`} description="Suma del precio de los servicios de hoy" color="green" />
+            <StatsCard icon={<IconUserPlus size={24} />} title="Nuevos Clientes" value={kpis.newCustomersThisMonth.toString()} description="Clientes registrados este mes" color="teal" />
+            <StatsCard icon={<IconUserExclamation size={24} />} title="Tasa de No-Shows" value={`${kpis.noShowRateThisMonth.toFixed(1)}%`} description="Porcentaje de ausencias este mes" color="orange" />
+          </SimpleGrid>
+        )}
+
+        {/* --- 4. RENDERIZADO DEL GRÁFICO --- */}
+        {!loading && chartData.length > 0 && (
+          <Paper withBorder p="md" radius="md">
+            <Title order={5} mb="md">Citas en los Últimos 7 Días</Title>
+            <BarChart
+              h={300}
+              data={chartData}
+              dataKey="date"
+              series={[{ name: 'Citas', color: 'blue.6' }]}
+              tickLine="y"
+              yAxisProps={{ width: 30 }}
+            />
+          </Paper>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// ====== [28] apps/client/src/pages/admin/AdminLoginPage.tsx ======
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -1680,7 +2030,7 @@ export function AdminLoginPage() {
 }
 
 
-// ====== [27] apps/client/src/pages/admin/AdminPlanningPage.tsx ======
+// ====== [29] apps/client/src/pages/admin/AdminPlanningPage.tsx ======
 // ====== [27] apps/client/src/pages/admin/AdminPlanningPage.tsx ======
 // File: /apps/client/src/pages/admin/AdminPlanningPage.tsx (CORRECCIÓN FINAL DE ZONA HORARIA)
 
@@ -1855,7 +2205,7 @@ export function AdminPlanningPage() {
 }
 
 
-// ====== [28] apps/client/src/pages/admin/BusinessSettingsPage.tsx ======
+// ====== [30] apps/client/src/pages/admin/BusinessSettingsPage.tsx ======
 // ====== [28] apps/client/src/pages/admin/BusinessSettingsPage.tsx ======
 // File: /apps/client/src/pages/admin/BusinessSettingsPage.tsx (VERSIÓN COMPLETA Y CORRECTA)
 
@@ -2131,7 +2481,7 @@ export function BusinessSettingsPage() {
 }
 
 
-// ====== [29] apps/client/src/pages/admin/EmployeesManagementPage.tsx ======
+// ====== [31] apps/client/src/pages/admin/EmployeesManagementPage.tsx ======
 // File: /apps/client/src/pages/admin/EmployeesManagementPage.tsx (CON SELECTOR DE COLOR)
 
 import { useEffect, useState } from 'react';
@@ -2335,7 +2685,170 @@ export function EmployeesManagementPage() {
 }
 
 
-// ====== [30] apps/client/src/pages/admin/ServicesManagementPage.tsx ======
+// ====== [32] apps/client/src/pages/admin/ReviewsManagementPage.tsx ======
+// File: /apps/client/src/pages/admin/ReviewsManagementPage.tsx (NUEVO ARCHIVO)
+
+import { useEffect, useState } from 'react';
+import { Title, Table, Group, Badge, ActionIcon, SegmentedControl, Text, LoadingOverlay, Alert } from '@mantine/core';
+import { IconCheck, IconEyeOff } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
+import dayjs from 'dayjs';
+import apiClient from '../../lib/apiClient';
+
+// Definimos los tipos de datos que esperamos de la API
+type ReviewStatus = 'PENDING' | 'APPROVED' | 'HIDDEN';
+interface Review {
+  id: string;
+  rating: number;
+  comment: string | null;
+  status: ReviewStatus;
+  createdAt: string;
+  employeeName: string;
+  customerName: string | null;
+  serviceName: string;
+}
+
+const statusColors: Record<ReviewStatus, string> = {
+  PENDING: 'yellow',
+  APPROVED: 'green',
+  HIDDEN: 'gray',
+};
+
+export function ReviewsManagementPage() {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<ReviewStatus>('PENDING');
+
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiClient.get<Review[]>('/reviews/admin');
+      setReviews(response.data);
+    } catch (err) {
+      setError('No se pudieron cargar las valoraciones.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const handleUpdateStatus = async (reviewId: string, newStatus: ReviewStatus) => {
+    try {
+      await apiClient.put(`/reviews/admin/${reviewId}`, { status: newStatus });
+      notifications.show({
+        title: 'Estado actualizado',
+        message: `La valoración ha sido marcada como ${newStatus === 'APPROVED' ? 'Aprobada' : 'Oculta'}.`,
+        color: 'blue',
+      });
+      // Actualizamos el estado localmente para una respuesta instantánea en la UI
+      setReviews(prevReviews =>
+        prevReviews.map(review =>
+          review.id === reviewId ? { ...review, status: newStatus } : review
+        )
+      );
+    } catch (err) {
+      notifications.show({
+        title: 'Error',
+        message: 'No se pudo actualizar el estado de la valoración.',
+        color: 'red',
+      });
+    }
+  };
+
+  const filteredReviews = reviews.filter(review => review.status === statusFilter);
+
+  return (
+    <div>
+      <Title order={2} mb="xl">
+        Gestión de Valoraciones
+      </Title>
+
+      <SegmentedControl
+        value={statusFilter}
+        onChange={(value) => setStatusFilter(value as ReviewStatus)}
+        data={[
+          { label: 'Pendientes', value: 'PENDING' },
+          { label: 'Aprobadas', value: 'APPROVED' },
+          { label: 'Ocultas', value: 'HIDDEN' },
+        ]}
+        mb="lg"
+      />
+
+      <div style={{ position: 'relative' }}>
+        <LoadingOverlay visible={loading} />
+        {error && <Alert color="red" title="Error">{error}</Alert>}
+        
+        <Table striped highlightOnHover withTableBorder>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Cliente</Table.Th>
+              <Table.Th>Puntuación</Table.Th>
+              <Table.Th>Comentario</Table.Th>
+              <Table.Th>Estado</Table.Th>
+              <Table.Th>Fecha</Table.Th>
+              <Table.Th>Acciones</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {filteredReviews.length > 0 ? (
+              filteredReviews.map((review) => (
+                <Table.Tr key={review.id}>
+                  <Table.Td>{review.customerName || 'N/A'}</Table.Td>
+                  <Table.Td>{'⭐'.repeat(review.rating)}</Table.Td>
+                  <Table.Td>
+                    <Text size="sm" lineClamp={3}>{review.comment || 'Sin comentario.'}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Badge color={statusColors[review.status]}>{review.status}</Badge>
+                  </Table.Td>
+                  <Table.Td>{dayjs(review.createdAt).format('DD/MM/YYYY')}</Table.Td>
+                  <Table.Td>
+                    {review.status === 'PENDING' && (
+                      <Group gap="xs">
+                        <ActionIcon
+                          variant="light"
+                          color="green"
+                          onClick={() => handleUpdateStatus(review.id, 'APPROVED')}
+                          title="Aprobar"
+                        >
+                          <IconCheck size={16} />
+                        </ActionIcon>
+                        <ActionIcon
+                          variant="light"
+                          color="gray"
+                          onClick={() => handleUpdateStatus(review.id, 'HIDDEN')}
+                          title="Ocultar"
+                        >
+                          <IconEyeOff size={16} />
+                        </ActionIcon>
+                      </Group>
+                    )}
+                  </Table.Td>
+                </Table.Tr>
+              ))
+            ) : (
+              <Table.Tr>
+                <Table.Td colSpan={6}>
+                  <Text c="dimmed" ta="center" py="lg">
+                    No hay valoraciones en esta categoría.
+                  </Text>
+                </Table.Td>
+              </Table.Tr>
+            )}
+          </Table.Tbody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+
+// ====== [33] apps/client/src/pages/admin/ServicesManagementPage.tsx ======
 // File: /apps/client/src/pages/admin/ServicesManagementPage.tsx (RECONSTRUIDO)
 
 import { useEffect, useState } from 'react';
@@ -2509,13 +3022,221 @@ export function ServicesManagementPage() {
 }
 
 
-// ====== [31] apps/client/src/pages/public/BookingPage.tsx ======
-// ====== [31] apps/client/src/pages/public/BookingPage.tsx ======
-// File: /apps/client/src/pages/public/BookingPage.tsx (JSX RESTAURADO Y COMPLETO)
+// ====== [34] apps/client/src/pages/customer/CustomerAppointmentsPage.tsx ======
+// File: /apps/client/src/pages/customer/CustomerAppointmentsPage.tsx (CON CORRECCIÓN DE LOADER)
+
+import { useEffect, useState } from 'react';
+import { Title, Text, Tabs, Stack, Card, Group, Badge, Button, LoadingOverlay, Alert, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import apiClient from '../../lib/apiClient';
+
+dayjs.locale('es');
+
+interface AppointmentService {
+  service: { name: string; duration: number };
+}
+interface Appointment {
+  id: string;
+  startTime: string;
+  status: 'CONFIRMED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';
+  services: AppointmentService[];
+  employee: { name: string };
+}
+
+const statusConfig = {
+    CONFIRMED: { label: 'Confirmada', color: 'blue' },
+    COMPLETED: { label: 'Completada', color: 'green' },
+    CANCELLED: { label: 'Cancelada', color: 'gray' },
+    NO_SHOW: { label: 'No Presentado', color: 'orange' },
+};
+
+function AppointmentCard({ appointment, onCancel }: { appointment: Appointment; onCancel: (id: string) => void; }) {
+    const config = statusConfig[appointment.status] || { label: 'Desconocido', color: 'gray' };
+    const service = appointment.services[0]?.service;
+    const isPast = dayjs(appointment.startTime).isBefore(dayjs());
+
+    return (
+        <Card withBorder radius="md">
+            <Group justify="space-between">
+                <Stack gap="xs">
+                    <Text fw={500}>{service?.name || 'Servicio'}</Text>
+                    <Text size="sm" c="dimmed">{dayjs(appointment.startTime).format('dddd, D [de] MMMM [de] YYYY')}</Text>
+                    <Text size="sm" c="dimmed">Hora: {dayjs(appointment.startTime).format('HH:mm')}h</Text>
+                </Stack>
+                <Badge color={config.color} variant="light">{config.label}</Badge>
+            </Group>
+            <Group justify="flex-end" mt="md">
+                {appointment.status === 'CONFIRMED' && !isPast && (
+                    <Button variant="outline" color="red" size="xs" onClick={() => onCancel(appointment.id)}>
+                        Cancelar Cita
+                    </Button>
+                )}
+                {appointment.status === 'COMPLETED' && (
+                    <Button variant="light" size="xs">Reservar de Nuevo</Button>
+                )}
+            </Group>
+        </Card>
+    );
+}
+
+
+export function CustomerAppointmentsPage() {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+  const [appointmentToCancel, setAppointmentToCancel] = useState<string | null>(null);
+  
+  // --- ESTADO CORREGIDO ---
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const openCancelModal = (id: string) => {
+    setAppointmentToCancel(id);
+    openModal();
+  };
+
+  const handleConfirmCancel = async () => {
+    if (!appointmentToCancel) return;
+    
+    setIsSubmitting(true); // <-- Usamos el nuevo estado
+    try {
+      await apiClient.post(`/me/appointments/${appointmentToCancel}/cancel`);
+      
+      setAppointments(currentAppointments =>
+        currentAppointments.map(appt =>
+          appt.id === appointmentToCancel ? { ...appt, status: 'CANCELLED' } : appt
+        )
+      );
+      
+      notifications.show({
+        title: 'Cita Cancelada', message: 'Tu cita ha sido cancelada correctamente.', color: 'orange',
+      });
+      closeModal(); // Cerramos el modal solo en caso de éxito
+    } catch (err: any) {
+      notifications.show({
+        title: 'Error', message: err.response?.data?.message || 'No se pudo cancelar la cita.', color: 'red',
+      });
+    } finally {
+      setIsSubmitting(false); // <-- Desactivamos el loader siempre
+      setAppointmentToCancel(null); // Limpiamos el ID
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await apiClient.get<Appointment[]>('/me/appointments');
+        setAppointments(response.data);
+      } catch (err) { setError('No se pudieron cargar tus citas.'); }
+      finally { setLoading(false); }
+    };
+    fetchAppointments();
+  }, []);
+
+  const now = dayjs();
+  const upcomingAppointments = appointments.filter(
+    (appt) => appt.status === 'CONFIRMED' && dayjs(appt.startTime).isAfter(now)
+  );
+  const pastAppointments = appointments.filter(
+    (appt) => appt.status !== 'CONFIRMED' || dayjs(appt.startTime).isBefore(now)
+  );
+
+  return (
+    <>
+      <Modal opened={modalOpened} onClose={() => !isSubmitting && closeModal()} title="Confirmar Cancelación" centered>
+        <Text>¿Estás seguro de que quieres cancelar esta cita? Esta acción no se puede deshacer.</Text>
+        <Group justify="flex-end" mt="xl">
+          <Button variant="default" onClick={closeModal} disabled={isSubmitting}>No, mantener cita</Button>
+          <Button color="red" onClick={handleConfirmCancel} loading={isSubmitting}>Sí, cancelar</Button>
+        </Group>
+      </Modal>
+
+      <div>
+        <Title order={2} mb="xl">Mis Citas</Title>
+        <div style={{ position: "relative" }}>
+          <LoadingOverlay visible={loading} />
+          {error && <Alert color="red" title="Error">{error}</Alert>}
+          {!loading && !error && (
+            <Tabs defaultValue="upcoming">
+              <Tabs.List>
+                <Tabs.Tab value="upcoming">Próximas Citas ({upcomingAppointments.length})</Tabs.Tab>
+                <Tabs.Tab value="history">Historial ({pastAppointments.length})</Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Panel value="upcoming" pt="lg">
+                <Stack>
+                  {upcomingAppointments.length > 0 ? (
+                    upcomingAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} />)
+                  ) : (<Text c="dimmed">No tienes ninguna cita programada.</Text>)}
+                </Stack>
+              </Tabs.Panel>
+              <Tabs.Panel value="history" pt="lg">
+                <Stack>
+                  {pastAppointments.length > 0 ? (
+                    pastAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} onCancel={openCancelModal} />)
+                  ) : (<Text c="dimmed">Aún no tienes un historial de citas.</Text>)}
+                </Stack>
+              </Tabs.Panel>
+            </Tabs>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+
+// ====== [35] apps/client/src/pages/customer/CustomerDashboardPage.tsx ======
+// File: /apps/client/src/pages/customer/CustomerDashboardPage.tsx (NUEVO ARCHIVO)
+
+import { Title, Text, Paper } from '@mantine/core';
+import { useEffect, useState } from 'react';
+
+interface CustomerInfo {
+  name?: string;
+}
+
+export function CustomerDashboardPage() {
+  const [customer, setCustomer] = useState<CustomerInfo | null>(null);
+
+  useEffect(() => {
+    // Recuperamos la información del usuario del localStorage
+    const customerInfoStr = localStorage.getItem('customerInfo');
+    if (customerInfoStr) {
+      setCustomer(JSON.parse(customerInfoStr));
+    }
+  }, []);
+
+  return (
+    <div>
+      <Title order={2} mb="sm">
+        Bienvenido de nuevo, {customer?.name || 'Cliente'}
+      </Title>
+      <Text c="dimmed" mb="xl">
+        Desde aquí puedes gestionar tus citas y tu información personal.
+      </Text>
+
+      <Paper withBorder p="lg" shadow="sm">
+        <Title order={4}>Resumen Rápido</Title>
+        <Text mt="sm">
+          (Aquí irán las próximas citas y otras notificaciones importantes...)
+        </Text>
+      </Paper>
+    </div>
+  );
+}
+
+
+// ====== [36] apps/client/src/pages/public/BookingPage.tsx ======
+// File: /apps/client/src/pages/public/BookingPage.tsx (ACTUALIZADO PARA RESERVA FLEXIBLE)
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select, Input } from '@mantine/core';
+import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select, Input, Checkbox, PasswordInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { BookingDateTimePicker } from '../../components/booking/BookingDateTimePicker';
@@ -2524,29 +3245,54 @@ import apiClient from '../../lib/apiClient';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
-const customerInfoSchema = z.object({
+// Esquema de validación dinámico
+const createBookingSchema = (isCreatingAccount: boolean) => z.object({
   customerName: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
   customerEmail: z.string().email({ message: 'Introduce un email válido.' }),
   customerPhone: z.string().min(10, { message: 'Introduce un número de teléfono válido.' }),
+  createAccount: z.boolean(),
+  password: isCreatingAccount
+    ? z.string().min(8, { message: 'La contraseña debe tener al menos 8 caracteres.' })
+    : z.string().optional(),
 });
+
 
 interface Employee { id: string; name: string; }
 interface Settings { defaultService: { duration: number; id: string; }; }
+interface CustomerInfo { id: string; name: string; email: string; }
 
 export function BookingPage() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [employees, setEmployees] = useState<{ value: string; label: string }[]>([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>('any');
   const [serviceInfo, setServiceInfo] = useState<{ duration: number; id: string } | null>(null);
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
+  
+  // --- NUEVA LÓGICA ---
+  const [loggedInCustomer, setLoggedInCustomer] = useState<CustomerInfo | null>(null);
+  const [wantsToCreateAccount, setWantsToCreateAccount] = useState(false);
+  
+  const form = useForm({
+    // Usamos una función para que el schema se reevalúe cuando cambie el checkbox
+    validate: zodResolver(createBookingSchema(wantsToCreateAccount)),
+    initialValues: { customerName: '', customerEmail: '', customerPhone: '', createAccount: false, password: '' },
+  });
 
   useEffect(() => {
+    // Comprobar si hay un usuario logueado al cargar
+    const customerInfoStr = localStorage.getItem('customerInfo');
+    if (customerInfoStr) {
+      const customer = JSON.parse(customerInfoStr);
+      setLoggedInCustomer(customer);
+      // Rellenar el formulario con sus datos
+      form.setValues({ customerName: customer.name, customerEmail: customer.email });
+    }
+    
     const fetchInitialData = async () => {
-      setLoading(true);
       setError(null);
       try {
         const [employeesRes, settingsRes] = await Promise.all([
@@ -2557,22 +3303,19 @@ export function BookingPage() {
         setEmployees([ { value: 'any', label: 'Cualquier Profesional' }, ...employeeOptions ]);
         if (settingsRes.data.settings.defaultService) {
           setServiceInfo(settingsRes.data.settings.defaultService);
-        } else {
-          throw new Error('No hay un servicio por defecto configurado.');
-        }
+        } else { throw new Error('No hay un servicio por defecto configurado.'); }
       } catch (err) {
-        setError('No se pudo cargar la configuración de la reserva. Por favor, inténtalo más tarde.');
-      } finally {
-        setLoading(false);
-      }
+        setError('No se pudo cargar la configuración de la reserva.');
+      } finally { setLoading(false); }
     };
     fetchInitialData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const form = useForm({
-    validate: zodResolver(customerInfoSchema),
-    initialValues: { customerName: '', customerEmail: '', customerPhone: '' },
-  });
+  // Sincronizamos el estado del checkbox con el del formulario
+  useEffect(() => {
+    setWantsToCreateAccount(form.values.createAccount);
+  }, [form.values.createAccount]);
 
   const handleDateTimeChange = (dateTime: Date | null) => {
     setSelectedDateTime(dateTime);
@@ -2581,61 +3324,46 @@ export function BookingPage() {
 
   const handleBookingSubmit = async (values: typeof form.values) => {
     if (!serviceInfo?.id || !selectedDateTime) {
-      setError('Faltan datos para completar la reserva.');
-      return;
+      setError('Faltan datos para completar la reserva.'); return;
     }
-    setLoading(true);
-    setError(null);
+    setLoading(true); setError(null);
     try {
       const payload = {
-        ...values,
         serviceId: serviceInfo.id,
         startTime: selectedDateTime.toISOString(),
         ...(selectedEmployeeId && selectedEmployeeId !== 'any' && { employeeId: selectedEmployeeId }),
+        // --- LÓGICA DE PAYLOAD MODIFICADA ---
+        customerName: values.customerName,
+        customerEmail: values.customerEmail,
+        customerPhone: values.customerPhone,
+        createAccount: values.createAccount,
+        password: values.password,
       };
+      
+      // La API se encarga de si es invitado o nuevo usuario
       await apiClient.post('/bookings', payload);
       setActiveStep(2);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'No se pudo completar la reserva.';
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
+      setError(err.response?.data?.message || 'No se pudo completar la reserva.');
+    } finally { setLoading(false); }
   };
 
   if (error && activeStep < 2) {
     return (
-      <Container size="sm" py="xl">
-        <Alert title="Error Crítico" color="red" variant="light">{error}</Alert>
-        <Button onClick={() => navigate('/')} mt="md">Volver a Inicio</Button>
-      </Container>
+      <Container size="sm" py="xl"><Alert title="Error Crítico" color="red">{error}</Alert></Container>
     );
   }
 
   return (
     <Container size="sm" py="xl">
-      <LoadingOverlay visible={loading} />
       <Title order={2} ta="center" mb="xl">Realizar una Reserva</Title>
-
       <Stepper active={activeStep} onStepClick={setActiveStep}>
-        {/* --- JSX DEL PASO 1 RESTAURADO --- */}
         <Stepper.Step label="Paso 1" description="Elige Profesional y Hora">
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
-            <Select
-              label="Elige un profesional"
-              placeholder="Selecciona tu profesional de preferencia"
-              data={employees}
-              value={selectedEmployeeId}
-              onChange={setSelectedEmployeeId}
-              mb="xl"
-            />
+            <LoadingOverlay visible={loading && !serviceInfo} />
+            <Select label="Elige un profesional" data={employees} value={selectedEmployeeId} onChange={setSelectedEmployeeId} mb="xl" />
             {serviceInfo && (
-              <BookingDateTimePicker
-                key={selectedEmployeeId}
-                serviceDuration={serviceInfo.duration}
-                onDateTimeChange={handleDateTimeChange}
-                employeeId={selectedEmployeeId}
-              />
+              <BookingDateTimePicker key={selectedEmployeeId} serviceDuration={serviceInfo.duration} onDateTimeChange={handleDateTimeChange} employeeId={selectedEmployeeId} />
             )}
           </Paper>
         </Stepper.Step>
@@ -2644,21 +3372,22 @@ export function BookingPage() {
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md" component="form" onSubmit={form.onSubmit(handleBookingSubmit)}>
             <LoadingOverlay visible={loading && activeStep === 1} />
             <Title order={4} mb="lg">Completa tu información</Title>
-            <TextInput label="Nombre Completo" {...form.getInputProps('customerName')} withAsterisk />
-            <TextInput label="Email" type="email" {...form.getInputProps('customerEmail')} withAsterisk mt="md" />
             
-            <Input.Wrapper
-              label="Teléfono"
-              withAsterisk
-              mt="md"
-              error={form.errors.customerPhone}
-            >
-              <PhoneInput
-                defaultCountry="es"
-                value={form.values.customerPhone}
-                onChange={(phone) => form.setFieldValue('customerPhone', phone)}
-              />
+            <TextInput label="Nombre Completo" {...form.getInputProps('customerName')} withAsterisk readOnly={!!loggedInCustomer} />
+            <TextInput label="Email" type="email" {...form.getInputProps('customerEmail')} withAsterisk mt="md" readOnly={!!loggedInCustomer} />
+            <Input.Wrapper label="Teléfono" withAsterisk mt="md" error={form.errors.customerPhone}>
+              <PhoneInput defaultCountry="es" value={form.values.customerPhone} onChange={(phone) => form.setFieldValue('customerPhone', phone)} />
             </Input.Wrapper>
+            
+            {/* --- LÓGICA CONDICIONAL AÑADIDA --- */}
+            {!loggedInCustomer && (
+              <>
+                <Checkbox label="Crear una cuenta para gestionar mis citas" {...form.getInputProps('createAccount', { type: 'checkbox' })} mt="lg" />
+                {form.values.createAccount && (
+                  <PasswordInput label="Crear Contraseña" placeholder="Mínimo 8 caracteres" {...form.getInputProps('password')} withAsterisk mt="md" />
+                )}
+              </>
+            )}
             
             <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={() => setActiveStep(0)}>Volver</Button>
@@ -2667,7 +3396,6 @@ export function BookingPage() {
           </Paper>
         </Stepper.Step>
         
-        {/* --- JSX DEL PASO 3 RESTAURADO --- */}
         <Stepper.Step label="Paso 3" description="Confirmación">
            <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
              <Title order={3} ta="center">¡Reserva Confirmada!</Title>
@@ -2682,7 +3410,7 @@ export function BookingPage() {
 }
 
 
-// ====== [32] apps/client/src/pages/public/HomePage.module.css ======
+// ====== [37] apps/client/src/pages/public/HomePage.module.css ======
 /* File: /apps/client/src/pages/public/HomePage.module.css (ACTUALIZADO) */
 
 .hero {
@@ -2735,13 +3463,15 @@ export function BookingPage() {
 }
 
 
-// ====== [33] apps/client/src/pages/public/HomePage.tsx ======
-// File: /apps/client/src/pages/public/HomePage.tsx (ACTUALIZADO)
+// ====== [38] apps/client/src/pages/public/HomePage.tsx ======
+// File: /apps/client/src/pages/public/HomePage.tsx (CON RESEÑAS INTEGRADAS)
 
-import { Title, Text, Button, Container, SimpleGrid, ThemeIcon, Stack } from '@mantine/core';
+import { Title, Text, Button, Container, SimpleGrid, ThemeIcon, Stack, Divider } from '@mantine/core';
 import { IconTruck, IconCertificate, IconCalendarStats } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import classes from './HomePage.module.css';
+// --- IMPORTACIÓN AÑADIDA ---
+import { FeaturedReviews } from '../../components/home/FeaturedReviews';
 
 function Feature({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) {
   return (
@@ -2773,7 +3503,6 @@ export function HomePage() {
             size="xl"
             radius="xl"
             className={classes.heroButton}
-            // --- LÍNEA MODIFICADA ---
             onClick={() => navigate('/booking')}
           >
             Reservar Ahora
@@ -2804,12 +3533,17 @@ export function HomePage() {
         </SimpleGrid>
       </Container>
       
+      {/* --- SECCIÓN AÑADIDA --- */}
+      <Divider my="lg" />
+      <FeaturedReviews />
+      <Divider my="lg" />
+      {/* --- FIN DE LA SECCIÓN AÑADIDA --- */}
+
       <Container py="xl" ta="center">
          <Title order={3}>¿Listo para que tu coche luzca como nuevo?</Title>
          <Text c="dimmed" mt="sm" mb="lg">
            No esperes más. Encuentra el servicio perfecto y agenda tu cita hoy mismo.
          </Text>
-         {/* --- LÍNEA MODIFICADA --- */}
          <Button size="lg" onClick={() => navigate('/booking')}>
            Reservar Mi Cita Ahora
          </Button>
@@ -2819,7 +3553,332 @@ export function HomePage() {
 }
 
 
-// ====== [34] apps/client/src/pages/public/ServicesPage.tsx ======
+// ====== [39] apps/client/src/pages/public/LoginPage.tsx ======
+// File: /apps/client/src/pages/public/LoginPage.tsx (CORREGIDO)
+
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Container,
+  Title,
+  Paper,
+  TextInput,
+  PasswordInput,
+  Button,
+  Text,
+  LoadingOverlay,
+  Stack,
+  Anchor,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import apiClient from '../../lib/apiClient';
+
+// Esquema de validación del formulario (debe coincidir con el del backend)
+const loginSchema = z.object({
+  email: z.string().email({ message: 'Introduce un email válido.' }),
+  password: z.string().min(1, { message: 'La contraseña no puede estar vacía.' }),
+});
+
+export function LoginPage() {
+  const navigate = useNavigate();
+
+  const form = useForm({
+    validate: zodResolver(loginSchema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      const response = await apiClient.post('/customer/login', values);
+      
+      localStorage.setItem('customerAuthToken', response.data.token);
+      localStorage.setItem('customerInfo', JSON.stringify(response.data.user));
+
+      notifications.show({
+        title: `¡Bienvenido de nuevo, ${response.data.user.name}!`,
+        message: 'Has iniciado sesión correctamente.',
+        color: 'green',
+      });
+      
+      navigate('/dashboard');
+
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || 'Ha ocurrido un error inesperado.';
+      notifications.show({
+        title: 'Error al iniciar sesión',
+        message: errorMessage,
+        color: 'red',
+      });
+    }
+  };
+
+  return (
+    <Container size={420} my={40}>
+      <Title ta="center">Accede a tu Cuenta</Title>
+      <Text c="dimmed" size="sm" ta="center" mt={5}>
+        ¿Aún no tienes una?{' '}
+        <Anchor component={Link} to="/register" size="sm">
+          Crea una cuenta aquí
+        </Anchor>
+      </Text>
+
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md" component="form" onSubmit={form.onSubmit(handleSubmit)}>
+        {/* --- LÍNEA CORREGIDA --- */}
+        <LoadingOverlay visible={form.submitting} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+        <Stack gap="md">
+          <TextInput
+            label="Email"
+            placeholder="tu@email.com"
+            required
+            {...form.getInputProps('email')}
+          />
+          <PasswordInput
+            label="Contraseña"
+            placeholder="Tu contraseña"
+            required
+            {...form.getInputProps('password')}
+          />
+          <Button fullWidth mt="xl" type="submit">
+            Iniciar Sesión
+          </Button>
+        </Stack>
+      </Paper>
+    </Container>
+  );
+}
+
+
+// ====== [40] apps/client/src/pages/public/RegisterPage.tsx ======
+// File: /apps/client/src/pages/public/RegisterPage.tsx (VERSIÓN COMPLETA)
+
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Container,
+  Title,
+  Paper,
+  TextInput,
+  PasswordInput,
+  Button,
+  Text,
+  LoadingOverlay,
+  Stack,
+  Anchor,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import apiClient from '../../lib/apiClient';
+
+// Esquema de validación para el formulario de registro
+const registerSchema = z.object({
+    name: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
+    email: z.string().email({ message: 'Introduce un email válido.' }),
+    password: z.string().min(8, { message: 'La contraseña debe tener al menos 8 caracteres.' }),
+    confirmPassword: z.string(),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: 'Las contraseñas no coinciden.',
+    path: ['confirmPassword'], // Indica qué campo mostrará el error
+  });
+
+
+export function RegisterPage() {
+  const navigate = useNavigate();
+
+  const form = useForm({
+    validate: zodResolver(registerSchema),
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      // No enviamos confirmPassword a la API
+      const { confirmPassword, ...payload } = values;
+      const response = await apiClient.post('/customer/register', payload);
+
+      // El backend ya nos devuelve el token, así que iniciamos sesión directamente
+      localStorage.setItem('customerAuthToken', response.data.token);
+      localStorage.setItem('customerInfo', JSON.stringify(response.data.user));
+
+      notifications.show({
+        title: `¡Bienvenido, ${response.data.user.name}!`,
+        message: 'Tu cuenta ha sido creada con éxito.',
+        color: 'green',
+      });
+
+      // Redirigimos al panel de cliente
+      navigate('/dashboard');
+
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || 'Ha ocurrido un error inesperado.';
+      notifications.show({
+        title: 'Error en el registro',
+        message: errorMessage,
+        color: 'red',
+      });
+    }
+  };
+
+  return (
+    <Container size={420} my={40}>
+      <Title ta="center">Crea tu Cuenta</Title>
+      <Text c="dimmed" size="sm" ta="center" mt={5}>
+        ¿Ya tienes una?{' '}
+        <Anchor component={Link} to="/login" size="sm">
+          Inicia sesión aquí
+        </Anchor>
+      </Text>
+
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md" component="form" onSubmit={form.onSubmit(handleSubmit)}>
+        <LoadingOverlay visible={form.submitting} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
+        <Stack gap="md">
+          <TextInput
+            label="Nombre Completo"
+            placeholder="Tu nombre y apellido"
+            required
+            {...form.getInputProps('name')}
+          />
+          <TextInput
+            label="Email"
+            placeholder="tu@email.com"
+            required
+            {...form.getInputProps('email')}
+          />
+          <PasswordInput
+            label="Contraseña"
+            placeholder="Mínimo 8 caracteres"
+            required
+            {...form.getInputProps('password')}
+          />
+          <PasswordInput
+            label="Confirmar Contraseña"
+            placeholder="Repite la contraseña"
+            required
+            {...form.getInputProps('confirmPassword')}
+          />
+          <Button fullWidth mt="xl" type="submit">
+            Crear Cuenta
+          </Button>
+        </Stack>
+      </Paper>
+    </Container>
+  );
+}
+
+
+// ====== [41] apps/client/src/pages/public/ReviewPage.tsx ======
+// File: /apps/client/src/pages/public/ReviewPage.tsx (CON LLAMADA A API REAL)
+
+import { useSearchParams } from 'react-router-dom';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+import { Container, Title, Text, Paper, Rating, Textarea, Button, Stack, Group, Alert } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconAlertCircle } from '@tabler/icons-react';
+import { useState } from 'react';
+import apiClient from '../../lib/apiClient';
+
+const reviewSchema = z.object({
+  rating: z.number().min(1, { message: 'Por favor, selecciona al menos una estrella.' }),
+  comment: z.string().optional(),
+});
+
+export function ReviewPage() {
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
+  
+  const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const form = useForm({
+    validate: zodResolver(reviewSchema),
+    initialValues: {
+      rating: 0,
+      comment: '',
+    },
+  });
+
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      // --- CÓDIGO ACTUALIZADO: AHORA SE HACE LA LLAMADA REAL A LA API ---
+      await apiClient.post('/reviews', { ...values, token });
+      
+      notifications.show({
+        title: '¡Gracias por tu valoración!',
+        message: 'Tu opinión nos ayuda a mejorar cada día.',
+        color: 'green',
+      });
+      setSubmissionStatus('success');
+    } catch (err: any) {
+      notifications.show({
+        title: 'Error al enviar la valoración',
+        message: err.response?.data?.message || 'Ha ocurrido un error. Inténtalo de nuevo.',
+        color: 'red',
+      });
+      setSubmissionStatus('error');
+    }
+  };
+
+  if (!token) {
+    return (
+      <Container size="sm" my={40}>
+        <Alert icon={<IconAlertCircle size="1rem" />} title="Enlace no válido" color="red">
+          El enlace para dejar la valoración parece ser incorrecto o ha expirado.
+        </Alert>
+      </Container>
+    );
+  }
+  
+  if (submissionStatus === 'success') {
+    return (
+      <Container size="sm" my={40}>
+         <Paper withBorder shadow="md" p={30} radius="md" ta="center">
+            <Title order={3}>¡Valoración enviada!</Title>
+            <Text mt="md">Muchas gracias por tu tiempo. Tu feedback es muy valioso para nosotros.</Text>
+         </Paper>
+      </Container>
+    );
+  }
+
+  return (
+    <Container size="sm" my={40}>
+      <Title ta="center">Valora tu experiencia</Title>
+      <Text c="dimmed" size="sm" ta="center" mt={5}>
+        Tu opinión es muy importante para nosotros.
+      </Text>
+
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md" component="form" onSubmit={form.onSubmit(handleSubmit)}>
+        <Stack>
+          <Group justify="center">
+             <Rating size="xl" {...form.getInputProps('rating')} />
+          </Group>
+          {form.errors.rating && <Text c="red" size="xs" ta="center">{form.errors.rating}</Text>}
+
+          <Textarea
+            label="Tu comentario (opcional)"
+            placeholder="¿Qué te ha parecido el servicio? ¿Hay algo que podamos mejorar?"
+            autosize
+            minRows={4}
+            {...form.getInputProps('comment')}
+          />
+          <Button type="submit" mt="md" loading={form.submitting}>
+            Enviar mi valoración
+          </Button>
+        </Stack>
+      </Paper>
+    </Container>
+  );
+}
+
+
+// ====== [42] apps/client/src/pages/public/ServicesPage.tsx ======
 // File: /apps/client/src/pages/public/ServicesPage.tsx (ACTUALIZADO)
 
 import { useEffect, useState } from 'react';
@@ -2920,7 +3979,7 @@ export function ServicesPage() {
 }
 
 
-// ====== [35] apps/client/src/pages/public/TeamPage.tsx ======
+// ====== [43] apps/client/src/pages/public/TeamPage.tsx ======
 // File: /apps/client/src/pages/public/TeamPage.tsx (NUEVO ARCHIVO)
 
 import { useEffect, useState } from 'react';
@@ -3025,7 +4084,7 @@ export function TeamPage() {
 }
 
 
-// ====== [36] apps/client/tsconfig.json ======
+// ====== [44] apps/client/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -3038,7 +4097,7 @@ export function TeamPage() {
 
 
 
-// ====== [37] apps/client/tsconfig.node.json ======
+// ====== [45] apps/client/tsconfig.node.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -3051,7 +4110,7 @@ export function TeamPage() {
 }
 
 
-// ====== [38] apps/server/.env ======
+// ====== [46] apps/server/.env ======
 # File: /apps/server/.env - v1.0
 
 # --- Base de Datos y Servidor ---
@@ -3079,7 +4138,7 @@ EMAIL_FROM="AquaClean Notificaciones <info@ohcodex.com>"
 EMAIL_TO="info@ohcodex.com"
 
 
-// ====== [39] apps/server/package.json ======
+// ====== [47] apps/server/package.json ======
 {
   "name": "server",
   "version": "1.0.0",
@@ -3104,6 +4163,7 @@ EMAIL_TO="info@ohcodex.com"
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.10.1",
     "twilio": "^5.2.2",
     "zod": ">=3.0.0"
@@ -3116,6 +4176,7 @@ EMAIL_TO="info@ohcodex.com"
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.12.12",
+    "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^6.4.20",
     "eslint": "^8.57.0",
     "prisma": "^5.14.0",
@@ -3126,9 +4187,8 @@ EMAIL_TO="info@ohcodex.com"
 }
 
 
-// ====== [40] apps/server/prisma/schema.prisma ======
-// ====== [40] apps/server/prisma/schema.prisma ======
-// File: /apps/server/prisma/schema.prisma (AÑADIENDO CONFIGURACIÓN DE NOTIFICACIONES)
+// ====== [48] apps/server/prisma/schema.prisma ======
+// File: /apps/server/prisma/schema.prisma (ACTUALIZADO PARA ECOSISTEMA DE CLIENTE)
 
 generator client {
   provider = "prisma-client-js"
@@ -3247,17 +4307,23 @@ model Appointment {
   status        AppointmentStatus @default(AVAILABLE)
   paymentIntentId String?  @unique
   googleEventId   String?  @unique
-  // --- CAMPO AÑADIDO ---
-  reminderSent  Boolean  @default(false) // Para controlar el envío de recordatorios
+  reminderSent  Boolean  @default(false)
 
+  // --- CAMPOS MODIFICADOS/AÑADIDOS ---
+  // Relación opcional con el usuario (para clientes registrados)
   user          User?    @relation(fields: [userId], references: [id])
   userId        String?
+  // Campos para reservas de invitados
+  guestName     String?
+  guestEmail    String?
+  guestPhone    String?
+  // --- FIN DE LA MODIFICACIÓN ---
   
   employee      Employee @relation(fields: [employeeId], references: [id])
   employeeId    String
 
   services      AppointmentService[]
-  review        Review?
+  review        Review? // Una cita puede tener una reseña
 }
 
 model AppointmentService {
@@ -3268,6 +4334,7 @@ model AppointmentService {
   @@id([appointmentId, serviceId])
 }
 
+// --- NUEVO MODELO AÑADIDO ---
 model Review {
   id            String      @id @default(cuid())
   rating        Int
@@ -3276,14 +4343,18 @@ model Review {
   isFeatured    Boolean     @default(false)
   createdAt     DateTime    @default(now())
   
+  // Relaciones
   appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  appointmentId String      @unique
-  user          User        @relation(fields: [userId], references: [id])
-  userId        String
+  appointmentId String      @unique // Cada cita solo puede tener una reseña
+
+  user          User?        @relation(fields: [userId], references: [id])
+  userId        String?      // Opcional, por si es la reseña de un invitado
 
   employee      Employee    @relation(fields: [employeeId], references: [id])
   employeeId    String
 }
+// --- FIN DEL NUEVO MODELO ---
+
 
 // 5. Modelos de Cliente y Marketing
 model Vehicle {
@@ -3339,18 +4410,14 @@ model BusinessSettings {
   defaultService   Service? @relation(fields: [defaultServiceId], references: [id])
   defaultServiceId String?  @unique
 
-  // --- CAMPOS AÑADIDOS PARA NOTIFICACIONES ---
-  // Configuración de Email (SMTP)
   emailHost       String?
   emailPort       String?
   emailUser       String?
-  emailPass       String? // Se guardará encriptado en un futuro, por ahora en texto plano
-  emailFrom       String? // Ej: "AquaClean Notificaciones <info@aquaclean.com>"
-
-  // Configuración de WhatsApp (Twilio)
+  emailPass       String?
+  emailFrom       String?
   twilioSid       String?
   twilioAuthToken String?
-  twilioPhoneNumber String? // El número de WhatsApp Business de Twilio
+  twilioPhoneNumber String?
 }
 
 model DateOverride {
@@ -3376,14 +4443,16 @@ enum AppointmentStatus {
   CONFIRMED
   COMPLETED
   CANCELLED
-  NO_SHOW
+  NO_SHOW // <-- VALOR AÑADIDO
 }
 
+// --- NUEVO ENUM AÑADIDO ---
 enum ReviewStatus {
   PENDING
   APPROVED
   HIDDEN
 }
+// --- FIN DEL NUEVO ENUM ---
 
 enum EmployeeStatus {
   ACTIVE
@@ -3391,9 +4460,8 @@ enum EmployeeStatus {
 }
 
 
-// ====== [41] apps/server/prisma/seed.ts ======
-// ====== [41] apps/server/prisma/seed.ts ======
-// File: /apps/server/prisma/seed.ts (VERSIÓN CON LOGS DETALLADOS DE GENERACIÓN)
+// ====== [49] apps/server/prisma/seed.ts ======
+// File: /apps/server/prisma/seed.ts (ACTUALIZADO PARA INCLUIR RESERVAS DE INVITADO)
 
 import { PrismaClient, UserRole, EmployeeStatus, AppointmentStatus } from '@prisma/client';
 import { hash } from 'bcryptjs';
@@ -3412,6 +4480,7 @@ async function main() {
 
   // Limpieza
   console.log('Cleaning up old data...');
+  await prisma.review.deleteMany({}); // Limpiar nuevas tablas
   await prisma.businessSettings.updateMany({ data: { defaultServiceId: null } });
   await prisma.appointmentService.deleteMany({});
   await prisma.absence.deleteMany({});
@@ -3494,52 +4563,30 @@ async function main() {
       const dayOfWeek = currentDay.locale('en').format('dddd').toLowerCase();
       const daySchedule = (employee.workSchedule as any)?.[dayOfWeek];
 
-      // --- LOG AÑADIDO ---
-      console.log(`\n-- Processing Employee: ${employee.name} | Day: ${currentDay.format('YYYY-MM-DD')} --`);
-
       if (daySchedule && daySchedule.length > 0) {
         for (const shift of daySchedule) {
-          // --- LOG AÑADIDO ---
-          console.log(`  -> Found Shift: ${shift.start} to ${shift.end}`);
-
           const [startHour, startMinute] = shift.start.split(':').map(Number);
           const [endHour, endMinute] = shift.end.split(':').map(Number);
-
           const shiftStart = currentDay.hour(startHour).minute(startMinute);
           const shiftEnd = currentDay.hour(endHour).minute(endMinute);
-          
           let currentSlotStart = shiftStart;
 
           while (true) {
             const currentSlotEnd = currentSlotStart.add(serviceDuration, 'minutes');
-            
-            if (currentSlotEnd.isAfter(shiftEnd)) {
-              // --- LOG AÑADIDO ---
-              console.log(`     -- Slot ${currentSlotEnd.format('HH:mm')} is after shift end. Stopping this shift.`);
-              break; 
-            }
-            
-            // --- LOG AÑADIDO ---
-            console.log(`     => Generating slot: ${currentSlotStart.format('YYYY-MM-DD HH:mm')}`);
-
+            if (currentSlotEnd.isAfter(shiftEnd)) break; 
             appointmentsToCreate.push({
               startTime: currentSlotStart.toDate(),
               endTime: currentSlotEnd.toDate(),
               employeeId: employee.id,
               status: AppointmentStatus.AVAILABLE,
             });
-
             currentSlotStart = currentSlotStart.add(serviceDuration, 'minutes');
           }
         }
-      } else {
-        // --- LOG AÑADIDO ---
-        console.log('  -> No shifts found for this day.');
       }
     }
   }
 
-  // (El resto del archivo no cambia)
   console.log(`\n✅ Total slots generated before saving: ${appointmentsToCreate.length}`);
   await prisma.appointment.createMany({ data: appointmentsToCreate });
 
@@ -3553,30 +4600,46 @@ async function main() {
 
   console.log('Converting a portion of appointments to CONFIRMED for demo purposes...');
   let confirmedCount = 0;
-  for (const appt of createdAppointments) {
-    if (Math.random() < 0.6) {
-      const customerEmail = `customer.${dayjs(appt.startTime).unix()}@example.com`;
-      const customer = await prisma.user.upsert({
-        where: { email: customerEmail },
-        update: {},
-        create: {
-          email: customerEmail,
-          name: `Cliente ${dayjs(appt.startTime).format('HH:mm')}`,
-          role: UserRole.CUSTOMER,
-        },
-      });
+  let guestCount = 0;
 
-      await prisma.appointment.update({
-        where: { id: appt.id },
-        data: {
-          status: AppointmentStatus.CONFIRMED,
-          userId: customer.id,
-        },
-      });
-      confirmedCount++;
+  for (const appt of createdAppointments) {
+    if (Math.random() < 0.6) { // Afecta al 60% de las citas disponibles
+      
+      // --- LÓGICA MODIFICADA ---
+      // Aleatoriamente, creamos una reserva de invitado o una de usuario registrado
+      if (Math.random() < 0.5) { // 50% de las confirmadas serán de invitados
+        await prisma.appointment.update({
+          where: { id: appt.id },
+          data: {
+            status: AppointmentStatus.CONFIRMED,
+            guestName: `Invitado ${dayjs(appt.startTime).format('HH:mm')}`,
+            guestEmail: `guest.${dayjs(appt.startTime).unix()}@example.com`,
+            guestPhone: '600123123',
+          },
+        });
+        guestCount++;
+      } else { // El otro 50% serán de usuarios registrados
+        const customerEmail = `customer.${dayjs(appt.startTime).unix()}@example.com`;
+        const customer = await prisma.user.upsert({
+          where: { email: customerEmail },
+          update: {},
+          create: {
+            email: customerEmail,
+            name: `Cliente ${dayjs(appt.startTime).format('HH:mm')}`,
+            role: UserRole.CUSTOMER,
+          },
+        });
+        await prisma.appointment.update({
+          where: { id: appt.id },
+          data: { status: AppointmentStatus.CONFIRMED, userId: customer.id },
+        });
+        confirmedCount++;
+      }
+      // --- FIN DE LA MODIFICACIÓN ---
     }
   }
-  console.log(`✅ Converted ${confirmedCount} appointments to CONFIRMED state.`);
+  console.log(`✅ Converted ${confirmedCount} appointments to CONFIRMED for registered users.`);
+  console.log(`✅ Converted ${guestCount} appointments to CONFIRMED for guests.`);
   console.log('Database seed finished successfully.');
 }
 
@@ -3590,14 +4653,15 @@ main()
   });
 
 
-// ====== [42] apps/server/src/api/adminAppointments.routes.ts ======
-// File: /apps/server/src/api/adminAppointments.routes.ts (CORREGIDO Y FUNCIONAL)
+// ====== [50] apps/server/src/api/adminAppointments.routes.ts ======
+// File: /apps/server/src/api/adminAppointments.routes.ts (PASANDO NÚMERO DE TELÉFONO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
 import dayjs from 'dayjs';
 import prisma from '../lib/prisma';
 import { Prisma, AppointmentStatus } from '@prisma/client';
+import { notificationService } from '../lib/notificationService';
 
 const router = Router();
 
@@ -3606,49 +4670,38 @@ const createAppointmentAdminSchema = z.object({
   serviceId: z.string().cuid(), employeeId: z.string().cuid(),
   startTime: z.coerce.date(),
 });
-const updateAppointmentAdminSchema = createAppointmentAdminSchema.partial();
+
+const updateAppointmentAdminSchema = createAppointmentAdminSchema.partial().extend({
+  status: z.nativeEnum(AppointmentStatus).optional(),
+});
+
 const updateAppointmentDndSchema = z.object({ start: z.coerce.date(), end: z.coerce.date() });
 
-// --- RUTA GET CORREGIDA ---
+
 router.get('/', async (req, res) => {
   try {
     const appointments = await prisma.appointment.findMany({
       include: {
         user: { select: { name: true, email: true } },
         services: { include: { service: { select: { id: true, name: true } } } },
-        employee: { select: { color: true } }, // CORRECCIÓN: La sintaxis correcta para seleccionar solo un campo
+        employee: { select: { color: true } },
       },
     });
 
     const events = appointments.map((appointment) => {
       const service = appointment.services[0]?.service;
-      const customer = appointment.user;
+      const customerName = appointment.user?.name || (appointment.guestName as string | undefined);
+      const customerEmail = appointment.user?.email || (appointment.guestEmail as string | undefined);
       const isAvailable = appointment.status === AppointmentStatus.AVAILABLE;
-
-      const title = isAvailable 
-        ? 'Disponible' 
-        : `${service?.name || 'Servicio'} - ${customer?.name || 'Cliente'}`;
-
-      const color = isAvailable 
-        ? '#40c057' 
-        : (appointment.employee?.color || '#868e96');
-
+      const title = isAvailable ? 'Disponible' : `${service?.name || 'Servicio'} - ${customerName || 'Cliente'}`;
+      const color = isAvailable ? '#40c057' : (appointment.employee?.color || '#868e96');
       return {
-        id: appointment.id,
-        title: title,
-        start: appointment.startTime,
-        end: appointment.endTime,
-        resourceId: appointment.employeeId,
-        backgroundColor: color,
-        borderColor: color,
+        id: appointment.id, title, start: appointment.startTime, end: appointment.endTime,
+        resourceId: appointment.employeeId, backgroundColor: color, borderColor: color,
         extendedProps: {
-          appointmentId: appointment.id,
-          customerName: customer?.name,
-          customerEmail: customer?.email,
-          serviceId: service?.id,
-          employeeId: appointment.employeeId,
-          start: appointment.startTime,
-          status: appointment.status,
+          appointmentId: appointment.id, customerName, customerEmail,
+          serviceId: service?.id, employeeId: appointment.employeeId,
+          start: appointment.startTime, status: appointment.status,
         }
       };
     });
@@ -3659,63 +4712,59 @@ router.get('/', async (req, res) => {
   }
 });
 
-// --- (El resto de las rutas no cambian y están corregidas) ---
 router.post('/', async (req, res) => {
   try {
     const validatedData = createAppointmentAdminSchema.parse(req.body);
     const service = await prisma.service.findUnique({ where: { id: validatedData.serviceId } });
     if (!service) return res.status(404).json({ message: 'Servicio no encontrado.' });
-    const endTime = dayjs(validatedData.startTime).add(service.duration, 'minutes').toDate();
-    
-    // Al crear manualmente, se busca una cita 'AVAILABLE' para sobreescribirla
     const availableSlot = await prisma.appointment.findFirst({
-        where: {
-            startTime: validatedData.startTime,
-            employeeId: validatedData.employeeId,
-            status: AppointmentStatus.AVAILABLE,
-        }
+        where: { startTime: validatedData.startTime, employeeId: validatedData.employeeId, status: AppointmentStatus.AVAILABLE }
     });
-    
-    if (!availableSlot) {
-        return res.status(409).json({ message: 'El hueco seleccionado ya no está disponible o no existe.' });
-    }
-
+    if (!availableSlot) return res.status(409).json({ message: 'El hueco ya no está disponible.' });
     const customer = await prisma.user.upsert({
         where: { email: validatedData.customerEmail },
         update: { name: validatedData.customerName },
         create: { email: validatedData.customerEmail, name: validatedData.customerName, role: 'CUSTOMER' },
     });
-
     const updatedAppointment = await prisma.appointment.update({
         where: { id: availableSlot.id },
-        data: {
-            status: AppointmentStatus.CONFIRMED,
-            userId: customer.id,
-        }
+        data: { status: AppointmentStatus.CONFIRMED, userId: customer.id }
     });
-
     res.status(201).json(updatedAppointment);
   } catch (error) {
-    if (error instanceof ZodError) return res.status(400).json({ message: 'Datos inválidos.', errors: error.issues });
-    console.error('Error creating admin appointment:', error);
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
+
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    
+    const appointmentBeforeUpdate = await prisma.appointment.findUnique({ 
+        where: { id },
+        include: { user: true } // Incluimos el user para tener acceso a su teléfono
+    });
+
+    if (!appointmentBeforeUpdate) {
+      return res.status(404).json({ message: 'La cita no fue encontrada.' });
+    }
+
     if (req.body.start && req.body.end) {
       const { start, end } = updateAppointmentDndSchema.parse(req.body);
       const updated = await prisma.appointment.update({ where: { id }, data: { startTime: start, endTime: end } });
       return res.status(200).json(updated);
     }
+
     const validatedData = updateAppointmentAdminSchema.parse(req.body);
-    const { customerName, customerEmail, serviceId, employeeId, startTime } = validatedData;
+    const { customerName, customerEmail, serviceId, employeeId, startTime, status } = validatedData;
     const updateData: Prisma.AppointmentUpdateInput = {};
+
     if (startTime) updateData.startTime = startTime;
     if (employeeId) updateData.employee = { connect: { id: employeeId } };
     if (serviceId) updateData.services = { deleteMany: {}, create: { serviceId } };
+    if (status) updateData.status = status;
     if (customerEmail && customerName) {
       updateData.user = { connectOrCreate: { where: { email: customerEmail }, create: { email: customerEmail, name: customerName, role: 'CUSTOMER' } } };
     }
@@ -3728,32 +4777,57 @@ router.put('/:id', async (req, res) => {
             if (service) updateData.endTime = dayjs(finalStartTime).add(service.duration, 'minutes').toDate();
         }
     }
-    const updatedAppointment = await prisma.appointment.update({ where: { id }, data: updateData });
+
+    const updatedAppointment = await prisma.appointment.update({
+      where: { id },
+      data: updateData,
+      include: { user: true, employee: true, services: { include: { service: true } } },
+    });
+
+    if (
+      updatedAppointment.status === AppointmentStatus.COMPLETED &&
+      appointmentBeforeUpdate.status !== AppointmentStatus.COMPLETED
+    ) {
+      console.log(`[+] TRIGGER: La cita ${id} ha cambiado a COMPLETED. Enviando solicitud de valoración.`);
+      
+      const notificationUser = updatedAppointment.user || {
+        name: updatedAppointment.guestName,
+        email: updatedAppointment.guestEmail,
+      };
+      
+      // --- LÓGICA CORREGIDA ---
+      // Buscamos el teléfono del invitado o del usuario registrado
+      // NOTA: El teléfono del usuario registrado no existe aún en el schema. Por ahora, nos basamos en el 'guestPhone'.
+      const customerPhone = updatedAppointment.guestPhone; 
+      
+      if (notificationUser.email && customerPhone) {
+        const tempAppointmentDetails = { ...updatedAppointment, user: notificationUser };
+        notificationService.sendReviewRequest(tempAppointmentDetails as any, customerPhone);
+      } else {
+        console.warn(`No se pudo enviar solicitud de valoración para la cita ${id}: falta email o teléfono.`);
+      }
+    }
+
     res.status(200).json(updatedAppointment);
   } catch (error) {
-    if (error instanceof ZodError) return res.status(400).json({ message: 'Datos inválidos.', errors: error.issues });
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') return res.status(404).json({ message: 'La cita no fue encontrada.' });
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    console.error(`Error al actualizar la cita:`, error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
 
-// Anular una cita ahora significa volverla al estado AVAILABLE
+
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
     await prisma.appointment.update({
       where: { id },
-      data: {
-        status: AppointmentStatus.AVAILABLE,
-        userId: null, // Desvinculamos al cliente
-      }
+      data: { status: AppointmentStatus.AVAILABLE, userId: null, guestName: null, guestEmail: null, guestPhone: null }
     });
-    
     res.status(204).send();
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
-      return res.status(404).json({ message: 'La cita que intentas anular no fue encontrada.' });
+      return res.status(404).json({ message: 'La cita no fue encontrada.' });
     }
     console.error('Error cancelling appointment:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
@@ -3763,7 +4837,113 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [43] apps/server/src/api/adminDateOverrides.routes.ts ======
+// ====== [51] apps/server/src/api/adminDashboard.routes.ts ======
+// File: /apps/server/src/api/adminDashboard.routes.ts (CON ENDPOINT PARA GRÁFICO)
+
+import { Router } from 'express';
+import dayjs from 'dayjs';
+import prisma from '../lib/prisma';
+import { AppointmentStatus, UserRole } from '@prisma/client';
+
+const router = Router();
+
+// --- ENDPOINT DE KPIs (sin cambios) ---
+router.get('/kpis', async (req, res) => {
+  try {
+    const todayStart = dayjs().startOf('day').toDate();
+    const todayEnd = dayjs().endOf('day').toDate();
+    const monthStart = dayjs().startOf('month').toDate();
+    const monthEnd = dayjs().endOf('month').toDate();
+
+    const appointmentsToday = await prisma.appointment.findMany({
+      where: { startTime: { gte: todayStart, lte: todayEnd }, status: AppointmentStatus.CONFIRMED },
+      include: { services: { include: { service: true } } },
+    });
+    const appointmentsTodayCount = appointmentsToday.length;
+
+    const potentialRevenueToday = appointmentsToday.reduce((total, appt) => {
+        const servicePrice = appt.services[0]?.service.prices as { standard?: number };
+        return total + (servicePrice?.standard || 0);
+    }, 0);
+
+    const newCustomersThisMonth = await prisma.user.count({
+      where: { role: UserRole.CUSTOMER, emailVerified: { gte: monthStart, lte: monthEnd } },
+    });
+
+    const completedAppointmentsThisMonth = await prisma.appointment.count({
+        where: { startTime: { gte: monthStart, lte: monthEnd }, status: AppointmentStatus.COMPLETED }
+    });
+    const noShowAppointmentsThisMonth = await prisma.appointment.count({
+        where: { startTime: { gte: monthStart, lte: monthEnd }, status: AppointmentStatus.NO_SHOW }
+    });
+    const totalFinishedAppointments = completedAppointmentsThisMonth + noShowAppointmentsThisMonth;
+    const noShowRate = totalFinishedAppointments > 0 ? (noShowAppointmentsThisMonth / totalFinishedAppointments) * 100 : 0;
+
+    res.status(200).json({
+      appointmentsToday: appointmentsTodayCount,
+      potentialRevenueToday: potentialRevenueToday,
+      newCustomersThisMonth: newCustomersThisMonth,
+      noShowRateThisMonth: noShowRate,
+    });
+  } catch (error) {
+    console.error('Error fetching dashboard KPIs:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+
+// --- NUEVO ENDPOINT PARA EL GRÁFICO ---
+router.get('/charts/bookings-over-time', async (req, res) => {
+    try {
+        const today = dayjs().endOf('day');
+        const sevenDaysAgo = dayjs().subtract(6, 'day').startOf('day');
+
+        const appointments = await prisma.appointment.findMany({
+            where: {
+                startTime: {
+                    gte: sevenDaysAgo.toDate(),
+                    lte: today.toDate(),
+                },
+                status: { in: [AppointmentStatus.CONFIRMED, AppointmentStatus.COMPLETED] },
+            },
+            select: {
+                startTime: true,
+            },
+        });
+
+        // Agrupamos las citas por día
+        const countsByDay = new Map<string, number>();
+        for (const appt of appointments) {
+            const date = dayjs(appt.startTime).format('YYYY-MM-DD');
+            countsByDay.set(date, (countsByDay.get(date) || 0) + 1);
+        }
+
+        // Creamos el array de datos final, rellenando con 0 los días sin citas
+        const chartData = [];
+        for (let i = 0; i < 7; i++) {
+            const day = sevenDaysAgo.add(i, 'day');
+            const dateKey = day.format('YYYY-MM-DD');
+            const formattedDate = day.format('DD/MM');
+            
+            chartData.push({
+                date: formattedDate,
+                Citas: countsByDay.get(dateKey) || 0,
+            });
+        }
+
+        res.status(200).json(chartData);
+
+    } catch (error) {
+        console.error('Error fetching bookings over time data:', error);
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+
+export default router;
+
+
+// ====== [52] apps/server/src/api/adminDateOverrides.routes.ts ======
 // File: /apps/server/src/api/adminDateOverrides.routes.ts (CORREGIDO CON NORMALIZACIÓN UTC)
 
 import { Router } from 'express';
@@ -3885,7 +5065,7 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [44] apps/server/src/api/adminSettings.routes.ts ======
+// ====== [53] apps/server/src/api/adminSettings.routes.ts ======
 // ====== [44] apps/server/src/api/adminSettings.routes.ts ======
 // File: /apps/server/src/api/adminSettings.routes.ts (ACTUALIZADO PARA GESTIONAR NOTIFICACIONES)
 
@@ -4006,7 +5186,7 @@ router.put('/', async (req, res) => {
 export default router;
 
 
-// ====== [45] apps/server/src/api/auth.routes.ts ======
+// ====== [54] apps/server/src/api/auth.routes.ts ======
 import { Router } from 'express';
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -4084,7 +5264,7 @@ router.post('/login', async (req, res) => {
 export default router;
 
 
-// ====== [46] apps/server/src/api/availability.routes.ts ======
+// ====== [55] apps/server/src/api/availability.routes.ts ======
 // ====== [46] apps/server/src/api/availability.routes.ts ======
 // File: /apps/server/src/api/availability.routes.ts (CORRECCIÓN FINAL DE FORMATEO A LOCAL)
 
@@ -4170,84 +5350,119 @@ router.get('/', async (req, res) => {
 export default router;
 
 
-// ====== [47] apps/server/src/api/bookings.routes.ts ======
-// ====== [47] apps/server/src/api/bookings.routes.ts ======
-// File: /apps/server/src/api/bookings.routes.ts (PASANDO EL TELÉFONO AL SERVICIO DE NOTIFICACIÓN)
+// ====== [56] apps/server/src/api/bookings.routes.ts ======
+// File: /apps/server/src/api/bookings.routes.ts (CON LÓGICA PARA USUARIO LOGUEADO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
+import dayjs from 'dayjs';
+import { hash } from 'bcryptjs';
+import jwt from 'jsonwebtoken'; // <-- Importamos JWT
 import prisma from '../lib/prisma';
-import { AppointmentStatus, Prisma } from '@prisma/client';
+import { AppointmentStatus, Prisma, UserRole } from '@prisma/client';
 import { notificationService } from '../lib/notificationService';
 
 const router = Router();
 
 const createBookingSchema = z.object({
-  serviceId: z.string().cuid({ message: 'El ID del servicio no es válido.' }),
-  startTime: z.coerce.date({ invalid_type_error: 'La fecha de inicio debe ser una fecha válida.' }),
-  employeeId: z.string().cuid({ message: 'El ID del empleado no es válido.' }).optional(),
-  customerName: z.string().min(3, { message: 'El nombre del cliente es requerido.' }),
-  customerEmail: z.string().email({ message: 'El email del cliente no es válido.' }),
-  customerPhone: z.string().min(1, { message: 'El teléfono del cliente es requerido.' }),
+  serviceId: z.string().cuid(),
+  startTime: z.coerce.date(),
+  employeeId: z.string().cuid().optional(),
+  customerName: z.string().min(3),
+  customerEmail: z.string().email(),
+  customerPhone: z.string().min(1),
+  createAccount: z.boolean().optional(),
+  password: z.string().optional(),
 });
 
+interface TokenPayload {
+    userId: string;
+    role: UserRole;
+}
 
 router.post('/', async (req, res) => {
   try {
-    console.log('\n\n--- [POST /bookings] Nueva Petición de Reserva ---');
     const validatedData = createBookingSchema.parse(req.body);
-    console.log('[POST /bookings] Datos recibidos y validados:', validatedData);
+    const { 
+      startTime, employeeId, customerName, customerEmail, 
+      customerPhone, createAccount, password 
+    } = validatedData;
 
-    const { startTime, customerName, customerEmail, employeeId, customerPhone } = validatedData;
-    
+    // 1. Encontrar un hueco disponible
+    const startOfMinute = dayjs(startTime).startOf('minute').toDate();
+    const endOfMinute = dayjs(startTime).endOf('minute').toDate();
     const availableSlot = await prisma.appointment.findFirst({
         where: {
-            startTime: startTime,
+            startTime: { gte: startOfMinute, lte: endOfMinute },
             status: AppointmentStatus.AVAILABLE,
             ...(employeeId && { employeeId: employeeId }),
         },
     });
 
     if (!availableSlot) {
-      console.log('[POST /bookings] FALLO: No se encontró un slot "AVAILABLE" coincidente. Devolviendo 409.');
-      return res.status(409).json({ message: 'Lo sentimos, no hay profesionales disponibles en el horario seleccionado. Por favor, elige otra hora.' });
+      return res.status(409).json({ message: 'Lo sentimos, este hueco ya no está disponible.' });
     }
 
-    console.log(`[POST /bookings] ÉXITO: Slot disponible encontrado (ID: ${availableSlot.id}), asignado al empleado ID: ${availableSlot.employeeId}`);
+    // --- 2. LÓGICA MEJORADA PARA DETECTAR USUARIO LOGUEADO ---
+    let appointmentUpdateData: Prisma.AppointmentUpdateInput = {};
+    let authenticatedUser: { id: string, name: string | null, email: string } | null = null;
 
-    const customer = await prisma.user.upsert({
-      where: { email: customerEmail },
-      update: { name: customerName },
-      create: { email: customerEmail, name: customerName, role: 'CUSTOMER' },
-    });
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+    const jwtSecret = process.env.JWT_SECRET;
 
+    if (token && jwtSecret) {
+        try {
+            const payload = jwt.verify(token, jwtSecret) as TokenPayload;
+            if (payload.role === UserRole.CUSTOMER) {
+                const user = await prisma.user.findUnique({ where: { id: payload.userId } });
+                if (user) authenticatedUser = user;
+            }
+        } catch (error) { /* Ignoramos el token si es inválido y procedemos como invitado */ }
+    }
+
+    if (authenticatedUser) {
+        // --- Caso: Usuario ya logueado ---
+        appointmentUpdateData.user = { connect: { id: authenticatedUser.id } };
+        console.log(`[POST /bookings] Cita solicitada por usuario autenticado: ${authenticatedUser.email}`);
+    } else if (createAccount && password) {
+      // --- Caso: Invitado creando cuenta ---
+      const passwordHash = await hash(password, 12);
+      const newUser = await prisma.user.create({
+        data: { name: customerName, email: customerEmail, passwordHash, role: UserRole.CUSTOMER },
+      });
+      appointmentUpdateData.user = { connect: { id: newUser.id } };
+      authenticatedUser = newUser; // Lo tratamos como usuario para la notificación
+      console.log(`[POST /bookings] Nueva cuenta creada para ${customerEmail} y vinculada.`);
+    } else {
+      // --- Caso: Reserva como invitado ---
+      appointmentUpdateData.guestName = customerName;
+      appointmentUpdateData.guestEmail = customerEmail;
+      appointmentUpdateData.guestPhone = customerPhone;
+      console.log(`[POST /bookings] Cita creada como invitado para ${customerEmail}.`);
+    }
+    // --- FIN DE LA LÓGICA MEJORADA ---
+
+    // 3. Actualizar la cita
     const confirmedAppointment = await prisma.appointment.update({
         where: { id: availableSlot.id },
-        data: {
-            status: AppointmentStatus.CONFIRMED,
-            userId: customer.id,
-        },
-        include: { 
-            user: true, 
-            employee: true, 
-            services: { include: { service: true } } 
-        },
+        data: { status: AppointmentStatus.CONFIRMED, ...appointmentUpdateData },
+        include: { user: true, employee: true, services: { include: { service: true } } },
     });
 
-    if (confirmedAppointment.user) {
-      // --- LÍNEA MODIFICADA ---
-      // Ahora también pasamos el número de teléfono del cliente a la función
-      notificationService.sendBookingConfirmation(confirmedAppointment as any, customerPhone);
+    // 4. Enviar notificación
+    const finalUser = authenticatedUser || { name: customerName, email: customerEmail };
+    if (finalUser) {
+      const tempAppointmentDetails = { ...confirmedAppointment, user: finalUser };
+      notificationService.sendBookingConfirmation(tempAppointmentDetails as any, customerPhone);
     }
-
+    
     res.status(201).json(confirmedAppointment);
 
   } catch (error) {
-    if (error instanceof ZodError) {
-      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
-    }
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
-      return res.status(404).json({ message: 'El empleado o servicio especificado no existe.' });
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        return res.status(409).json({ message: 'Ya existe una cuenta con este email. Por favor, inicia sesión.' });
     }
     console.error('Error al crear la reserva:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
@@ -4257,7 +5472,200 @@ router.post('/', async (req, res) => {
 export default router;
 
 
-// ====== [48] apps/server/src/api/employees.routes.ts ======
+// ====== [57] apps/server/src/api/customer.routes.ts ======
+// File: /apps/server/src/api/customer.routes.ts (CORREGIDO)
+
+import { Router, Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import prisma from '../lib/prisma';
+// --- LÍNEA MODIFICADA ---
+import { UserRole, AppointmentStatus, Prisma } from '@prisma/client';
+
+const router = Router();
+
+interface AuthRequest extends Request {
+  user?: { userId: string; role: UserRole; };
+}
+
+const authenticateCustomer = (req: AuthRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Acceso denegado. No se proporcionó token.' });
+  }
+
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    return res.status(500).json({ message: 'Error de configuración del servidor.' });
+  }
+
+  try {
+    const payload = jwt.verify(token, jwtSecret) as { userId: string; role: UserRole };
+    if (payload.role !== UserRole.CUSTOMER) {
+        return res.status(403).json({ message: 'Acceso prohibido. Ruta solo para clientes.' });
+    }
+    req.user = payload;
+    next();
+  } catch (error) {
+    return res.status(403).json({ message: 'Token no válido o expirado.' });
+  }
+};
+
+router.use(authenticateCustomer);
+
+router.get('/appointments', async (req: AuthRequest, res: Response) => {
+  const userId = req.user?.userId;
+  try {
+    const appointments = await prisma.appointment.findMany({
+      where: { userId: userId },
+      orderBy: { startTime: 'desc' },
+      include: {
+        services: { include: { service: { select: { name: true, duration: true } } } },
+        employee: { select: { name: true } },
+      },
+    });
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+router.post('/appointments/:appointmentId/cancel', async (req: AuthRequest, res: Response) => {
+    const userId = req.user?.userId;
+    const { appointmentId } = req.params;
+
+    try {
+        const updatedAppointment = await prisma.appointment.update({
+            where: {
+                id: appointmentId,
+                userId: userId,
+            },
+            data: {
+                status: AppointmentStatus.CANCELLED,
+            },
+        });
+
+        res.status(200).json({ message: 'Cita cancelada correctamente.', appointment: updatedAppointment });
+
+    } catch (error) {
+        // --- BLOQUE CATCH CORREGIDO ---
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+            return res.status(404).json({ message: 'No se encontró la cita o no tienes permiso para cancelarla.' });
+        }
+        // --- FIN DE LA CORRECCIÓN ---
+        console.error('Error al cancelar la cita:', error);
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+
+export default router;
+
+
+// ====== [58] apps/server/src/api/customerAuth.routes.ts ======
+// File: /apps/server/src/api/customerAuth.routes.ts (VERSIÓN A PRUEBA DE BALAS)
+
+import { Router } from 'express';
+import { z, ZodError } from 'zod';
+import { hash, compare } from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import prisma from '../lib/prisma';
+import { UserRole, Prisma } from '@prisma/client';
+
+const router = Router();
+
+const registerSchema = z.object({
+  name: z.string().min(3, 'El nombre debe tener al menos 3 caracteres.'),
+  email: z.string().email('El formato del email no es válido.'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres.'),
+});
+
+const loginSchema = z.object({
+  email: z.string().email('El formato del email no es válido.'),
+  password: z.string().min(1, 'La contraseña es requerida.'),
+});
+
+const generateAuthToken = (user: { id: string, email: string, role: UserRole }) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    console.error('Error Crítico: La variable de entorno JWT_SECRET no está definida.');
+    throw new Error('La configuración del servidor está incompleta.');
+  }
+
+  // SOLUCIÓN DEFINITIVA: Usamos un NÚMERO (segundos) para expiresIn.
+  // El .env tiene "604800s". parseInt lo convertirá a 604800.
+  const expiresInSeconds = parseInt(process.env.JWT_EXPIRES_IN || '604800', 10);
+
+  const tokenOptions: jwt.SignOptions = {
+    expiresIn: expiresInSeconds,
+  };
+  
+  return jwt.sign(
+    { userId: user.id, email: user.email, role: user.role },
+    jwtSecret,
+    tokenOptions
+  );
+};
+
+router.post('/register', async (req, res) => {
+  try {
+    const { name, email, password } = registerSchema.parse(req.body);
+    const passwordHash = await hash(password, 12);
+    const newUser = await prisma.user.create({
+      data: { name, email, passwordHash, role: UserRole.CUSTOMER, emailVerified: new Date() },
+    });
+    const token = generateAuthToken(newUser);
+    res.status(201).json({
+      message: 'Usuario registrado con éxito.',
+      token,
+      user: { id: newUser.id, name: newUser.name, email: newUser.email },
+    });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return res.status(409).json({ message: 'Ya existe una cuenta con este email.' });
+    }
+    console.error('Error en el registro de cliente:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = loginSchema.parse(req.body);
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || !user.passwordHash) {
+      return res.status(401).json({ message: 'Credenciales inválidas.' });
+    }
+    const isPasswordValid = await compare(password, user.passwordHash);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Credenciales inválidas.' });
+    }
+    if (user.role !== UserRole.CUSTOMER) {
+        return res.status(403).json({ message: 'Acceso no autorizado para este tipo de cuenta.' });
+    }
+    const token = generateAuthToken(user);
+    res.status(200).json({
+      message: 'Login exitoso.',
+      token,
+      user: { id: user.id, name: user.name, email: user.email },
+    });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: 'Datos de entrada inválidos.', errors: error.issues });
+    }
+    console.error('Error en el login de cliente:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+export default router;
+
+
+// ====== [59] apps/server/src/api/employees.routes.ts ======
 // File: /apps/server/src/api/employees.routes.ts (ORDEN CORREGIDO)
 
 import { Router } from 'express';
@@ -4406,7 +5814,161 @@ router.delete('/:employeeId/absences/:absenceId', async (req, res) => {
 export default router;
 
 
-// ====== [49] apps/server/src/api/services.routes.ts ======
+// ====== [60] apps/server/src/api/reviews.routes.ts ======
+// File: /apps/server/src/api/reviews.routes.ts (CON RUTA PÚBLICA GET)
+
+import { Router } from 'express';
+import { z, ZodError } from 'zod';
+import jwt from 'jsonwebtoken';
+import prisma from '../lib/prisma';
+import { Prisma, ReviewStatus } from '@prisma/client';
+
+const router = Router();
+
+// --- ESQUEMAS ---
+const createReviewSchema = z.object({
+  token: z.string().min(1, 'El token es requerido.'),
+  rating: z.number().min(1).max(5),
+  comment: z.string().optional(),
+});
+
+const updateReviewStatusSchema = z.object({
+  status: z.nativeEnum(ReviewStatus),
+});
+
+interface ReviewTokenPayload {
+  appointmentId: string;
+}
+
+// ===============================================
+// --- RUTA PÚBLICA PARA OBTENER VALORACIONES ---
+// ===============================================
+router.get('/', async (req, res) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            where: { status: ReviewStatus.APPROVED },
+            orderBy: { createdAt: 'desc' },
+            take: 6, // Mostramos las 6 más recientes
+            include: {
+                appointment: {
+                    select: {
+                        // Seleccionamos el nombre del cliente, ya sea de un usuario registrado o de un invitado
+                        user: { select: { name: true } },
+                        guestName: true,
+                    }
+                }
+            }
+        });
+
+        // Formateamos los datos para el público, evitando exponer información sensible
+        const publicReviews = reviews.map(review => ({
+            id: review.id,
+            rating: review.rating,
+            comment: review.comment,
+            customerName: review.appointment.user?.name || review.appointment.guestName,
+            createdAt: review.createdAt,
+        }));
+
+        res.status(200).json(publicReviews);
+    } catch (error) {
+        console.error('Error al obtener las valoraciones públicas:', error);
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+
+// =============================================
+// --- RUTA PÚBLICA PARA ENVIAR VALORACIÓN ---
+// =============================================
+router.post('/', async (req, res) => {
+  try {
+    const { token, rating, comment } = createReviewSchema.parse(req.body);
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      return res.status(500).json({ message: 'Error de configuración del servidor.' });
+    }
+
+    let payload: ReviewTokenPayload;
+    try {
+      payload = jwt.verify(token, jwtSecret) as ReviewTokenPayload;
+    } catch (error) {
+      return res.status(401).json({ message: 'El token de valoración no es válido o ha expirado.' });
+    }
+
+    const { appointmentId } = payload;
+    const targetAppointment = await prisma.appointment.findUnique({
+      where: { id: appointmentId }, include: { review: true },
+    });
+
+    if (!targetAppointment) return res.status(404).json({ message: 'La cita asociada no fue encontrada.' });
+    if (targetAppointment.review) return res.status(409).json({ message: 'Esta cita ya ha sido valorada.' });
+
+    const newReview = await prisma.review.create({
+      data: {
+        rating, comment, status: ReviewStatus.PENDING,
+        appointment: { connect: { id: targetAppointment.id } },
+        employee: { connect: { id: targetAppointment.employeeId } },
+        ...(targetAppointment.userId && { user: { connect: { id: targetAppointment.userId } } }),
+      },
+    });
+
+    res.status(201).json(newReview);
+  } catch (error) {
+    if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+
+// =======================================================
+// --- RUTAS DE ADMINISTRACIÓN PARA MODERAR VALORACIONES ---
+// =======================================================
+router.get('/admin', async (req, res) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            orderBy: { createdAt: 'desc' },
+            include: {
+                employee: { select: { name: true } },
+                appointment: {
+                    include: {
+                        user: { select: { name: true } },
+                        services: { include: { service: { select: { name: true } } } }
+                    }
+                }
+            }
+        });
+        const formattedReviews = reviews.map(review => ({
+            id: review.id, rating: review.rating, comment: review.comment,
+            status: review.status, createdAt: review.createdAt, employeeName: review.employee.name,
+            customerName: review.appointment.user?.name || review.appointment.guestName,
+            serviceName: review.appointment.services[0]?.service.name || 'Servicio Desconocido',
+        }));
+        res.status(200).json(formattedReviews);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+router.put('/admin/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = updateReviewStatusSchema.parse(req.body);
+        const updatedReview = await prisma.review.update({ where: { id }, data: { status } });
+        res.status(200).json(updatedReview);
+    } catch (error) {
+        if (error instanceof ZodError) return res.status(400).json({ errors: error.issues });
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+            return res.status(404).json({ message: 'La valoración no fue encontrada.' });
+        }
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+
+export default router;
+
+
+// ====== [61] apps/server/src/api/services.routes.ts ======
 // File: /apps/server/src/api/services.routes.ts (RECONSTRUIDO)
 
 import { Router } from 'express';
@@ -4500,7 +6062,7 @@ router.delete('/:id', async (req, res) => {
 export default router;
 
 
-// ====== [50] apps/server/src/lib/availabilityService.ts ======
+// ====== [62] apps/server/src/lib/availabilityService.ts ======
 // File: /apps/server/src/lib/availabilityService.ts (CON LOGS DE DEPURACIÓN EN isEmployeeAvailable)
 
 import dayjs from 'dayjs';
@@ -4602,12 +6164,170 @@ export async function findAvailableEmployeeForSlot(startTime: Date, endTime: Dat
 }
 
 
-// ====== [51] apps/server/src/lib/notificationService.ts ======
-// ====== [51] apps/server/src/lib/notificationService.ts ======
-// File: /apps/server/src/lib/notificationService.ts (CORRECCIÓN FINAL DE FORMATEO DE NÚMERO DE TWILIO)
+// ====== [63] apps/server/src/lib/cronService.ts ======
+// File: /apps/server/src/lib/cronService.ts (NUEVO ARCHIVO)
+
+import cron from 'node-cron';
+import dayjs from 'dayjs';
+import prisma from './prisma';
+import { AppointmentStatus } from '@prisma/client';
+import { notificationService } from './notificationService';
+import type { FullAppointmentDetails } from './notificationService';
+
+const startReminderService = () => {
+  // Esta tarea se ejecutará al principio de cada hora (minuto 0).
+  // Formato cron: minuto(0-59) hora(0-23) día-del-mes(1-31) mes(1-12) día-de-la-semana(0-7)
+  cron.schedule('0 * * * *', async () => {
+    console.log(`\n--- [CRON JOB] Ejecutando tarea de recordatorios de citas - ${new Date().toISOString()} ---`);
+
+    try {
+      // 1. Definimos la ventana de tiempo para buscar citas.
+      // Buscamos citas que ocurran entre 24 y 25 horas desde ahora.
+      const now = dayjs();
+      const reminderWindowStart = now.add(24, 'hour').toDate();
+      const reminderWindowEnd = now.add(25, 'hour').toDate();
+
+      console.log(`Buscando citas entre: ${reminderWindowStart.toISOString()} y ${reminderWindowEnd.toISOString()}`);
+
+      // 2. Buscamos en la base de datos.
+      const appointmentsToSendReminder = await prisma.appointment.findMany({
+        where: {
+          status: AppointmentStatus.CONFIRMED,
+          reminderSent: false,
+          startTime: {
+            gte: reminderWindowStart,
+            lt: reminderWindowEnd,
+          },
+        },
+        include: {
+          user: true,
+          employee: true,
+          services: { include: { service: true } },
+        },
+      });
+
+      if (appointmentsToSendReminder.length === 0) {
+        console.log('No se encontraron citas que necesiten un recordatorio en esta ejecución.');
+        return;
+      }
+
+      console.log(`Se encontraron ${appointmentsToSendReminder.length} citas para enviar recordatorio.`);
+
+      // 3. Procesamos cada cita encontrada.
+      for (const appointment of appointmentsToSendReminder) {
+        if (appointment.user) {
+          // 3a. Enviamos la notificación.
+          await notificationService.sendAppointmentReminder(appointment as FullAppointmentDetails);
+          
+          // 3b. Actualizamos la cita para marcar el recordatorio como enviado.
+          await prisma.appointment.update({
+            where: { id: appointment.id },
+            data: { reminderSent: true },
+          });
+          console.log(`Recordatorio para la cita ID ${appointment.id} marcado como enviado en la BBDD.`);
+        }
+      }
+
+    } catch (error) {
+      console.error('Error durante la ejecución del cron job de recordatorios:', error);
+    } finally {
+        console.log('--- [CRON JOB] Tarea de recordatorios finalizada. ---');
+    }
+  });
+
+  console.log('✅ Servicio de recordatorios (Cron Job) inicializado y programado.');
+};
+
+export const reminderService = {
+  start: startReminderService,
+};
+
+
+// ====== [64] apps/server/src/lib/cronService_24h.ts ======
+// File: /apps/server/src/lib/cronService.ts (NUEVO ARCHIVO)
+
+import cron from 'node-cron';
+import dayjs from 'dayjs';
+import prisma from './prisma';
+import { AppointmentStatus } from '@prisma/client';
+import { notificationService } from './notificationService';
+import type { FullAppointmentDetails } from './notificationService';
+
+const startReminderService = () => {
+  // Esta tarea se ejecutará al principio de cada hora (minuto 0).
+  // Formato cron: minuto(0-59) hora(0-23) día-del-mes(1-31) mes(1-12) día-de-la-semana(0-7)
+  cron.schedule('0 * * * *', async () => {
+    console.log(`\n--- [CRON JOB] Ejecutando tarea de recordatorios de citas - ${new Date().toISOString()} ---`);
+
+    try {
+      // 1. Definimos la ventana de tiempo para buscar citas.
+      // Buscamos citas que ocurran entre 24 y 25 horas desde ahora.
+      const now = dayjs();
+      const reminderWindowStart = now.add(24, 'hour').toDate();
+      const reminderWindowEnd = now.add(25, 'hour').toDate();
+
+      console.log(`Buscando citas entre: ${reminderWindowStart.toISOString()} y ${reminderWindowEnd.toISOString()}`);
+
+      // 2. Buscamos en la base de datos.
+      const appointmentsToSendReminder = await prisma.appointment.findMany({
+        where: {
+          status: AppointmentStatus.CONFIRMED,
+          reminderSent: false,
+          startTime: {
+            gte: reminderWindowStart,
+            lt: reminderWindowEnd,
+          },
+        },
+        include: {
+          user: true,
+          employee: true,
+          services: { include: { service: true } },
+        },
+      });
+
+      if (appointmentsToSendReminder.length === 0) {
+        console.log('No se encontraron citas que necesiten un recordatorio en esta ejecución.');
+        return;
+      }
+
+      console.log(`Se encontraron ${appointmentsToSendReminder.length} citas para enviar recordatorio.`);
+
+      // 3. Procesamos cada cita encontrada.
+      for (const appointment of appointmentsToSendReminder) {
+        if (appointment.user) {
+          // 3a. Enviamos la notificación.
+          await notificationService.sendAppointmentReminder(appointment as FullAppointmentDetails);
+          
+          // 3b. Actualizamos la cita para marcar el recordatorio como enviado.
+          await prisma.appointment.update({
+            where: { id: appointment.id },
+            data: { reminderSent: true },
+          });
+          console.log(`Recordatorio para la cita ID ${appointment.id} marcado como enviado en la BBDD.`);
+        }
+      }
+
+    } catch (error) {
+      console.error('Error durante la ejecución del cron job de recordatorios:', error);
+    } finally {
+        console.log('--- [CRON JOB] Tarea de recordatorios finalizada. ---');
+    }
+  });
+
+  console.log('✅ Servicio de recordatorios (Cron Job) inicializado y programado.');
+};
+
+export const reminderService = {
+  start: startReminderService,
+};
+
+
+// ====== [65] apps/server/src/lib/notificationService.ts ======
+// File: /apps/server/src/lib/notificationService.ts (CON SOLICITUD MULTICANAL Y TOKEN SEGURO)
 
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
+import jwt from 'jsonwebtoken'; // <-- Importamos JWT
 import { Appointment, Employee, Service, User } from '@prisma/client';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
@@ -4616,7 +6336,7 @@ import prisma from './prisma';
 dayjs.locale('es');
 
 export type FullAppointmentDetails = Appointment & {
-  user: User;
+  user: User | { name: string | null; email: string | null; };
   employee: Employee;
   services: { service: Service }[];
 };
@@ -4664,7 +6384,7 @@ async function sendWhatsAppConfirmation(appointmentDetails: FullAppointmentDetai
     const formattedDate = dayjs(startTime).format('D [de] MMMM');
     const formattedTime = dayjs(startTime).format('HH:mm');
 
-    const fromNumber = settings.twilioPhoneNumber; // ej: 'whatsapp:+14155238886'
+    const fromNumber = settings.twilioPhoneNumber;
     const toNumber = `whatsapp:${customerPhone.startsWith('+') ? customerPhone : `+34${customerPhone}`.replace(/\s+/g, '')}`;
 
     console.log(`  -> Intentando enviar desde: ${fromNumber}`);
@@ -4685,11 +6405,10 @@ async function sendWhatsAppConfirmation(appointmentDetails: FullAppointmentDetai
 
 async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
   try {
-    // Lógica de Email
     const mailTransporter = await getTransporter();
     const { user, employee, services, startTime } = appointmentDetails;
     const service = services[0]?.service;
-    if (!service) { return; }
+    if (!service || !user.email) { return; }
     const formattedDateTime = dayjs(startTime).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm');
     const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
     const fromEmail = settings?.emailFrom || '"AquaClean Car Wash" <noreply@aquaclean.com>';
@@ -4715,7 +6434,6 @@ async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetail
     const previewUrl = nodemailer.getTestMessageUrl(customerInfo);
     if (previewUrl) { console.log('🔗 Vista previa (Ethereal):', previewUrl); }
 
-    // Lógica de WhatsApp
     await sendWhatsAppConfirmation(appointmentDetails, customerPhone);
 
   } catch (error) {
@@ -4723,12 +6441,127 @@ async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetail
   }
 }
 
+async function sendAppointmentReminder(appointmentDetails: FullAppointmentDetails) {
+  try {
+    const mailTransporter = await getTransporter();
+    const { user, services, startTime } = appointmentDetails;
+    const service = services[0]?.service;
+    if (!service || !user || !user.email) return;
+
+    const formattedTime = dayjs(startTime).format('HH:mm');
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    const fromEmail = settings?.emailFrom || '"AquaClean Car Wash" <noreply@aquaclean.com>';
+
+    const customerMailOptions = {
+      from: fromEmail,
+      to: user.email,
+      subject: `Recordatorio: Tu cita en AquaClean es mañana a las ${formattedTime}h`,
+      html: `<p>Hola ${user.name || 'Cliente'},</p><p>Este es un recordatorio de tu cita para un <strong>${service.name}</strong> mañana a las <strong>${formattedTime}h</strong>.</p><p>Si necesitas realizar algún cambio, por favor, ponte en contacto con nosotros.</p><p>¡Te esperamos!</p>`,
+    };
+
+    const info = await mailTransporter.sendMail(customerMailOptions);
+
+    if (info.accepted.length > 0) {
+      console.log(`✅ Email de RECORDATORIO enviado con éxito a: ${user.email} para la cita ID: ${appointmentDetails.id}`);
+    }
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) {
+      console.log('🔗 Vista previa del recordatorio (Ethereal):', previewUrl);
+    }
+    
+  } catch (error) {
+    console.error(`Error al enviar el recordatorio para la cita ID ${appointmentDetails.id}:`, error);
+  }
+}
+
+// --- NUEVA FUNCIÓN AUXILIAR PARA WHATSAPP ---
+async function sendWhatsAppReviewRequest(appointmentDetails: FullAppointmentDetails, reviewUrl: string, customerPhone: string) {
+  try {
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    if (!settings || !settings.twilioSid || !settings.twilioAuthToken || !settings.twilioPhoneNumber) {
+      console.log('--- Faltan credenciales de Twilio. Omitiendo WhatsApp de valoración. ---');
+      return;
+    }
+
+    const client = twilio(settings.twilioSid, settings.twilioAuthToken);
+    const { user } = appointmentDetails;
+    const fromNumber = settings.twilioPhoneNumber;
+    const toNumber = `whatsapp:${customerPhone.startsWith('+') ? customerPhone : `+34${customerPhone}`.replace(/\s+/g, '')}`;
+
+    await client.messages.create({
+      from: fromNumber,
+      to: toNumber,
+      body: `¡Hola ${user.name}! 👋 Esperamos que tu coche haya quedado impecable. ¿Te importaría dejarnos tu opinión en 1 minuto? Tu feedback nos ayuda a mejorar. ¡Gracias!\n\n${reviewUrl}`,
+    });
+
+    console.log(`✅ WhatsApp de SOLICITUD DE VALORACIÓN enviado con éxito a: ${toNumber}`);
+  } catch (error) {
+    console.error(`Error al enviar WhatsApp de valoración para la cita ID ${appointmentDetails.id}:`, error);
+  }
+}
+
+// --- FUNCIÓN 'sendReviewRequest' MODIFICADA ---
+async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
+  try {
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.error('No se puede generar el token de valoración: JWT_SECRET no definido.');
+      return;
+    }
+
+    // 1. Generamos un token JWT que contiene el ID de la cita y expira en 7 días
+    const reviewToken = jwt.sign(
+      { appointmentId: appointmentDetails.id },
+      jwtSecret,
+      { expiresIn: '7d' }
+    );
+    const reviewUrl = `http://localhost:5173/review?token=${reviewToken}`;
+
+    const mailTransporter = await getTransporter();
+    const { user, services } = appointmentDetails;
+    const service = services[0]?.service;
+    if (!service || !user || !user.email) return;
+
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    const fromEmail = settings?.emailFrom || '"AquaClean" <noreply@aquaclean.com>';
+    
+    console.log(`[+] Programando solicitud de valoración para la cita ID: ${appointmentDetails.id}`);
+
+    // 2. Lógica de envío de Email
+    const customerMailOptions = {
+      from: fromEmail,
+      to: user.email,
+      subject: `¡Gracias por tu visita a AquaClean! ¿Qué tal ha ido?`,
+      html: `
+        <p>Hola ${user.name || 'Cliente'},</p>
+        <p>¡Esperamos que tu coche haya quedado impecable! ✨</p>
+        <p>Tu opinión es muy importante. ¿Te importaría dedicar un minuto a valorar tu experiencia?</p>
+        <p><a href="${reviewUrl}" style="padding: 10px 15px; background-color: #228be6; color: white; text-decoration: none; border-radius: 5px;">Dejar mi valoración</a></p>
+        <p>¡Gracias por confiar en AquaClean!</p>
+      `,
+    };
+
+    const info = await mailTransporter.sendMail(customerMailOptions);
+    console.log(`✅ Email de SOLICITUD DE VALORACIÓN enviado con éxito a: ${user.email}`);
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) console.log('🔗 Vista previa (Ethereal):', previewUrl);
+
+    // 3. Llamamos a la nueva función para enviar por WhatsApp
+    await sendWhatsAppReviewRequest(appointmentDetails, reviewUrl, customerPhone);
+
+  } catch (error) {
+    console.error(`Error al enviar la solicitud de valoración para la cita ID ${appointmentDetails.id}:`, error);
+  }
+}
+
 export const notificationService = {
   sendBookingConfirmation,
+  sendAppointmentReminder,
+  sendReviewRequest,
 };
 
 
-// ====== [52] apps/server/src/lib/prisma.ts ======
+// ====== [66] apps/server/src/lib/prisma.ts ======
 // File: /apps/server/src/lib/prisma.ts
 
 import { PrismaClient } from '@prisma/client';
@@ -4742,8 +6575,8 @@ const prisma = new PrismaClient();
 export default prisma;
 
 
-// ====== [53] apps/server/src/server.ts ======
-// File: /apps/server/src/server.ts (ACTUALIZADO)
+// ====== [67] apps/server/src/server.ts ======
+// File: /apps/server/src/server.ts (CONECTANDO RUTAS DEL PANEL DE CLIENTE)
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
@@ -4757,8 +6590,14 @@ import availabilityRouter from './api/availability.routes';
 import bookingsRouter from './api/bookings.routes';
 import adminAppointmentsRouter from './api/adminAppointments.routes';
 import adminSettingsRouter from './api/adminSettings.routes';
-// --- LÍNEA MODIFICADA ---
-import adminDateOverridesRouter from './api/adminDateOverrides.routes'; // <-- IMPORTAMOS EL NUEVO ENRUTADOR
+import adminDateOverridesRouter from './api/adminDateOverrides.routes';
+import customerAuthRouter from './api/customerAuth.routes';
+import reviewsRouter from './api/reviews.routes';
+import adminDashboardRouter from './api/adminDashboard.routes';
+import { reminderService } from './lib/cronService';
+
+// --- IMPORTACIÓN AÑADIDA ---
+import customerRouter from './api/customer.routes';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -4772,21 +6611,27 @@ app.use(express.json());
 
 // --- RUTAS DE LA API ---
 
-// Rutas Públicas y de Clientes
-app.use('/api/auth', authRouter);
+// Rutas Públicas y de Autenticación de Cliente
 app.use('/api/services', servicesRouter);
 app.use('/api/employees', employeesRouter);
 app.use('/api/availability', availabilityRouter);
 app.use('/api/bookings', bookingsRouter);
+app.use('/api/customer', customerAuthRouter);
+app.use('/api/reviews', reviewsRouter);
+
+// Rutas Protegidas específicas del Cliente Logueado
+app.use('/api/me', customerRouter); // <-- RUTA AÑADIDA
+
+// Ruta de Autenticación Admin
+app.use('/api/auth', authRouter);
 
 // Rutas Específicas del Panel de Administración
 app.use('/api/admin/appointments', adminAppointmentsRouter);
 app.use('/api/admin/settings', adminSettingsRouter);
-// --- LÍNEA MODIFICADA ---
-app.use('/api/admin/overrides', adminDateOverridesRouter); // <-- USAMOS EL NUEVO ENRUTADOR Y CAMBIAMOS LA RUTA
+app.use('/api/admin/overrides', adminDateOverridesRouter);
+app.use('/api/admin/dashboard', adminDashboardRouter);
 
-
-// Ruta de prueba para verificar que el servidor funciona
+// Ruta de prueba
 app.get('/api', (req: Request, res: Response) => {
   res.json({ message: '👋 Hello from the AquaClean API!' });
 });
@@ -4794,10 +6639,11 @@ app.get('/api', (req: Request, res: Response) => {
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  reminderService.start();
 });
 
 
-// ====== [54] apps/server/tsconfig.json ======
+// ====== [68] apps/server/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -4811,7 +6657,7 @@ app.listen(PORT, () => {
 }
 
 
-// ====== [55] docs/PROJECT_SPECIFICATION.md ======
+// ====== [69] docs/PROJECT_SPECIFICATION.md ======
 <!-- File: /docs/PROJECT_SPECIFICATION.md - v1.1 -->
 
 # Propuesta y Especificación del Proyecto: AquaClean Car Wash
@@ -4880,7 +6726,7 @@ Esta sección actúa como un índice hacia los documentos de especificación det
 
 
 
-// ====== [56] docs/features/01-authentication.md ======
+// ====== [70] docs/features/01-authentication.md ======
 <!-- File: /docs/features/01-authentication.md - v1.0 -->
 ````markdown
 # 1. Sistema de Autenticación
@@ -5004,7 +6850,7 @@ model VerificationToken {
 
 
 
-// ====== [57] docs/features/02-public-site.md ======
+// ====== [71] docs/features/02-public-site.md ======
 <!-- File: /docs/features/02-public-site.md - v1.1 (ACTUALIZADO) -->
 
 # 2. Sitio Público y Presentación
@@ -5068,7 +6914,7 @@ Construir la cara visible del negocio. Esta área debe ser visualmente atractiva
 
 
 
-// ====== [58] docs/features/03-booking-flow.md ======
+// ====== [72] docs/features/03-booking-flow.md ======
 // ====== [58] docs/features/03-booking-flow.md ======
 
 <!-- File: /docs/features/03-booking-flow.md - v1.3 (Funcional) -->
@@ -5147,7 +6993,7 @@ El flujo se presenta como un asistente multi-paso en la página `/booking`.
 
 
 
-// ====== [59] docs/features/04-customer-panel.md ======
+// ====== [73] docs/features/04-customer-panel.md ======
 <!-- File: /docs/features/04-customer-panel.md - v1.0 -->
 # 4. Panel de Cliente
 
@@ -5248,7 +7094,7 @@ El panel de cliente estará disponible en la ruta `/dashboard` y sub-rutas, y se
 
 
 
-// ====== [60] docs/features/05-admin-panel-core-management.md ======
+// ====== [74] docs/features/05-admin-panel-core-management.md ======
 <!-- File: /docs/features/05-admin-panel-core-management.md - v1.2 (Actualizado con Anulaciones por Fecha) -->
 
 # 5. Panel de Administración: Gestión de la Configuración Base
@@ -5347,7 +7193,7 @@ Estas secciones estarán bajo la ruta `/admin` y requerirán un rol de "Administ
 
 
 
-// ====== [61] docs/features/06-admin-panel-operations.md ======
+// ====== [75] docs/features/06-admin-panel-operations.md ======
 <!-- File: /docs/features/06-admin-panel-operations.md - v1.2 (ACTUALIZADO) -->
 
 # 6. Panel de Administración: Operaciones Diarias
@@ -5433,7 +7279,7 @@ Equipar al administrador con las herramientas interactivas necesarias para la ge
 
 
 
-// ====== [62] docs/features/07-reviews-system.md ======
+// ====== [76] docs/features/07-reviews-system.md ======
 <!-- File: /docs/features/07-reviews-system.md - v1.0 -->
 ````markdown
 # 7. Sistema de Valoraciones y Reseñas
@@ -5532,7 +7378,7 @@ enum ReviewStatus {
 
 
 
-// ====== [63] docs/features/08-marketing-monetization.md ======
+// ====== [77] docs/features/08-marketing-monetization.md ======
 <!-- File: /docs/features/08-marketing-monetization.md - v1.0 -->
 ````markdown
 # 8. Módulos de Marketing y Monetización
@@ -5685,7 +7531,7 @@ model GiftCard {
 
 
 
-// ====== [64] docs/features/09-notifications-system.md ======
+// ====== [78] docs/features/09-notifications-system.md ======
 <!-- File: /docs/features/09-notifications-system.md - v1.0 -->
 # 9. Sistema de Notificaciones
 
@@ -5736,7 +7582,7 @@ Estas notificaciones se envían al personal para mantenerlos al tanto de la acti
 
 
 
-// ====== [65] docs/features/10-external-integrations.md ======
+// ====== [79] docs/features/10-external-integrations.md ======
 <!-- File: /docs/features/10-external-integrations.md - v1.0 -->
 ````markdown
 # 10. Integraciones Externas
@@ -5857,7 +7703,7 @@ model AccountSettings {
 
 
 
-// ====== [66] package.json ======
+// ====== [80] package.json ======
 {
   "name": "aquaclean-car-wash-monorepo",
   "version": "1.0.0",
@@ -5887,7 +7733,7 @@ model AccountSettings {
 }
 
 
-// ====== [67] packages/config/eslint-preset.js ======
+// ====== [81] packages/config/eslint-preset.js ======
 // File: /packages/config/eslint-preset.js - v1.0
 
 module.exports = {
@@ -5936,7 +7782,7 @@ module.exports = {
 };
 
 
-// ====== [68] packages/config/package.json ======
+// ====== [82] packages/config/package.json ======
 {
   "name": "@aquaclean/config",
   "version": "1.0.0",
@@ -5957,7 +7803,7 @@ module.exports = {
 }
 
 
-// ====== [69] packages/types/package.json ======
+// ====== [83] packages/types/package.json ======
 {
   "name": "@aquaclean/types",
   "version": "1.0.0",
@@ -5985,7 +7831,7 @@ module.exports = {
 }
 
 
-// ====== [70] packages/types/src/employee.schema.ts ======
+// ====== [84] packages/types/src/employee.schema.ts ======
 // File: /packages/types/src/employee.schema.ts (ACTUALIZADO CON CAMPO DE COLOR)
 
 import { z } from 'zod';
@@ -6015,7 +7861,7 @@ export const createEmployeeSchema = z.object({
 });
 
 
-// ====== [71] packages/types/src/index.ts ======
+// ====== [85] packages/types/src/index.ts ======
 // File: /packages/types/src/index.ts (ACTUALIZADO)
 
 // Exportamos los esquemas desde su nueva ubicación local
@@ -6035,7 +7881,7 @@ export interface User {
 }
 
 
-// ====== [72] packages/types/src/service.schema.ts ======
+// ====== [86] packages/types/src/service.schema.ts ======
 // File: /packages/types/src/service.schema.ts (ACTUALIZADO)
 
 import { z } from 'zod';
@@ -6065,7 +7911,7 @@ export const createServiceSchema = z.object({
 });
 
 
-// ====== [73] packages/types/src/service.ts ======
+// ====== [87] packages/types/src/service.ts ======
 // File: /packages/types/src/service.ts (ACTUALIZADO)
 
 export interface Service {
@@ -6088,7 +7934,7 @@ export interface Service {
 }
 
 
-// ====== [74] packages/types/tsconfig.json ======
+// ====== [88] packages/types/tsconfig.json ======
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -6101,7 +7947,7 @@ export interface Service {
 }
 
 
-// ====== [75] tsconfig.base.json ======
+// ====== [89] tsconfig.base.json ======
 // File: /tsconfig.base.json - v1.0
 {
   "compilerOptions": {
@@ -6134,7 +7980,7 @@ export interface Service {
 }
 
 
-// ====== [76] tsconfig.json ======
+// ====== [90] tsconfig.json ======
 // File: /tsconfig.json - v1.0
 {
   "files": [],
@@ -6147,7 +7993,7 @@ export interface Service {
 }
 
 
-// ====== [77] turbo.json ======
+// ====== [91] turbo.json ======
 {
   "$schema": "./.schemas/turbo-schema-v1.json",
   "globalDependencies": ["tsconfig.base.json"],

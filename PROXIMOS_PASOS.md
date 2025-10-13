@@ -1,71 +1,50 @@
-<!-- File: /PROXIMOS_PASOS.md - v4.0 (Ecosistema del Cliente) -->
+<!-- File: /PROXIMOS_PASOS.md - v6.0 (Completar Panel de Cliente: Re-reserva y Perfil) -->
 
-# Próximos Pasos: Hacia una Experiencia de Cliente Completa
+# Próximos Pasos: Completar el Panel de Cliente
 
-Este documento define el siguiente gran objetivo de desarrollo: la implementación de un ecosistema completo para el cliente, desde una reserva flexible hasta la valoración del servicio y la gestión de ausencias ("no-shows").
-
----
-
-### ✅ **Hito Alcanzado: Flujo de Reserva y Notificaciones Funcional**
-
-Se ha finalizado y validado el flujo de reserva principal, incluyendo las notificaciones automáticas por email y WhatsApp, y los recordatorios de cita 24 horas antes. El MVP de operaciones (`v1.0`) se considera completo.
+Este documento define los siguientes objetivos clave del desarrollo, centrados en finalizar las funcionalidades esenciales del panel de cliente para maximizar la retención y la autonomía del usuario.
 
 ---
 
-### 🎯 **PRÓXIMO GRAN OBJETIVO: Implementar el Ecosistema Completo del Cliente**
+### ✅ **Hito Alcanzado: Ecosistema del Cliente Implementado (v1)**
 
-El objetivo es evolucionar la plataforma para gestionar todo el ciclo de vida de la relación con el cliente, ofreciendo flexibilidad, fomentando la fidelización y proporcionando al negocio herramientas para gestionar la calidad del servicio y la rentabilidad.
+Se ha finalizado con éxito la implementación de un ciclo de vida completo para el cliente. Los logros clave incluyen:
 
-Dividiremos este objetivo en 4 fases lógicas y secuenciales:
+- **Autenticación de Clientes:** Sistema completo de registro, login y gestión de sesiones.
+- **Reservas Flexibles:** La plataforma ahora soporta reservas de usuarios registrados, invitados y nuevos usuarios que se registran durante el proceso.
+- **Sistema de Valoraciones Completo:** Automatización de la solicitud de reseñas por Email/WhatsApp con tokens seguros, y un panel de moderación funcional para el administrador.
+- **Panel de Cliente (Base):** Implementación de un área de cliente protegida (`/dashboard`) con una página funcional de "Mis Citas".
+- **Autogestión de Citas:** Los clientes ahora pueden cancelar sus propias citas desde su panel.
 
-### Fase 1: La Fundación - Base de Datos y Autenticación
+---
 
-**Meta:** Preparar la infraestructura de la base de datos y la autenticación de clientes para soportar los nuevos flujos de trabajo.
+### 🎯 **PRÓXIMO OBJETIVO: Implementar la Funcionalidad "Reservar de Nuevo"**
 
-1.  **Modificar el Esquema de la Base de Datos (`apps/server/prisma/schema.prisma`):**
-    - En el modelo `Appointment`, hacer la relación `userId` opcional (`String?`) y añadir campos para reservas de invitados: `guestName: String?`, `guestEmail: String?`, `guestPhone: String?`.
-    - En el `enum AppointmentStatus`, añadir el nuevo estado `NO_SHOW`.
-    - Crear un nuevo modelo `Review` para almacenar las valoraciones, con campos como `rating`, `comment`, `status`, y la relación a la `Appointment`.
-    - Crear un nuevo `enum ReviewStatus` con los valores `PENDING`, `APPROVED`, `HIDDEN`.
+El siguiente paso es añadir una de las funcionalidades de fidelización más importantes: permitir a los clientes volver a reservar un servicio pasado con un solo clic, reduciendo la fricción al mínimo.
 
-2.  **Crear el Sistema de Autenticación para Clientes:**
-    - Crear las rutas de la API (`apps/server/src/api/customerAuth.routes.ts`) para el registro y login de clientes.
-    - Crear las páginas de UI en el cliente (`apps/client/src/pages/public/LoginPage.tsx` y `RegisterPage.tsx`).
+La implementación se centrará exclusivamente en el frontend:
 
-### Fase 2: El Flujo del Cliente - Reserva Flexible
+1.  **Modificar `CustomerAppointmentsPage.tsx`:**
+    - Se añadirá la lógica al botón "Reservar de Nuevo" en las tarjetas de citas del historial.
+    - Al hacer clic, la aplicación navegará a la página `/booking`.
+    - Se pasarán los datos clave de la cita (como `serviceId` y `employeeId`) a través de parámetros en la URL (ej: `/booking?serviceId=...&employeeId=...`).
 
-**Meta:** Permitir que los clientes reserven tanto como invitados como creando una cuenta, mejorando la conversión.
+2.  **Modificar `BookingPage.tsx`:**
+    - Se mejorará el `useEffect` inicial para que detecte la presencia de estos parámetros en la URL al cargar la página.
+    - Si los parámetros existen, se usarán para pre-seleccionar automáticamente el profesional en el campo correspondiente, presentando al cliente un flujo de reserva casi completo.
 
-1.  **Actualizar el Flujo de Reserva (`apps/client/src/pages/public/BookingPage.tsx`):**
-    - En el paso de "Tus Datos", añadir un `Checkbox`: _"Crear una cuenta para gestionar mis citas"_.
-    - Si se marca, mostrar un campo adicional para la contraseña.
-2.  **Adaptar la Lógica de Creación de Reservas (`apps/server/src/api/bookings.routes.ts`):**
-    - Modificar el endpoint `POST /bookings` para que maneje dos casos:
-      - Si el usuario está creando una cuenta, primero crea el `User` y luego la `Appointment` vinculada.
-      - Si reserva como invitado, guarda los datos en los campos `guestName`, `guestEmail`, etc., de la `Appointment`, dejando `userId` nulo.
+---
 
-### Fase 3: El Flujo del Administrador - Gestión del Ciclo de Vida de la Cita
+### 🚀 **Después de eso: Hito Siguiente - Autogestión Completa del Perfil de Cliente**
 
-**Meta:** Dar al administrador las herramientas para gestionar el estado final de una cita, lo que actuará como disparador para el flujo post-servicio.
+Una vez finalizada la re-reserva, completaremos el panel de cliente implementando la gestión del perfil para dar autonomía total al usuario.
 
-1.  **Actualizar el Formulario de Citas del Admin (`apps/client/src/components/admin/AppointmentForm.tsx`):**
-    - Añadir un `Select` o botones para cambiar el estado de la cita. Las opciones relevantes serán "Marcar como Completada" (`COMPLETED`) y "Marcar como No Presentado" (`NO_SHOW`).
-2.  **Crear Endpoint de Actualización de Estado (`apps/server/src/api/adminAppointments.routes.ts`):**
-    - Crear o modificar un endpoint (ej: `PUT /admin/appointments/:id/status`) que permita al administrador cambiar el estado de una cita.
-    - Esta acción será el **trigger** para el sistema de notificaciones y valoraciones.
+La implementación incluirá:
 
-### Fase 4: El Cierre del Ciclo - Solicitud de Valoración y Moderación
+1.  **Backend (`customerProfile.routes.ts` - Nuevo):**
+    - Crear un endpoint seguro `PUT /api/me/profile` para que los usuarios actualicen su nombre o teléfono.
+    - Crear un endpoint seguro `POST /api/me/change-password` para la gestión de contraseñas.
 
-**Meta:** Automatizar la solicitud de feedback y dar al administrador el control sobre la reputación online.
-
-1.  **Crear la Notificación Post-Servicio (`apps/server/src/lib/notificationService.ts`):**
-    - Crear una nueva función `sendReviewRequest()`.
-    - Esta función se llamará automáticamente cuando una cita pase al estado `COMPLETED`.
-    - Enviará un email/WhatsApp al cliente con un enlace único para dejar su valoración.
-2.  **Construir el Flujo de Valoración:**
-    - Crear la página pública para enviar la valoración (`apps/client/src/pages/public/ReviewPage.tsx`).
-    - Crear el endpoint en el backend (`apps/server/src/api/reviews.routes.ts`) para recibir y guardar la valoración en la base de datos con estado `PENDING`.
-3.  **Construir el Panel de Moderación de Reseñas:**
-    - Crear una nueva página en el panel de admin (`apps/client/src/pages/admin/ReviewsManagementPage.tsx`).
-    - Mostrará todas las reseñas `PENDING` y permitirá al admin "Aprobarlas" o "Ocultarlas".
-    - Crear los endpoints de la API correspondientes para esta gestión.
+2.  **Frontend (`CustomerProfilePage.tsx` - Nuevo):**
+    - Crear una nueva página con dos formularios: uno para datos personales y otro para el cambio de contraseña.
+    - Añadir la ruta correspondiente y el enlace en el menú lateral del `CustomerLayout`.

@@ -1,6 +1,4 @@
-// ====== [5] ROADMAP.md ======
-
-<!-- File: /ROADMAP.md - v2.0 (Flujo de Reserva Completo) -->
+<!-- File: /ROADMAP.md - v2.1 (Panel de Cliente en Progreso) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -25,20 +23,18 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Auto-asignación de empleado para "Cualquier Profesional".
 
 - **✅ Panel de Administración Esencial:**
-  - **✅ Gestión Core:** CRUD completo para Servicios (con estado activo/inactivo) y Empleados (con estado activo/archivado).
+  - **✅ Gestión Core:** CRUD completo para Servicios y Empleados.
   - **✅ Operaciones:** Planning visual de citas (FullCalendar).
     - ✅ Visualización y Reagendamiento (Drag & Drop) funcional.
     - ✅ Creación manual, edición y anulación de citas (modales).
-  - **✅ Gestión Avanzada de Horarios (Empleados y Negocio):**
-    - ✅ Editor de turnos semanales por empleado.
-    - ✅ Calendario visual para gestionar vacaciones y ausencias (con detección de conflictos).
-    - ✅ Interfaz para Horario General del Negocio.
-    - ✅ **Sistema de Anulaciones por Fecha (Festivos y Horarios Especiales).**
+  - **✅ Gestión Avanzada de Horarios:**
+    - ✅ Editor de turnos semanales, calendario de ausencias y anulaciones por fecha.
   - ✅ **Autenticación:** Login seguro para el administrador.
 
-- **🟡 Notificaciones Críticas (Email) - EN PROGRESO:**
-  - [🟡] Email de confirmación de cita para el cliente.
-  - [🟡] Email de notificación de nueva cita para la empresa.
+- **✅ Notificaciones Críticas (Email/WhatsApp) - COMPLETADO:**
+  - [✅] Email/WhatsApp de confirmación de cita para el cliente.
+  - [✅] Email de notificación de nueva cita para la empresa.
+  - [✅] Recordatorios automáticos 24h antes de la cita.
 
 ---
 
@@ -46,16 +42,16 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Mejorar la retención de clientes y automatizar el marketing de reputación.
 
-- **[ ] Panel de Cliente Completo:**
-  - [ ] Registro de usuarios (Email/Google) con verificación.
-  - [ ] Login y gestión de perfil.
-  - [ ] Historial de citas y opción "Reservar de Nuevo".
+- **🟡 Panel de Cliente Completo - EN PROGRESO:**
+  - [✅] Registro de usuarios (Email) y Login.
+  - [🟡] Historial de citas y opción "Reservar de Nuevo".
+  - [ ] Gestión de perfil (cambiar nombre/contraseña).
   - [ ] Gestión de múltiples vehículos.
 
-- **[ ] Sistema de Valoraciones y Reseñas:**
-  - [ ] Email/WhatsApp automático post-servicio para solicitar valoración.
-  - [ ] Panel de moderación de reseñas en el área de administración.
-  - [ ] Visualización de reseñas aprobadas en el sitio público.
+- **✅ Sistema de Valoraciones y Reseñas - COMPLETADO:**
+  - [✅] Notificación automática post-servicio para solicitar valoración.
+  - [✅] Panel de moderación de reseñas en el área de administración.
+  - [✅] Visualización de reseñas aprobadas en el sitio público.
 
 - **[ ] Integración con Pasarela de Pagos (Stripe):**
   - [ ] Integración básica para pagos en el flujo de reserva.
@@ -74,19 +70,10 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [ ] Venta de Tarjetas Regalo digitales.
   - [ ] Sistema de suscripciones mensuales (Club de Lavado).
 
-- **[ ] Dashboard de Analíticas:**
-  - [ ] Gráficos con métricas clave (ingresos, ocupación, servicios populares, etc.).
+- **🟡 Dashboard de Analíticas - EN PROGRESO:**
+  - [✅] KPIs de negocio (citas, ingresos, no-shows).
+  - [✅] Gráfico de actividad semanal.
+  - [ ] Gráficos con métricas avanzadas (servicios populares, etc.).
 
 - **[ ] Notificaciones Avanzadas (WhatsApp):**
-  - [ ] Recordatorios de citas automáticos por WhatsApp.
   - [ ] Notificaciones de nuevas citas por WhatsApp para la empresa.
-
----
-
-## 💡 Futuro (Ideas a Considerar)
-
-- **Pagos Configurables:** Permitir al administrador elegir si las reservas requieren pago (completo/parcial) o no.
-- PWA para Empleados: Una aplicación "instalable" para que los empleados gestionen su agenda diaria.
-- Precios Dinámicos: Configuración de tarifas especiales para horas de alta/baja demanda.
-- Tienda Online: Venta de productos de detailing directamente desde la web.
-- Integración con Software de Contabilidad.

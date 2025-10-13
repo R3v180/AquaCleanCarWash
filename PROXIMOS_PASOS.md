@@ -1,50 +1,45 @@
-<!-- File: /PROXIMOS_PASOS.md - v6.0 (Completar Panel de Cliente: Re-reserva y Perfil) -->
+<!-- File: /PROXIMOS_PASOS.md - v7.0 (Siguiente Objetivo: Gestión de Vehículos) -->
 
-# Próximos Pasos: Completar el Panel de Cliente
+# Próximos Pasos: Implementar la Gestión de Vehículos
 
-Este documento define los siguientes objetivos clave del desarrollo, centrados en finalizar las funcionalidades esenciales del panel de cliente para maximizar la retención y la autonomía del usuario.
-
----
-
-### ✅ **Hito Alcanzado: Ecosistema del Cliente Implementado (v1)**
-
-Se ha finalizado con éxito la implementación de un ciclo de vida completo para el cliente. Los logros clave incluyen:
-
-- **Autenticación de Clientes:** Sistema completo de registro, login y gestión de sesiones.
-- **Reservas Flexibles:** La plataforma ahora soporta reservas de usuarios registrados, invitados y nuevos usuarios que se registran durante el proceso.
-- **Sistema de Valoraciones Completo:** Automatización de la solicitud de reseñas por Email/WhatsApp con tokens seguros, y un panel de moderación funcional para el administrador.
-- **Panel de Cliente (Base):** Implementación de un área de cliente protegida (`/dashboard`) con una página funcional de "Mis Citas".
-- **Autogestión de Citas:** Los clientes ahora pueden cancelar sus propias citas desde su panel.
+Este documento define el siguiente objetivo clave del desarrollo tras haber completado todas las funcionalidades del ecosistema de cliente y seguridad de la cuenta.
 
 ---
 
-### 🎯 **PRÓXIMO OBJETIVO: Implementar la Funcionalidad "Reservar de Nuevo"**
+### ✅ **Hito Alcanzado: Panel de Cliente y Seguridad de Cuenta Completados**
 
-El siguiente paso es añadir una de las funcionalidades de fidelización más importantes: permitir a los clientes volver a reservar un servicio pasado con un solo clic, reduciendo la fricción al mínimo.
+Hemos finalizado con éxito un bloque de trabajo masivo, dejando la experiencia del cliente y la seguridad de la plataforma en un estado robusto y profesional. Los logros clave son:
 
-La implementación se centrará exclusivamente en el frontend:
+- **Panel de Cliente Funcionalmente Completo:**
+  - Se implementó la funcionalidad **"Reservar de Nuevo"** para agilizar la recurrencia.
+  - Se añadió la sección **"Mi Perfil"**, permitiendo a los clientes actualizar su nombre y cambiar su contraseña de forma autónoma.
+  - Se mejoró el **Dashboard del Cliente** con un resumen dinámico que muestra la próxima cita o una llamada a la acción para reservar.
 
-1.  **Modificar `CustomerAppointmentsPage.tsx`:**
-    - Se añadirá la lógica al botón "Reservar de Nuevo" en las tarjetas de citas del historial.
-    - Al hacer clic, la aplicación navegará a la página `/booking`.
-    - Se pasarán los datos clave de la cita (como `serviceId` y `employeeId`) a través de parámetros en la URL (ej: `/booking?serviceId=...&employeeId=...`).
+- **Flujos de Seguridad de Cuenta Estándar:**
+  - Se implementó un flujo de **verificación de email** obligatorio para todos los nuevos registros.
+  - Se construyó un flujo completo de **recuperación de contraseña** ("Contraseña Olvidada").
 
-2.  **Modificar `BookingPage.tsx`:**
-    - Se mejorará el `useEffect` inicial para que detecte la presencia de estos parámetros en la URL al cargar la página.
-    - Si los parámetros existen, se usarán para pre-seleccionar automáticamente el profesional en el campo correspondiente, presentando al cliente un flujo de reserva casi completo.
+- **Mejoras de Entorno y Datos:**
+  - Se potenció el **Dashboard de Administración** con un nuevo gráfico de "Servicios Populares".
+  - Se creó y depuró un **script de `seed`** muy robusto que genera un entorno de demostración completo y realista con un solo comando.
 
 ---
 
-### 🚀 **Después de eso: Hito Siguiente - Autogestión Completa del Perfil de Cliente**
+### 🎯 **PRÓXIMO OBJETIVO: Implementar la Gestión de "Mis Vehículos"**
 
-Una vez finalizada la re-reserva, completaremos el panel de cliente implementando la gestión del perfil para dar autonomía total al usuario.
+El siguiente paso es añadir la última gran funcionalidad prevista para el panel de cliente: permitir a los usuarios guardar y gestionar la información de sus coches. Esto personaliza la experiencia y sienta las bases para futuras funcionalidades, como la selección de vehículo durante la reserva.
 
-La implementación incluirá:
+La implementación se dividirá en:
 
-1.  **Backend (`customerProfile.routes.ts` - Nuevo):**
-    - Crear un endpoint seguro `PUT /api/me/profile` para que los usuarios actualicen su nombre o teléfono.
-    - Crear un endpoint seguro `POST /api/me/change-password` para la gestión de contraseñas.
+1.  **Backend:**
+    - Se crearán los endpoints CRUD (Crear, Leer, Actualizar, Eliminar) para vehículos en una nueva ruta segura: `GET, POST, PUT, DELETE /api/me/vehicles`.
 
-2.  **Frontend (`CustomerProfilePage.tsx` - Nuevo):**
-    - Crear una nueva página con dos formularios: uno para datos personales y otro para el cambio de contraseña.
-    - Añadir la ruta correspondiente y el enlace en el menú lateral del `CustomerLayout`.
+2.  **Frontend:**
+    - Se creará una nueva página `CustomerVehiclesPage.tsx`.
+    - Esta página mostrará una lista de los vehículos guardados por el usuario.
+    - Incluirá un botón "Añadir Vehículo" que abrirá un modal con un formulario para los datos del coche (Alias, Marca, Modelo, etc.).
+    - Cada vehículo listado tendrá opciones para "Editar" y "Eliminar".
+
+3.  **Integración:**
+    - Se añadirá la ruta `/dashboard/vehicles` en `App.tsx`.
+    - Se añadirá el enlace "Mis Vehículos" en el menú lateral de `CustomerLayout.tsx`.

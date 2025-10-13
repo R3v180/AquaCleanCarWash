@@ -1,4 +1,4 @@
-<!-- File: /ROADMAP.md - v2.2 (Panel de Cliente Completado) -->
+<!-- File: /ROADMAP.md - v2.3 (Panel de Cliente y Seguridad Completados) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -43,7 +43,7 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 **Objetivo:** Mejorar la retención de clientes y automatizar el marketing de reputación.
 
 - **✅ Panel de Cliente Completo - COMPLETADO:**
-  - [✅] Registro de usuarios (Email) y Login.
+  - [✅] Registro de usuarios (con verificación de email) y Login.
   - [✅] Historial de citas y opción "Reservar de Nuevo".
   - [✅] Gestión de perfil (cambiar nombre/contraseña).
   - [ ] Gestión de múltiples vehículos.
@@ -54,10 +54,10 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [✅] Visualización de reseñas aprobadas en el sitio público.
 
 - **[ ] Integración con Pasarela de Pagos (Stripe):**
-  - [ ] Integración básica para pagos en el flujo de reserva.
+  - [ ] Integración básica para pagos en el flujo de reserva (Pospuesto).
 
 - **[ ] Integración con Google Calendar:**
-  - [ ] Sincronización bidireccional para citas y bloqueos.
+  - [ ] Sincronización bidireccional para citas y bloqueos (Pospuesto).
 
 ---
 
@@ -70,10 +70,10 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
   - [ ] Venta de Tarjetas Regalo digitales.
   - [ ] Sistema de suscripciones mensuales (Club de Lavado).
 
-- **🟡 Dashboard de Analíticas - EN PROGRESO:**
+- **✅ Dashboard de Analíticas - COMPLETADO (v1):**
   - [✅] KPIs de negocio (citas, ingresos, no-shows).
   - [✅] Gráfico de actividad semanal.
-  - [ ] Gráficos con métricas avanzadas (servicios populares, etc.).
+  - [✅] Gráfico con métricas avanzadas (servicios populares).
 
 - **[ ] Notificaciones Avanzadas (WhatsApp):**
   - [ ] Notificaciones de nuevas citas por WhatsApp para la empresa.

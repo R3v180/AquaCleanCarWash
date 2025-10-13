@@ -1,4 +1,4 @@
-<!-- File: /README.md - v1.5 (PANEL DE CLIENTE COMPLETADO) -->
+<!-- File: /README.md - v1.6 (PANEL DE CLIENTE Y SEGURIDAD COMPLETADOS) -->
 <div align="center">
   <img src="./docs/assets/logo.png" alt="AquaClean Car Wash Logo" width="200"/>
 </div>
@@ -24,16 +24,16 @@ Una solución web completa para lavaderos de coches que automatiza las reservas,
 
 ## ✨ Características Principales
 
-| Característica                          | Estado                       | Descripción                                                                                                                                                              |
-| :-------------------------------------- | :--------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 📅 **Sistema de Reservas 24/7**         | 🟢 Implementado              | Permite a clientes (registrados o invitados) ver la disponibilidad en tiempo real y reservar una cita.                                                                   |
-| 📊 **Panel de Administración Completo** | 🟢 Implementado              | Centro de control para gestionar citas, servicios, empleados y horarios. Incluye un dashboard con KPIs, planning visual interactivo y un panel de moderación de reseñas. |
-| 👤 **Panel de Cliente**                 | 🟢 Implementado              | Los clientes pueden registrarse, iniciar sesión, ver su historial de citas (con opción de cancelar y re-reservar) y gestionar su perfil personal.                        |
-| ⭐ **Sistema de Valoraciones**          | 🟢 Implementado              | Automatiza la solicitud de reseñas post-servicio por Email/WhatsApp y permite moderarlas antes de mostrarlas públicamente en la web.                                     |
-| 🔔 **Notificaciones Automáticas**       | 🟢 Implementado              | Confirmaciones de reserva y recordatorios 24h antes por Email/WhatsApp para reducir las ausencias y mantener a todos informados.                                         |
-| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                    |
-| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                  |
-| 📱 **Diseño 100% Adaptativo**           | 🟡 Parcialmente Implementado | La experiencia de usuario es funcional en móvil, tablet y ordenador, con mejoras de pulido pendientes.                                                                   |
+| Característica                          | Estado                       | Descripción                                                                                                                                                                                   |
+| :-------------------------------------- | :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📅 **Sistema de Reservas 24/7**         | 🟢 Implementado              | Permite a clientes (registrados o invitados) ver la disponibilidad en tiempo real y reservar una cita.                                                                                        |
+| 📊 **Panel de Administración Completo** | 🟢 Implementado              | Centro de control para gestionar citas, servicios, empleados y horarios. Incluye un dashboard con KPIs, planning visual interactivo y un panel de moderación de reseñas.                      |
+| 👤 **Panel de Cliente**                 | 🟢 Implementado              | Los clientes pueden registrarse (con verificación de email), iniciar sesión, ver su historial de citas (con opción de cancelar y re-reservar), gestionar su perfil y recuperar su contraseña. |
+| ⭐ **Sistema de Valoraciones**          | 🟢 Implementado              | Automatiza la solicitud de reseñas post-servicio por Email/WhatsApp y permite moderarlas antes de mostrarlas públicamente en la web.                                                          |
+| 🔔 **Notificaciones Automáticas**       | 🟢 Implementado              | Confirmaciones, recordatorios 24h antes y emails de seguridad (verificación/reseteo) para mantener a todos informados.                                                                        |
+| 💳 **Múltiples Vías de Ingreso**        | ⏳ Pendiente                 | Soporte para bonos, tarjetas regalo y suscripciones mensuales para fidelizar clientes y generar ingresos recurrentes.                                                                         |
+| 🔗 **Integraciones Clave**              | ⏳ Pendiente                 | Sincronización bidireccional con Google Calendar y pasarela de pagos segura con Stripe.                                                                                                       |
+| 📱 **Diseño 100% Adaptativo**           | 🟡 Parcialmente Implementado | La experiencia de usuario es funcional en móvil, tablet y ordenador, con mejoras de pulido pendientes.                                                                                        |
 
 ---
 

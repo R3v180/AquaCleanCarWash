@@ -1,4 +1,5 @@
-// File: /apps/server/src/api/adminAppointments.routes.ts (PASANDO NÚMERO DE TELÉFONO)
+// ====== [55] apps/server/src/api/adminAppointments.routes.ts ======
+// File: /apps/server/src/api/adminAppointments.routes.ts (DELEGANDO LÓGICA DE CONTACTO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
@@ -88,7 +89,6 @@ router.put('/:id', async (req, res) => {
     
     const appointmentBeforeUpdate = await prisma.appointment.findUnique({ 
         where: { id },
-        include: { user: true } // Incluimos el user para tener acceso a su teléfono
     });
 
     if (!appointmentBeforeUpdate) {
@@ -122,35 +122,23 @@ router.put('/:id', async (req, res) => {
         }
     }
 
+    // --- LÓGICA DE ACTUALIZACIÓN Y NOTIFICACIÓN REFACTORIZADA ---
     const updatedAppointment = await prisma.appointment.update({
       where: { id },
       data: updateData,
-      include: { user: true, employee: true, services: { include: { service: true } } },
+      // Siempre incluimos los datos necesarios para las notificaciones
+      include: { user: true, employee: true, services: { include: { service: true } } }, 
     });
 
     if (
       updatedAppointment.status === AppointmentStatus.COMPLETED &&
       appointmentBeforeUpdate.status !== AppointmentStatus.COMPLETED
     ) {
-      console.log(`[+] TRIGGER: La cita ${id} ha cambiado a COMPLETED. Enviando solicitud de valoración.`);
-      
-      const notificationUser = updatedAppointment.user || {
-        name: updatedAppointment.guestName,
-        email: updatedAppointment.guestEmail,
-      };
-      
-      // --- LÓGICA CORREGIDA ---
-      // Buscamos el teléfono del invitado o del usuario registrado
-      // NOTA: El teléfono del usuario registrado no existe aún en el schema. Por ahora, nos basamos en el 'guestPhone'.
-      const customerPhone = updatedAppointment.guestPhone; 
-      
-      if (notificationUser.email && customerPhone) {
-        const tempAppointmentDetails = { ...updatedAppointment, user: notificationUser };
-        notificationService.sendReviewRequest(tempAppointmentDetails as any, customerPhone);
-      } else {
-        console.warn(`No se pudo enviar solicitud de valoración para la cita ${id}: falta email o teléfono.`);
-      }
+      console.log(`[+] TRIGGER: La cita ${id} ha cambiado a COMPLETED. Delegando a NotificationService.`);
+      // Simplemente pasamos el objeto completo. El servicio se encarga de la lógica de contacto.
+      notificationService.sendReviewRequest(updatedAppointment as any);
     }
+    // --- FIN DE LA LÓGICA REFACTORIZADA ---
 
     res.status(200).json(updatedAppointment);
   } catch (error) {

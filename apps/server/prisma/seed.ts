@@ -1,4 +1,5 @@
-// File: /apps/server/prisma/seed.ts (CON CORRECCIÓN DE CITAS FUTURAS DUPLICADAS)
+// ====== [54] apps/server/prisma/seed.ts ======
+// File: /apps/server/prisma/seed.ts (CON DATOS DE CONTACTO CENTRALIZADOS PARA PRUEBAS)
 
 import { PrismaClient, UserRole, EmployeeStatus, AppointmentStatus, ReviewStatus, Prisma } from '@prisma/client';
 import { hash } from 'bcryptjs';
@@ -38,18 +39,23 @@ async function main() {
   });
   console.log(`✅ Usuario admin 'admin@aquaclean.com' asegurado.`);
 
+  // --- USUARIO PRINCIPAL ACTUALIZADO CON TELÉFONO ---
   const olivierUser = await prisma.user.upsert({
     where: { email: 'olivierhottelet1980@gmail.com' },
-    update: {},
+    update: {
+      phone: '+34614347430',
+    },
     create: {
       name: 'olivier hottelet',
       email: 'olivierhottelet1980@gmail.com',
       passwordHash: await hash('Matrix2010@', 12),
       role: UserRole.CUSTOMER,
       emailVerified: new Date(),
+      phone: '+34614347430', // También en la creación
     },
   });
-  console.log(`✅ Cliente fijo 'olivierhottelet1980@gmail.com' asegurado.`);
+  console.log(`✅ Cliente fijo 'olivierhottelet1980@gmail.com' asegurado con teléfono.`);
+  // --- FIN DE LA ACTUALIZACIÓN ---
 
   const mainService = await prisma.service.create({
     data: {
@@ -138,37 +144,41 @@ async function main() {
   console.log(`👤 Asignando historial de citas a ${olivierUser.name}...`);
   const pastAppointments = await prisma.appointment.findMany({ where: { status: 'AVAILABLE', startTime: { lt: dayjs().toDate() } }, take: 3, orderBy: { startTime: 'desc' } });
   
-  // --- BLOQUE MODIFICADO PARA EVITAR CONFLICTOS ---
   const firstFutureAppointment = await prisma.appointment.findFirst({ where: { status: 'AVAILABLE', startTime: { gt: dayjs().toDate() } }, orderBy: { startTime: 'asc' } });
   let secondFutureAppointment = null;
   if (firstFutureAppointment) {
     secondFutureAppointment = await prisma.appointment.findFirst({
         where: { 
             status: 'AVAILABLE', 
-            // Buscamos una cita que empiece DESPUÉS de que termine la primera
             startTime: { gt: firstFutureAppointment.endTime } 
         },
         orderBy: { startTime: 'asc' }
     });
   }
 
+  // --- CITAS DEL USUARIO PRINCIPAL ACTUALIZADAS CON TELÉFONO ---
+  const userDataForAppointments = {
+    userId: olivierUser.id,
+    guestPhone: '+34614347430',
+  };
+
   if(pastAppointments[0]) {
-    await prisma.appointment.update({ where: { id: pastAppointments[0].id }, data: { status: 'COMPLETED', userId: olivierUser.id }});
+    await prisma.appointment.update({ where: { id: pastAppointments[0].id }, data: { status: 'COMPLETED', ...userDataForAppointments }});
     await prisma.review.create({ data: { appointmentId: pastAppointments[0].id, userId: olivierUser.id, employeeId: pastAppointments[0].employeeId, rating: 5, comment: '¡Servicio impecable como siempre! El mejor sitio para cuidar mi coche.', status: 'APPROVED' }});
   }
-  if(pastAppointments[1]) await prisma.appointment.update({ where: { id: pastAppointments[1].id }, data: { status: 'CANCELLED', userId: olivierUser.id }});
-  if(pastAppointments[2]) await prisma.appointment.update({ where: { id: pastAppointments[2].id }, data: { status: 'NO_SHOW', userId: olivierUser.id }});
+  if(pastAppointments[1]) await prisma.appointment.update({ where: { id: pastAppointments[1].id }, data: { status: 'CANCELLED', ...userDataForAppointments }});
+  if(pastAppointments[2]) await prisma.appointment.update({ where: { id: pastAppointments[2].id }, data: { status: 'NO_SHOW', ...userDataForAppointments }});
   
-  if(firstFutureAppointment) await prisma.appointment.update({ where: { id: firstFutureAppointment.id }, data: { status: 'CONFIRMED', userId: olivierUser.id }});
-  if(secondFutureAppointment) await prisma.appointment.update({ where: { id: secondFutureAppointment.id }, data: { status: 'CONFIRMED', userId: olivierUser.id }});
-  // --- FIN DEL BLOQUE MODIFICADO ---
+  if(firstFutureAppointment) await prisma.appointment.update({ where: { id: firstFutureAppointment.id }, data: { status: 'CONFIRMED', ...userDataForAppointments }});
+  if(secondFutureAppointment) await prisma.appointment.update({ where: { id: secondFutureAppointment.id }, data: { status: 'CONFIRMED', ...userDataForAppointments }});
   
-  console.log('✅ Historial de Olivier creado.');
+  console.log('✅ Historial de Olivier creado y actualizado con teléfono.');
 
-  console.log('🎭 Simulando reservas aleatorias para el resto de huecos...');
-  allCreatedAppointments = await prisma.appointment.findMany();
+  console.log('🎭 Simulando reservas de invitado con datos de contacto centralizados...');
+  allCreatedAppointments = await prisma.appointment.findMany({ where: { status: 'AVAILABLE' } });
+
+  // --- LÓGICA DE SIMULACIÓN REESCRITA ---
   for (const appt of allCreatedAppointments) {
-    if (appt.status !== 'AVAILABLE') continue;
     const isPast = dayjs(appt.startTime).isBefore(dayjs().startOf('day'));
     let newStatus: AppointmentStatus | null = null;
     
@@ -177,12 +187,20 @@ async function main() {
     else if (Math.random() < 0.1) newStatus = 'CANCELLED';
     
     if (newStatus) {
-      const customerEmail = `cliente.${appt.id}@example.com`;
-      const customer = await prisma.user.create({ data: { email: customerEmail, name: `Cliente ${dayjs(appt.startTime).format('HH:mm')}` }});
-      await prisma.appointment.update({ where: { id: appt.id }, data: { status: newStatus, userId: customer.id } });
+      await prisma.appointment.update({ 
+        where: { id: appt.id }, 
+        data: { 
+          status: newStatus, 
+          // Rellenamos como si fuera un invitado, para centralizar las notificaciones de prueba
+          guestName: `Cliente de Prueba ${dayjs(appt.startTime).format('HH:mm')}`,
+          guestEmail: 'olivierhottelet1980@gmail.com',
+          guestPhone: '+34614347430',
+        } 
+      });
     }
   }
-  console.log(`✅ Simulación de relleno completada.`);
+  console.log(`✅ Simulación de relleno completada. Todas las notificaciones irán a tus dispositivos.`);
+  // --- FIN DE LA LÓGICA REESCRITA ---
 
   console.log('✨ Creando escenarios de prueba específicos...');
   const juan = await prisma.employee.findUnique({ where: { email: 'juan@aquaclean.com' } });

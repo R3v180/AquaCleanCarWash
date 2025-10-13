@@ -1,11 +1,12 @@
-// File: /apps/client/src/layouts/CustomerLayout.tsx (CON ENLACE A PERFIL)
+// ====== [23] apps/client/src/layouts/CustomerLayout.tsx ======
+// File: /apps/client/src/layouts/CustomerLayout.tsx (CON PROMPT DE NOTIFICACIONES PUSH)
 
 import { Outlet, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { AppShell, Burger, Group, Title, Button, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-// --- IMPORTACIONES MODIFICADAS ---
 import { IconLogout, IconCalendarPlus, IconHome, IconUserCircle } from '@tabler/icons-react';
+import { PushNotificationPrompt } from '../components/common/PushNotificationPrompt'; // --- IMPORTACIÓN AÑADIDA ---
 
 export function CustomerLayout() {
   const navigate = useNavigate();
@@ -47,100 +48,103 @@ export function CustomerLayout() {
   };
 
   return (
-    <AppShell
-      header={{ height: 60 }}
-      navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      padding="md"
-    >
-      <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
-          <Group>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <Title order={4}>Mi Cuenta de AquaClean</Title>
-          </Group>
+    <>
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        padding="md"
+      >
+        <AppShell.Header>
+          <Group h="100%" px="md" justify="space-between">
+            <Group>
+              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+              <Title order={4}>Mi Cuenta de AquaClean</Title>
+            </Group>
 
-          <Group visibleFrom="sm">
-            <Button
-              leftSection={<IconCalendarPlus size={16} />}
-              onClick={() => navigate('/booking')}
-            >
-              Reservar Cita
-            </Button>
-            <Button
-              variant="light"
-              color="red"
-              leftSection={<IconLogout size={14} />}
-              onClick={handleLogout}
-            >
-              Cerrar Sesión
-            </Button>
-          </Group>
-
-        </Group>
-      </AppShell.Header>
-
-      <AppShell.Navbar p="md">
-         <NavLink
-            to="/dashboard"
-            end
-            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
-         >
-            <IconHome size={18} style={{ marginRight: '10px' }} />
-            Resumen
-         </NavLink>
-         <NavLink
-            to="/dashboard/appointments"
-            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
-         >
-            <IconCalendarPlus size={18} style={{ marginRight: '10px' }} />
-            Mis Citas
-         </NavLink>
-         
-         {/* --- ENLACE AÑADIDO --- */}
-         <NavLink
-            to="/dashboard/profile"
-            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
-         >
-            <IconUserCircle size={18} style={{ marginRight: '10px' }} />
-            Mi Perfil
-         </NavLink>
-         {/* --- FIN DEL ENLACE AÑADIDO --- */}
-
-         <Divider my="md" />
-         <NavLink
-            to="/"
-            style={linkStyles}
-         >
-            <IconHome size={18} style={{ marginRight: '10px' }} />
-            Página de Inicio
-         </NavLink>
-
-         <div style={{ marginTop: 'auto' }}>
-            <Button
-                fullWidth
+            <Group visibleFrom="sm">
+              <Button
                 leftSection={<IconCalendarPlus size={16} />}
                 onClick={() => navigate('/booking')}
-                hiddenFrom="sm"
-            >
+              >
                 Reservar Cita
-            </Button>
-            <Button
+              </Button>
+              <Button
                 variant="light"
                 color="red"
                 leftSection={<IconLogout size={14} />}
                 onClick={handleLogout}
-                hiddenFrom="sm"
-                mt="md"
-                fullWidth
-            >
+              >
                 Cerrar Sesión
-            </Button>
-         </div>
-      </AppShell.Navbar>
+              </Button>
+            </Group>
 
-      <AppShell.Main>
-        <Outlet />
-      </AppShell.Main>
-    </AppShell>
+          </Group>
+        </AppShell.Header>
+
+        <AppShell.Navbar p="md">
+           <NavLink
+              to="/dashboard"
+              end
+              style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+           >
+              <IconHome size={18} style={{ marginRight: '10px' }} />
+              Resumen
+           </NavLink>
+           <NavLink
+              to="/dashboard/appointments"
+              style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+           >
+              <IconCalendarPlus size={18} style={{ marginRight: '10px' }} />
+              Mis Citas
+           </NavLink>
+           
+           <NavLink
+              to="/dashboard/profile"
+              style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+           >
+              <IconUserCircle size={18} style={{ marginRight: '10px' }} />
+              Mi Perfil
+           </NavLink>
+
+           <Divider my="md" />
+           <NavLink
+              to="/"
+              style={linkStyles}
+           >
+              <IconHome size={18} style={{ marginRight: '10px' }} />
+              Página de Inicio
+           </NavLink>
+
+           <div style={{ marginTop: 'auto' }}>
+              <Button
+                  fullWidth
+                  leftSection={<IconCalendarPlus size={16} />}
+                  onClick={() => navigate('/booking')}
+                  hiddenFrom="sm"
+              >
+                  Reservar Cita
+              </Button>
+              <Button
+                  variant="light"
+                  color="red"
+                  leftSection={<IconLogout size={14} />}
+                  onClick={handleLogout}
+                  hiddenFrom="sm"
+                  mt="md"
+                  fullWidth
+              >
+                  Cerrar Sesión
+              </Button>
+           </div>
+        </AppShell.Navbar>
+
+        <AppShell.Main>
+          <Outlet />
+        </AppShell.Main>
+      </AppShell>
+      
+      {/* --- COMPONENTE AÑADIDO --- */}
+      <PushNotificationPrompt />
+    </>
   );
 }

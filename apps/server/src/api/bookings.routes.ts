@@ -1,10 +1,11 @@
-// File: /apps/server/src/api/bookings.routes.ts (CON LÓGICA PARA USUARIO LOGUEADO)
+// ====== [61] apps/server/src/api/bookings.routes.ts ======
+// File: /apps/server/src/api/bookings.routes.ts (GUARDANDO TELÉFONO EN PERFIL DE USUARIO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
 import dayjs from 'dayjs';
 import { hash } from 'bcryptjs';
-import jwt from 'jsonwebtoken'; // <-- Importamos JWT
+import jwt from 'jsonwebtoken';
 import prisma from '../lib/prisma';
 import { AppointmentStatus, Prisma, UserRole } from '@prisma/client';
 import { notificationService } from '../lib/notificationService';
@@ -50,7 +51,7 @@ router.post('/', async (req, res) => {
       return res.status(409).json({ message: 'Lo sentimos, este hueco ya no está disponible.' });
     }
 
-    // --- 2. LÓGICA MEJORADA PARA DETECTAR USUARIO LOGUEADO ---
+    // 2. Lógica para detectar usuario logueado o crear cuenta
     let appointmentUpdateData: Prisma.AppointmentUpdateInput = {};
     let authenticatedUser: { id: string, name: string | null, email: string } | null = null;
 
@@ -69,26 +70,37 @@ router.post('/', async (req, res) => {
     }
 
     if (authenticatedUser) {
-        // --- Caso: Usuario ya logueado ---
         appointmentUpdateData.user = { connect: { id: authenticatedUser.id } };
+        // También guardamos el teléfono en la cita por si el usuario usa uno diferente para esta reserva específica
+        appointmentUpdateData.guestPhone = customerPhone; 
         console.log(`[POST /bookings] Cita solicitada por usuario autenticado: ${authenticatedUser.email}`);
+
     } else if (createAccount && password) {
-      // --- Caso: Invitado creando cuenta ---
       const passwordHash = await hash(password, 12);
+      
+      // --- CAMBIO CLAVE: AÑADIMOS EL TELÉFONO AL CREAR EL USUARIO ---
       const newUser = await prisma.user.create({
-        data: { name: customerName, email: customerEmail, passwordHash, role: UserRole.CUSTOMER },
+        data: { 
+          name: customerName, 
+          email: customerEmail, 
+          passwordHash, 
+          role: UserRole.CUSTOMER,
+          phone: customerPhone, // <-- LÍNEA AÑADIDA
+        },
       });
+      // --- FIN DEL CAMBIO ---
+
       appointmentUpdateData.user = { connect: { id: newUser.id } };
-      authenticatedUser = newUser; // Lo tratamos como usuario para la notificación
-      console.log(`[POST /bookings] Nueva cuenta creada para ${customerEmail} y vinculada.`);
+      appointmentUpdateData.guestPhone = customerPhone; // Guardamos también en la cita
+      authenticatedUser = newUser; 
+      console.log(`[POST /bookings] Nueva cuenta creada para ${customerEmail} y vinculada (con teléfono).`);
+    
     } else {
-      // --- Caso: Reserva como invitado ---
       appointmentUpdateData.guestName = customerName;
       appointmentUpdateData.guestEmail = customerEmail;
       appointmentUpdateData.guestPhone = customerPhone;
       console.log(`[POST /bookings] Cita creada como invitado para ${customerEmail}.`);
     }
-    // --- FIN DE LA LÓGICA MEJORADA ---
 
     // 3. Actualizar la cita
     const confirmedAppointment = await prisma.appointment.update({

@@ -1,22 +1,33 @@
-// File: /apps/client/src/lib/apiClient.ts
+// File: /apps/client/src/lib/apiClient.ts (ACTUALIZADO CON INTERCEPTOR DE AUTH)
 
 import axios from 'axios';
 
-// Creamos una instancia de Axios con una configuración base.
-// Todas las llamadas que hagamos usando 'apiClient' partirán de esta URL.
 const apiClient = axios.create({
-  // La URL base de nuestra API de backend.
-  // Para un proyecto en producción, esto vendría de una variable de entorno,
-  // pero para el desarrollo local, esta configuración es perfecta.
   baseURL: 'http://localhost:3001/api',
-
-  // Opcional: un tiempo de espera de 10 segundos para las peticiones.
   timeout: 10000,
-
-  // Opcional: encabezados por defecto que se enviarán con cada petición.
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// --- INTERCEPTOR AÑADIDO ---
+// Este código se ejecuta en CADA petición que se hace con apiClient
+apiClient.interceptors.request.use(
+  (config) => {
+    // Buscamos el token del cliente. Podríamos añadir lógica para el token de admin también.
+    const token = localStorage.getItem('customerAuthToken');
+    
+    if (token) {
+      // Si el token existe, lo añadimos a la cabecera de la petición
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    // Manejar errores de la configuración de la petición
+    return Promise.reject(error);
+  }
+);
 
 export default apiClient;

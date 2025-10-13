@@ -1,4 +1,4 @@
-// File: /apps/client/src/layouts/CustomerLayout.tsx (NUEVO ARCHIVO)
+// File: /apps/client/src/layouts/CustomerLayout.tsx (SIN CAMBIOS, SOLO CONFIRMACIÓN)
 
 import { Outlet, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { AppShell, Burger, Group, Title, Button } from '@mantine/core';
@@ -77,6 +77,7 @@ export function CustomerLayout() {
          >
             Resumen
          </NavLink>
+         {/* Este es el enlace que ahora funcionará y tendrá un estilo activo */}
          <NavLink 
             to="/dashboard/appointments" 
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
@@ -84,7 +85,6 @@ export function CustomerLayout() {
             Mis Citas
          </NavLink>
 
-         {/* Botón de logout para vista móvil */}
          <Button
             variant="light"
             color="red"

@@ -1,4 +1,4 @@
-// File: /apps/client/src/App.tsx (AÑADIENDO RUTA DE GESTIÓN DE RESEÑAS)
+// File: /apps/client/src/App.tsx (CON RUTA 'MIS CITAS')
 
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
@@ -18,9 +18,10 @@ import { RegisterPage } from './pages/public/RegisterPage';
 import { CustomerLayout } from './layouts/CustomerLayout';
 import { CustomerDashboardPage } from './pages/customer/CustomerDashboardPage';
 import { ReviewPage } from './pages/public/ReviewPage';
+import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
 
 // --- IMPORTACIÓN AÑADIDA ---
-import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
+import { CustomerAppointmentsPage } from './pages/customer/CustomerAppointmentsPage';
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
       {/* Rutas Protegidas para Clientes */}
       <Route path="/dashboard" element={<CustomerLayout />}>
         <Route index element={<CustomerDashboardPage />} />
+        
+        {/* --- RUTA DESCOMENTADA Y ACTUALIZADA --- */}
+        <Route path="appointments" element={<CustomerAppointmentsPage />} />
       </Route>
 
       {/* Ruta de Login para Admin (sin layout) */}
@@ -51,8 +55,6 @@ function App() {
         <Route path="employees" element={<EmployeesManagementPage />} />
         <Route path="planning" element={<AdminPlanningPage />} />
         <Route path="settings" element={<BusinessSettingsPage />} />
-        
-        {/* --- RUTA AÑADIDA --- */}
         <Route path="reviews" element={<ReviewsManagementPage />} />
       </Route>
     </Routes>

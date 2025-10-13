@@ -1,4 +1,4 @@
-// File: /apps/client/src/App.tsx (CON RUTA PARA CHECK EMAIL)
+// File: /apps/client/src/App.tsx (CON RUTA PARA RESET PASSWORD)
 
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
@@ -21,9 +21,11 @@ import { ReviewPage } from './pages/public/ReviewPage';
 import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
 import { CustomerAppointmentsPage } from './pages/customer/CustomerAppointmentsPage';
 import { CustomerProfilePage } from './pages/customer/CustomerProfilePage';
+import { CheckEmailPage } from './pages/public/CheckEmailPage';
+import { ForgotPasswordPage } from './pages/public/ForgotPasswordPage';
 
 // --- IMPORTACIÓN AÑADIDA ---
-import { CheckEmailPage } from './pages/public/CheckEmailPage';
+import { ResetPasswordPage } from './pages/public/ResetPasswordPage';
 
 
 function App() {
@@ -38,9 +40,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/review" element={<ReviewPage />} />
+        <Route path="/check-your-email" element={<CheckEmailPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* --- RUTA AÑADIDA --- */}
-        <Route path="/check-your-email" element={<CheckEmailPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Route>
 
       {/* Rutas Protegidas para Clientes */}

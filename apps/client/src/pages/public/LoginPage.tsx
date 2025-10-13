@@ -1,9 +1,8 @@
-// File: /apps/client/src/pages/public/LoginPage.tsx (CON MANEJO DE VERIFICACIÓN)
+// File: /apps/client/src/pages/public/LoginPage.tsx (CON ENLACE A FORGOT PASSWORD)
 
-import { useEffect } from 'react'; // <-- useEffect importado
+import { useEffect } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
-// --- useSearchParams importado ---
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import {
   Container,
@@ -16,10 +15,11 @@ import {
   LoadingOverlay,
   Stack,
   Anchor,
-  Alert, // <-- Alert importado
+  Alert,
+  Group, // <-- Group importado
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconCircleCheck } from '@tabler/icons-react'; // <-- Icono importado
+import { IconCircleCheck } from '@tabler/icons-react';
 import apiClient from '../../lib/apiClient';
 
 const loginSchema = z.object({
@@ -29,9 +29,8 @@ const loginSchema = z.object({
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); // <-- Hook añadido
+  const [searchParams] = useSearchParams();
 
-  // --- useEffect AÑADIDO PARA LEER PARÁMETROS DE URL ---
   useEffect(() => {
     const isVerified = searchParams.get('verified');
     const error = searchParams.get('error');
@@ -51,7 +50,7 @@ export function LoginPage() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Se ejecuta solo una vez al cargar la página
+  }, []);
 
   const form = useForm({
     validate: zodResolver(loginSchema),
@@ -108,6 +107,15 @@ export function LoginPage() {
             required
             {...form.getInputProps('password')}
           />
+          
+          {/* --- ENLACE AÑADIDO --- */}
+          <Group justify="flex-end">
+            <Anchor component={Link} to="/forgot-password" fz="xs">
+              ¿Has olvidado tu contraseña?
+            </Anchor>
+          </Group>
+          {/* --- FIN DEL ENLACE AÑADIDO --- */}
+
           <Button fullWidth mt="xl" type="submit">
             Iniciar Sesión
           </Button>

@@ -1,4 +1,4 @@
-<!-- File: /ROADMAP.md - v2.1 (Panel de Cliente en Progreso) -->
+<!-- File: /ROADMAP.md - v2.2 (Panel de Cliente Completado) -->
 
 # Roadmap del Proyecto AquaClean Car Wash
 
@@ -42,10 +42,10 @@ Este documento describe el plan de desarrollo por fases para la plataforma. El o
 
 **Objetivo:** Mejorar la retención de clientes y automatizar el marketing de reputación.
 
-- **🟡 Panel de Cliente Completo - EN PROGRESO:**
+- **✅ Panel de Cliente Completo - COMPLETADO:**
   - [✅] Registro de usuarios (Email) y Login.
-  - [🟡] Historial de citas y opción "Reservar de Nuevo".
-  - [ ] Gestión de perfil (cambiar nombre/contraseña).
+  - [✅] Historial de citas y opción "Reservar de Nuevo".
+  - [✅] Gestión de perfil (cambiar nombre/contraseña).
   - [ ] Gestión de múltiples vehículos.
 
 - **✅ Sistema de Valoraciones y Reseñas - COMPLETADO:**

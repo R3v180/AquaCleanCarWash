@@ -1,4 +1,4 @@
-// File: /apps/server/src/api/adminDashboard.routes.ts (CON ENDPOINT PARA GRÁFICO)
+// File: /apps/server/src/api/adminDashboard.routes.ts (CON ENDPOINT DE SERVICIOS POPULARES)
 
 import { Router } from 'express';
 import dayjs from 'dayjs';
@@ -7,7 +7,7 @@ import { AppointmentStatus, UserRole } from '@prisma/client';
 
 const router = Router();
 
-// --- ENDPOINT DE KPIs (sin cambios) ---
+// Endpoint de KPIs (sin cambios)
 router.get('/kpis', async (req, res) => {
   try {
     const todayStart = dayjs().startOf('day').toDate();
@@ -52,49 +52,87 @@ router.get('/kpis', async (req, res) => {
 });
 
 
-// --- NUEVO ENDPOINT PARA EL GRÁFICO ---
+// Endpoint para el gráfico de citas a lo largo del tiempo (sin cambios)
 router.get('/charts/bookings-over-time', async (req, res) => {
     try {
         const today = dayjs().endOf('day');
         const sevenDaysAgo = dayjs().subtract(6, 'day').startOf('day');
-
         const appointments = await prisma.appointment.findMany({
             where: {
-                startTime: {
-                    gte: sevenDaysAgo.toDate(),
-                    lte: today.toDate(),
-                },
+                startTime: { gte: sevenDaysAgo.toDate(), lte: today.toDate() },
                 status: { in: [AppointmentStatus.CONFIRMED, AppointmentStatus.COMPLETED] },
             },
-            select: {
-                startTime: true,
-            },
+            select: { startTime: true },
         });
-
-        // Agrupamos las citas por día
         const countsByDay = new Map<string, number>();
         for (const appt of appointments) {
             const date = dayjs(appt.startTime).format('YYYY-MM-DD');
             countsByDay.set(date, (countsByDay.get(date) || 0) + 1);
         }
-
-        // Creamos el array de datos final, rellenando con 0 los días sin citas
         const chartData = [];
         for (let i = 0; i < 7; i++) {
             const day = sevenDaysAgo.add(i, 'day');
             const dateKey = day.format('YYYY-MM-DD');
             const formattedDate = day.format('DD/MM');
-            
-            chartData.push({
-                date: formattedDate,
-                Citas: countsByDay.get(dateKey) || 0,
-            });
+            chartData.push({ date: formattedDate, Citas: countsByDay.get(dateKey) || 0 });
         }
+        res.status(200).json(chartData);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno del servidor.' });
+    }
+});
+
+
+// --- NUEVO ENDPOINT PARA EL GRÁFICO DE SERVICIOS POPULARES ---
+router.get('/charts/popular-services', async (req, res) => {
+    try {
+        // 1. Agrupamos y contamos los servicios en citas completadas
+        const serviceCounts = await prisma.appointmentService.groupBy({
+            by: ['serviceId'],
+            where: {
+                appointment: {
+                    status: AppointmentStatus.COMPLETED,
+                },
+            },
+            _count: {
+                serviceId: true,
+            },
+            orderBy: {
+                _count: {
+                    serviceId: 'desc',
+                },
+            },
+            take: 5, // Obtenemos el Top 5
+        });
+
+        if (serviceCounts.length === 0) {
+            return res.status(200).json([]);
+        }
+
+        // 2. Extraemos los IDs para buscar los nombres
+        const serviceIds = serviceCounts.map(item => item.serviceId);
+        const services = await prisma.service.findMany({
+            where: {
+                id: { in: serviceIds },
+            },
+            select: {
+                id: true,
+                name: true,
+            },
+        });
+
+        // 3. Mapeamos los nombres a los conteos para la respuesta final
+        const serviceMap = new Map(services.map(s => [s.id, s.name]));
+        
+        const chartData = serviceCounts.map(item => ({
+            name: serviceMap.get(item.serviceId) || 'Servicio Desconocido',
+            count: item._count.serviceId,
+        }));
 
         res.status(200).json(chartData);
 
     } catch (error) {
-        console.error('Error fetching bookings over time data:', error);
+        console.error('Error fetching popular services data:', error);
         res.status(500).json({ message: 'Error interno del servidor.' });
     }
 });

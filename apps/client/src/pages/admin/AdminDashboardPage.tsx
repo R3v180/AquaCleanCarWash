@@ -1,8 +1,8 @@
-// File: /apps/client/src/pages/admin/AdminDashboardPage.tsx (CON GRÁFICO DE BARRAS)
+// File: /apps/client/src/pages/admin/AdminDashboardPage.tsx (CON CORRECCIÓN DE TIPO)
 
 import { useEffect, useState } from 'react';
 import { Title, Text, SimpleGrid, Paper, Group, ThemeIcon, LoadingOverlay, Alert } from '@mantine/core';
-import { BarChart } from '@mantine/charts'; // <-- 1. IMPORTAMOS EL GRÁFICO
+import { BarChart, DonutChart } from '@mantine/charts';
 import { IconCalendar, IconCash, IconUserPlus, IconUserExclamation } from '@tabler/icons-react';
 import apiClient from '../../lib/apiClient';
 
@@ -12,11 +12,13 @@ interface KpiData {
   newCustomersThisMonth: number;
   noShowRateThisMonth: number;
 }
-
-// Interfaz para los datos del gráfico
-interface ChartData {
+interface BookingsChartData {
   date: string;
   Citas: number;
+}
+interface PopularServiceChartData {
+  name: string;
+  count: number;
 }
 
 interface StatsCardProps {
@@ -45,20 +47,34 @@ function StatsCard({ icon, title, value, description, color }: StatsCardProps) {
 
 export function AdminDashboardPage() {
   const [kpis, setKpis] = useState<KpiData | null>(null);
-  const [chartData, setChartData] = useState<ChartData[]>([]); // <-- 2. NUEVO ESTADO
+  const [bookingsChartData, setBookingsChartData] = useState<BookingsChartData[]>([]);
+  const [popularServicesData, setPopularServicesData] = useState<{ name: string; value: number; color: string; }[]>([]);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // --- 3. LLAMADAS EN PARALELO ---
-        const [kpisResponse, chartResponse] = await Promise.all([
+        const [kpisResponse, bookingsChartResponse, popularServicesResponse] = await Promise.all([
           apiClient.get<KpiData>('/admin/dashboard/kpis'),
-          apiClient.get<ChartData[]>('/admin/dashboard/charts/bookings-over-time')
+          apiClient.get<BookingsChartData[]>('/admin/dashboard/charts/bookings-over-time'),
+          apiClient.get<PopularServiceChartData[]>('/admin/dashboard/charts/popular-services')
         ]);
+        
         setKpis(kpisResponse.data);
-        setChartData(chartResponse.data);
+        setBookingsChartData(bookingsChartResponse.data);
+        
+        const colors = ['blue.6', 'grape.6', 'teal.6', 'orange.6', 'indigo.6'];
+        const transformedData = popularServicesResponse.data.map((item, index) => ({
+          name: item.name,
+          value: item.count,
+          // --- LÍNEA CORREGIDA ---
+          // Añadimos un color por defecto para satisfacer la estrictez de TypeScript
+          color: colors[index % colors.length] ?? 'gray.6',
+        }));
+        setPopularServicesData(transformedData);
+
       } catch (err) {
         setError('No se pudieron cargar los datos del dashboard.');
       } finally {
@@ -85,19 +101,34 @@ export function AdminDashboardPage() {
           </SimpleGrid>
         )}
 
-        {/* --- 4. RENDERIZADO DEL GRÁFICO --- */}
-        {!loading && chartData.length > 0 && (
-          <Paper withBorder p="md" radius="md">
-            <Title order={5} mb="md">Citas en los Últimos 7 Días</Title>
-            <BarChart
-              h={300}
-              data={chartData}
-              dataKey="date"
-              series={[{ name: 'Citas', color: 'blue.6' }]}
-              tickLine="y"
-              yAxisProps={{ width: 30 }}
-            />
-          </Paper>
+        {!loading && (
+            <SimpleGrid cols={{ base: 1, lg: 2 }} mt="xl">
+                {bookingsChartData.length > 0 && (
+                    <Paper withBorder p="md" radius="md">
+                        <Title order={5} mb="md">Citas en los Últimos 7 Días</Title>
+                        <BarChart
+                        h={300}
+                        data={bookingsChartData}
+                        dataKey="date"
+                        series={[{ name: 'Citas', color: 'blue.6' }]}
+                        tickLine="y"
+                        yAxisProps={{ width: 30 }}
+                        />
+                    </Paper>
+                )}
+
+                {popularServicesData.length > 0 && (
+                    <Paper withBorder p="md" radius="md">
+                        <Title order={5} mb="md">Top 5 Servicios Completados</Title>
+                        <DonutChart 
+                            h={300} 
+                            data={popularServicesData} 
+                            tooltipDataSource="segment"
+                            chartLabel={`${popularServicesData.reduce((acc, item) => acc + item.value, 0)} Total`}
+                        />
+                    </Paper>
+                )}
+            </SimpleGrid>
         )}
       </div>
     </div>

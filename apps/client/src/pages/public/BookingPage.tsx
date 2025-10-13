@@ -1,9 +1,8 @@
-// ====== [31] apps/client/src/pages/public/BookingPage.tsx ======
-// File: /apps/client/src/pages/public/BookingPage.tsx (JSX RESTAURADO Y COMPLETO)
+// File: /apps/client/src/pages/public/BookingPage.tsx (ACTUALIZADO PARA RESERVA FLEXIBLE)
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select, Input } from '@mantine/core';
+import { Container, Title, Paper, Stepper, Group, Button, TextInput, LoadingOverlay, Text, Alert, Select, Input, Checkbox, PasswordInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import { BookingDateTimePicker } from '../../components/booking/BookingDateTimePicker';
@@ -12,29 +11,54 @@ import apiClient from '../../lib/apiClient';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
-const customerInfoSchema = z.object({
+// Esquema de validación dinámico
+const createBookingSchema = (isCreatingAccount: boolean) => z.object({
   customerName: z.string().min(3, { message: 'El nombre debe tener al menos 3 caracteres.' }),
   customerEmail: z.string().email({ message: 'Introduce un email válido.' }),
   customerPhone: z.string().min(10, { message: 'Introduce un número de teléfono válido.' }),
+  createAccount: z.boolean(),
+  password: isCreatingAccount
+    ? z.string().min(8, { message: 'La contraseña debe tener al menos 8 caracteres.' })
+    : z.string().optional(),
 });
+
 
 interface Employee { id: string; name: string; }
 interface Settings { defaultService: { duration: number; id: string; }; }
+interface CustomerInfo { id: string; name: string; email: string; }
 
 export function BookingPage() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [employees, setEmployees] = useState<{ value: string; label: string }[]>([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>('any');
   const [serviceInfo, setServiceInfo] = useState<{ duration: number; id: string } | null>(null);
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
+  
+  // --- NUEVA LÓGICA ---
+  const [loggedInCustomer, setLoggedInCustomer] = useState<CustomerInfo | null>(null);
+  const [wantsToCreateAccount, setWantsToCreateAccount] = useState(false);
+  
+  const form = useForm({
+    // Usamos una función para que el schema se reevalúe cuando cambie el checkbox
+    validate: zodResolver(createBookingSchema(wantsToCreateAccount)),
+    initialValues: { customerName: '', customerEmail: '', customerPhone: '', createAccount: false, password: '' },
+  });
 
   useEffect(() => {
+    // Comprobar si hay un usuario logueado al cargar
+    const customerInfoStr = localStorage.getItem('customerInfo');
+    if (customerInfoStr) {
+      const customer = JSON.parse(customerInfoStr);
+      setLoggedInCustomer(customer);
+      // Rellenar el formulario con sus datos
+      form.setValues({ customerName: customer.name, customerEmail: customer.email });
+    }
+    
     const fetchInitialData = async () => {
-      setLoading(true);
       setError(null);
       try {
         const [employeesRes, settingsRes] = await Promise.all([
@@ -45,22 +69,19 @@ export function BookingPage() {
         setEmployees([ { value: 'any', label: 'Cualquier Profesional' }, ...employeeOptions ]);
         if (settingsRes.data.settings.defaultService) {
           setServiceInfo(settingsRes.data.settings.defaultService);
-        } else {
-          throw new Error('No hay un servicio por defecto configurado.');
-        }
+        } else { throw new Error('No hay un servicio por defecto configurado.'); }
       } catch (err) {
-        setError('No se pudo cargar la configuración de la reserva. Por favor, inténtalo más tarde.');
-      } finally {
-        setLoading(false);
-      }
+        setError('No se pudo cargar la configuración de la reserva.');
+      } finally { setLoading(false); }
     };
     fetchInitialData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const form = useForm({
-    validate: zodResolver(customerInfoSchema),
-    initialValues: { customerName: '', customerEmail: '', customerPhone: '' },
-  });
+  // Sincronizamos el estado del checkbox con el del formulario
+  useEffect(() => {
+    setWantsToCreateAccount(form.values.createAccount);
+  }, [form.values.createAccount]);
 
   const handleDateTimeChange = (dateTime: Date | null) => {
     setSelectedDateTime(dateTime);
@@ -69,61 +90,46 @@ export function BookingPage() {
 
   const handleBookingSubmit = async (values: typeof form.values) => {
     if (!serviceInfo?.id || !selectedDateTime) {
-      setError('Faltan datos para completar la reserva.');
-      return;
+      setError('Faltan datos para completar la reserva.'); return;
     }
-    setLoading(true);
-    setError(null);
+    setLoading(true); setError(null);
     try {
       const payload = {
-        ...values,
         serviceId: serviceInfo.id,
         startTime: selectedDateTime.toISOString(),
         ...(selectedEmployeeId && selectedEmployeeId !== 'any' && { employeeId: selectedEmployeeId }),
+        // --- LÓGICA DE PAYLOAD MODIFICADA ---
+        customerName: values.customerName,
+        customerEmail: values.customerEmail,
+        customerPhone: values.customerPhone,
+        createAccount: values.createAccount,
+        password: values.password,
       };
+      
+      // La API se encarga de si es invitado o nuevo usuario
       await apiClient.post('/bookings', payload);
       setActiveStep(2);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'No se pudo completar la reserva.';
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
+      setError(err.response?.data?.message || 'No se pudo completar la reserva.');
+    } finally { setLoading(false); }
   };
 
   if (error && activeStep < 2) {
     return (
-      <Container size="sm" py="xl">
-        <Alert title="Error Crítico" color="red" variant="light">{error}</Alert>
-        <Button onClick={() => navigate('/')} mt="md">Volver a Inicio</Button>
-      </Container>
+      <Container size="sm" py="xl"><Alert title="Error Crítico" color="red">{error}</Alert></Container>
     );
   }
 
   return (
     <Container size="sm" py="xl">
-      <LoadingOverlay visible={loading} />
       <Title order={2} ta="center" mb="xl">Realizar una Reserva</Title>
-
       <Stepper active={activeStep} onStepClick={setActiveStep}>
-        {/* --- JSX DEL PASO 1 RESTAURADO --- */}
         <Stepper.Step label="Paso 1" description="Elige Profesional y Hora">
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
-            <Select
-              label="Elige un profesional"
-              placeholder="Selecciona tu profesional de preferencia"
-              data={employees}
-              value={selectedEmployeeId}
-              onChange={setSelectedEmployeeId}
-              mb="xl"
-            />
+            <LoadingOverlay visible={loading && !serviceInfo} />
+            <Select label="Elige un profesional" data={employees} value={selectedEmployeeId} onChange={setSelectedEmployeeId} mb="xl" />
             {serviceInfo && (
-              <BookingDateTimePicker
-                key={selectedEmployeeId}
-                serviceDuration={serviceInfo.duration}
-                onDateTimeChange={handleDateTimeChange}
-                employeeId={selectedEmployeeId}
-              />
+              <BookingDateTimePicker key={selectedEmployeeId} serviceDuration={serviceInfo.duration} onDateTimeChange={handleDateTimeChange} employeeId={selectedEmployeeId} />
             )}
           </Paper>
         </Stepper.Step>
@@ -132,21 +138,22 @@ export function BookingPage() {
           <Paper withBorder shadow="md" p="xl" mt="xl" radius="md" component="form" onSubmit={form.onSubmit(handleBookingSubmit)}>
             <LoadingOverlay visible={loading && activeStep === 1} />
             <Title order={4} mb="lg">Completa tu información</Title>
-            <TextInput label="Nombre Completo" {...form.getInputProps('customerName')} withAsterisk />
-            <TextInput label="Email" type="email" {...form.getInputProps('customerEmail')} withAsterisk mt="md" />
             
-            <Input.Wrapper
-              label="Teléfono"
-              withAsterisk
-              mt="md"
-              error={form.errors.customerPhone}
-            >
-              <PhoneInput
-                defaultCountry="es"
-                value={form.values.customerPhone}
-                onChange={(phone) => form.setFieldValue('customerPhone', phone)}
-              />
+            <TextInput label="Nombre Completo" {...form.getInputProps('customerName')} withAsterisk readOnly={!!loggedInCustomer} />
+            <TextInput label="Email" type="email" {...form.getInputProps('customerEmail')} withAsterisk mt="md" readOnly={!!loggedInCustomer} />
+            <Input.Wrapper label="Teléfono" withAsterisk mt="md" error={form.errors.customerPhone}>
+              <PhoneInput defaultCountry="es" value={form.values.customerPhone} onChange={(phone) => form.setFieldValue('customerPhone', phone)} />
             </Input.Wrapper>
+            
+            {/* --- LÓGICA CONDICIONAL AÑADIDA --- */}
+            {!loggedInCustomer && (
+              <>
+                <Checkbox label="Crear una cuenta para gestionar mis citas" {...form.getInputProps('createAccount', { type: 'checkbox' })} mt="lg" />
+                {form.values.createAccount && (
+                  <PasswordInput label="Crear Contraseña" placeholder="Mínimo 8 caracteres" {...form.getInputProps('password')} withAsterisk mt="md" />
+                )}
+              </>
+            )}
             
             <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={() => setActiveStep(0)}>Volver</Button>
@@ -155,7 +162,6 @@ export function BookingPage() {
           </Paper>
         </Stepper.Step>
         
-        {/* --- JSX DEL PASO 3 RESTAURADO --- */}
         <Stepper.Step label="Paso 3" description="Confirmación">
            <Paper withBorder shadow="md" p="xl" mt="xl" radius="md">
              <Title order={3} ta="center">¡Reserva Confirmada!</Title>

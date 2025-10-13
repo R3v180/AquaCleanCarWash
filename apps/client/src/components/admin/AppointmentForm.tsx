@@ -1,11 +1,11 @@
-// File: /apps/client/src/components/admin/AppointmentForm.tsx (ACTUALIZADO)
+// File: /apps/client/src/components/admin/AppointmentForm.tsx (ACTUALIZADO CON GESTIÓN DE ESTADO)
 
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, Select, Button, Group, Stack, LoadingOverlay, Modal, Text } from '@mantine/core'; // Modal, Text añadidos
+import { TextInput, Select, Button, Group, Stack, LoadingOverlay, Modal, Text } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
-import { useDisclosure } from '@mantine/hooks'; // useDisclosure añadido
+import { useDisclosure } from '@mantine/hooks';
 import apiClient from '../../lib/apiClient';
 import type { Service } from '@aquaclean/types';
 
@@ -20,13 +20,20 @@ interface AppointmentFormProps {
   onClose: () => void;
 }
 
+// Opciones de estado para el selector
+const statusOptions = [
+  { value: 'CONFIRMED', label: 'Confirmada' },
+  { value: 'COMPLETED', label: 'Completada' },
+  { value: 'NO_SHOW', label: 'No Presentado' },
+  { value: 'CANCELLED', label: 'Cancelada' },
+];
+
 export function AppointmentForm({ initialData, onSuccess, onClose }: AppointmentFormProps) {
   const [services, setServices] = useState<{ value: string; label: string }[]>([]);
   const [employees, setEmployees] = useState<{ value: string; label: string }[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Estado para el modal de confirmación de anulación
   const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false);
 
   const form = useForm({
@@ -36,6 +43,7 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
       serviceId: '',
       employeeId: '',
       startTime: null as Date | null,
+      status: 'CONFIRMED', // <-- CAMPO AÑADIDO
     },
   });
 
@@ -47,6 +55,7 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
         serviceId: initialData.serviceId || '',
         employeeId: initialData.employeeId || '',
         startTime: initialData.start ? new Date(initialData.start) : null,
+        status: initialData.status || 'CONFIRMED', // <-- CAMPO AÑADIDO
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,31 +81,27 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
     setIsSubmitting(true);
     try {
       if (initialData?.type === 'edit') {
+        // Ahora enviamos todos los valores del formulario, incluido el 'status'
         await apiClient.put(`/admin/appointments/${initialData.appointmentId}`, values);
-        notifications.show({ title: 'Cita Actualizada', message: 'Los cambios en la cita han sido guardados.', color: 'blue' });
+        notifications.show({ title: 'Cita Actualizada', message: 'Los cambios se han guardado.', color: 'blue' });
       } else {
         await apiClient.post('/admin/appointments', values);
-        notifications.show({ title: 'Cita Creada', message: 'La nueva cita ha sido guardada en el calendario.', color: 'green' });
+        notifications.show({ title: 'Cita Creada', message: 'La nueva cita ha sido guardada.', color: 'green' });
       }
       onSuccess();
     } catch (error) {
-      notifications.show({ title: 'Error al Guardar', message: 'No se pudo guardar la cita. Inténtalo de nuevo.', color: 'red' });
+      notifications.show({ title: 'Error al Guardar', message: 'No se pudo guardar la cita.', color: 'red' });
     } finally {
       setIsSubmitting(false);
     }
   };
   
-  // --- LÓGICA DE ANULACIÓN ---
   const handleDelete = async () => {
     setIsSubmitting(true);
     try {
       await apiClient.delete(`/admin/appointments/${initialData.appointmentId}`);
-      notifications.show({
-        title: 'Cita Anulada',
-        message: 'La cita ha sido eliminada del calendario.',
-        color: 'orange',
-      });
-      onSuccess(); // Reutilizamos onSuccess para cerrar modal y refrescar
+      notifications.show({ title: 'Cita Anulada', message: 'La cita ha sido eliminada.', color: 'orange' });
+      onSuccess();
     } catch (error) {
       notifications.show({ title: 'Error al Anular', message: 'No se pudo anular la cita.', color: 'red' });
     } finally {
@@ -108,7 +113,7 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
   return (
     <>
       <Modal opened={deleteModalOpened} onClose={closeDeleteModal} title="Confirmar Anulación" centered>
-        <Text>¿Estás seguro de que quieres anular esta cita? Esta acción no se puede deshacer.</Text>
+        <Text>¿Seguro que quieres anular esta cita? Esto la devolverá al estado 'Disponible'.</Text>
         <Group justify="flex-end" mt="md">
           <Button variant="default" onClick={closeDeleteModal}>Cancelar</Button>
           <Button color="red" onClick={handleDelete} loading={isSubmitting}>Anular Cita</Button>
@@ -120,25 +125,27 @@ export function AppointmentForm({ initialData, onSuccess, onClose }: Appointment
         <Stack>
           <TextInput label="Nombre del Cliente" {...form.getInputProps('customerName')} required />
           <TextInput type="email" label="Email del Cliente" {...form.getInputProps('customerEmail')} required />
-          <DateTimePicker label="Fecha y Hora de la Cita" {...form.getInputProps('startTime')} valueFormat="DD/MM/YYYY HH:mm" required />
+          <DateTimePicker label="Fecha y Hora" {...form.getInputProps('startTime')} valueFormat="DD/MM/YYYY HH:mm" required />
           <Select label="Servicio" data={services} {...form.getInputProps('serviceId')} searchable required />
           <Select label="Empleado Asignado" data={employees} {...form.getInputProps('employeeId')} required />
           
+          {/* --- COMPONENTE AÑADIDO --- */}
+          {initialData?.type === 'edit' && (
+            <Select
+              label="Estado de la Cita"
+              data={statusOptions}
+              {...form.getInputProps('status')}
+              required
+            />
+          )}
+
           <Group justify="space-between" mt="md">
-            {/* El botón de anular solo aparece en modo edición */}
             {initialData?.type === 'edit' ? (
-              <Button variant="outline" color="red" onClick={openDeleteModal} disabled={isSubmitting}>
-                Anular Cita
-              </Button>
-            ) : <div />} {/* Placeholder para mantener el espacio */}
-            
+              <Button variant="outline" color="red" onClick={openDeleteModal} disabled={isSubmitting}>Anular Cita</Button>
+            ) : <div />}
             <Group>
-              <Button variant="default" onClick={onClose} disabled={isSubmitting}>
-                Cancelar
-              </Button>
-              <Button type="submit" loading={isSubmitting}>
-                Guardar Cambios
-              </Button>
+              <Button variant="default" onClick={onClose} disabled={isSubmitting}>Cancelar</Button>
+              <Button type="submit" loading={isSubmitting}>Guardar Cambios</Button>
             </Group>
           </Group>
         </Stack>

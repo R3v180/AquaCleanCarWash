@@ -1,4 +1,4 @@
-// File: /apps/client/src/App.tsx (ACTUALIZADO CON RUTAS DE PANEL DE CLIENTE)
+// File: /apps/client/src/App.tsx (AÑADIENDO RUTA DE GESTIÓN DE RESEÑAS)
 
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
@@ -15,10 +15,12 @@ import { TeamPage } from './pages/public/TeamPage';
 import { BusinessSettingsPage } from './pages/admin/BusinessSettingsPage';
 import { LoginPage } from './pages/public/LoginPage';
 import { RegisterPage } from './pages/public/RegisterPage';
-
-// --- IMPORTACIONES AÑADIDAS ---
 import { CustomerLayout } from './layouts/CustomerLayout';
 import { CustomerDashboardPage } from './pages/customer/CustomerDashboardPage';
+import { ReviewPage } from './pages/public/ReviewPage';
+
+// --- IMPORTACIÓN AÑADIDA ---
+import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
 
 function App() {
   return (
@@ -31,12 +33,12 @@ function App() {
         <Route path="/team" element={<TeamPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/review" element={<ReviewPage />} />
       </Route>
 
-      {/* --- NUEVO GRUPO DE RUTAS PROTEGIDAS PARA CLIENTES --- */}
+      {/* Rutas Protegidas para Clientes */}
       <Route path="/dashboard" element={<CustomerLayout />}>
         <Route index element={<CustomerDashboardPage />} />
-        {/* <Route path="appointments" element={<div>Mis Citas (en construcción)</div>} /> */}
       </Route>
 
       {/* Ruta de Login para Admin (sin layout) */}
@@ -49,6 +51,9 @@ function App() {
         <Route path="employees" element={<EmployeesManagementPage />} />
         <Route path="planning" element={<AdminPlanningPage />} />
         <Route path="settings" element={<BusinessSettingsPage />} />
+        
+        {/* --- RUTA AÑADIDA --- */}
+        <Route path="reviews" element={<ReviewsManagementPage />} />
       </Route>
     </Routes>
   );

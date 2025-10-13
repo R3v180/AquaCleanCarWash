@@ -1,4 +1,4 @@
-// File: /apps/client/src/layouts/AdminLayout.tsx (ACTUALIZADO)
+// File: /apps/client/src/layouts/AdminLayout.tsx (AÑADIENDO ENLACE A RESEÑAS)
 
 import { Outlet, Navigate, NavLink } from 'react-router-dom';
 import { AppShell, Burger, Group, Title } from '@mantine/core';
@@ -13,7 +13,7 @@ export function AdminLayout() {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Estilos para los NavLink de react-router-dom
+  // Estilos para los NavLink
   const linkStyles = {
     display: 'block',
     padding: '8px 16px',
@@ -30,7 +30,7 @@ export function AdminLayout() {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }} // <-- desktop: true eliminado para que se vea en desktop
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>
@@ -43,7 +43,7 @@ export function AdminLayout() {
       <AppShell.Navbar p="md">
          <NavLink 
             to="/admin" 
-            end // 'end' asegura que solo esté activo en la ruta exacta
+            end
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
          >
             Dashboard
@@ -66,14 +66,22 @@ export function AdminLayout() {
          >
             Empleados
          </NavLink>
-         {/* --- LÍNEA AÑADIDA --- */}
          <NavLink 
             to="/admin/settings" 
             style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
          >
             Ajustes del Negocio
          </NavLink>
-         {/* --- FIN DE LA LÍNEA AÑADIDA --- */}
+
+         {/* --- ENLACE AÑADIDO --- */}
+         <NavLink 
+            to="/admin/reviews" 
+            style={({ isActive }) => ({ ...linkStyles, ...(isActive ? activeLinkStyles : {}) })}
+         >
+            Valoraciones
+         </NavLink>
+         {/* --- FIN DEL ENLACE AÑADIDO --- */}
+
       </AppShell.Navbar>
       
       <AppShell.Main>

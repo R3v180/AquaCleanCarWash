@@ -1,7 +1,8 @@
-// File: /apps/server/src/lib/notificationService.ts (ACTUALIZADO)
+// File: /apps/server/src/lib/notificationService.ts (CON SOLICITUD MULTICANAL Y TOKEN SEGURO)
 
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
+import jwt from 'jsonwebtoken'; // <-- Importamos JWT
 import { Appointment, Employee, Service, User } from '@prisma/client';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
@@ -10,7 +11,7 @@ import prisma from './prisma';
 dayjs.locale('es');
 
 export type FullAppointmentDetails = Appointment & {
-  user: User;
+  user: User | { name: string | null; email: string | null; };
   employee: Employee;
   services: { service: Service }[];
 };
@@ -82,7 +83,7 @@ async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetail
     const mailTransporter = await getTransporter();
     const { user, employee, services, startTime } = appointmentDetails;
     const service = services[0]?.service;
-    if (!service) { return; }
+    if (!service || !user.email) { return; }
     const formattedDateTime = dayjs(startTime).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm');
     const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
     const fromEmail = settings?.emailFrom || '"AquaClean Car Wash" <noreply@aquaclean.com>';
@@ -115,13 +116,12 @@ async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetail
   }
 }
 
-// --- NUEVA FUNCIÓN AÑADIDA ---
 async function sendAppointmentReminder(appointmentDetails: FullAppointmentDetails) {
   try {
     const mailTransporter = await getTransporter();
     const { user, services, startTime } = appointmentDetails;
     const service = services[0]?.service;
-    if (!service || !user) return; // Salimos si no hay servicio o usuario
+    if (!service || !user || !user.email) return;
 
     const formattedTime = dayjs(startTime).format('HH:mm');
     const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
@@ -144,14 +144,93 @@ async function sendAppointmentReminder(appointmentDetails: FullAppointmentDetail
       console.log('🔗 Vista previa del recordatorio (Ethereal):', previewUrl);
     }
     
-    // Aquí iría la llamada a sendWhatsAppReminder si tuviéramos el teléfono
-
   } catch (error) {
     console.error(`Error al enviar el recordatorio para la cita ID ${appointmentDetails.id}:`, error);
   }
 }
 
+// --- NUEVA FUNCIÓN AUXILIAR PARA WHATSAPP ---
+async function sendWhatsAppReviewRequest(appointmentDetails: FullAppointmentDetails, reviewUrl: string, customerPhone: string) {
+  try {
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    if (!settings || !settings.twilioSid || !settings.twilioAuthToken || !settings.twilioPhoneNumber) {
+      console.log('--- Faltan credenciales de Twilio. Omitiendo WhatsApp de valoración. ---');
+      return;
+    }
+
+    const client = twilio(settings.twilioSid, settings.twilioAuthToken);
+    const { user } = appointmentDetails;
+    const fromNumber = settings.twilioPhoneNumber;
+    const toNumber = `whatsapp:${customerPhone.startsWith('+') ? customerPhone : `+34${customerPhone}`.replace(/\s+/g, '')}`;
+
+    await client.messages.create({
+      from: fromNumber,
+      to: toNumber,
+      body: `¡Hola ${user.name}! 👋 Esperamos que tu coche haya quedado impecable. ¿Te importaría dejarnos tu opinión en 1 minuto? Tu feedback nos ayuda a mejorar. ¡Gracias!\n\n${reviewUrl}`,
+    });
+
+    console.log(`✅ WhatsApp de SOLICITUD DE VALORACIÓN enviado con éxito a: ${toNumber}`);
+  } catch (error) {
+    console.error(`Error al enviar WhatsApp de valoración para la cita ID ${appointmentDetails.id}:`, error);
+  }
+}
+
+// --- FUNCIÓN 'sendReviewRequest' MODIFICADA ---
+async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
+  try {
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.error('No se puede generar el token de valoración: JWT_SECRET no definido.');
+      return;
+    }
+
+    // 1. Generamos un token JWT que contiene el ID de la cita y expira en 7 días
+    const reviewToken = jwt.sign(
+      { appointmentId: appointmentDetails.id },
+      jwtSecret,
+      { expiresIn: '7d' }
+    );
+    const reviewUrl = `http://localhost:5173/review?token=${reviewToken}`;
+
+    const mailTransporter = await getTransporter();
+    const { user, services } = appointmentDetails;
+    const service = services[0]?.service;
+    if (!service || !user || !user.email) return;
+
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    const fromEmail = settings?.emailFrom || '"AquaClean" <noreply@aquaclean.com>';
+    
+    console.log(`[+] Programando solicitud de valoración para la cita ID: ${appointmentDetails.id}`);
+
+    // 2. Lógica de envío de Email
+    const customerMailOptions = {
+      from: fromEmail,
+      to: user.email,
+      subject: `¡Gracias por tu visita a AquaClean! ¿Qué tal ha ido?`,
+      html: `
+        <p>Hola ${user.name || 'Cliente'},</p>
+        <p>¡Esperamos que tu coche haya quedado impecable! ✨</p>
+        <p>Tu opinión es muy importante. ¿Te importaría dedicar un minuto a valorar tu experiencia?</p>
+        <p><a href="${reviewUrl}" style="padding: 10px 15px; background-color: #228be6; color: white; text-decoration: none; border-radius: 5px;">Dejar mi valoración</a></p>
+        <p>¡Gracias por confiar en AquaClean!</p>
+      `,
+    };
+
+    const info = await mailTransporter.sendMail(customerMailOptions);
+    console.log(`✅ Email de SOLICITUD DE VALORACIÓN enviado con éxito a: ${user.email}`);
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) console.log('🔗 Vista previa (Ethereal):', previewUrl);
+
+    // 3. Llamamos a la nueva función para enviar por WhatsApp
+    await sendWhatsAppReviewRequest(appointmentDetails, reviewUrl, customerPhone);
+
+  } catch (error) {
+    console.error(`Error al enviar la solicitud de valoración para la cita ID ${appointmentDetails.id}:`, error);
+  }
+}
+
 export const notificationService = {
   sendBookingConfirmation,
-  sendAppointmentReminder, // <-- Exportamos la nueva función
+  sendAppointmentReminder,
+  sendReviewRequest,
 };

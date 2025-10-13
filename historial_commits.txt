@@ -1,3 +1,63 @@
+commit 1ccb22d4d6e64bc343738ec111d1363204c9a176
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 20:03:42 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 20:03:42 2025 +0200
+
+    arreglo notificaciones mail y whatsapp.
+
+commit ce6c7c0adf19d9780217277eb2c925e52d93c561
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 18:26:46 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 18:26:46 2025 +0200
+
+    feat(admin): añadir UI para configuración de notificaciones SMTP y Twilio
+
+commit deb9bf7e075cfcc029f35c504b9b70299a5f111d
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 18:11:21 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 18:11:21 2025 +0200
+
+    actualizacion documentacion md
+
+commit d0be77ebaaf19c1e344e14ebf07c86fcd921b8fb
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 18:08:16 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 18:08:16 2025 +0200
+
+    fix(booking): Corregir la lógica de creación de reservas para usar el inventario de citas
+
+commit ea74b4c9f61b4e80f6dec5845ae277d098165ed0
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 16:04:42 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 16:04:42 2025 +0200
+
+    fix(core): Resolver bug crítico de disponibilidad y zonas horarias
+
+commit d058ce4f08526cd5d5afdae85e113a42fc611d1b
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 14:53:03 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 14:53:03 2025 +0200
+
+    feat(planning): Implementar modelo de inventario y colores por empleado
+    
+    Refactoriza el sistema de disponibilidad a un modelo de inventario. El seed ahora genera citas 'disponibles' y 'confirmadas'. El planning muestra las citas con colores según el estado y el empleado, cuyo color ahora es personalizable desde su ficha.
+
+commit 80b42c062394fe9a7bb0a44ee288a9c38718b842
+Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+AuthorDate: Fri Oct 10 12:29:01 2025 +0200
+Commit:     Olivier Hottelet <olivierhottelet1980@gmail.com>
+CommitDate: Fri Oct 10 12:29:01 2025 +0200
+
+    fix(server/availability): Resolver bug crítico de disponibilidad e implementar modelo de capacidad
+    
+    Este commit soluciona el bug bloqueante conocido como la 'paradoja de la disponibilidad', que impedía realizar reservas. La causa raíz fue un conflicto de 'locales' en dayjs. Se ha refactorizado la lógica a un modelo basado en la capacidad real de los empleados, avanzando al ritmo de la duración del servicio para crear una agenda eficiente. El seed.ts ahora incluye múltiples empleados y limpia los datos antiguos para evitar duplicados.
+
 commit 64914f33bcc56d112f405e03639236013deba77b
 Author:     Olivier Hottelet <olivierhottelet1980@gmail.com>
 AuthorDate: Tue Oct 7 18:27:50 2025 +0200

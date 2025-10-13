@@ -1,8 +1,8 @@
-// ====== [47] apps/server/src/api/bookings.routes.ts ======
-// File: /apps/server/src/api/bookings.routes.ts (PASANDO EL TELÉFONO AL SERVICIO DE NOTIFICACIÓN)
+// File: /apps/server/src/api/bookings.routes.ts (CORREGIDO)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
+import dayjs from 'dayjs'; // Importamos dayjs
 import prisma from '../lib/prisma';
 import { AppointmentStatus, Prisma } from '@prisma/client';
 import { notificationService } from '../lib/notificationService';
@@ -27,13 +27,23 @@ router.post('/', async (req, res) => {
 
     const { startTime, customerName, customerEmail, employeeId, customerPhone } = validatedData;
     
+    // --- LÓGICA CORREGIDA ---
+    // En lugar de una coincidencia exacta, buscamos en un rango de 1 minuto
+    // para evitar problemas de precisión de milisegundos.
+    const startOfMinute = dayjs(startTime).startOf('minute').toDate();
+    const endOfMinute = dayjs(startTime).endOf('minute').toDate();
+
     const availableSlot = await prisma.appointment.findFirst({
         where: {
-            startTime: startTime,
+            startTime: {
+                gte: startOfMinute,
+                lte: endOfMinute,
+            },
             status: AppointmentStatus.AVAILABLE,
             ...(employeeId && { employeeId: employeeId }),
         },
     });
+    // --- FIN DE LA CORRECCIÓN ---
 
     if (!availableSlot) {
       console.log('[POST /bookings] FALLO: No se encontró un slot "AVAILABLE" coincidente. Devolviendo 409.');
@@ -62,8 +72,6 @@ router.post('/', async (req, res) => {
     });
 
     if (confirmedAppointment.user) {
-      // --- LÍNEA MODIFICADA ---
-      // Ahora también pasamos el número de teléfono del cliente a la función
       notificationService.sendBookingConfirmation(confirmedAppointment as any, customerPhone);
     }
 

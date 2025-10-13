@@ -1,5 +1,4 @@
-// ====== [51] apps/server/src/lib/notificationService.ts ======
-// File: /apps/server/src/lib/notificationService.ts (CORRECCIÓN FINAL DE FORMATEO DE NÚMERO DE TWILIO)
+// File: /apps/server/src/lib/notificationService.ts (ACTUALIZADO)
 
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
@@ -59,7 +58,7 @@ async function sendWhatsAppConfirmation(appointmentDetails: FullAppointmentDetai
     const formattedDate = dayjs(startTime).format('D [de] MMMM');
     const formattedTime = dayjs(startTime).format('HH:mm');
 
-    const fromNumber = settings.twilioPhoneNumber; // ej: 'whatsapp:+14155238886'
+    const fromNumber = settings.twilioPhoneNumber;
     const toNumber = `whatsapp:${customerPhone.startsWith('+') ? customerPhone : `+34${customerPhone}`.replace(/\s+/g, '')}`;
 
     console.log(`  -> Intentando enviar desde: ${fromNumber}`);
@@ -80,7 +79,6 @@ async function sendWhatsAppConfirmation(appointmentDetails: FullAppointmentDetai
 
 async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
   try {
-    // Lógica de Email
     const mailTransporter = await getTransporter();
     const { user, employee, services, startTime } = appointmentDetails;
     const service = services[0]?.service;
@@ -110,7 +108,6 @@ async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetail
     const previewUrl = nodemailer.getTestMessageUrl(customerInfo);
     if (previewUrl) { console.log('🔗 Vista previa (Ethereal):', previewUrl); }
 
-    // Lógica de WhatsApp
     await sendWhatsAppConfirmation(appointmentDetails, customerPhone);
 
   } catch (error) {
@@ -118,6 +115,43 @@ async function sendBookingConfirmation(appointmentDetails: FullAppointmentDetail
   }
 }
 
+// --- NUEVA FUNCIÓN AÑADIDA ---
+async function sendAppointmentReminder(appointmentDetails: FullAppointmentDetails) {
+  try {
+    const mailTransporter = await getTransporter();
+    const { user, services, startTime } = appointmentDetails;
+    const service = services[0]?.service;
+    if (!service || !user) return; // Salimos si no hay servicio o usuario
+
+    const formattedTime = dayjs(startTime).format('HH:mm');
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    const fromEmail = settings?.emailFrom || '"AquaClean Car Wash" <noreply@aquaclean.com>';
+
+    const customerMailOptions = {
+      from: fromEmail,
+      to: user.email,
+      subject: `Recordatorio: Tu cita en AquaClean es mañana a las ${formattedTime}h`,
+      html: `<p>Hola ${user.name || 'Cliente'},</p><p>Este es un recordatorio de tu cita para un <strong>${service.name}</strong> mañana a las <strong>${formattedTime}h</strong>.</p><p>Si necesitas realizar algún cambio, por favor, ponte en contacto con nosotros.</p><p>¡Te esperamos!</p>`,
+    };
+
+    const info = await mailTransporter.sendMail(customerMailOptions);
+
+    if (info.accepted.length > 0) {
+      console.log(`✅ Email de RECORDATORIO enviado con éxito a: ${user.email} para la cita ID: ${appointmentDetails.id}`);
+    }
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) {
+      console.log('🔗 Vista previa del recordatorio (Ethereal):', previewUrl);
+    }
+    
+    // Aquí iría la llamada a sendWhatsAppReminder si tuviéramos el teléfono
+
+  } catch (error) {
+    console.error(`Error al enviar el recordatorio para la cita ID ${appointmentDetails.id}:`, error);
+  }
+}
+
 export const notificationService = {
   sendBookingConfirmation,
+  sendAppointmentReminder, // <-- Exportamos la nueva función
 };

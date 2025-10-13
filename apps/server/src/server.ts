@@ -12,8 +12,10 @@ import availabilityRouter from './api/availability.routes';
 import bookingsRouter from './api/bookings.routes';
 import adminAppointmentsRouter from './api/adminAppointments.routes';
 import adminSettingsRouter from './api/adminSettings.routes';
-// --- LÍNEA MODIFICADA ---
-import adminDateOverridesRouter from './api/adminDateOverrides.routes'; // <-- IMPORTAMOS EL NUEVO ENRUTADOR
+import adminDateOverridesRouter from './api/adminDateOverrides.routes';
+
+// --- LÍNEA AÑADIDA ---
+import { reminderService } from './lib/cronService_24h'; // <-- 1. IMPORTAMOS NUESTRO SERVICIO
 
 // Cargar variables de entorno
 dotenv.config();
@@ -37,8 +39,7 @@ app.use('/api/bookings', bookingsRouter);
 // Rutas Específicas del Panel de Administración
 app.use('/api/admin/appointments', adminAppointmentsRouter);
 app.use('/api/admin/settings', adminSettingsRouter);
-// --- LÍNEA MODIFICADA ---
-app.use('/api/admin/overrides', adminDateOverridesRouter); // <-- USAMOS EL NUEVO ENRUTADOR Y CAMBIAMOS LA RUTA
+app.use('/api/admin/overrides', adminDateOverridesRouter);
 
 
 // Ruta de prueba para verificar que el servidor funciona
@@ -49,4 +50,7 @@ app.get('/api', (req: Request, res: Response) => {
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  
+  // --- LÍNEA AÑADIDA ---
+  reminderService.start(); // <-- 2. INICIAMOS EL SERVICIO DE TAREAS PROGRAMADAS
 });

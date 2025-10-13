@@ -1,11 +1,14 @@
-// File: /apps/server/src/api/customerAuth.routes.ts (VERSIÓN A PRUEBA DE BALAS)
+// File: /apps/server/src/api/customerAuth.routes.ts (CON FLUJO DE VERIFICACIÓN DE EMAIL)
 
 import { Router } from 'express';
 import { z, ZodError } from 'zod';
 import { hash, compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto'; // <-- Importación añadida
+import dayjs from 'dayjs'; // <-- Importación añadida
 import prisma from '../lib/prisma';
 import { UserRole, Prisma } from '@prisma/client';
+import { notificationService } from '../lib/notificationService'; // <-- Importación añadida
 
 const router = Router();
 
@@ -22,38 +25,39 @@ const loginSchema = z.object({
 
 const generateAuthToken = (user: { id: string, email: string, role: UserRole }) => {
   const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    console.error('Error Crítico: La variable de entorno JWT_SECRET no está definida.');
-    throw new Error('La configuración del servidor está incompleta.');
-  }
-
-  // SOLUCIÓN DEFINITIVA: Usamos un NÚMERO (segundos) para expiresIn.
-  // El .env tiene "604800s". parseInt lo convertirá a 604800.
+  if (!jwtSecret) { throw new Error('La configuración del servidor está incompleta.'); }
   const expiresInSeconds = parseInt(process.env.JWT_EXPIRES_IN || '604800', 10);
-
-  const tokenOptions: jwt.SignOptions = {
-    expiresIn: expiresInSeconds,
-  };
-  
   return jwt.sign(
     { userId: user.id, email: user.email, role: user.role },
     jwtSecret,
-    tokenOptions
+    { expiresIn: expiresInSeconds }
   );
 };
 
+// --- ENDPOINT DE REGISTRO MODIFICADO ---
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = registerSchema.parse(req.body);
     const passwordHash = await hash(password, 12);
+
+    // 1. Crear usuario con email no verificado
     const newUser = await prisma.user.create({
-      data: { name, email, passwordHash, role: UserRole.CUSTOMER, emailVerified: new Date() },
+      data: { name, email, passwordHash, role: UserRole.CUSTOMER, emailVerified: null },
     });
-    const token = generateAuthToken(newUser);
+
+    // 2. Generar y guardar token de verificación
+    const token = crypto.randomBytes(32).toString('hex');
+    const expires = dayjs().add(24, 'hour').toDate();
+    await prisma.verificationToken.create({
+        data: { identifier: email, token, expires },
+    });
+
+    // 3. Enviar email de verificación
+    await notificationService.sendVerificationEmail(email, token);
+    
+    // 4. Responder al frontend
     res.status(201).json({
-      message: 'Usuario registrado con éxito.',
-      token,
-      user: { id: newUser.id, name: newUser.name, email: newUser.email },
+      message: 'Registro exitoso. Por favor, revisa tu email para activar tu cuenta.',
     });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -67,13 +71,57 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// --- NUEVO ENDPOINT DE VERIFICACIÓN ---
+router.get('/verify-email', async (req, res) => {
+    const { token } = req.query;
+
+    if (typeof token !== 'string' || !token) {
+        return res.status(400).send('Token no proporcionado o inválido.');
+    }
+
+    try {
+        const verificationToken = await prisma.verificationToken.findUnique({
+            where: { token },
+        });
+
+        if (!verificationToken || dayjs(verificationToken.expires).isBefore(dayjs())) {
+            return res.status(400).redirect(`${process.env.CORS_ALLOWED_ORIGIN}/login?error=invalid_token`);
+        }
+
+        // Marcar al usuario como verificado
+        await prisma.user.update({
+            where: { email: verificationToken.identifier },
+            data: { emailVerified: new Date() },
+        });
+
+        // Eliminar el token para que no se pueda reusar
+        await prisma.verificationToken.delete({ where: { token } });
+        
+        // Redirigir al login con mensaje de éxito
+        res.redirect(`${process.env.CORS_ALLOWED_ORIGIN}/login?verified=true`);
+
+    } catch (error) {
+        console.error('Error al verificar el email:', error);
+        res.status(500).redirect(`${process.env.CORS_ALLOWED_ORIGIN}/login?error=server_error`);
+    }
+});
+
+
+// --- ENDPOINT DE LOGIN MODIFICADO ---
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = loginSchema.parse(req.body);
     const user = await prisma.user.findUnique({ where: { email } });
+
     if (!user || !user.passwordHash) {
       return res.status(401).json({ message: 'Credenciales inválidas.' });
     }
+
+    // --- NUEVA COMPROBACIÓN DE SEGURIDAD ---
+    if (!user.emailVerified) {
+        return res.status(403).json({ message: 'Tu cuenta no ha sido verificada. Por favor, revisa tu email.' });
+    }
+
     const isPasswordValid = await compare(password, user.passwordHash);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Credenciales inválidas.' });

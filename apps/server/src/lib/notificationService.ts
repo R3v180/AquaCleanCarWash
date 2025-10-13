@@ -1,8 +1,8 @@
-// File: /apps/server/src/lib/notificationService.ts (CON SOLICITUD MULTICANAL Y TOKEN SEGURO)
+// File: /apps/server/src/lib/notificationService.ts (CON FUNCIÓN DE VERIFICACIÓN DE EMAIL - COMPLETO)
 
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
-import jwt from 'jsonwebtoken'; // <-- Importamos JWT
+import jwt from 'jsonwebtoken';
 import { Appointment, Employee, Service, User } from '@prisma/client';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
@@ -41,6 +41,40 @@ async function getTransporter() {
     auth: { user: testAccount.user, pass: testAccount.pass },
   });
   return transporter;
+}
+
+// --- FUNCIÓN NUEVA AÑADIDA ---
+async function sendVerificationEmail(userEmail: string, token: string) {
+  try {
+    const mailTransporter = await getTransporter();
+    const verificationUrl = `http://localhost:3001/api/customer/verify-email?token=${token}`;
+
+    const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
+    const fromEmail = settings?.emailFrom || '"AquaClean Car Wash" <noreply@aquaclean.com>';
+
+    const mailOptions = {
+      from: fromEmail,
+      to: userEmail,
+      subject: '¡Activa tu cuenta en AquaClean!',
+      html: `
+        <p>¡Hola!</p>
+        <p>Gracias por registrarte en AquaClean Car Wash. Por favor, haz clic en el siguiente botón para activar tu cuenta:</p>
+        <p style="text-align: center;">
+          <a href="${verificationUrl}" style="padding: 12px 20px; background-color: #228be6; color: white; text-decoration: none; border-radius: 5px; font-size: 16px;">Confirmar mi Email</a>
+        </p>
+        <p>Si no te has registrado, por favor, ignora este mensaje.</p>
+        <p>El enlace es válido por 24 horas.</p>
+      `,
+    };
+
+    const info = await mailTransporter.sendMail(mailOptions);
+    console.log(`✅ Email de verificación enviado con éxito a: ${userEmail}`);
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) console.log('🔗 Vista previa (Ethereal):', previewUrl);
+
+  } catch (error) {
+    console.error(`Error al enviar el email de verificación a ${userEmail}:`, error);
+  }
 }
 
 async function sendWhatsAppConfirmation(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
@@ -149,7 +183,6 @@ async function sendAppointmentReminder(appointmentDetails: FullAppointmentDetail
   }
 }
 
-// --- NUEVA FUNCIÓN AUXILIAR PARA WHATSAPP ---
 async function sendWhatsAppReviewRequest(appointmentDetails: FullAppointmentDetails, reviewUrl: string, customerPhone: string) {
   try {
     const settings = await prisma.businessSettings.findUnique({ where: { singleton: 'SINGLETON' } });
@@ -175,7 +208,6 @@ async function sendWhatsAppReviewRequest(appointmentDetails: FullAppointmentDeta
   }
 }
 
-// --- FUNCIÓN 'sendReviewRequest' MODIFICADA ---
 async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, customerPhone: string) {
   try {
     const jwtSecret = process.env.JWT_SECRET;
@@ -184,7 +216,6 @@ async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, cus
       return;
     }
 
-    // 1. Generamos un token JWT que contiene el ID de la cita y expira en 7 días
     const reviewToken = jwt.sign(
       { appointmentId: appointmentDetails.id },
       jwtSecret,
@@ -202,7 +233,6 @@ async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, cus
     
     console.log(`[+] Programando solicitud de valoración para la cita ID: ${appointmentDetails.id}`);
 
-    // 2. Lógica de envío de Email
     const customerMailOptions = {
       from: fromEmail,
       to: user.email,
@@ -221,7 +251,6 @@ async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, cus
     const previewUrl = nodemailer.getTestMessageUrl(info);
     if (previewUrl) console.log('🔗 Vista previa (Ethereal):', previewUrl);
 
-    // 3. Llamamos a la nueva función para enviar por WhatsApp
     await sendWhatsAppReviewRequest(appointmentDetails, reviewUrl, customerPhone);
 
   } catch (error) {
@@ -229,7 +258,9 @@ async function sendReviewRequest(appointmentDetails: FullAppointmentDetails, cus
   }
 }
 
+// --- OBJETO DE EXPORTACIÓN MODIFICADO ---
 export const notificationService = {
+  sendVerificationEmail, // <-- Nueva función exportada
   sendBookingConfirmation,
   sendAppointmentReminder,
   sendReviewRequest,

@@ -1,4 +1,4 @@
-// File: /apps/client/src/App.tsx (CON RUTA 'MI PERFIL')
+// File: /apps/client/src/App.tsx (CON RUTA PARA CHECK EMAIL)
 
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from './pages/public/HomePage';
@@ -20,9 +20,10 @@ import { CustomerDashboardPage } from './pages/customer/CustomerDashboardPage';
 import { ReviewPage } from './pages/public/ReviewPage';
 import { ReviewsManagementPage } from './pages/admin/ReviewsManagementPage';
 import { CustomerAppointmentsPage } from './pages/customer/CustomerAppointmentsPage';
+import { CustomerProfilePage } from './pages/customer/CustomerProfilePage';
 
 // --- IMPORTACIÓN AÑADIDA ---
-import { CustomerProfilePage } from './pages/customer/CustomerProfilePage';
+import { CheckEmailPage } from './pages/public/CheckEmailPage';
 
 
 function App() {
@@ -37,14 +38,15 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/review" element={<ReviewPage />} />
+
+        {/* --- RUTA AÑADIDA --- */}
+        <Route path="/check-your-email" element={<CheckEmailPage />} />
       </Route>
 
       {/* Rutas Protegidas para Clientes */}
       <Route path="/dashboard" element={<CustomerLayout />}>
         <Route index element={<CustomerDashboardPage />} />
         <Route path="appointments" element={<CustomerAppointmentsPage />} />
-        
-        {/* --- RUTA AÑADIDA --- */}
         <Route path="profile" element={<CustomerProfilePage />} />
       </Route>
 

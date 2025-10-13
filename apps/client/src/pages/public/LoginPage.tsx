@@ -1,8 +1,10 @@
-// File: /apps/client/src/pages/public/LoginPage.tsx (CORREGIDO)
+// File: /apps/client/src/pages/public/LoginPage.tsx (CON MANEJO DE VERIFICACIÓN)
 
+import { useEffect } from 'react'; // <-- useEffect importado
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
-import { useNavigate, Link } from 'react-router-dom';
+// --- useSearchParams importado ---
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import {
   Container,
   Title,
@@ -14,11 +16,12 @@ import {
   LoadingOverlay,
   Stack,
   Anchor,
+  Alert, // <-- Alert importado
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { IconCircleCheck } from '@tabler/icons-react'; // <-- Icono importado
 import apiClient from '../../lib/apiClient';
 
-// Esquema de validación del formulario (debe coincidir con el del backend)
 const loginSchema = z.object({
   email: z.string().email({ message: 'Introduce un email válido.' }),
   password: z.string().min(1, { message: 'La contraseña no puede estar vacía.' }),
@@ -26,13 +29,33 @@ const loginSchema = z.object({
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams(); // <-- Hook añadido
+
+  // --- useEffect AÑADIDO PARA LEER PARÁMETROS DE URL ---
+  useEffect(() => {
+    const isVerified = searchParams.get('verified');
+    const error = searchParams.get('error');
+
+    if (isVerified === 'true') {
+      notifications.show({
+        title: '¡Cuenta activada!',
+        message: 'Tu email ha sido verificado. Ya puedes iniciar sesión.',
+        color: 'green',
+        icon: <IconCircleCheck />,
+      });
+    } else if (error) {
+      notifications.show({
+        title: 'Error de verificación',
+        message: 'El enlace de activación no es válido o ha expirado. Por favor, inténtalo de nuevo.',
+        color: 'red',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Se ejecuta solo una vez al cargar la página
 
   const form = useForm({
     validate: zodResolver(loginSchema),
-    initialValues: {
-      email: '',
-      password: '',
-    },
+    initialValues: { email: '', password: '' },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
@@ -71,7 +94,6 @@ export function LoginPage() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md" component="form" onSubmit={form.onSubmit(handleSubmit)}>
-        {/* --- LÍNEA CORREGIDA --- */}
         <LoadingOverlay visible={form.submitting} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
         <Stack gap="md">
           <TextInput

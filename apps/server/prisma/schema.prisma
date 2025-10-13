@@ -1,4 +1,4 @@
-// File: /apps/server/prisma/schema.prisma (ACTUALIZADO PARA ECOSISTEMA DE CLIENTE)
+// File: /apps/server/prisma/schema.prisma (CON MODELO VerificationToken - COMPLETO)
 
 generator client {
   provider = "prisma-client-js"
@@ -54,12 +54,16 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// --- MODELO AÑADIDO ---
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
+
   @@unique([identifier, token])
 }
+// --- FIN DEL MODELO AÑADIDO ---
+
 
 // 3. Modelos del Core del Negocio
 model Service {
@@ -119,21 +123,17 @@ model Appointment {
   googleEventId   String?  @unique
   reminderSent  Boolean  @default(false)
 
-  // --- CAMPOS MODIFICADOS/AÑADIDOS ---
-  // Relación opcional con el usuario (para clientes registrados)
   user          User?    @relation(fields: [userId], references: [id])
   userId        String?
-  // Campos para reservas de invitados
   guestName     String?
   guestEmail    String?
   guestPhone    String?
-  // --- FIN DE LA MODIFICACIÓN ---
   
   employee      Employee @relation(fields: [employeeId], references: [id])
   employeeId    String
 
   services      AppointmentService[]
-  review        Review? // Una cita puede tener una reseña
+  review        Review?
 }
 
 model AppointmentService {
@@ -144,7 +144,6 @@ model AppointmentService {
   @@id([appointmentId, serviceId])
 }
 
-// --- NUEVO MODELO AÑADIDO ---
 model Review {
   id            String      @id @default(cuid())
   rating        Int
@@ -153,17 +152,15 @@ model Review {
   isFeatured    Boolean     @default(false)
   createdAt     DateTime    @default(now())
   
-  // Relaciones
   appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  appointmentId String      @unique // Cada cita solo puede tener una reseña
+  appointmentId String      @unique
 
   user          User?        @relation(fields: [userId], references: [id])
-  userId        String?      // Opcional, por si es la reseña de un invitado
+  userId        String?
 
   employee      Employee    @relation(fields: [employeeId], references: [id])
   employeeId    String
 }
-// --- FIN DEL NUEVO MODELO ---
 
 
 // 5. Modelos de Cliente y Marketing
@@ -253,16 +250,14 @@ enum AppointmentStatus {
   CONFIRMED
   COMPLETED
   CANCELLED
-  NO_SHOW // <-- VALOR AÑADIDO
+  NO_SHOW
 }
 
-// --- NUEVO ENUM AÑADIDO ---
 enum ReviewStatus {
   PENDING
   APPROVED
   HIDDEN
 }
-// --- FIN DEL NUEVO ENUM ---
 
 enum EmployeeStatus {
   ACTIVE

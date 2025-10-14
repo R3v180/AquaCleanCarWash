@@ -1,5 +1,6 @@
 # ======================================================================================
 # FASE 1: BUILDER
+# En esta fase, preparamos una imagen que tiene TODO instalado y construido.
 # ======================================================================================
 FROM node:20-slim AS builder
 ENV PNPM_HOME="/pnpm"
@@ -10,18 +11,19 @@ WORKDIR /app
 # Copiamos TODO el código fuente de una sola vez.
 COPY . .
 
-# Instalar TODAS las dependencias (incluidas las de desarrollo), leyendo el .npmrc
+# Instalar TODAS las dependencias, leyendo el .npmrc
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Ejecutamos el script "prisma:generate" que está DEFINIDO en el package.json del servidor.
+# Generar el cliente de Prisma.
 RUN pnpm --filter server run prisma:generate
 
-# Construir todo el monorepo con Turborepo.
+# Construir todo el monorepo.
 RUN pnpm run build
 
 
 # ======================================================================================
 # FASE 2: IMAGEN FINAL DEL SERVIDOR (BACKEND)
+# Esta imagen es más grande, pero contiene TODO lo necesario para funcionar sin errores.
 # ======================================================================================
 FROM node:20-slim AS server_runner
 WORKDIR /app
@@ -29,18 +31,10 @@ WORKDIR /app
 # Instalar pnpm solo para poder ejecutar comandos
 RUN npm install -g pnpm
 
-# Copiar los node_modules ya instalados desde la fase 'builder'
-COPY --from=builder /app/node_modules ./node_modules
-
-# Copiar solo los archivos necesarios del servidor ya construido
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
-COPY --from=builder /app/apps/server ./apps/server
-COPY --from=builder /app/packages ./packages
-
-# --- ¡ESTA ES LA LÍNEA CORREGIDA Y CLAVE! ---
-# Copiamos la carpeta prisma DESDE su ubicación real en el builder.
-COPY --from=builder /app/apps/server/prisma ./prisma
+# --- ¡EL CAMBIO CLAVE! ---
+# Copiar TODO el proyecto ya construido desde la fase 'builder'.
+# Esto garantiza que TODAS las rutas y archivos son correctos.
+COPY --from=builder /app .
 
 EXPOSE 3001
 

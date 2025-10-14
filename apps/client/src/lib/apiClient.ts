@@ -1,31 +1,39 @@
-// File: /apps/client/src/lib/apiClient.ts (ACTUALIZADO CON INTERCEPTOR DE AUTH)
+// File: /apps/client/src/lib/apiClient.ts
 
 import axios from 'axios';
 
+// Declara el objeto window para que TypeScript no se queje
+declare global {
+  interface Window {
+    runtimeConfig?: {
+      VITE_API_BASE_URL?: string;
+    };
+  }
+}
+
+const baseURL = window.runtimeConfig?.VITE_API_BASE_URL?.startsWith('http')
+  ? window.runtimeConfig.VITE_API_BASE_URL
+  : 'http://localhost:3001/api';
+
+console.log('API Base URL en uso:', baseURL);
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// --- INTERCEPTOR AÑADIDO ---
-// Este código se ejecuta en CADA petición que se hace con apiClient
 apiClient.interceptors.request.use(
   (config) => {
-    // Buscamos el token del cliente. Podríamos añadir lógica para el token de admin también.
     const token = localStorage.getItem('customerAuthToken');
-    
     if (token) {
-      // Si el token existe, lo añadimos a la cabecera de la petición
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
     return config;
   },
   (error) => {
-    // Manejar errores de la configuración de la petición
     return Promise.reject(error);
   }
 );

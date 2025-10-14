@@ -1,0 +1,7 @@
+# File: /nixpacks.toml (NUEVO ARCHIVO)
+
+[phases.install]
+cmds = ["pnpm install"]
+
+[start]
+cmd = "pnpm dev"

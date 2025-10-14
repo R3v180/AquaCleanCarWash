@@ -10,8 +10,8 @@ RUN npm install -g pnpm
 # Copiar solo los archivos de manifiesto para aprovechar el cacheo de Docker
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Instalar TODAS las dependencias del monorepo
-RUN pnpm install --frozen-lockfile
+# Instalar TODAS las dependencias (incluidas las de desarrollo)
+RUN pnpm install --frozen-lockfile --prod=false
 
 
 # ======================================================================================

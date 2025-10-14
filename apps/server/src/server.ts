@@ -1,8 +1,9 @@
-// File: /apps/server/src/server.ts (VERSIÓN FINAL Y CORRECTA)
+// File: /apps/server/src/server.ts (VERSIÓN COMPLETA Y DEFINITIVA)
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
 
 import servicesRouter from './api/services.routes';
 import employeesRouter from './api/employees.routes';
@@ -21,6 +22,20 @@ import pushRouter from './api/push.routes';
 
 dotenv.config();
 
+// Inicializamos Prisma
+const prisma = new PrismaClient();
+
+// Test de conexión a la base de datos al arrancar
+(async () => {
+  try {
+    await prisma.$connect();
+    console.log('✅ Prisma connected to the database successfully');
+  } catch (error) {
+    console.error('❌ Prisma failed to connect to the database:', error);
+    process.exit(1); // Crashea la aplicación si no puede conectar
+  }
+})();
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -29,7 +44,7 @@ const corsOptions: cors.CorsOptions = {
     const allowedOrigins = [
       'http://localhost:5173',
       process.env.CORS_ALLOWED_ORIGIN || '',
-    ].filter(Boolean); // Filtra valores vacíos
+    ].filter(Boolean);
 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -60,7 +75,6 @@ app.get('/api', (req: Request, res: Response) => {
   res.json({ message: '👋 Hello from the AquaClean API!' });
 });
 
-// --- ¡ESTA ES LA LÍNEA CORREGIDA! ---
 app.listen(Number(PORT), '0.0.0.0', () => {
   console.log(`🚀 Server is running and listening on port ${PORT}`);
   reminderService.start();

@@ -1,71 +1,70 @@
 # ======================================================================================
-# FASE 1: INSTALACIÓN DE DEPENDENCIAS
+# FASE 1: BASE CON PNPM
+# Preparamos una imagen base que ya tiene pnpm instalado y configurado
 # ======================================================================================
-FROM node:20-slim AS installer
+FROM node:20-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
 WORKDIR /app
 
-# Instalar pnpm
-RUN npm install -g pnpm
 
-# Copiar solo los archivos de manifiesto para aprovechar el cacheo de Docker
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-# Instalar TODAS las dependencias (incluidas las de desarrollo)
+# ======================================================================================
+# FASE 2: INSTALACIÓN DE DEPENDENCIAS
+# En esta fase, instalamos TODAS las dependencias del monorepo
+# ======================================================================================
+FROM base AS installer
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 RUN pnpm install --frozen-lockfile --prod=false
 
 
 # ======================================================================================
-# FASE 2: CONSTRUCCIÓN DEL PROYECTO
+# FASE 3: CONSTRUCCIÓN DEL PROYECTO (¡EL CAMBIO CLAVE!)
+# Aquí construimos cada paquete uno por uno, en orden, sin usar Turborepo
 # ======================================================================================
-FROM installer AS builder
-WORKDIR /app
-
-# Copiar el resto del código fuente
+FROM base AS builder
+COPY --from=installer /app/node_modules ./node_modules
 COPY . .
 
-# Construir ambos proyectos (client y server) usando Turborepo
-RUN pnpm run build
+# 1. Construir paquetes compartidos PRIMERO
+RUN pnpm --filter @aquaclean/config build
+RUN pnpm --filter @aquaclean/types build
+
+# 2. Construir el servidor (backend)
+RUN pnpm --filter server build
+
+# 3. Construir el cliente (frontend)
+RUN pnpm --filter client build
 
 
 # ======================================================================================
-# FASE 3: IMAGEN FINAL DEL SERVIDOR (BACKEND)
+# FASE 4: IMAGEN FINAL DEL SERVIDOR (BACKEND)
 # ======================================================================================
-FROM node:20-slim AS server_runner
+FROM base AS server_runner
 WORKDIR /app
 
-# Instalar pnpm (necesario para ejecutar los comandos)
-RUN npm install -g pnpm
-
-# Copiar los node_modules ya instalados desde la fase 'installer'
+# Copiar solo los artefactos de producción necesarios para el servidor
 COPY --from=installer /app/node_modules ./node_modules
-
-# Copiar solo los archivos necesarios del servidor ya construido
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
-COPY --from=builder /app/apps/server ./apps/server
-COPY --from=builder /app/packages ./packages
+COPY --from=builder /app/apps/server/dist ./apps/server/dist
+COPY --from=builder /app/packages/types/dist ./packages/types/dist
 COPY --from=builder /app/prisma ./prisma
 
-# Exponer el puerto del servidor
 EXPOSE 3001
 
-# El comando de inicio se definirá en la UI de Railway
-# (pnpm --filter server run migrate:deploy && pnpm --filter server start)
-
 
 # ======================================================================================
-# FASE 4: IMAGEN FINAL DEL CLIENTE (FRONTEND)
+# FASE 5: IMAGEN FINAL DEL CLIENTE (FRONTEND)
 # ======================================================================================
-FROM node:20-slim AS client_runner
+FROM base AS client_runner
 WORKDIR /app
 
 # Instalar 'serve' para servir los archivos estáticos
 RUN npm install -g serve
 
-# Copiar los archivos del cliente ya construidos desde la fase 'builder'
+# Copiar los archivos del cliente ya construidos
 COPY --from=builder /app/apps/client/dist ./dist
 
-# Exponer el puerto por defecto de 'serve'
 EXPOSE 3000
-
-# El comando de inicio se definirá en la UI de Railway (npx serve -s dist)

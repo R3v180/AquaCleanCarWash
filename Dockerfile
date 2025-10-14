@@ -1,6 +1,5 @@
 # ======================================================================================
 # FASE 1: BUILDER
-# En esta única fase, preparamos una imagen que tiene TODO instalado y construido.
 # ======================================================================================
 FROM node:20-slim AS builder
 ENV PNPM_HOME="/pnpm"
@@ -9,14 +8,14 @@ RUN corepack enable
 WORKDIR /app
 
 # Copiamos TODO el código fuente de una sola vez.
-# Esto elimina CUALQUIER error de "fichero no encontrado".
 COPY . .
 
 # Instalar TODAS las dependencias (incluidas las de desarrollo), leyendo el .npmrc
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Generar el cliente de Prisma. Ahora tiene todo lo que necesita.
-RUN pnpm prisma generate
+# --- ¡ESTA ES LA LÍNEA CORREGIDA Y CLAVE! ---
+# Ejecutamos el script "prisma:generate" que está DEFINIDO en el package.json del servidor.
+RUN pnpm --filter server run prisma:generate
 
 # Construir todo el monorepo con Turborepo.
 RUN pnpm run build
@@ -27,7 +26,6 @@ RUN pnpm prune --prod
 
 # ======================================================================================
 # FASE 2: IMAGEN FINAL DEL SERVIDOR (BACKEND)
-# Esta imagen es ligera y solo contiene lo necesario para ejecutar el servidor.
 # ======================================================================================
 FROM node:20-slim AS server_runner
 WORKDIR /app
@@ -43,7 +41,6 @@ EXPOSE 3001
 
 # ======================================================================================
 # FASE 3: IMAGEN FINAL DEL CLIENTE (FRONTEND)
-# Esta imagen es ligera y solo contiene lo necesario para ejecutar el cliente.
 # ======================================================================================
 FROM node:20-slim AS client_runner
 WORKDIR /app

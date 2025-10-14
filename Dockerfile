@@ -13,15 +13,13 @@ COPY . .
 # Instalar TODAS las dependencias (incluidas las de desarrollo), leyendo el .npmrc
 RUN pnpm install --frozen-lockfile --prod=false
 
-# --- ¡ESTA ES LA LÍNEA CORREGIDA Y CLAVE! ---
 # Ejecutamos el script "prisma:generate" que está DEFINIDO en el package.json del servidor.
 RUN pnpm --filter server run prisma:generate
 
 # Construir todo el monorepo con Turborepo.
 RUN pnpm run build
 
-# Limpiar las dependencias de desarrollo para hacer la imagen más ligera.
-RUN pnpm prune --prod
+# --- LA LÍNEA PROBLEMÁTICA HA SIDO ELIMINADA DE AQUÍ ---
 
 
 # ======================================================================================
@@ -30,10 +28,10 @@ RUN pnpm prune --prod
 FROM node:20-slim AS server_runner
 WORKDIR /app
 
-# Instalar pnpm solo para poder ejecutar comandos
+# Instalar pnpm solo para poder ejecutar comandos (lo hacemos de nuevo para asegurar)
 RUN npm install -g pnpm
 
-# Copiar el proyecto ya construido y limpiado desde la fase 'builder'
+# Copiar el proyecto ya construido desde la fase 'builder'
 COPY --from=builder /app .
 
 EXPOSE 3001

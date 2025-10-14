@@ -19,8 +19,6 @@ RUN pnpm --filter server run prisma:generate
 # Construir todo el monorepo con Turborepo.
 RUN pnpm run build
 
-# --- LA LÍNEA PROBLEMÁTICA HA SIDO ELIMINADA DE AQUÍ ---
-
 
 # ======================================================================================
 # FASE 2: IMAGEN FINAL DEL SERVIDOR (BACKEND)
@@ -28,11 +26,21 @@ RUN pnpm run build
 FROM node:20-slim AS server_runner
 WORKDIR /app
 
-# Instalar pnpm solo para poder ejecutar comandos (lo hacemos de nuevo para asegurar)
+# Instalar pnpm solo para poder ejecutar comandos
 RUN npm install -g pnpm
 
-# Copiar el proyecto ya construido desde la fase 'builder'
-COPY --from=builder /app .
+# Copiar los node_modules ya instalados desde la fase 'builder'
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copiar solo los archivos necesarios del servidor ya construido
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=builder /app/apps/server ./apps/server
+COPY --from=builder /app/packages ./packages
+
+# --- ¡ESTA ES LA LÍNEA CORREGIDA Y CLAVE! ---
+# Copiamos la carpeta prisma DESDE su ubicación real en el builder.
+COPY --from=builder /app/apps/server/prisma ./prisma
 
 EXPOSE 3001
 

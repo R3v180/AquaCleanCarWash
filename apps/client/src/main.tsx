@@ -44,3 +44,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </MantineProvider>
   </React.StrictMode>
 );
+// Forzar un redespliegue en Railway

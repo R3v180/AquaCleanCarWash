@@ -1,6 +1,5 @@
 # ======================================================================================
 # FASE 1: BUILDER
-# En esta fase, preparamos una imagen que tiene TODO instalado y construido.
 # ======================================================================================
 FROM node:20-slim AS builder
 ENV PNPM_HOME="/pnpm"
@@ -14,26 +13,24 @@ COPY . .
 # Instalar TODAS las dependencias, leyendo el .npmrc
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Generar el cliente de Prisma.
+# Ejecutamos el script "prisma:generate" que está DEFINIDO en el package.json del servidor.
 RUN pnpm --filter server run prisma:generate
 
-# Construir todo el monorepo.
+# Construir todo el monorepo con Turborepo.
 RUN pnpm run build
 
 
 # ======================================================================================
 # FASE 2: IMAGEN FINAL DEL SERVIDOR (BACKEND)
-# Esta imagen es más grande, pero contiene TODO lo necesario para funcionar sin errores.
 # ======================================================================================
 FROM node:20-slim AS server_runner
 WORKDIR /app
 
-# Instalar pnpm solo para poder ejecutar comandos
+# --- ¡ESTA ES LA LÍNEA CRUCIAL QUE VUELVO A AÑADIR! ---
+# Instalar pnpm para que el Start Command pueda usarlo.
 RUN npm install -g pnpm
 
-# --- ¡EL CAMBIO CLAVE! ---
 # Copiar TODO el proyecto ya construido desde la fase 'builder'.
-# Esto garantiza que TODAS las rutas y archivos son correctos.
 COPY --from=builder /app .
 
 EXPOSE 3001

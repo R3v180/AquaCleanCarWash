@@ -1,33 +1,35 @@
 # ======================================================================================
 # FASE 1: BASE CON PNPM
-# Preparamos una imagen base que ya tiene pnpm instalado y configurado
 # ======================================================================================
 FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-
 WORKDIR /app
 
 
 # ======================================================================================
 # FASE 2: INSTALACIÓN DE DEPENDENCIAS
-# En esta fase, instalamos TODAS las dependencias del monorepo
 # ======================================================================================
 FROM base AS installer
+# --- CAMBIO 1: Copiar .npmrc ---
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 RUN pnpm install --frozen-lockfile --prod=false
 
+# --- CAMBIO 2: Generar el cliente de Prisma ---
+COPY prisma ./prisma
+RUN pnpm prisma generate
+
 
 # ======================================================================================
-# FASE 3: CONSTRUCCIÓN DEL PROYECTO (¡EL CAMBIO CLAVE!)
-# Aquí construimos cada paquete uno por uno, en orden, sin usar Turborepo
+# FASE 3: CONSTRUCCIÓN DEL PROYECTO
 # ======================================================================================
 FROM base AS builder
 COPY --from=installer /app/node_modules ./node_modules
+COPY --from=installer /app/node_modules/.pnpm ./node_modules/.pnpm
 COPY . .
 
-# 1. Construir paquetes compartidos PRIMERO
+# 1. Construir paquetes compartidos
 RUN pnpm --filter @aquaclean/config build
 RUN pnpm --filter @aquaclean/types build
 
@@ -44,13 +46,15 @@ RUN pnpm --filter client build
 FROM base AS server_runner
 WORKDIR /app
 
-# Copiar solo los artefactos de producción necesarios para el servidor
+# Copiar solo los artefactos de producción necesarios
 COPY --from=installer /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY --from=builder /app/packages/types/dist ./packages/types/dist
 COPY --from=builder /app/prisma ./prisma
+# Copiamos el cliente de Prisma generado
+COPY --from=installer /app/node_modules/.pnpm/node_modules/@prisma ./node_modules/@prisma
 
 EXPOSE 3001
 
@@ -60,11 +64,6 @@ EXPOSE 3001
 # ======================================================================================
 FROM base AS client_runner
 WORKDIR /app
-
-# Instalar 'serve' para servir los archivos estáticos
 RUN npm install -g serve
-
-# Copiar los archivos del cliente ya construidos
 COPY --from=builder /app/apps/client/dist ./dist
-
 EXPOSE 3000

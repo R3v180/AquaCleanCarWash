@@ -1,0 +1,12 @@
+# File: /nixpacks.toml (NUEVO ARCHIVO)
+
+# Obliga a Nixpacks a instalar y usar pnpm
+providers = ["pnpm"]
+
+# Define la fase de instalación para todo el monorepo
+[phases.install]
+cmds = ["pnpm install --frozen-lockfile"]
+
+# Define la fase de construcción para todo el monorepo
+[phases.build]
+cmds = ["pnpm run build"]

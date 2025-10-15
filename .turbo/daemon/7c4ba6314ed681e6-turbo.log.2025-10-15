@@ -61,3 +61,21 @@
 2025-10-15T12:32:34.632580Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\server\\package.json")}
 2025-10-15T12:32:34.632597Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("server"), path: AnchoredSystemPathBuf("apps\\server") }}))
 2025-10-15T12:32:34.703377Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-15T12:34:32.635120Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\7c4ba6314ed681e6-turbo.log.2025-10-15")}
+2025-10-15T12:34:32.635137Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-15T12:37:18.729991Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("Dockerfile")}
+2025-10-15T12:37:18.730011Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-15T12:37:18.836787Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("")}
+2025-10-15T12:37:18.836804Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({}))
+2025-10-15T12:39:47.938579Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("Dockerfile")}
+2025-10-15T12:39:47.938601Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-15T12:39:48.029975Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("")}
+2025-10-15T12:39:48.029993Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({}))
+2025-10-15T12:39:55.837397Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("Dockerfile")}
+2025-10-15T12:39:55.837428Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-15T12:45:45.426682Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".dockerignore")}
+2025-10-15T12:45:45.426702Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-15T12:45:45.533139Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".dockerignore")}
+2025-10-15T12:45:45.533157Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-15T12:45:56.427251Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("Dockerfile")}
+2025-10-15T12:45:56.427266Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))

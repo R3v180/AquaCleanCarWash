@@ -1,6 +1,21 @@
+# Ignorar dependencias locales
 node_modules
-.turbo
+.pnpm-store
+
+# Ignorar archivos de build
 dist
+build
+.turbo
+
+# Ignorar variables de entorno locales
 .env
-.DS_Store
+.env.*
+!.env.example
+
+# Logs y archivos de debug
 *.log
+.pnpm-debug.log*
+
+# Ignorar caché de herramientas
+.eslintcache
+.vite-cache

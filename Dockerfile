@@ -12,16 +12,13 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.base.json ./
 COPY packages/ packages/
 COPY apps/ apps/
+COPY prisma/ prisma/
 
 # Instalamos TODAS las dependencias del monorepo
 RUN pnpm install --frozen-lockfile
 
 # Construimos SOLAMENTE el servicio 'server'
 RUN pnpm --filter server build
-
-# Eliminamos las dependencias de desarrollo para aligerar la imagen final
-RUN pnpm prune --prod
-
 
 # ---- Fase de Ejecución (Runner) ----
 # Usamos una imagen ligera de Node.js para la producción
@@ -34,6 +31,7 @@ RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Copiamos solo los archivos necesarios desde la fase de construcción
+# IMPORTANTE: Ahora copiamos el 'node_modules' completo, sin podar.
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY --from=builder /app/apps/server/prisma ./apps/server/prisma
@@ -43,5 +41,5 @@ COPY --from=builder /app/apps/server/package.json ./apps/server/package.json
 # Exponemos el puerto que usa tu servidor
 EXPOSE 3001
 
-# El comando final para arrancar el servidor (VERSIÓN EXPLÍCITA Y A PRUEBA DE FALLOS)
-CMD ["sh", "-c", "node_modules/.bin/prisma migrate deploy --schema ./apps/server/prisma/schema.prisma && node ./apps/server/dist/server.js"]
+# El comando final para arrancar el servidor
+CMD ["sh", "-c", "pnpm --filter server run migrate:deploy && pnpm --filter server start"]

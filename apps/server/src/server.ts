@@ -1,9 +1,39 @@
-// File: /apps/server/src/server.ts (CORREGIDO PARA CORS EN PRODUCCIÓN)
+// File: /apps/server/src/server.ts (CON LOGS DE DIAGNÓSTICO)
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+
+// --- INICIO DEL BLOQUE DE DIAGNÓSTICO ---
+console.log('--- [DIAGNÓSTICO] Iniciando el servidor. Comprobando variables de entorno... ---');
+const requiredEnvVars = [
+  'DATABASE_URL',
+  'PORT',
+  'JWT_SECRET',
+  'JWT_EXPIRES_IN',
+  'CORS_ALLOWED_ORIGIN'
+];
+let hasError = false;
+for (const varName of requiredEnvVars) {
+  if (!process.env[varName]) {
+    console.error(`❌ FATAL: La variable de entorno requerida "${varName}" no está definida.`);
+    hasError = true;
+  } else {
+    // No mostramos el valor completo de secretos por seguridad, solo una confirmación
+    const value = ['DATABASE_URL', 'JWT_SECRET'].includes(varName)
+      ? '****** (definida)'
+      : process.env[varName];
+    console.log(`✅ ${varName}: ${value}`);
+  }
+}
+if (hasError) {
+  console.error('--- [DIAGNÓSTICO] Faltan variables de entorno críticas. El servidor no puede continuar. ---');
+  process.exit(1); // Forzamos la salida si falta algo esencial
+}
+console.log('--- [DIAGNÓSTICO] Todas las variables de entorno requeridas están presentes. ---');
+// --- FIN DEL BLOQUE DE DIAGNÓSTICO ---
+
 
 import servicesRouter from './api/services.routes';
 import employeesRouter from './api/employees.routes';
@@ -22,29 +52,24 @@ import pushRouter from './api/push.routes';
 
 dotenv.config();
 
-// Inicializamos Prisma
 const prisma = new PrismaClient();
 
-// Test de conexión a la base de datos al arrancar
 (async () => {
   try {
     await prisma.$connect();
     console.log('✅ Prisma connected to the database successfully');
   } catch (error) {
     console.error('❌ Prisma failed to connect to the database:', error);
-    process.exit(1); // Crashea la aplicación si no puede conectar
+    process.exit(1);
   }
 })();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// --- SECCIÓN CORREGIDA ---
-// Esta es la nueva configuración de CORS, más directa y compatible con Railway.
 const corsOptions: cors.CorsOptions = {
   origin: process.env.CORS_ALLOWED_ORIGIN,
 };
-// --- FIN DE LA CORRECCIÓN ---
 
 app.use(cors(corsOptions));
 app.use(express.json());

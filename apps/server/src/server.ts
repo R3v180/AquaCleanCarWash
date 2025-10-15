@@ -1,4 +1,4 @@
-// File: /apps/server/src/server.ts (VERSIÓN COMPLETA Y DEFINITIVA)
+// File: /apps/server/src/server.ts (CORREGIDO PARA CORS EN PRODUCCIÓN)
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
@@ -39,20 +39,12 @@ const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// --- SECCIÓN CORREGIDA ---
+// Esta es la nueva configuración de CORS, más directa y compatible con Railway.
 const corsOptions: cors.CorsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      'http://localhost:5173',
-      process.env.CORS_ALLOWED_ORIGIN || '',
-    ].filter(Boolean);
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`El origen ${origin} no está permitido por CORS.`));
-    }
-  },
+  origin: process.env.CORS_ALLOWED_ORIGIN,
 };
+// --- FIN DE LA CORRECCIÓN ---
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -79,5 +71,3 @@ app.listen(Number(PORT), '0.0.0.0', () => {
   console.log(`🚀 Server is running and listening on port ${PORT}`);
   reminderService.start();
 });
-
-//nota sin sentido

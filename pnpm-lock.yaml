@@ -201,6 +201,12 @@ importers:
       nodemailer:
         specifier: ^6.10.1
         version: 6.10.1
+      prisma:
+        specifier: ^5.14.0
+        version: 5.22.0
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.19.21)(typescript@5.9.3)
       twilio:
         specifier: ^5.2.2
         version: 5.10.2
@@ -244,12 +250,6 @@ importers:
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
-      prisma:
-        specifier: ^5.14.0
-        version: 5.22.0
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.21)(typescript@5.9.3)
       ts-node-dev:
         specifier: ^2.0.0
         version: 2.0.0(@types/node@20.19.21)(typescript@5.9.3)
